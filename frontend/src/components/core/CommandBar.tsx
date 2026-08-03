@@ -2,39 +2,66 @@ import React, { useState } from 'react';
 import { Send, Terminal } from 'lucide-react';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { VoiceButton } from './VoiceButton';
+import { chatService } from '@/services/api/chat';
+import { userStorage } from '@/features/onboarding/storage';
 
 export const CommandBar: React.FC = () => {
   const [input, setInput] = useState('');
-  const { addMessage, setCoreState } = useHARIKAStore();
+  const addMessage = useHARIKAStore((s) => s.addMessage);
+  const setCoreState = useHARIKAStore((s) => s.setCoreState);
+  const messages = useHARIKAStore((s) => s.messages);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    const userQuery = input.trim();
+    if (!userQuery) return;
 
-    // 1. Post user command
+    // 1. Post user directive to ConversationCanvas
     addMessage({
       sender: 'user',
-      content: input.trim(),
+      content: userQuery,
     });
 
-    const userQuery = input.trim();
     setInput('');
 
-    // 2. Set core visual state to processing
+    // 2. Transition core visual state to processing
     setCoreState('processing');
 
-    // 3. Simulated OS response flow placeholder
-    setTimeout(() => {
+    // 3. Fetch user profile name
+    const profile = userStorage.getProfile();
+    const userName = profile?.name || 'User';
+
+    // 4. Format conversation history for Cognition Engine
+    const historyPayload = messages.map((m) => ({
+      sender: m.sender,
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.content,
+    }));
+
+    try {
+      // Send chat directive to backend /api/v1/chat
+      const data = await chatService.sendMessage(userQuery, userName, historyPayload);
+
       setCoreState('speaking');
       addMessage({
         sender: 'harika',
-        content: `Directive acknowledged: "${userQuery}". Processing command sequence.`,
+        content: data.response,
       });
 
       setTimeout(() => {
         setCoreState('idle');
-      }, 2500);
-    }, 1200);
+      }, 1800);
+    } catch {
+      setCoreState('speaking');
+      addMessage({
+        sender: 'harika',
+        content: `I heard your directive "${userQuery}", but the backend engine is currently offline or unreachable.`,
+      });
+
+      setTimeout(() => {
+        setCoreState('idle');
+      }, 2000);
+    }
   };
 
   return (

@@ -13,6 +13,11 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     CORS_ORIGINS: Union[List[str], str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
 
+    # LLM & Cognition Settings
+    DEFAULT_LLM_PROVIDER: str = "ollama"
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "phi3:latest"  # Default development model
+
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:

@@ -14,7 +14,14 @@ interface HARIKAStore {
 
   // Interaction State
   isVoiceActive: boolean;
+  setIsVoiceActive: (active: boolean) => void;
   toggleVoice: () => void;
+
+  // Interim Speech Transcript State
+  interimTranscript: string | null;
+  setInterimTranscript: (transcript: string | null) => void;
+
+  // Panel State
   isQuickPanelOpen: boolean;
   toggleQuickPanel: () => void;
 
@@ -34,7 +41,11 @@ export const useHARIKAStore = create<HARIKAStore>((set) => ({
   setIsOnline: (isOnline) => set({ isOnline }),
 
   isVoiceActive: false,
+  setIsVoiceActive: (isVoiceActive) => set({ isVoiceActive }),
   toggleVoice: () => set((state) => ({ isVoiceActive: !state.isVoiceActive })),
+
+  interimTranscript: null,
+  setInterimTranscript: (interimTranscript) => set({ interimTranscript }),
 
   isQuickPanelOpen: false,
   toggleQuickPanel: () => set((state) => ({ isQuickPanelOpen: !state.isQuickPanelOpen })),
