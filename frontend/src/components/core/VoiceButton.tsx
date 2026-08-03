@@ -4,17 +4,17 @@ import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { speechService } from '@/services/voice/speechRecognition';
 import { chatService } from '@/services/api/chat';
 import { userStorage } from '@/features/onboarding/storage';
+import { coreStateManager } from '@/services/coreState/coreStateManager';
 
 export const VoiceButton: React.FC = () => {
   const coreState = useHARIKAStore((s) => s.coreState);
-  const setCoreState = useHARIKAStore((s) => s.setCoreState);
   const isVoiceActive = useHARIKAStore((s) => s.isVoiceActive);
   const setIsVoiceActive = useHARIKAStore((s) => s.setIsVoiceActive);
   const setInterimTranscript = useHARIKAStore((s) => s.setInterimTranscript);
   const addMessage = useHARIKAStore((s) => s.addMessage);
   const messages = useHARIKAStore((s) => s.messages);
 
-  const isProcessing = coreState === 'processing';
+  const isProcessing = coreState === 'thinking' || coreState === 'speaking';
   const isListening = coreState === 'listening' || isVoiceActive;
 
   const handleVoiceToggle = () => {
@@ -23,14 +23,14 @@ export const VoiceButton: React.FC = () => {
     if (isListening) {
       speechService.stop();
       setIsVoiceActive(false);
-      setCoreState('idle');
+      coreStateManager.transitionTo('idle');
       setInterimTranscript(null);
       return;
     }
 
     if (!speechService.isSupported()) {
       addMessage({
-        sender: 'system',
+        role: 'system',
         content: 'Speech recognition is not supported in this browser. Please use Chrome or Edge.',
       });
       return;
@@ -39,7 +39,7 @@ export const VoiceButton: React.FC = () => {
     speechService.start({
       onStart: () => {
         setIsVoiceActive(true);
-        setCoreState('listening');
+        coreStateManager.transitionTo('listening');
         setInterimTranscript('Listening...');
       },
       onInterimResult: (transcript) => {
@@ -48,74 +48,70 @@ export const VoiceButton: React.FC = () => {
       onFinalResult: async (transcript) => {
         setIsVoiceActive(false);
         setInterimTranscript(null);
-        setCoreState('processing');
+        coreStateManager.transitionTo('thinking');
 
         const voiceText = transcript.trim();
         if (!voiceText) {
-          setCoreState('idle');
+          coreStateManager.transitionTo('idle');
           return;
         }
 
-        // Post user voice transcript to canvas
         addMessage({
-          sender: 'user',
+          role: 'user',
           content: voiceText,
+          status: 'delivered',
         });
 
-        // Get user profile name
         const profile = userStorage.getProfile();
         const userName = profile?.name || 'User';
 
-        // Format history
         const historyPayload = messages.map((m) => ({
-          sender: m.sender,
-          role: m.sender === 'user' ? 'user' : 'assistant',
+          sender: m.role,
+          role: m.role,
           content: m.content,
         }));
 
         try {
-          // Send to Cognition Engine API
           const data = await chatService.sendMessage(voiceText, userName, historyPayload);
-
-          setCoreState('speaking');
+          coreStateManager.transitionTo('speaking');
           addMessage({
-            sender: 'harika',
+            role: 'assistant',
             content: data.response,
+            status: 'streaming',
+            metadata: {
+              provider: data.provider,
+              model: data.model,
+              latency_ms: data.latency_ms,
+            },
           });
-
-          setTimeout(() => {
-            setCoreState('idle');
-          }, 1800);
         } catch {
-          setCoreState('speaking');
+          coreStateManager.transitionTo('speaking');
           addMessage({
-            sender: 'harika',
+            role: 'assistant',
             content: `Received voice input "${voiceText}", but the backend engine is currently offline or unreachable.`,
+            status: 'streaming',
+            metadata: { provider: 'offline', model: 'fallback' },
           });
-
-          setTimeout(() => {
-            setCoreState('idle');
-          }, 2000);
         }
       },
       onError: (error) => {
         setIsVoiceActive(false);
         setInterimTranscript(null);
-        setCoreState('idle');
+        coreStateManager.transitionTo('idle');
 
         if (error.type === 'permission-denied') {
           addMessage({
-            sender: 'system',
+            role: 'system',
             content: 'Microphone permission was denied. Please allow microphone access in browser settings.',
           });
         } else if (error.type === 'unsupported') {
           addMessage({
-            sender: 'system',
+            role: 'system',
             content: 'Web Speech API is unsupported in this browser.',
           });
         } else if (error.type !== 'no-speech' && error.type !== 'aborted') {
           addMessage({
-            sender: 'system',
+            role: 'system',
             content: `Voice error: ${error.message}`,
           });
         }
@@ -124,7 +120,7 @@ export const VoiceButton: React.FC = () => {
         setIsVoiceActive(false);
         setInterimTranscript(null);
         if (useHARIKAStore.getState().coreState === 'listening') {
-          setCoreState('idle');
+          coreStateManager.transitionTo('idle');
         }
       },
     });
@@ -142,14 +138,14 @@ export const VoiceButton: React.FC = () => {
       }`}
       title={
         isProcessing
-          ? 'Processing voice input...'
+          ? 'HARIKA is processing...'
           : isListening
           ? 'Stop Voice Input'
           : 'Activate Push-to-Talk Voice Input'
       }
     >
       {isProcessing ? (
-        <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+        <Loader2 className="w-4 h-4 animate-spin text-indigo-400" />
       ) : isListening ? (
         <Mic className="w-4 h-4" />
       ) : (

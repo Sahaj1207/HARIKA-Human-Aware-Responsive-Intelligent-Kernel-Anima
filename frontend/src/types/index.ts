@@ -5,17 +5,25 @@ export type CoreState =
   | 'booting'
   | 'idle'
   | 'listening'
-  | 'processing'
+  | 'thinking'
   | 'speaking'
   | 'sleeping'
   | 'error';
 
+export interface MessageMetadata {
+  provider?: string;
+  model?: string;
+  latency_ms?: number;
+  [key: string]: any;
+}
+
 export interface Message {
   id: string;
-  sender: 'user' | 'harika' | 'system';
+  role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: string;
-  status?: 'sending' | 'delivered' | 'error';
+  status?: 'sending' | 'delivered' | 'streaming' | 'completed' | 'error';
+  metadata?: MessageMetadata;
 }
 
 export interface BackendHealthResponse {
@@ -30,4 +38,9 @@ export interface SystemMetrics {
   cpu_usage_percent: number;
   memory_usage_percent: number;
   active_services: number;
+}
+
+export interface SessionData {
+  scrollPosition: number;
+  lastActive: string;
 }

@@ -1,28 +1,40 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { CoreState } from '@/types';
 
-/**
- * EnergyShells — Concentric Translucent Energy Layers for HARIKA AI Core
- * Replaced wireframe with two smooth MeshPhysicalMaterial energy shells.
- */
-export const EnergyShells: React.FC = () => {
+export interface EnergyShellsProps {
+  state?: CoreState;
+}
+
+export const EnergyShells: React.FC<EnergyShellsProps> = ({ state = 'idle' }) => {
   const outerShellRef = useRef<THREE.Mesh>(null);
   const innerShellRef = useRef<THREE.Mesh>(null);
 
-  // Smooth, slow idle rotation
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
+  useFrame((r3fState) => {
+    const t = r3fState.clock.getElapsedTime();
 
-    if (innerShellRef.current) {
-      innerShellRef.current.rotation.y = t * 0.06;
-      innerShellRef.current.rotation.x = Math.sin(t * 0.04) * 0.08;
+    if (!innerShellRef.current || !outerShellRef.current) return;
+
+    let innerSpeed = 0.06;
+    let outerSpeed = -0.04;
+
+    if (state === 'thinking') {
+      innerSpeed = 0.25;
+      outerSpeed = -0.18;
+    } else if (state === 'speaking') {
+      innerSpeed = 0.15;
+      outerSpeed = -0.1;
+    } else if (state === 'listening') {
+      innerSpeed = 0.12;
+      outerSpeed = -0.08;
     }
 
-    if (outerShellRef.current) {
-      outerShellRef.current.rotation.y = -t * 0.04;
-      outerShellRef.current.rotation.z = Math.cos(t * 0.03) * 0.06;
-    }
+    innerShellRef.current.rotation.y += innerSpeed * 0.02;
+    innerShellRef.current.rotation.x = Math.sin(t * 0.5) * 0.08;
+
+    outerShellRef.current.rotation.y += outerSpeed * 0.02;
+    outerShellRef.current.rotation.z = Math.cos(t * 0.4) * 0.06;
   });
 
   return (
@@ -43,7 +55,7 @@ export const EnergyShells: React.FC = () => {
         />
       </mesh>
 
-      {/* Outer Subtle Translucent Atmosphere Layer */}
+      {/* Outer Subtle Atmosphere Layer */}
       <mesh ref={outerShellRef}>
         <sphereGeometry args={[1.65, 64, 64]} />
         <meshPhysicalMaterial

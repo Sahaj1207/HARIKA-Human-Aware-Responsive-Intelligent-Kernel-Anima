@@ -12,9 +12,6 @@ export interface CoreCanvasProps {
   intensity?: number;
 }
 
-/**
- * CoreCanvas — Three.js WebGL Rendering Engine for HARIKA AI Core.
- */
 export const CoreCanvas: React.FC<CoreCanvasProps> = ({
   state = 'idle',
   intensity = 1.0,
@@ -30,18 +27,17 @@ export const CoreCanvas: React.FC<CoreCanvasProps> = ({
         className="w-full h-full"
       >
         <Camera />
-        <Lights intensity={intensity} />
+        <Lights intensity={intensity} state={state} />
 
-        {/* Slow, Elegant Floating Motion */}
         <Float
-          speed={1.0}
-          rotationIntensity={0.12}
-          floatIntensity={0.25}
+          speed={state === 'thinking' ? 2.5 : 1.0}
+          rotationIntensity={state === 'thinking' ? 0.35 : 0.12}
+          floatIntensity={state === 'thinking' ? 0.45 : 0.25}
           floatingRange={[-0.12, 0.12]}
         >
           <group position={[0, 0, 0]}>
             <Nucleus state={state} />
-            <EnergyShells />
+            <EnergyShells state={state} />
           </group>
         </Float>
       </Canvas>

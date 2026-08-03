@@ -1,66 +1,96 @@
 import React, { useState } from 'react';
-import { Send, Terminal } from 'lucide-react';
+import { Send, Terminal, Square } from 'lucide-react';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { VoiceButton } from './VoiceButton';
 import { chatService } from '@/services/api/chat';
 import { userStorage } from '@/features/onboarding/storage';
+import { coreStateManager } from '@/services/coreState/coreStateManager';
 
 export const CommandBar: React.FC = () => {
   const [input, setInput] = useState('');
   const addMessage = useHARIKAStore((s) => s.addMessage);
-  const setCoreState = useHARIKAStore((s) => s.setCoreState);
   const messages = useHARIKAStore((s) => s.messages);
+  const coreState = useHARIKAStore((s) => s.coreState);
+  const setThinkingStage = useHARIKAStore((s) => s.setThinkingStage);
+  const stopStreamingHandler = useHARIKAStore((s) => s.stopStreamingHandler);
+
+  const isGenerating = coreState === 'thinking' || coreState === 'speaking';
+
+  const handleStop = () => {
+    if (stopStreamingHandler) {
+      stopStreamingHandler();
+    }
+    setThinkingStage('idle');
+    coreStateManager.transitionTo('idle');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isGenerating) {
+      handleStop();
+      return;
+    }
+
     const userQuery = input.trim();
     if (!userQuery) return;
 
-    // 1. Post user directive to ConversationCanvas
+    // 1. Post user directive
     addMessage({
-      sender: 'user',
+      role: 'user',
       content: userQuery,
+      status: 'delivered',
     });
 
     setInput('');
 
-    // 2. Transition core visual state to processing
-    setCoreState('processing');
+    // 2. Transition Core to THINKING via State Manager
+    coreStateManager.transitionTo('thinking');
+    setThinkingStage('thinking');
 
-    // 3. Fetch user profile name
+    // Timers for thinking stage indicators
+    const thinkingTimer = setTimeout(() => {
+      setThinkingStage('still-thinking');
+    }, 10000);
+
     const profile = userStorage.getProfile();
     const userName = profile?.name || 'User';
 
-    // 4. Format conversation history for Cognition Engine
     const historyPayload = messages.map((m) => ({
-      sender: m.sender,
-      role: m.sender === 'user' ? 'user' : 'assistant',
+      sender: m.role,
+      role: m.role,
       content: m.content,
     }));
 
     try {
-      // Send chat directive to backend /api/v1/chat
       const data = await chatService.sendMessage(userQuery, userName, historyPayload);
+      clearTimeout(thinkingTimer);
+      setThinkingStage('idle');
 
-      setCoreState('speaking');
+      // Transition to SPEAKING state
+      coreStateManager.transitionTo('speaking');
+
+      // Add assistant response with streaming status and metadata
       addMessage({
-        sender: 'harika',
+        role: 'assistant',
         content: data.response,
+        status: 'streaming',
+        metadata: {
+          provider: data.provider,
+          model: data.model,
+          latency_ms: data.latency_ms,
+        },
       });
-
-      setTimeout(() => {
-        setCoreState('idle');
-      }, 1800);
     } catch {
-      setCoreState('speaking');
-      addMessage({
-        sender: 'harika',
-        content: `I heard your directive "${userQuery}", but the backend engine is currently offline or unreachable.`,
-      });
+      clearTimeout(thinkingTimer);
+      setThinkingStage('idle');
+      coreStateManager.transitionTo('speaking');
 
-      setTimeout(() => {
-        setCoreState('idle');
-      }, 2000);
+      addMessage({
+        role: 'assistant',
+        content: `I heard your directive "${userQuery}", but the backend engine is currently offline or unreachable.`,
+        status: 'streaming',
+        metadata: { provider: 'offline', model: 'fallback' },
+      });
     }
   };
 
@@ -76,20 +106,32 @@ export const CommandBar: React.FC = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Command HARIKA OS..."
-          className="flex-1 bg-transparent text-sm text-slate-100 placeholder-slate-500 focus:outline-none font-sans"
+          disabled={isGenerating}
+          placeholder={isGenerating ? 'HARIKA is thinking...' : 'Command HARIKA OS...'}
+          className="flex-1 bg-transparent text-sm text-slate-100 placeholder-slate-500 focus:outline-none font-sans disabled:opacity-50"
         />
 
         <VoiceButton />
 
-        <button
-          type="submit"
-          disabled={!input.trim()}
-          className="p-2 rounded-full text-slate-400 hover:text-cyan-400 disabled:opacity-30 disabled:hover:text-slate-400 transition-colors"
-          title="Execute Directive"
-        >
-          <Send className="w-4 h-4" />
-        </button>
+        {isGenerating ? (
+          <button
+            type="button"
+            onClick={handleStop}
+            className="p-2 rounded-full text-rose-400 hover:text-rose-300 bg-rose-500/10 border border-rose-500/30 animate-pulse transition-all cursor-pointer"
+            title="Stop Response Generation"
+          >
+            <Square className="w-4 h-4 fill-current" />
+          </button>
+        ) : (
+          <button
+            type="submit"
+            disabled={!input.trim()}
+            className="p-2 rounded-full text-slate-400 hover:text-cyan-400 disabled:opacity-30 disabled:hover:text-slate-400 transition-colors cursor-pointer"
+            title="Execute Directive"
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        )}
       </form>
     </div>
   );

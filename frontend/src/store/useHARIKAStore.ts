@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { CoreState, Message } from '@/types';
+import { persistenceService } from '@/services/storage/persistence';
 
 interface HARIKAStore {
   // Core Engine State
@@ -21,6 +22,14 @@ interface HARIKAStore {
   interimTranscript: string | null;
   setInterimTranscript: (transcript: string | null) => void;
 
+  // Streaming & Generation State
+  isStreaming: boolean;
+  setIsStreaming: (streaming: boolean) => void;
+  thinkingStage: 'idle' | 'thinking' | 'still-thinking';
+  setThinkingStage: (stage: 'idle' | 'thinking' | 'still-thinking') => void;
+  stopStreamingHandler: (() => void) | null;
+  setStopStreamingHandler: (handler: (() => void) | null) => void;
+
   // Panel State
   isQuickPanelOpen: boolean;
   toggleQuickPanel: () => void;
@@ -30,6 +39,17 @@ interface HARIKAStore {
   addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
   clearMessages: () => void;
 }
+
+const defaultWelcomeMessage: Message = {
+  id: 'welcome-1',
+  role: 'assistant',
+  content: 'HARIKA AI Operating System online. Systems initialized.',
+  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+  status: 'completed',
+  metadata: { provider: 'system', model: 'harika-v0.2' },
+};
+
+const initialMessages = persistenceService.getMessages() || [defaultWelcomeMessage];
 
 export const useHARIKAStore = create<HARIKAStore>((set) => ({
   coreState: 'booting',
@@ -47,29 +67,37 @@ export const useHARIKAStore = create<HARIKAStore>((set) => ({
   interimTranscript: null,
   setInterimTranscript: (interimTranscript) => set({ interimTranscript }),
 
+  isStreaming: false,
+  setIsStreaming: (isStreaming) => set({ isStreaming }),
+
+  thinkingStage: 'idle',
+  setThinkingStage: (thinkingStage) => set({ thinkingStage }),
+
+  stopStreamingHandler: null,
+  setStopStreamingHandler: (stopStreamingHandler) => set({ stopStreamingHandler }),
+
   isQuickPanelOpen: false,
   toggleQuickPanel: () => set((state) => ({ isQuickPanelOpen: !state.isQuickPanelOpen })),
 
-  messages: [
-    {
-      id: 'welcome-1',
-      sender: 'harika',
-      content: 'HARIKA AI Operating System online. Systems initialized.',
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    },
-  ],
+  messages: initialMessages,
 
   addMessage: (msg) =>
-    set((state) => ({
-      messages: [
-        ...state.messages,
-        {
-          ...msg,
-          id: `msg-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        },
-      ],
-    })),
+    set((state) => {
+      const newMsg: Message = {
+        ...msg,
+        id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        role: (msg.role || (msg as any).sender === 'user' ? 'user' : 'assistant') as any,
+        status: msg.status || 'completed',
+        metadata: msg.metadata || {},
+      };
+      const updatedMessages = [...state.messages, newMsg];
+      persistenceService.saveMessages(updatedMessages);
+      return { messages: updatedMessages };
+    }),
 
-  clearMessages: () => set({ messages: [] }),
+  clearMessages: () => {
+    persistenceService.clearMessages();
+    set({ messages: [] });
+  },
 }));

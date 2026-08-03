@@ -31,7 +31,7 @@ export const QuickPanel: React.FC = () => {
               Core Visual State
             </div>
             <div className="grid grid-cols-2 gap-2">
-              {(['idle', 'listening', 'processing', 'speaking', 'sleeping'] as const).map(
+              {(['idle', 'listening', 'thinking', 'speaking', 'sleeping'] as const).map(
                 (state) => (
                   <button
                     key={state}

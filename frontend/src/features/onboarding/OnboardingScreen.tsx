@@ -18,7 +18,6 @@ type OnboardingStep =
   | 'finished';
 
 export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }) => {
-  // Use Zustand selector functions to avoid re-rendering OnboardingScreen on every global state change
   const setCoreState = useHARIKAStore((s) => s.setCoreState);
   const setIsBooted = useHARIKAStore((s) => s.setIsBooted);
   const addMessage = useHARIKAStore((s) => s.addMessage);
@@ -30,7 +29,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     const existing = userStorage.getProfile();
 
     if (existing) {
-      // Returning User Flow
       setProfile(existing);
       setStep('returning-greeting');
       setCoreState('idle');
@@ -43,7 +41,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
 
       return () => clearTimeout(timer);
     } else {
-      // First-Launch Onboarding Sequence
       setCoreState('booting');
       setStep('step-hello');
 
@@ -61,8 +58,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
         clearTimeout(t2);
       };
     }
-
-    // Run once on component mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -71,10 +66,11 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     userStorage.saveProfile(newProfile);
     setProfile(newProfile);
 
-    // Add initial welcome message to conversation canvas
     addMessage({
-      sender: 'harika',
+      role: 'assistant',
       content: `Welcome to HARIKA OS, ${name}. All neural subsystems are online.`,
+      status: 'completed',
+      metadata: { provider: 'system', model: 'onboarding' },
     });
 
     setStep('step-welcome-user');
