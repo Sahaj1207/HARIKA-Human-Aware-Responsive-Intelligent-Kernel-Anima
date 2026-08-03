@@ -9,11 +9,17 @@ export function useStreamingText(
   fullText: string,
   options: UseStreamingTextOptions = {}
 ) {
-  const { delayMs = 30, onComplete } = options;
+  const { delayMs = 25, onComplete } = options;
   const [displayedText, setDisplayedText] = useState('');
-  const [isStreaming, setIsStreaming] = useState(true);
+  const [isStreaming, setIsStreaming] = useState(false);
   const indexRef = useRef(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const onCompleteRef = useRef(onComplete);
+
+  // Keep onComplete ref updated without triggering effect re-subscriptions
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
   const stop = useCallback(() => {
     if (timerRef.current) {
@@ -22,29 +28,33 @@ export function useStreamingText(
     }
     setDisplayedText(fullText);
     setIsStreaming(false);
-    if (onComplete) onComplete();
-  }, [fullText, onComplete]);
+  }, [fullText]);
 
   useEffect(() => {
-    setDisplayedText('');
-    setIsStreaming(true);
-    indexRef.current = 0;
-
     if (!fullText) {
+      setDisplayedText('');
       setIsStreaming(false);
       return;
     }
 
+    setDisplayedText('');
+    setIsStreaming(true);
+    indexRef.current = 0;
+
     timerRef.current = setInterval(() => {
       indexRef.current += 1;
-      const nextChunk = fullText.slice(0, indexRef.current);
-      setDisplayedText(nextChunk);
-
       if (indexRef.current >= fullText.length) {
-        if (timerRef.current) clearInterval(timerRef.current);
-        timerRef.current = null;
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+        setDisplayedText(fullText);
         setIsStreaming(false);
-        if (onComplete) onComplete();
+        if (onCompleteRef.current) {
+          onCompleteRef.current();
+        }
+      } else {
+        setDisplayedText(fullText.slice(0, indexRef.current));
       }
     }, delayMs);
 
@@ -54,7 +64,7 @@ export function useStreamingText(
         timerRef.current = null;
       }
     };
-  }, [fullText, delayMs, onComplete]);
+  }, [fullText, delayMs]);
 
   return { displayedText, isStreaming, stop };
 }

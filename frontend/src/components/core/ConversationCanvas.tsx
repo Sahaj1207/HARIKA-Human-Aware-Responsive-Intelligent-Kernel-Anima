@@ -53,7 +53,7 @@ export const ConversationCanvas: React.FC = () => {
               }`}
             >
               {isStreaming ? (
-                <StreamingMessage content={msg.content} />
+                <StreamingMessage messageId={msg.id} content={msg.content} />
               ) : (
                 <span>{msg.content}</span>
               )}

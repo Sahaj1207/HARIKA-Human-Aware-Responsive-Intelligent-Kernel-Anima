@@ -1,38 +1,49 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { useStreamingText } from '@/hooks/useStreamingText';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
-import { coreStateManager } from '@/services/coreState/coreStateManager';
 
 interface StreamingMessageProps {
+  messageId: string;
   content: string;
   onComplete?: () => void;
 }
 
-export const StreamingMessage: React.FC<StreamingMessageProps> = ({ content, onComplete }) => {
+export const StreamingMessage: React.FC<StreamingMessageProps> = ({
+  content,
+  onComplete,
+}) => {
+  const completeGeneration = useHARIKAStore((s) => s.completeGeneration);
   const setStopStreamingHandler = useHARIKAStore((s) => s.setStopStreamingHandler);
   const setIsStreaming = useHARIKAStore((s) => s.setIsStreaming);
+  const hasCompletedRef = useRef(false);
 
-  const handleStreamComplete = () => {
-    setIsStreaming(false);
-    setStopStreamingHandler(null);
-    coreStateManager.transitionTo('idle');
+  const handleStreamComplete = useCallback(() => {
+    if (hasCompletedRef.current) return;
+    hasCompletedRef.current = true;
+    completeGeneration();
     if (onComplete) onComplete();
-  };
+  }, [completeGeneration, onComplete]);
 
   const { displayedText, isStreaming, stop } = useStreamingText(content, {
     delayMs: 25,
     onComplete: handleStreamComplete,
   });
 
+  const handleStop = useCallback(() => {
+    if (hasCompletedRef.current) return;
+    hasCompletedRef.current = true;
+    stop();
+    completeGeneration();
+  }, [stop, completeGeneration]);
+
   useEffect(() => {
     setIsStreaming(true);
-    setStopStreamingHandler(() => stop);
+    setStopStreamingHandler(() => handleStop);
 
     return () => {
       setStopStreamingHandler(null);
-      setIsStreaming(false);
     };
-  }, [stop, setIsStreaming, setStopStreamingHandler]);
+  }, [handleStop, setIsStreaming, setStopStreamingHandler]);
 
   return (
     <div className="relative font-sans text-sm text-slate-100 leading-relaxed">

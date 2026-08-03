@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Send, Terminal, Square } from 'lucide-react';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { VoiceButton } from './VoiceButton';
@@ -8,20 +8,21 @@ import { coreStateManager } from '@/services/coreState/coreStateManager';
 
 export const CommandBar: React.FC = () => {
   const [input, setInput] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const addMessage = useHARIKAStore((s) => s.addMessage);
   const messages = useHARIKAStore((s) => s.messages);
   const coreState = useHARIKAStore((s) => s.coreState);
   const setThinkingStage = useHARIKAStore((s) => s.setThinkingStage);
-  const stopStreamingHandler = useHARIKAStore((s) => s.stopStreamingHandler);
+  const completeGeneration = useHARIKAStore((s) => s.completeGeneration);
 
   const isGenerating = coreState === 'thinking' || coreState === 'speaking';
 
   const handleStop = () => {
-    if (stopStreamingHandler) {
-      stopStreamingHandler();
-    }
-    setThinkingStage('idle');
-    coreStateManager.transitionTo('idle');
+    completeGeneration();
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 50);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,7 +48,7 @@ export const CommandBar: React.FC = () => {
     coreStateManager.transitionTo('thinking');
     setThinkingStage('thinking');
 
-    // Timers for thinking stage indicators
+    // Timers for thinking stage indicators (>10s)
     const thinkingTimer = setTimeout(() => {
       setThinkingStage('still-thinking');
     }, 10000);
@@ -69,7 +70,6 @@ export const CommandBar: React.FC = () => {
       // Transition to SPEAKING state
       coreStateManager.transitionTo('speaking');
 
-      // Add assistant response with streaming status and metadata
       addMessage({
         role: 'assistant',
         content: data.response,
@@ -82,15 +82,18 @@ export const CommandBar: React.FC = () => {
       });
     } catch {
       clearTimeout(thinkingTimer);
-      setThinkingStage('idle');
-      coreStateManager.transitionTo('speaking');
-
       addMessage({
         role: 'assistant',
         content: `I heard your directive "${userQuery}", but the backend engine is currently offline or unreachable.`,
-        status: 'streaming',
+        status: 'completed',
         metadata: { provider: 'offline', model: 'fallback' },
       });
+      completeGeneration();
+    } finally {
+      clearTimeout(thinkingTimer);
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
     }
   };
 
@@ -103,6 +106,7 @@ export const CommandBar: React.FC = () => {
         <Terminal className="w-4 h-4 text-slate-400 shrink-0 ml-1" />
 
         <input
+          ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}

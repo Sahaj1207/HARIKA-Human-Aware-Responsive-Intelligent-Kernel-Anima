@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { CoreState, Message } from '@/types';
 import { persistenceService } from '@/services/storage/persistence';
+import { coreStateManager } from '@/services/coreState/coreStateManager';
 
 interface HARIKAStore {
   // Core Engine State
@@ -36,8 +37,12 @@ interface HARIKAStore {
 
   // Spatial Conversation State
   messages: Message[];
-  addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => void;
+  addMessage: (message: Omit<Message, 'id' | 'timestamp'>) => string;
+  updateMessageStatus: (id: string, status: Message['status']) => void;
   clearMessages: () => void;
+
+  // Single Authoritative Function to reset ALL generation lifecycle state
+  completeGeneration: () => void;
 }
 
 const defaultWelcomeMessage: Message = {
@@ -51,7 +56,7 @@ const defaultWelcomeMessage: Message = {
 
 const initialMessages = persistenceService.getMessages() || [defaultWelcomeMessage];
 
-export const useHARIKAStore = create<HARIKAStore>((set) => ({
+export const useHARIKAStore = create<HARIKAStore>((set, get) => ({
   coreState: 'booting',
   setCoreState: (coreState) => set({ coreState }),
 
@@ -81,23 +86,70 @@ export const useHARIKAStore = create<HARIKAStore>((set) => ({
 
   messages: initialMessages,
 
-  addMessage: (msg) =>
+  addMessage: (msg) => {
+    const newId = `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    
+    // Explicitly resolve role with proper operator grouping
+    const resolvedRole: 'user' | 'assistant' | 'system' =
+      msg.role ? msg.role : ((msg as any).sender === 'user' ? 'user' : (msg as any).sender === 'system' ? 'system' : 'assistant');
+
+    const newMsg: Message = {
+      ...msg,
+      id: newId,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      role: resolvedRole,
+      status: msg.status || 'completed',
+      metadata: msg.metadata || {},
+    };
+
     set((state) => {
-      const newMsg: Message = {
-        ...msg,
-        id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        role: (msg.role || (msg as any).sender === 'user' ? 'user' : 'assistant') as any,
-        status: msg.status || 'completed',
-        metadata: msg.metadata || {},
-      };
       const updatedMessages = [...state.messages, newMsg];
       persistenceService.saveMessages(updatedMessages);
       return { messages: updatedMessages };
-    }),
+    });
+
+    return newId;
+  },
+
+  updateMessageStatus: (id, status) => {
+    set((state) => {
+      const updatedMessages = state.messages.map((m) =>
+        m.id === id ? { ...m, status } : m
+      );
+      persistenceService.saveMessages(updatedMessages);
+      return { messages: updatedMessages };
+    });
+  },
 
   clearMessages: () => {
     persistenceService.clearMessages();
     set({ messages: [] });
+  },
+
+  completeGeneration: () => {
+    const state = get();
+    const handler = state.stopStreamingHandler;
+
+    set({
+      stopStreamingHandler: null,
+      isStreaming: false,
+      thinkingStage: 'idle',
+    });
+
+    if (handler) {
+      try {
+        handler();
+      } catch {
+        // ignore
+      }
+    }
+
+    const updatedMessages = state.messages.map((m) =>
+      m.status === 'streaming' ? { ...m, status: 'completed' as const } : m
+    );
+
+    set({ messages: updatedMessages });
+    persistenceService.saveMessages(updatedMessages);
+    coreStateManager.transitionTo('idle');
   },
 }));

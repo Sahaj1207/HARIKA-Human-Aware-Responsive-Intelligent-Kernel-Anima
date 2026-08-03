@@ -13,6 +13,7 @@ export const VoiceButton: React.FC = () => {
   const setInterimTranscript = useHARIKAStore((s) => s.setInterimTranscript);
   const addMessage = useHARIKAStore((s) => s.addMessage);
   const messages = useHARIKAStore((s) => s.messages);
+  const completeGeneration = useHARIKAStore((s) => s.completeGeneration);
 
   const isProcessing = coreState === 'thinking' || coreState === 'speaking';
   const isListening = coreState === 'listening' || isVoiceActive;
@@ -23,7 +24,7 @@ export const VoiceButton: React.FC = () => {
     if (isListening) {
       speechService.stop();
       setIsVoiceActive(false);
-      coreStateManager.transitionTo('idle');
+      completeGeneration();
       setInterimTranscript(null);
       return;
     }
@@ -52,7 +53,7 @@ export const VoiceButton: React.FC = () => {
 
         const voiceText = transcript.trim();
         if (!voiceText) {
-          coreStateManager.transitionTo('idle');
+          completeGeneration();
           return;
         }
 
@@ -85,19 +86,19 @@ export const VoiceButton: React.FC = () => {
             },
           });
         } catch {
-          coreStateManager.transitionTo('speaking');
           addMessage({
             role: 'assistant',
             content: `Received voice input "${voiceText}", but the backend engine is currently offline or unreachable.`,
-            status: 'streaming',
+            status: 'completed',
             metadata: { provider: 'offline', model: 'fallback' },
           });
+          completeGeneration();
         }
       },
       onError: (error) => {
         setIsVoiceActive(false);
         setInterimTranscript(null);
-        coreStateManager.transitionTo('idle');
+        completeGeneration();
 
         if (error.type === 'permission-denied') {
           addMessage({
@@ -120,7 +121,7 @@ export const VoiceButton: React.FC = () => {
         setIsVoiceActive(false);
         setInterimTranscript(null);
         if (useHARIKAStore.getState().coreState === 'listening') {
-          coreStateManager.transitionTo('idle');
+          completeGeneration();
         }
       },
     });
