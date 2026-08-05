@@ -1,0 +1,23 @@
+[
+  {
+    "id": "mem-vis-8d6bd374",
+    "category": "notes",
+    "title": "Visual Fact: receipt_invoice.png",
+    "content": "Visual Asset (image/png): Processed receipt_invoice.png (photo) via local-vision-v1. Extracted 3 words.. OCR: PNG\n\u0000\u0000\u0000\nIHDR\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
+    "importance": 0.8,
+    "confidence": 1.0,
+    "source": "vision_engine",
+    "tags": [
+      "multimodal",
+      "photo",
+      "png",
+      "text_rich"
+    ],
+    "version": 1,
+    "revision": 3,
+    "deleted": false,
+    "created_at": "2026-08-05T09:34:04.427007+00:00",
+    "updated_at": "2026-08-05T10:11:54.657182+00:00",
+    "last_accessed": "2026-08-05T10:11:54.657206+00:00"
+  }
+]

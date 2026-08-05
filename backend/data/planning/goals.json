@@ -1,0 +1,72 @@
+[
+  {
+    "id": "goal-788fbfa8",
+    "title": "Goal for 'Calculate sqrt(144) + 12'",
+    "description": "Calculate sqrt(144) + 12",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-05T10:09:18.435517+00:00",
+    "updated_at": "2026-08-05T10:09:18.435538+00:00"
+  },
+  {
+    "id": "goal-695ed765",
+    "title": "Goal for 'Calculate sqrt(144) + 12'",
+    "description": "Calculate sqrt(144) + 12",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-05T10:09:40.317702+00:00",
+    "updated_at": "2026-08-05T10:09:40.317721+00:00"
+  },
+  {
+    "id": "goal-a8e6bc3e",
+    "title": "Goal for 'Calculate 50 * 2'",
+    "description": "Calculate 50 * 2",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-05T10:11:20.121933+00:00",
+    "updated_at": "2026-08-05T10:11:20.121951+00:00"
+  },
+  {
+    "id": "goal-7b2e9c4f",
+    "title": "Goal for 'Calculate 50 * 2'",
+    "description": "Calculate 50 * 2",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-05T10:11:39.989681+00:00",
+    "updated_at": "2026-08-05T10:11:39.989701+00:00"
+  },
+  {
+    "id": "goal-d7aafe62",
+    "title": "Goal for 'eval 25 * 4'",
+    "description": "eval 25 * 4",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-05T10:11:54.160171+00:00",
+    "updated_at": "2026-08-05T10:11:54.160192+00:00"
+  },
+  {
+    "id": "goal-91f01d7c",
+    "title": "Goal for 'Calculate sqrt(144) + 12'",
+    "description": "Calculate sqrt(144) + 12",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-05T10:11:54.233506+00:00",
+    "updated_at": "2026-08-05T10:11:54.233534+00:00"
+  },
+  {
+    "id": "goal-131590a1",
+    "title": "Goal for 'Calculate 50 * 2'",
+    "description": "Calculate 50 * 2",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-05T10:11:54.386880+00:00",
+    "updated_at": "2026-08-05T10:11:54.386909+00:00"
+  }
+]

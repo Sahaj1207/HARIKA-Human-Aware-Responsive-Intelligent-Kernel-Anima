@@ -1,0 +1,21 @@
+[
+  {
+    "id": "mem-agt-95ec31c7",
+    "category": "tasks",
+    "title": "Completed Agent Goal: Calculate 50 * 2",
+    "content": "Agent 'agent-4d7eeb30' completed task 'Execute calculator action' in 2.72ms. Output: {'expression': '50 * 2', 'result': 100}",
+    "importance": 0.8,
+    "confidence": 1.0,
+    "source": "agent_engine",
+    "tags": [
+      "agent",
+      "task_completed"
+    ],
+    "version": 1,
+    "revision": 3,
+    "deleted": false,
+    "created_at": "2026-08-05T10:11:20.128026+00:00",
+    "updated_at": "2026-08-05T10:11:54.395609+00:00",
+    "last_accessed": "2026-08-05T10:11:54.395621+00:00"
+  }
+]

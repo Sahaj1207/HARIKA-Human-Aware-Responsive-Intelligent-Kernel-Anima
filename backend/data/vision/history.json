@@ -1,0 +1,102 @@
+[
+  {
+    "id": "vis-d492d4aa",
+    "filename": "sample.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.26,
+    "result_summary": "Processed sample.png (image/png) using local-vision-v1. Extracted 2 words.",
+    "timestamp": "2026-08-05T09:28:02.385058+00:00"
+  },
+  {
+    "id": "vis-0ab82a29",
+    "filename": "sample.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.27,
+    "result_summary": "Processed sample.png (image/png) using local-vision-v1. Extracted 2 words.",
+    "timestamp": "2026-08-05T09:28:07.127679+00:00"
+  },
+  {
+    "id": "vis-b2a5011b",
+    "filename": "receipt_invoice.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 13.25,
+    "result_summary": "Processed receipt_invoice.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T09:34:04.425535+00:00"
+  },
+  {
+    "id": "vis-740bbb72",
+    "filename": "test_invoice.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 3.64,
+    "result_summary": "Processed test_invoice.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T09:36:43.407059+00:00"
+  },
+  {
+    "id": "vis-15a8af00",
+    "filename": "receipt_invoice.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.27,
+    "result_summary": "Processed receipt_invoice.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T09:38:29.611688+00:00"
+  },
+  {
+    "id": "vis-7499c337",
+    "filename": "sample.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.26,
+    "result_summary": "Processed sample.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T09:38:29.645220+00:00"
+  },
+  {
+    "id": "vis-aba9342e",
+    "filename": "test_invoice.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.32,
+    "result_summary": "Processed test_invoice.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T09:38:29.650297+00:00"
+  },
+  {
+    "id": "vis-4c56814f",
+    "filename": "receipt_invoice.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.27,
+    "result_summary": "Processed receipt_invoice.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T10:11:54.634487+00:00"
+  },
+  {
+    "id": "vis-f71a7aed",
+    "filename": "sample.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.25,
+    "result_summary": "Processed sample.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T10:11:54.689090+00:00"
+  },
+  {
+    "id": "vis-63d5f60d",
+    "filename": "test_invoice.png",
+    "file_type": "image/png",
+    "provider": "local",
+    "model": "local-vision-v1",
+    "latency_ms": 0.32,
+    "result_summary": "Processed test_invoice.png (photo) via local-vision-v1. Extracted 3 words.",
+    "timestamp": "2026-08-05T10:11:54.694376+00:00"
+  }
+]

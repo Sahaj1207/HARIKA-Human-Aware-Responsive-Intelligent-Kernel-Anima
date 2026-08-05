@@ -1,0 +1,65 @@
+[
+  {
+    "agent_id": "agent-ec1c3328",
+    "goal_id": "goal-788fbfa8",
+    "plan_id": "plan-73696b38",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-05T10:09:18.438555+00:00"
+  },
+  {
+    "agent_id": "agent-faa8979f",
+    "goal_id": "goal-695ed765",
+    "plan_id": "plan-adec2afa",
+    "tasks_count": 1,
+    "duration_ms": 1.81,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-05T10:09:40.322572+00:00"
+  },
+  {
+    "agent_id": "agent-cdb84d6a",
+    "goal_id": "goal-a8e6bc3e",
+    "plan_id": "plan-50427758",
+    "tasks_count": 1,
+    "duration_ms": 2.16,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-05T10:11:20.127934+00:00"
+  },
+  {
+    "agent_id": "agent-f67acb87",
+    "goal_id": "goal-7b2e9c4f",
+    "plan_id": "plan-2f606b0e",
+    "tasks_count": 1,
+    "duration_ms": 2.11,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-05T10:11:39.995652+00:00"
+  },
+  {
+    "agent_id": "agent-5bc06814",
+    "goal_id": "goal-d7aafe62",
+    "plan_id": "plan-d06aef7f",
+    "tasks_count": 1,
+    "duration_ms": 2.84,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-05T10:11:54.166795+00:00"
+  },
+  {
+    "agent_id": "agent-29d5f795",
+    "goal_id": "goal-91f01d7c",
+    "plan_id": "plan-66ec5895",
+    "tasks_count": 1,
+    "duration_ms": 1.73,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-05T10:11:54.238313+00:00"
+  },
+  {
+    "agent_id": "agent-4d7eeb30",
+    "goal_id": "goal-131590a1",
+    "plan_id": "plan-9829f0f0",
+    "tasks_count": 1,
+    "duration_ms": 2.72,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-05T10:11:54.394604+00:00"
+  }
+]

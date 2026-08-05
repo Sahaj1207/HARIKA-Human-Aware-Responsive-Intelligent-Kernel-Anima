@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "phi3:latest"  # Default development model
 
+    # Vision Engine Settings
+    VISION_PROVIDER: str = "local"
+    VISION_MODEL: str = "local-vision-v1"
+
+
     @field_validator("CORS_ORIGINS", mode="before")
     @classmethod
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:

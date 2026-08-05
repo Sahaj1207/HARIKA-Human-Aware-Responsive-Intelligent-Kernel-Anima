@@ -1,17 +1,23 @@
 from datetime import datetime, timezone
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from app.cognition.personality import default_personality, PersonalityProfile
 from app.memory.models import MemoryItem, MemoryCategory
+from app.tools.result import ToolResult
+from app.planning.schemas import Goal, Task, Decision, Reflection
 
 
 class ContextBuilder:
-    """Dynamically constructs system prompts enriched with structured memory sections."""
+    """Dynamically constructs system prompts enriched with structured memory, tool outcomes, and planning decisions."""
 
     @staticmethod
     def build_system_prompt(
         user_name: Optional[str] = "User",
         personality: Optional[PersonalityProfile] = None,
-        memories: Optional[List[MemoryItem]] = None
+        memories: Optional[List[MemoryItem]] = None,
+        tool_result: Optional[ToolResult] = None,
+        decision: Optional[Decision] = None,
+        active_goal: Optional[Goal] = None,
+        recent_reflection: Optional[Reflection] = None
     ) -> str:
         active_personality = personality or default_personality
         now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
@@ -23,6 +29,31 @@ class ContextBuilder:
             f"Current Timestamp: {now_utc}\n",
             active_personality.get_instructions()
         ]
+
+        # Inject Decision Engine Strategy
+        if decision:
+            prompt_parts.append("\n## HARIKA Reflection & Decision Engine Strategy:")
+            prompt_parts.append(f"- Selected Strategy: {decision.strategy.value}")
+            prompt_parts.append(f"- Decision Confidence: {decision.confidence}")
+            prompt_parts.append(f"- Strategy Rationale: {decision.reason}")
+
+        # Inject Active Goal Context
+        if active_goal:
+            prompt_parts.append("\n## Active Goal:")
+            prompt_parts.append(f"- Goal: {active_goal.title} (Priority: {active_goal.priority.value})")
+            if active_goal.description:
+                prompt_parts.append(f"- Description: {active_goal.description}")
+
+        # Inject Tool Execution Result if present
+        if tool_result:
+            prompt_parts.append("\n## HARIKA Real-World Action Engine Execution Outcome:")
+            prompt_parts.append(f"- Executed Tool: {tool_result.tool_name} (Status: {tool_result.status_code.value})")
+            prompt_parts.append(f"- Execution Time: {tool_result.execution_time_ms}ms")
+            if tool_result.success:
+                prompt_parts.append(f"- Result Output: {tool_result.output}")
+            else:
+                prompt_parts.append(f"- Execution Error: {tool_result.error}")
+            prompt_parts.append("\nDirective: State the tool outcome naturally, accurately, and concisely to the user.")
 
         # Inject Structured Memory Context if present
         if memories:
@@ -45,6 +76,12 @@ class ContextBuilder:
             if memory_sections:
                 prompt_parts.append("\n## HARIKA Persistent Knowledge Memory Context:")
                 prompt_parts.extend(memory_sections)
+
+        # Inject Recent Reflection Context if present
+        if recent_reflection:
+            prompt_parts.append("\n## Recent Interaction Reflection:")
+            prompt_parts.append(f"- Summary: {recent_reflection.summary}")
+            prompt_parts.append(f"- Recommendation: {recent_reflection.next_recommendation}")
 
         prompt_parts.append("\nRespond naturally, concisely, and helpfully based on the above context.")
         return "\n".join(prompt_parts)

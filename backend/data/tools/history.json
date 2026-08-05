@@ -1,0 +1,337 @@
+[
+  {
+    "execution_id": "exec-181a546a",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.07,
+    "output": {
+      "expression": "25 * 18",
+      "result": 450
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-03T05:46:44.069798+00:00"
+  },
+  {
+    "execution_id": "exec-75f895d7",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.09,
+    "output": {
+      "date": "2026-08-03",
+      "local_time": "11:16:54",
+      "utc_time": "2026-08-03 05:46:54 UTC",
+      "day_of_week": "Monday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-03T05:46:54.294689+00:00"
+  },
+  {
+    "execution_id": "exec-484fe676",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 0.06,
+    "output": {
+      "dry_run": true,
+      "action": "open_url_in_browser",
+      "target_url": "https://github.com",
+      "expected_result": "Launches browser targeting https://github.com"
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": true
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-03T05:47:03.836027+00:00"
+  },
+  {
+    "execution_id": "exec-c58b1307",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 0.06,
+    "output": {
+      "dry_run": true,
+      "action": "launch_application",
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "expected_result": "Launches desktop app 'notepad' via command 'notepad.exe'"
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": true
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-03T05:47:14.195443+00:00"
+  },
+  {
+    "execution_id": "exec-5c214cfc",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "clipboard",
+    "execution_time_ms": 0.03,
+    "output": {
+      "dry_run": true,
+      "action": "clipboard_read",
+      "expected_result": "Executes clipboard read operation"
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": true
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-03T05:47:35.167213+00:00"
+  },
+  {
+    "execution_id": "exec-60db441f",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "terminal",
+    "execution_time_ms": 66.52,
+    "output": {
+      "command": "whoami",
+      "exit_code": 0,
+      "stdout": "sahaj\\sahaj",
+      "stderr": ""
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-03T05:48:07.831981+00:00"
+  },
+  {
+    "execution_id": "exec-e5345d55",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.13,
+    "output": {
+      "expression": "10 * 10",
+      "result": 100
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:00:27.027624+00:00"
+  },
+  {
+    "execution_id": "exec-ea1264f1",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.12,
+    "output": {
+      "expression": "15 + 25",
+      "result": 40
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:00:27.039910+00:00"
+  },
+  {
+    "execution_id": "exec-84952b40",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.13,
+    "output": {
+      "expression": "10 * 10",
+      "result": 100
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:01:35.507884+00:00"
+  },
+  {
+    "execution_id": "exec-b70f7f91",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.14,
+    "output": {
+      "expression": "15 + 25",
+      "result": 40
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:01:35.512884+00:00"
+  },
+  {
+    "execution_id": "exec-201287fd",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.17,
+    "output": {
+      "expression": "sqrt(144) + 12",
+      "result": 24.0
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:09:40.320815+00:00"
+  },
+  {
+    "execution_id": "exec-402ca4ee",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.14,
+    "output": {
+      "expression": "50 * 2",
+      "result": 100
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:11:20.125890+00:00"
+  },
+  {
+    "execution_id": "exec-a7026b48",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.15,
+    "output": {
+      "expression": "50 * 2",
+      "result": 100
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:11:39.993561+00:00"
+  },
+  {
+    "execution_id": "exec-65a9b6fb",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.35,
+    "output": {
+      "expression": "25 * 4",
+      "result": 100
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:11:54.164382+00:00"
+  },
+  {
+    "execution_id": "exec-61b72f64",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.14,
+    "output": {
+      "expression": "10 * 10",
+      "result": 100
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:11:54.188607+00:00"
+  },
+  {
+    "execution_id": "exec-688c32f7",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.11,
+    "output": {
+      "expression": "15 + 25",
+      "result": 40
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:11:54.194015+00:00"
+  },
+  {
+    "execution_id": "exec-2b6c00dd",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.14,
+    "output": {
+      "expression": "sqrt(144) + 12",
+      "result": 24.0
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:11:54.236076+00:00"
+  },
+  {
+    "execution_id": "exec-5850329f",
+    "success": true,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.19,
+    "output": {
+      "expression": "50 * 2",
+      "result": 100
+    },
+    "error": null,
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-05T10:11:54.391831+00:00"
+  }
+]
