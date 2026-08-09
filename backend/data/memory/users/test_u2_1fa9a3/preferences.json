@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mem-prs-0837b5f8",
+    "category": "preferences",
+    "title": "User Fact: food favourite is dosa",
+    "content": "My favourite is dosa",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "food",
+      "favourite",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": true,
+    "created_at": "2026-08-06T04:21:43.519064+00:00",
+    "updated_at": "2026-08-06T04:21:43.538942+00:00",
+    "last_accessed": "2026-08-06T04:21:43.519078+00:00"
+  },
+  {
+    "id": "mem-prs-d5bfc612",
+    "category": "preferences",
+    "title": "User Fact: food favourite is biryani",
+    "content": "My favourite is biryani",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "food",
+      "favourite",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 2,
+    "deleted": false,
+    "created_at": "2026-08-06T04:21:43.539873+00:00",
+    "updated_at": "2026-08-06T04:21:43.539885+00:00",
+    "last_accessed": "2026-08-06T04:21:43.539889+00:00"
+  }
+]

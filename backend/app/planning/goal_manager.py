@@ -70,9 +70,10 @@ class GoalManager:
             GoalPriority.BACKGROUND: 10,
         }
         active = [g for g in self.goals.values() if g.status == GoalStatus.ACTIVE]
-        # Sort by priority weight descending (-priority), then created_at ascending
-        active.sort(key=lambda g: (-priority_map.get(g.priority, 30), g.created_at))
+        # Sort by priority weight descending (CRITICAL > HIGH > NORMAL...), then created_at descending (newest first)
+        active.sort(key=lambda g: (priority_map.get(g.priority, 30), g.created_at), reverse=True)
         return active
+
 
     def get_goal(self, goal_id: str) -> Optional[Goal]:
         return self.goals.get(goal_id)

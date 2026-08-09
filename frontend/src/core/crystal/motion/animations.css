@@ -1,0 +1,42 @@
+@keyframes crystal-breathing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+    box-shadow: 0 0 35px rgba(56, 189, 248, 0.6);
+  }
+}
+
+@keyframes crystal-speaking {
+  0%, 100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1.2);
+  }
+}
+
+@keyframes crystal-listening {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
+  }
+}
+
+.crystal-breathing-active {
+  animation: crystal-breathing 4s ease-in-out infinite;
+}
+
+.crystal-speaking-active {
+  animation: crystal-speaking 1.2s ease-in-out infinite;
+}
+
+.crystal-listening-active {
+  animation: crystal-listening 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

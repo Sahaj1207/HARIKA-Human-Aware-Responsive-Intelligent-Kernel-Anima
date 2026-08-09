@@ -1,0 +1,22 @@
+[
+  {
+    "id": "mem-prs-9f58c079",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": false,
+    "created_at": "2026-08-08T18:21:03.200810+00:00",
+    "updated_at": "2026-08-08T18:21:03.200835+00:00",
+    "last_accessed": "2026-08-08T18:21:03.200840+00:00"
+  }
+]

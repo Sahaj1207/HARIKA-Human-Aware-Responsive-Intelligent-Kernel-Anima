@@ -1,0 +1,21 @@
+[
+  {
+    "id": "mem-agt-0e379d73",
+    "category": "tasks",
+    "title": "Completed Agent Goal: eval 100 / 4",
+    "content": "Agent 'agent-107cf359' completed task 'Execute calculator action' in 5.95ms. Output: {'expression': '100 / 4', 'result': 25.0}",
+    "importance": 0.8,
+    "confidence": 1.0,
+    "source": "agent_engine",
+    "tags": [
+      "agent",
+      "task_completed"
+    ],
+    "version": 1,
+    "revision": 51,
+    "deleted": false,
+    "created_at": "2026-08-05T10:33:31.818550+00:00",
+    "updated_at": "2026-08-08T19:18:31.491769+00:00",
+    "last_accessed": "2026-08-08T19:18:31.491794+00:00"
+  }
+]

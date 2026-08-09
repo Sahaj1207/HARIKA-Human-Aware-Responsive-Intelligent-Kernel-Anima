@@ -1,0 +1,2382 @@
+[
+  {
+    "id": "mem-prs-cbd11442",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": true,
+    "created_at": "2026-08-08T17:59:51.208310+00:00",
+    "updated_at": "2026-08-08T17:59:51.906332+00:00",
+    "last_accessed": "2026-08-08T17:59:51.208329+00:00"
+  },
+  {
+    "id": "mem-prs-53ef1021",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": true,
+    "created_at": "2026-08-08T17:59:51.256900+00:00",
+    "updated_at": "2026-08-08T17:59:52.017764+00:00",
+    "last_accessed": "2026-08-08T17:59:51.256914+00:00"
+  },
+  {
+    "id": "mem-prs-e3600847",
+    "category": "preferences",
+    "title": "User Fact: user favourite_color is blue",
+    "content": "My favourite_color is blue",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_color",
+      "blue"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": false,
+    "created_at": "2026-08-08T17:59:51.313273+00:00",
+    "updated_at": "2026-08-08T19:15:46.223047+00:00",
+    "last_accessed": "2026-08-08T19:15:46.223071+00:00"
+  },
+  {
+    "id": "mem-prs-66be8ca1",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 2,
+    "deleted": true,
+    "created_at": "2026-08-08T17:59:51.367372+00:00",
+    "updated_at": "2026-08-08T18:00:07.595040+00:00",
+    "last_accessed": "2026-08-08T18:00:07.287771+00:00"
+  },
+  {
+    "id": "mem-prs-8072185a",
+    "category": "preferences",
+    "title": "User Fact: user favourite_pet is dog",
+    "content": "My favourite_pet is dog",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_pet",
+      "dog"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": false,
+    "created_at": "2026-08-08T17:59:51.397962+00:00",
+    "updated_at": "2026-08-08T19:15:46.432975+00:00",
+    "last_accessed": "2026-08-08T19:15:46.432990+00:00"
+  },
+  {
+    "id": "mem-prs-a0ece0d9",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 4,
+    "deleted": true,
+    "created_at": "2026-08-08T17:59:51.423049+00:00",
+    "updated_at": "2026-08-08T18:00:37.896604+00:00",
+    "last_accessed": "2026-08-08T18:00:37.152332+00:00"
+  },
+  {
+    "id": "mem-prs-ba3f34ea",
+    "category": "preferences",
+    "title": "User Fact: user favourite_sport is cricket",
+    "content": "My favourite_sport is cricket",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_sport",
+      "cricket"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": false,
+    "created_at": "2026-08-08T17:59:51.465201+00:00",
+    "updated_at": "2026-08-08T19:15:46.684261+00:00",
+    "last_accessed": "2026-08-08T19:15:46.684273+00:00"
+  },
+  {
+    "id": "mem-prs-5303b88d",
+    "category": "preferences",
+    "title": "User Fact: user favourite_music is rock",
+    "content": "My favourite_music is rock",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_music",
+      "rock"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": false,
+    "created_at": "2026-08-08T17:59:51.514057+00:00",
+    "updated_at": "2026-08-08T19:15:46.777018+00:00",
+    "last_accessed": "2026-08-08T19:15:46.777037+00:00"
+  },
+  {
+    "id": "mem-prs-314493f7",
+    "category": "preferences",
+    "title": "User Fact: user preference is mango",
+    "content": "My preference is mango",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "preference",
+      "mango"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": true,
+    "created_at": "2026-08-08T17:59:51.566226+00:00",
+    "updated_at": "2026-08-08T17:59:52.130582+00:00",
+    "last_accessed": "2026-08-08T17:59:51.566236+00:00"
+  },
+  {
+    "id": "mem-prs-98392796",
+    "category": "preferences",
+    "title": "User Fact: user favourite_fruit is mango",
+    "content": "My favourite_fruit is mango",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_fruit",
+      "mango"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": false,
+    "created_at": "2026-08-08T17:59:51.564440+00:00",
+    "updated_at": "2026-08-08T19:15:46.869703+00:00",
+    "last_accessed": "2026-08-08T19:15:46.869717+00:00"
+  },
+  {
+    "id": "mem-prs-1edd5cc8",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is tea",
+    "content": "My favourite_drink is tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "tea"
+    ],
+    "version": 1,
+    "revision": 2,
+    "deleted": true,
+    "created_at": "2026-08-08T17:59:51.927314+00:00",
+    "updated_at": "2026-08-08T18:00:07.054435+00:00",
+    "last_accessed": "2026-08-08T17:59:51.927324+00:00"
+  },
+  {
+    "id": "mem-prs-aa23ba59",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 2,
+    "deleted": true,
+    "created_at": "2026-08-08T17:59:52.048657+00:00",
+    "updated_at": "2026-08-08T18:00:07.135203+00:00",
+    "last_accessed": "2026-08-08T17:59:52.048684+00:00"
+  },
+  {
+    "id": "mem-prs-03fce75b",
+    "category": "preferences",
+    "title": "User Fact: user preference is java",
+    "content": "My preference is java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "preference",
+      "java"
+    ],
+    "version": 1,
+    "revision": 2,
+    "deleted": false,
+    "created_at": "2026-08-08T17:59:52.132211+00:00",
+    "updated_at": "2026-08-08T17:59:52.132219+00:00",
+    "last_accessed": "2026-08-08T17:59:52.132221+00:00"
+  },
+  {
+    "id": "mem-prs-e37168cd",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 5,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:07.056312+00:00",
+    "updated_at": "2026-08-08T18:00:37.541805+00:00",
+    "last_accessed": "2026-08-08T18:00:36.835725+00:00"
+  },
+  {
+    "id": "mem-prs-f2b0ce89",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 5,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:07.159686+00:00",
+    "updated_at": "2026-08-08T18:00:37.655286+00:00",
+    "last_accessed": "2026-08-08T18:00:36.894559+00:00"
+  },
+  {
+    "id": "mem-prs-087ed6da",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is mango",
+    "content": "My favourite_language is mango",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "mango"
+    ],
+    "version": 1,
+    "revision": 3,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:07.618102+00:00",
+    "updated_at": "2026-08-08T18:00:22.109496+00:00",
+    "last_accessed": "2026-08-08T18:00:07.618110+00:00"
+  },
+  {
+    "id": "mem-prs-596fe9cb",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 4,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:22.110423+00:00",
+    "updated_at": "2026-08-08T18:00:22.394489+00:00",
+    "last_accessed": "2026-08-08T18:00:22.110431+00:00"
+  },
+  {
+    "id": "mem-prs-58db2505",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is mango",
+    "content": "My favourite_language is mango",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "mango"
+    ],
+    "version": 1,
+    "revision": 5,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:22.404784+00:00",
+    "updated_at": "2026-08-08T18:00:37.014197+00:00",
+    "last_accessed": "2026-08-08T18:00:22.404792+00:00"
+  },
+  {
+    "id": "mem-prs-b769404b",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 6,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:37.015262+00:00",
+    "updated_at": "2026-08-08T18:00:37.769939+00:00",
+    "last_accessed": "2026-08-08T18:00:37.015276+00:00"
+  },
+  {
+    "id": "mem-prs-b4bbfda9",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 6,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:37.564083+00:00",
+    "updated_at": "2026-08-08T18:00:56.346982+00:00",
+    "last_accessed": "2026-08-08T18:00:37.564101+00:00"
+  },
+  {
+    "id": "mem-prs-248eb075",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 6,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:37.677872+00:00",
+    "updated_at": "2026-08-08T18:00:56.444640+00:00",
+    "last_accessed": "2026-08-08T18:00:37.677881+00:00"
+  },
+  {
+    "id": "mem-prs-615c9243",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 7,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:37.800749+00:00",
+    "updated_at": "2026-08-08T18:00:56.610982+00:00",
+    "last_accessed": "2026-08-08T18:00:37.800759+00:00"
+  },
+  {
+    "id": "mem-prs-45e4155e",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 5,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:37.922896+00:00",
+    "updated_at": "2026-08-08T18:00:56.749322+00:00",
+    "last_accessed": "2026-08-08T18:00:37.922908+00:00"
+  },
+  {
+    "id": "mem-prs-2136047b",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 7,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:56.348302+00:00",
+    "updated_at": "2026-08-08T18:00:57.206508+00:00",
+    "last_accessed": "2026-08-08T18:00:56.348311+00:00"
+  },
+  {
+    "id": "mem-prs-bbe81a22",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 7,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:56.468651+00:00",
+    "updated_at": "2026-08-08T18:00:57.301744+00:00",
+    "last_accessed": "2026-08-08T18:00:56.468664+00:00"
+  },
+  {
+    "id": "mem-prs-728d96a4",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 8,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:56.612115+00:00",
+    "updated_at": "2026-08-08T18:00:57.409449+00:00",
+    "last_accessed": "2026-08-08T18:00:56.612129+00:00"
+  },
+  {
+    "id": "mem-prs-3caa7097",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 6,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:56.778894+00:00",
+    "updated_at": "2026-08-08T18:00:57.514129+00:00",
+    "last_accessed": "2026-08-08T18:00:56.778920+00:00"
+  },
+  {
+    "id": "mem-prs-36da95b3",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 8,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:57.232916+00:00",
+    "updated_at": "2026-08-08T18:25:16.265176+00:00",
+    "last_accessed": "2026-08-08T18:00:57.232926+00:00"
+  },
+  {
+    "id": "mem-prs-a61295be",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 8,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:57.324588+00:00",
+    "updated_at": "2026-08-08T18:25:16.374175+00:00",
+    "last_accessed": "2026-08-08T18:00:57.324603+00:00"
+  },
+  {
+    "id": "mem-prs-12ae5578",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 9,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:57.436956+00:00",
+    "updated_at": "2026-08-08T18:25:16.592934+00:00",
+    "last_accessed": "2026-08-08T18:00:57.436965+00:00"
+  },
+  {
+    "id": "mem-prs-0556551d",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 7,
+    "deleted": true,
+    "created_at": "2026-08-08T18:00:57.540719+00:00",
+    "updated_at": "2026-08-08T18:25:16.768358+00:00",
+    "last_accessed": "2026-08-08T18:00:57.540733+00:00"
+  },
+  {
+    "id": "mem-prs-4d53b28d",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 9,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:16.267968+00:00",
+    "updated_at": "2026-08-08T18:25:17.594785+00:00",
+    "last_accessed": "2026-08-08T18:25:16.268000+00:00"
+  },
+  {
+    "id": "mem-prs-3425fa44",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 9,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:16.425293+00:00",
+    "updated_at": "2026-08-08T18:25:17.784830+00:00",
+    "last_accessed": "2026-08-08T18:25:16.425324+00:00"
+  },
+  {
+    "id": "mem-prs-eba67e0f",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 10,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:16.596213+00:00",
+    "updated_at": "2026-08-08T18:25:17.963585+00:00",
+    "last_accessed": "2026-08-08T18:25:16.596238+00:00"
+  },
+  {
+    "id": "mem-prs-0cc707c1",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 8,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:16.800682+00:00",
+    "updated_at": "2026-08-08T18:25:18.148782+00:00",
+    "last_accessed": "2026-08-08T18:25:16.800709+00:00"
+  },
+  {
+    "id": "mem-prs-431bdfb4",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 10,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:17.629720+00:00",
+    "updated_at": "2026-08-08T18:28:51.310550+00:00",
+    "last_accessed": "2026-08-08T18:25:17.629746+00:00"
+  },
+  {
+    "id": "mem-prs-8f4f369f",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 10,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:17.828361+00:00",
+    "updated_at": "2026-08-08T18:28:51.457017+00:00",
+    "last_accessed": "2026-08-08T18:25:17.828398+00:00"
+  },
+  {
+    "id": "mem-prs-764af843",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 11,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:18.008234+00:00",
+    "updated_at": "2026-08-08T18:28:51.841186+00:00",
+    "last_accessed": "2026-08-08T18:25:18.008256+00:00"
+  },
+  {
+    "id": "mem-prs-03cf04b4",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 9,
+    "deleted": true,
+    "created_at": "2026-08-08T18:25:18.193489+00:00",
+    "updated_at": "2026-08-08T18:28:52.159365+00:00",
+    "last_accessed": "2026-08-08T18:25:18.193530+00:00"
+  },
+  {
+    "id": "mem-prs-3bd60634",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 11,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:51.315064+00:00",
+    "updated_at": "2026-08-08T18:28:53.497338+00:00",
+    "last_accessed": "2026-08-08T18:28:51.315116+00:00"
+  },
+  {
+    "id": "mem-prs-6516c9e7",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 11,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:51.533494+00:00",
+    "updated_at": "2026-08-08T18:28:53.691285+00:00",
+    "last_accessed": "2026-08-08T18:28:51.533548+00:00"
+  },
+  {
+    "id": "mem-prs-f3e0e1f8",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 12,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:51.845274+00:00",
+    "updated_at": "2026-08-08T18:28:53.872732+00:00",
+    "last_accessed": "2026-08-08T18:28:51.845298+00:00"
+  },
+  {
+    "id": "mem-prs-5a5561b7",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 10,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:52.201615+00:00",
+    "updated_at": "2026-08-08T18:28:54.053408+00:00",
+    "last_accessed": "2026-08-08T18:28:52.201639+00:00"
+  },
+  {
+    "id": "mem-prs-da5e4e87",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 12,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:53.539265+00:00",
+    "updated_at": "2026-08-08T18:32:29.504309+00:00",
+    "last_accessed": "2026-08-08T18:28:53.539299+00:00"
+  },
+  {
+    "id": "mem-prs-8abbf52f",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 12,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:53.729105+00:00",
+    "updated_at": "2026-08-08T18:32:29.633294+00:00",
+    "last_accessed": "2026-08-08T18:28:53.729148+00:00"
+  },
+  {
+    "id": "mem-prs-08ab1f4a",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 13,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:53.906090+00:00",
+    "updated_at": "2026-08-08T18:32:29.858954+00:00",
+    "last_accessed": "2026-08-08T18:28:53.906131+00:00"
+  },
+  {
+    "id": "mem-prs-f4346ab4",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 11,
+    "deleted": true,
+    "created_at": "2026-08-08T18:28:54.089740+00:00",
+    "updated_at": "2026-08-08T18:32:30.057813+00:00",
+    "last_accessed": "2026-08-08T18:28:54.089770+00:00"
+  },
+  {
+    "id": "mem-prs-db2ebaa2",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 13,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:29.508968+00:00",
+    "updated_at": "2026-08-08T18:32:30.849666+00:00",
+    "last_accessed": "2026-08-08T18:32:29.508999+00:00"
+  },
+  {
+    "id": "mem-prs-88000de8",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 13,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:29.673687+00:00",
+    "updated_at": "2026-08-08T18:32:31.049039+00:00",
+    "last_accessed": "2026-08-08T18:32:29.673720+00:00"
+  },
+  {
+    "id": "mem-prs-e1968a82",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 14,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:29.864002+00:00",
+    "updated_at": "2026-08-08T18:32:31.231971+00:00",
+    "last_accessed": "2026-08-08T18:32:29.864037+00:00"
+  },
+  {
+    "id": "mem-prs-677aad98",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 12,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:30.092234+00:00",
+    "updated_at": "2026-08-08T18:32:31.421531+00:00",
+    "last_accessed": "2026-08-08T18:32:30.092255+00:00"
+  },
+  {
+    "id": "mem-prs-c308daa3",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 14,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:30.894364+00:00",
+    "updated_at": "2026-08-08T18:35:54.508338+00:00",
+    "last_accessed": "2026-08-08T18:32:30.894394+00:00"
+  },
+  {
+    "id": "mem-prs-a930b285",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 14,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:31.092383+00:00",
+    "updated_at": "2026-08-08T18:35:54.639634+00:00",
+    "last_accessed": "2026-08-08T18:32:31.092415+00:00"
+  },
+  {
+    "id": "mem-prs-6ffa0b7b",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 15,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:31.274505+00:00",
+    "updated_at": "2026-08-08T18:35:54.899562+00:00",
+    "last_accessed": "2026-08-08T18:32:31.274525+00:00"
+  },
+  {
+    "id": "mem-prs-e9fcbf10",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 13,
+    "deleted": true,
+    "created_at": "2026-08-08T18:32:31.464752+00:00",
+    "updated_at": "2026-08-08T18:35:55.121549+00:00",
+    "last_accessed": "2026-08-08T18:32:31.464780+00:00"
+  },
+  {
+    "id": "mem-prs-72db8e0c",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 15,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:54.513887+00:00",
+    "updated_at": "2026-08-08T18:35:56.119280+00:00",
+    "last_accessed": "2026-08-08T18:35:54.513925+00:00"
+  },
+  {
+    "id": "mem-prs-05acd860",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 15,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:54.684365+00:00",
+    "updated_at": "2026-08-08T18:35:56.320887+00:00",
+    "last_accessed": "2026-08-08T18:35:54.684403+00:00"
+  },
+  {
+    "id": "mem-prs-931d5957",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 16,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:54.904256+00:00",
+    "updated_at": "2026-08-08T18:35:56.515094+00:00",
+    "last_accessed": "2026-08-08T18:35:54.904289+00:00"
+  },
+  {
+    "id": "mem-prs-cf348811",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 14,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:55.166528+00:00",
+    "updated_at": "2026-08-08T18:35:56.707705+00:00",
+    "last_accessed": "2026-08-08T18:35:55.166663+00:00"
+  },
+  {
+    "id": "mem-prs-4b602b84",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 16,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:56.165655+00:00",
+    "updated_at": "2026-08-08T18:39:29.052464+00:00",
+    "last_accessed": "2026-08-08T18:35:56.165683+00:00"
+  },
+  {
+    "id": "mem-prs-0a179987",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 16,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:56.371527+00:00",
+    "updated_at": "2026-08-08T18:39:29.198492+00:00",
+    "last_accessed": "2026-08-08T18:35:56.371555+00:00"
+  },
+  {
+    "id": "mem-prs-f1f4166e",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:56.560999+00:00",
+    "updated_at": "2026-08-08T18:39:29.455106+00:00",
+    "last_accessed": "2026-08-08T18:35:56.561028+00:00"
+  },
+  {
+    "id": "mem-prs-13fa14c9",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 15,
+    "deleted": true,
+    "created_at": "2026-08-08T18:35:56.748645+00:00",
+    "updated_at": "2026-08-08T18:39:29.673554+00:00",
+    "last_accessed": "2026-08-08T18:35:56.748671+00:00"
+  },
+  {
+    "id": "mem-prs-f30656cf",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:29.058687+00:00",
+    "updated_at": "2026-08-08T18:39:30.703128+00:00",
+    "last_accessed": "2026-08-08T18:39:29.058715+00:00"
+  },
+  {
+    "id": "mem-prs-d7f3dece",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:29.239700+00:00",
+    "updated_at": "2026-08-08T18:39:30.928579+00:00",
+    "last_accessed": "2026-08-08T18:39:29.239727+00:00"
+  },
+  {
+    "id": "mem-prs-49d96942",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 18,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:29.459802+00:00",
+    "updated_at": "2026-08-08T18:39:31.156398+00:00",
+    "last_accessed": "2026-08-08T18:39:29.459831+00:00"
+  },
+  {
+    "id": "mem-prs-a7854a59",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 16,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:29.722771+00:00",
+    "updated_at": "2026-08-08T18:39:31.349472+00:00",
+    "last_accessed": "2026-08-08T18:39:29.722803+00:00"
+  },
+  {
+    "id": "mem-prs-1295d2b6",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 18,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:30.753177+00:00",
+    "updated_at": "2026-08-08T18:44:36.461792+00:00",
+    "last_accessed": "2026-08-08T18:39:30.753210+00:00"
+  },
+  {
+    "id": "mem-prs-ae67e884",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 18,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:30.974219+00:00",
+    "updated_at": "2026-08-08T18:44:36.585504+00:00",
+    "last_accessed": "2026-08-08T18:39:30.974250+00:00"
+  },
+  {
+    "id": "mem-prs-5a59ac5c",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 19,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:31.207781+00:00",
+    "updated_at": "2026-08-08T18:44:36.892140+00:00",
+    "last_accessed": "2026-08-08T18:39:31.207816+00:00"
+  },
+  {
+    "id": "mem-prs-3f070e6c",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 17,
+    "deleted": true,
+    "created_at": "2026-08-08T18:39:31.384251+00:00",
+    "updated_at": "2026-08-08T18:44:37.117994+00:00",
+    "last_accessed": "2026-08-08T18:39:31.384282+00:00"
+  },
+  {
+    "id": "mem-prs-7e6a2405",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 19,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:36.467745+00:00",
+    "updated_at": "2026-08-08T18:44:38.281509+00:00",
+    "last_accessed": "2026-08-08T18:44:36.467778+00:00"
+  },
+  {
+    "id": "mem-prs-a7f92ce6",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 19,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:36.622271+00:00",
+    "updated_at": "2026-08-08T18:44:38.476338+00:00",
+    "last_accessed": "2026-08-08T18:44:36.622306+00:00"
+  },
+  {
+    "id": "mem-prs-989be69e",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 20,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:36.896757+00:00",
+    "updated_at": "2026-08-08T18:44:38.674226+00:00",
+    "last_accessed": "2026-08-08T18:44:36.896789+00:00"
+  },
+  {
+    "id": "mem-prs-c3040a30",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 18,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:37.164262+00:00",
+    "updated_at": "2026-08-08T18:44:38.878880+00:00",
+    "last_accessed": "2026-08-08T18:44:37.164289+00:00"
+  },
+  {
+    "id": "mem-prs-40e80407",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 20,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:38.326372+00:00",
+    "updated_at": "2026-08-08T18:48:35.914891+00:00",
+    "last_accessed": "2026-08-08T18:44:38.326401+00:00"
+  },
+  {
+    "id": "mem-prs-d7080c80",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 20,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:38.514949+00:00",
+    "updated_at": "2026-08-08T18:48:36.066684+00:00",
+    "last_accessed": "2026-08-08T18:44:38.514972+00:00"
+  },
+  {
+    "id": "mem-prs-5bf0504d",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 21,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:38.715744+00:00",
+    "updated_at": "2026-08-08T18:48:36.297729+00:00",
+    "last_accessed": "2026-08-08T18:44:38.715895+00:00"
+  },
+  {
+    "id": "mem-prs-7c2a21fa",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 19,
+    "deleted": true,
+    "created_at": "2026-08-08T18:44:38.926005+00:00",
+    "updated_at": "2026-08-08T18:48:36.496159+00:00",
+    "last_accessed": "2026-08-08T18:44:38.926045+00:00"
+  },
+  {
+    "id": "mem-prs-d51de013",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 21,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:35.920343+00:00",
+    "updated_at": "2026-08-08T18:48:37.545276+00:00",
+    "last_accessed": "2026-08-08T18:48:35.920367+00:00"
+  },
+  {
+    "id": "mem-prs-f87fd5d9",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 21,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:36.107221+00:00",
+    "updated_at": "2026-08-08T18:48:37.754474+00:00",
+    "last_accessed": "2026-08-08T18:48:36.107241+00:00"
+  },
+  {
+    "id": "mem-prs-20492836",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 22,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:36.302288+00:00",
+    "updated_at": "2026-08-08T18:48:37.954965+00:00",
+    "last_accessed": "2026-08-08T18:48:36.302312+00:00"
+  },
+  {
+    "id": "mem-prs-c8c02e4b",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 20,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:36.532095+00:00",
+    "updated_at": "2026-08-08T18:48:38.157275+00:00",
+    "last_accessed": "2026-08-08T18:48:36.532127+00:00"
+  },
+  {
+    "id": "mem-prs-b3a92025",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 22,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:37.591602+00:00",
+    "updated_at": "2026-08-08T18:52:16.601703+00:00",
+    "last_accessed": "2026-08-08T18:48:37.591639+00:00"
+  },
+  {
+    "id": "mem-prs-f7b4f7da",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 22,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:37.800186+00:00",
+    "updated_at": "2026-08-08T18:52:16.728614+00:00",
+    "last_accessed": "2026-08-08T18:48:37.800224+00:00"
+  },
+  {
+    "id": "mem-prs-f6bcbed6",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 23,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:38.000682+00:00",
+    "updated_at": "2026-08-08T18:52:17.004994+00:00",
+    "last_accessed": "2026-08-08T18:48:38.000712+00:00"
+  },
+  {
+    "id": "mem-prs-ee1b5b52",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 21,
+    "deleted": true,
+    "created_at": "2026-08-08T18:48:38.196678+00:00",
+    "updated_at": "2026-08-08T18:52:17.216461+00:00",
+    "last_accessed": "2026-08-08T18:48:38.196713+00:00"
+  },
+  {
+    "id": "mem-prs-43d9a240",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 23,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:16.606975+00:00",
+    "updated_at": "2026-08-08T18:52:18.195197+00:00",
+    "last_accessed": "2026-08-08T18:52:16.607039+00:00"
+  },
+  {
+    "id": "mem-prs-b82e3499",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 23,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:16.784133+00:00",
+    "updated_at": "2026-08-08T18:52:18.367404+00:00",
+    "last_accessed": "2026-08-08T18:52:16.784175+00:00"
+  },
+  {
+    "id": "mem-prs-2212214e",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 24,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:17.010689+00:00",
+    "updated_at": "2026-08-08T18:52:18.585885+00:00",
+    "last_accessed": "2026-08-08T18:52:17.010721+00:00"
+  },
+  {
+    "id": "mem-prs-58e96ec4",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 22,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:17.261654+00:00",
+    "updated_at": "2026-08-08T18:52:18.781660+00:00",
+    "last_accessed": "2026-08-08T18:52:17.261688+00:00"
+  },
+  {
+    "id": "mem-prs-10f3d605",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 24,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:18.229779+00:00",
+    "updated_at": "2026-08-08T18:55:27.725067+00:00",
+    "last_accessed": "2026-08-08T18:52:18.229800+00:00"
+  },
+  {
+    "id": "mem-prs-4ccd0892",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 24,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:18.411970+00:00",
+    "updated_at": "2026-08-08T18:55:27.861099+00:00",
+    "last_accessed": "2026-08-08T18:52:18.411997+00:00"
+  },
+  {
+    "id": "mem-prs-3837317a",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 25,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:18.642219+00:00",
+    "updated_at": "2026-08-08T18:55:28.121405+00:00",
+    "last_accessed": "2026-08-08T18:52:18.642250+00:00"
+  },
+  {
+    "id": "mem-prs-fbfb1453",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 23,
+    "deleted": true,
+    "created_at": "2026-08-08T18:52:18.821096+00:00",
+    "updated_at": "2026-08-08T18:55:28.351127+00:00",
+    "last_accessed": "2026-08-08T18:52:18.821117+00:00"
+  },
+  {
+    "id": "mem-prs-dfecf92e",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 26,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:27.730429+00:00",
+    "updated_at": "2026-08-08T18:55:55.273503+00:00",
+    "last_accessed": "2026-08-08T18:55:53.888996+00:00"
+  },
+  {
+    "id": "mem-prs-54e3b7d2",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 26,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:27.903843+00:00",
+    "updated_at": "2026-08-08T18:55:55.470806+00:00",
+    "last_accessed": "2026-08-08T18:55:53.989087+00:00"
+  },
+  {
+    "id": "mem-prs-a00919ca",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 27,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:28.127347+00:00",
+    "updated_at": "2026-08-08T18:55:55.684965+00:00",
+    "last_accessed": "2026-08-08T18:55:54.185857+00:00"
+  },
+  {
+    "id": "mem-prs-cc2765f0",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 25,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:28.395949+00:00",
+    "updated_at": "2026-08-08T18:55:55.898760+00:00",
+    "last_accessed": "2026-08-08T18:55:54.368667+00:00"
+  },
+  {
+    "id": "mem-prs-a0f4472b",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 27,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:55.316776+00:00",
+    "updated_at": "2026-08-08T18:56:23.486595+00:00",
+    "last_accessed": "2026-08-08T18:55:55.316801+00:00"
+  },
+  {
+    "id": "mem-prs-d8cb4f4f",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 27,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:55.519838+00:00",
+    "updated_at": "2026-08-08T18:56:23.623428+00:00",
+    "last_accessed": "2026-08-08T18:55:55.519857+00:00"
+  },
+  {
+    "id": "mem-prs-9d2c45aa",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 28,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:55.729390+00:00",
+    "updated_at": "2026-08-08T18:56:23.895157+00:00",
+    "last_accessed": "2026-08-08T18:55:55.729418+00:00"
+  },
+  {
+    "id": "mem-prs-ba060a83",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 26,
+    "deleted": true,
+    "created_at": "2026-08-08T18:55:55.943577+00:00",
+    "updated_at": "2026-08-08T18:56:24.110689+00:00",
+    "last_accessed": "2026-08-08T18:55:55.943606+00:00"
+  },
+  {
+    "id": "mem-prs-00c98947",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 28,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:23.495072+00:00",
+    "updated_at": "2026-08-08T18:56:25.074675+00:00",
+    "last_accessed": "2026-08-08T18:56:23.495101+00:00"
+  },
+  {
+    "id": "mem-prs-1d770056",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 28,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:23.671197+00:00",
+    "updated_at": "2026-08-08T18:56:25.268569+00:00",
+    "last_accessed": "2026-08-08T18:56:23.671225+00:00"
+  },
+  {
+    "id": "mem-prs-475d28ab",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 29,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:23.901345+00:00",
+    "updated_at": "2026-08-08T18:56:25.490425+00:00",
+    "last_accessed": "2026-08-08T18:56:23.901375+00:00"
+  },
+  {
+    "id": "mem-prs-1b30444d",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 27,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:24.157058+00:00",
+    "updated_at": "2026-08-08T18:56:25.703281+00:00",
+    "last_accessed": "2026-08-08T18:56:24.157082+00:00"
+  },
+  {
+    "id": "mem-prs-6f997f3f",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 29,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:25.120907+00:00",
+    "updated_at": "2026-08-08T19:15:45.935003+00:00",
+    "last_accessed": "2026-08-08T18:56:25.120929+00:00"
+  },
+  {
+    "id": "mem-prs-8ad9bad5",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 29,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:25.326045+00:00",
+    "updated_at": "2026-08-08T19:15:46.075479+00:00",
+    "last_accessed": "2026-08-08T18:56:25.326073+00:00"
+  },
+  {
+    "id": "mem-prs-c6d0a21f",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 30,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:25.542962+00:00",
+    "updated_at": "2026-08-08T19:15:46.315639+00:00",
+    "last_accessed": "2026-08-08T18:56:25.542995+00:00"
+  },
+  {
+    "id": "mem-prs-a6d51765",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 28,
+    "deleted": true,
+    "created_at": "2026-08-08T18:56:25.747164+00:00",
+    "updated_at": "2026-08-08T19:15:46.525359+00:00",
+    "last_accessed": "2026-08-08T18:56:25.747196+00:00"
+  },
+  {
+    "id": "mem-prs-ce10a909",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 30,
+    "deleted": true,
+    "created_at": "2026-08-08T19:15:45.940795+00:00",
+    "updated_at": "2026-08-08T19:15:47.516978+00:00",
+    "last_accessed": "2026-08-08T19:15:45.940830+00:00"
+  },
+  {
+    "id": "mem-prs-d92ed0b6",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 30,
+    "deleted": true,
+    "created_at": "2026-08-08T19:15:46.118849+00:00",
+    "updated_at": "2026-08-08T19:15:47.718729+00:00",
+    "last_accessed": "2026-08-08T19:15:46.118885+00:00"
+  },
+  {
+    "id": "mem-prs-0bc8964b",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 31,
+    "deleted": true,
+    "created_at": "2026-08-08T19:15:46.322338+00:00",
+    "updated_at": "2026-08-08T19:15:47.914353+00:00",
+    "last_accessed": "2026-08-08T19:15:46.322367+00:00"
+  },
+  {
+    "id": "mem-prs-bee875de",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 29,
+    "deleted": true,
+    "created_at": "2026-08-08T19:15:46.569581+00:00",
+    "updated_at": "2026-08-08T19:15:48.120715+00:00",
+    "last_accessed": "2026-08-08T19:15:46.569610+00:00"
+  },
+  {
+    "id": "mem-prs-32c77574",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 31,
+    "deleted": false,
+    "created_at": "2026-08-08T19:15:47.557862+00:00",
+    "updated_at": "2026-08-08T19:15:47.557881+00:00",
+    "last_accessed": "2026-08-08T19:15:47.557885+00:00"
+  },
+  {
+    "id": "mem-prs-6266f3de",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is biryani",
+    "content": "My favourite_food is biryani",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "biryani"
+    ],
+    "version": 1,
+    "revision": 31,
+    "deleted": false,
+    "created_at": "2026-08-08T19:15:47.763090+00:00",
+    "updated_at": "2026-08-08T19:15:47.763110+00:00",
+    "last_accessed": "2026-08-08T19:15:47.763115+00:00"
+  },
+  {
+    "id": "mem-prs-9e83cced",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is i like java",
+    "content": "My favourite_language is i like java",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "i like java"
+    ],
+    "version": 1,
+    "revision": 32,
+    "deleted": false,
+    "created_at": "2026-08-08T19:15:47.955525+00:00",
+    "updated_at": "2026-08-08T19:15:47.955541+00:00",
+    "last_accessed": "2026-08-08T19:15:47.955545+00:00"
+  },
+  {
+    "id": "mem-prs-063bb20c",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is paris now",
+    "content": "My favourite_city is paris now",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "paris now"
+    ],
+    "version": 1,
+    "revision": 30,
+    "deleted": false,
+    "created_at": "2026-08-08T19:15:48.160991+00:00",
+    "updated_at": "2026-08-08T19:15:48.161012+00:00",
+    "last_accessed": "2026-08-08T19:15:48.161016+00:00"
+  }
+]

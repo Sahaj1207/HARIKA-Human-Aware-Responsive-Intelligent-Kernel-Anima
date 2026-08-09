@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mem-rtr-38047525",
+    "category": "notes",
+    "title": "User Fact: Remember my favourite drink is coffee.",
+    "content": "Remember my favourite drink is coffee.",
+    "importance": 0.8,
+    "confidence": 0.9500000000000001,
+    "source": "router",
+    "tags": [],
+    "version": 1,
+    "revision": 2,
+    "deleted": false,
+    "created_at": "2026-08-05T11:55:28.513097+00:00",
+    "updated_at": "2026-08-05T11:55:48.818678+00:00",
+    "last_accessed": "2026-08-05T11:55:48.818697+00:00"
+  }
+]

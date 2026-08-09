@@ -17,7 +17,35 @@ class HierarchicalPlanner:
         self.validator = validator or plan_validator
         self.state_machine = PlanStateMachine()
 
+    def get_capabilities(self) -> Dict[str, Any]:
+        return {
+            "subsystem": "HierarchicalPlanner",
+            "name": "Goal & Task Planning Engine",
+            "features": ["Multi-step Plan Generation", "State Machine Validation", "Goal Decomposition"]
+        }
+
+    def get_plan_status(self, query: str = "") -> Dict[str, Any]:
+        from app.planning.goal_manager import goal_manager
+        active_goals = goal_manager.get_active_goals()
+        if active_goals:
+            top_g = active_goals[0]
+            return {
+                "status": "plan_query",
+                "has_plan": True,
+                "plan_title": top_g.title,
+                "progress": top_g.progress,
+                "goal_id": top_g.id,
+                "summary": f"Your active plan is: '{top_g.title}' (Progress: {int(top_g.progress)}%)."
+            }
+        return {
+            "status": "plan_query",
+            "has_plan": False,
+            "summary": "You don't have an active plan right now."
+        }
+
+
     def create_plan(
+
         self,
         user_message: str,
         goal_id: Optional[str] = None,
@@ -25,7 +53,13 @@ class HierarchicalPlanner:
         custom_steps: Optional[List[PlanStep]] = None
     ) -> Plan:
         plan_id = f"plan-{uuid.uuid4().hex[:8]}"
+        if not goal_id:
+            from app.planning.goal_manager import goal_manager
+            goal = goal_manager.create_goal(title=f"Goal for '{user_message}'", description=user_message)
+            goal_id = goal.id
+
         steps: List[PlanStep] = custom_steps or []
+
 
         if not steps:
             if tool_action:

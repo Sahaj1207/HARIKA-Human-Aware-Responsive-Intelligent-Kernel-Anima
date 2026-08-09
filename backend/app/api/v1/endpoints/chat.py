@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas.chat import ChatRequest, ChatResponse
-from app.cognition.manager import cognition_manager
+from app.router.manager import router_manager
 
 router = APIRouter()
 
@@ -9,20 +9,22 @@ router = APIRouter()
 async def process_chat_message(request: ChatRequest):
     """
     POST /api/v1/chat
-    Processes incoming user directive through the Cognition Engine.
+    Processes incoming user directive through the HARIKA Cognitive Router.
     """
     if not request.message or not request.message.strip():
         raise HTTPException(status_code=400, detail="Message string cannot be empty.")
 
-    result = await cognition_manager.process_chat(
+    result = await router_manager.route_request(
         message=request.message.strip(),
-        user_name=request.user_name,
+        user_id=request.user_name or "default",
         conversation_history=request.conversation_history
     )
 
     return ChatResponse(
         response=result["response"],
-        provider=result["provider"],
-        model=result["model"],
-        latency_ms=result["latency_ms"]
+        provider=result.get("provider", "router-v1.0"),
+        model=result.get("model", "cognitive-router"),
+        latency_ms=int(round(result["latency_ms"]))
     )
+
+

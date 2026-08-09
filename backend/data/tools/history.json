@@ -1,337 +1,2617 @@
 [
   {
-    "execution_id": "exec-181a546a",
+    "execution_id": "exec-bcaca6f2",
+    "success": false,
+    "verified": false,
+    "pid": 32584,
+    "process_name": "calculator.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 674.59,
+    "output": {
+      "app_name": "calculator",
+      "command": "calc.exe",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 32584,
+      "process_name": "calculator.exe",
+      "error": "Process 'calculator.exe' was not found in active OS task list."
+    },
+    "error": "Process 'calculator.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:50.514963+00:00"
+  },
+  {
+    "execution_id": "exec-9ab51e95",
+    "success": false,
+    "verified": false,
+    "pid": 6572,
+    "process_name": "calculator.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 675.63,
+    "output": {
+      "app_name": "calculator",
+      "command": "calc.exe",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 6572,
+      "process_name": "calculator.exe",
+      "error": "Process 'calculator.exe' was not found in active OS task list."
+    },
+    "error": "Process 'calculator.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:51.204146+00:00"
+  },
+  {
+    "execution_id": "exec-1893a9ed",
+    "success": false,
+    "verified": false,
+    "pid": 15228,
+    "process_name": "calculator.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 684.74,
+    "output": {
+      "app_name": "calculator",
+      "command": "calc.exe",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 15228,
+      "process_name": "calculator.exe",
+      "error": "Process 'calculator.exe' was not found in active OS task list."
+    },
+    "error": "Process 'calculator.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:51.903219+00:00"
+  },
+  {
+    "execution_id": "exec-5044724b",
     "success": true,
+    "verified": true,
+    "pid": 30004,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 478.18,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 30004,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:52.396586+00:00"
+  },
+  {
+    "execution_id": "exec-1c656980",
+    "success": true,
+    "verified": true,
+    "pid": 30004,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 486.44,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 30004,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:52.896641+00:00"
+  },
+  {
+    "execution_id": "exec-04fd42d0",
+    "success": true,
+    "verified": true,
+    "pid": 30004,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 522.01,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 30004,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:53.432057+00:00"
+  },
+  {
+    "execution_id": "exec-5abec964",
+    "success": true,
+    "verified": true,
+    "pid": 21048,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 525.18,
+    "output": {
+      "app_name": "chrome",
+      "command": "start chrome",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 21048,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:53.973850+00:00"
+  },
+  {
+    "execution_id": "exec-b9bc2faa",
+    "success": true,
+    "verified": true,
+    "pid": 21048,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 454.77,
+    "output": {
+      "app_name": "chrome",
+      "command": "start chrome",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 21048,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:54.455099+00:00"
+  },
+  {
+    "execution_id": "exec-f34682b2",
+    "success": true,
+    "verified": true,
+    "pid": 21048,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 617.61,
+    "output": {
+      "app_name": "chrome",
+      "command": "start chrome",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 21048,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.085186+00:00"
+  },
+  {
+    "execution_id": "exec-9f351b38",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "calculator",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 20.72,
+    "output": {
+      "action": "close",
+      "app_name": "calculator",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "calculator"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.130216+00:00"
+  },
+  {
+    "execution_id": "exec-95b769a0",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "notepad",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 22.72,
+    "output": {
+      "action": "close",
+      "app_name": "notepad",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "notepad"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.182297+00:00"
+  },
+  {
+    "execution_id": "exec-831e199b",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "chrome",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 27.02,
+    "output": {
+      "action": "close",
+      "app_name": "chrome",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "chrome"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.242669+00:00"
+  },
+  {
+    "execution_id": "exec-3282fcbb",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "calculator",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 5.7,
+    "output": {
+      "action": "close",
+      "app_name": "calculator",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "calculator"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.284194+00:00"
+  },
+  {
+    "execution_id": "exec-0d3cc1c1",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "notepad",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 7.1,
+    "output": {
+      "action": "close",
+      "app_name": "notepad",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "notepad"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.325571+00:00"
+  },
+  {
+    "execution_id": "exec-bc051467",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.21,
+    "output": {
+      "date": "2026-08-09",
+      "local_time": "00:45:55",
+      "utc_time": "2026-08-08 19:15:55 UTC",
+      "day_of_week": "Sunday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.360864+00:00"
+  },
+  {
+    "execution_id": "exec-4541cc7c",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.13,
+    "output": {
+      "date": "2026-08-09",
+      "local_time": "00:45:55",
+      "utc_time": "2026-08-08 19:15:55 UTC",
+      "day_of_week": "Sunday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.398589+00:00"
+  },
+  {
+    "execution_id": "exec-6c472c8a",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.13,
+    "output": {
+      "date": "2026-08-09",
+      "local_time": "00:45:55",
+      "utc_time": "2026-08-08 19:15:55 UTC",
+      "day_of_week": "Sunday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.479435+00:00"
+  },
+  {
+    "execution_id": "exec-3708c316",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
     "status_code": "SUCCESS",
     "tool_name": "calculator",
-    "execution_time_ms": 0.07,
+    "execution_time_ms": 0.19,
+    "output": {
+      "expression": "125 * 48",
+      "result": 6000
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.509930+00:00"
+  },
+  {
+    "execution_id": "exec-864decc9",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.15,
+    "output": {
+      "expression": "500 / 25",
+      "result": 20.0
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.547431+00:00"
+  },
+  {
+    "execution_id": "exec-1b53d71a",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.2,
+    "output": {
+      "expression": "15 + 35",
+      "result": 50
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.577999+00:00"
+  },
+  {
+    "execution_id": "exec-d40dae76",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.16,
+    "output": {
+      "expression": "100 - 45",
+      "result": 55
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.610180+00:00"
+  },
+  {
+    "execution_id": "exec-e76a8f64",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.18,
+    "output": {
+      "expression": "12 * 12",
+      "result": 144
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:55.637340+00:00"
+  },
+  {
+    "execution_id": "exec-e02f2bb2",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "clipboard",
+    "execution_time_ms": 599.5,
+    "output": {
+      "action": "read",
+      "content": "HARIKA — STOP all broad refactoring and STOP running large regression suites.\r\n\r\nWe are doing a surgical MANUAL-QA fix for ONLY the three remaining state-management bugs visible in the current UI.\r\n\r\nDO NOT modify:\r\n- Router architecture\r\n- PresenceManager architecture\r\n- Intent ownership\r\n- API contracts\r\n- SQLite schema\r\n- frontend contracts\r\n- capability architecture\r\n- unrelated classifiers\r\n- unrelated tests\r\n\r\nFirst reproduce these exact failures and trace the state source before changing code.\r\n\r\nBUG 1 — CURRENT DISCUSSION SELF-OVERWRITE\r\n\r\nConversation:\r\n1. Remember my favourite food is dosa\r\n2. What are we talking about?\r\n\r\nObserved:\r\nHARIKA responds:\r\n\"Currently, our active topic of discussion is: 'What are we talking about?'\"\r\n\r\nExpected:\r\nThe second query must NOT become the current discussion.\r\nThe response must reference the previously established meaningful discussion/context.\r\n\r\nTrace exactly where WorkspaceManager.current_discussion is updated during routing and execution.\r\n\r\nRoot cause requirement:\r\nA context-query such as:\r\n- What are we talking about?\r\n- What is the current topic?\r\n- What is the active discussion?\r\n\r\nMUST NOT overwrite current_discussion.\r\n\r\nFix only the state-update condition so query messages are excluded from becoming the discussion topic.\r\n\r\nBUG 2 — STALE ACTIVE GOAL\r\n\r\nObserved:\r\n\"What am I working on?\"\r\nreturns:\r\n\"Goal for 'Calculate sqrt(144) + 12'\"\r\n\r\nThis is stale state from an earlier session/test.\r\n\r\nTrace:\r\n- where active_goal_id is stored\r\n- where GoalManager determines the active goal\r\n- how completed/old goals are filtered\r\n- how a new goal becomes active\r\n- whether the current session/user is respected\r\n\r\nDo NOT simply hardcode a response.\r\n\r\nFix the actual stale-goal selection/state lifecycle.\r\n\r\nExpected:\r\n\"What am I working on?\" must return the currently active/relevant goal, or explicitly say there is no active goal.\r\nIt must NEVER return an unrelated completed/stale goal.\r\n\r\nBUG 3 — NEW PLAN CREATED BUT SHOW PLAN RETURNS OLD PLAN\r\n\r\nConversation:\r\n1. Plan for Sunday\r\n2. Show plan\r\n\r\nObserved:\r\nStep 1:\r\n\"Plan created successfully.\"\r\n\r\nStep 2:\r\n\"Your active plan is: 'Goal for Calculate sqrt(144) + 12'\"\r\n\r\nExpected:\r\nStep 2 must return the plan created in Step 1:\r\n\"Plan for Sunday\" / its corresponding newly created goal/plan.\r\n\r\nTrace the complete lifecycle:\r\nPLAN_CREATION\r\n→ HierarchicalPlanner.create_plan()\r\n→ plan ID\r\n→ goal ID\r\n→ active plan/goal state\r\n→ PLAN_QUERY\r\n→ get_plan_status()\r\n\r\nFind where the newly created plan/goal is lost or where an old plan is selected.\r\n\r\nIMPORTANT:\r\nDo not change PLAN_QUERY classification.\r\nDo not change PLAN_CREATION classification.\r\nDo not change communication formatting unless the trace proves formatting is the problem.\r\n\r\nThe likely issue is state ownership/selection, not presentation.\r\n\r\nIMPLEMENTATION RULE:\r\n1. Reproduce each bug.\r\n2. Produce a short root-cause trace with exact file + function + relevant state values.\r\n3. Apply the smallest possible fix.\r\n4. Add exactly 3 focused regression tests:\r\n   - current discussion query does not overwrite discussion\r\n   - stale completed goal is not returned as active\r\n   - newly created plan is returned by Show plan\r\n5. Run ONLY those 3 focused tests first.\r\n6. If they pass, run the full backend regression suite ONCE.\r\n7. Do NOT repeatedly rerun the full suite after every minor change.\r\n8. Do NOT modify unrelated files.\r\n\r\nFinal report must contain:\r\n- BUG\r\n- actual root cause\r\n- exact file/function\r\n- minimal fix\r\n- focused test result\r\n- full regression result\r\n\r\nDo not declare success merely because tests pass. Verify the exact UI scenarios manually after the fix."
+    },
+    "error": null,
+    "message": "Tool 'clipboard' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:56.267143+00:00"
+  },
+  {
+    "execution_id": "exec-b74379ba",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "clipboard",
+    "execution_time_ms": 2.48,
+    "output": {
+      "action": "read",
+      "content": "HARIKA — STOP all broad refactoring and STOP running large regression suites.\r\n\r\nWe are doing a surgical MANUAL-QA fix for ONLY the three remaining state-management bugs visible in the current UI.\r\n\r\nDO NOT modify:\r\n- Router architecture\r\n- PresenceManager architecture\r\n- Intent ownership\r\n- API contracts\r\n- SQLite schema\r\n- frontend contracts\r\n- capability architecture\r\n- unrelated classifiers\r\n- unrelated tests\r\n\r\nFirst reproduce these exact failures and trace the state source before changing code.\r\n\r\nBUG 1 — CURRENT DISCUSSION SELF-OVERWRITE\r\n\r\nConversation:\r\n1. Remember my favourite food is dosa\r\n2. What are we talking about?\r\n\r\nObserved:\r\nHARIKA responds:\r\n\"Currently, our active topic of discussion is: 'What are we talking about?'\"\r\n\r\nExpected:\r\nThe second query must NOT become the current discussion.\r\nThe response must reference the previously established meaningful discussion/context.\r\n\r\nTrace exactly where WorkspaceManager.current_discussion is updated during routing and execution.\r\n\r\nRoot cause requirement:\r\nA context-query such as:\r\n- What are we talking about?\r\n- What is the current topic?\r\n- What is the active discussion?\r\n\r\nMUST NOT overwrite current_discussion.\r\n\r\nFix only the state-update condition so query messages are excluded from becoming the discussion topic.\r\n\r\nBUG 2 — STALE ACTIVE GOAL\r\n\r\nObserved:\r\n\"What am I working on?\"\r\nreturns:\r\n\"Goal for 'Calculate sqrt(144) + 12'\"\r\n\r\nThis is stale state from an earlier session/test.\r\n\r\nTrace:\r\n- where active_goal_id is stored\r\n- where GoalManager determines the active goal\r\n- how completed/old goals are filtered\r\n- how a new goal becomes active\r\n- whether the current session/user is respected\r\n\r\nDo NOT simply hardcode a response.\r\n\r\nFix the actual stale-goal selection/state lifecycle.\r\n\r\nExpected:\r\n\"What am I working on?\" must return the currently active/relevant goal, or explicitly say there is no active goal.\r\nIt must NEVER return an unrelated completed/stale goal.\r\n\r\nBUG 3 — NEW PLAN CREATED BUT SHOW PLAN RETURNS OLD PLAN\r\n\r\nConversation:\r\n1. Plan for Sunday\r\n2. Show plan\r\n\r\nObserved:\r\nStep 1:\r\n\"Plan created successfully.\"\r\n\r\nStep 2:\r\n\"Your active plan is: 'Goal for Calculate sqrt(144) + 12'\"\r\n\r\nExpected:\r\nStep 2 must return the plan created in Step 1:\r\n\"Plan for Sunday\" / its corresponding newly created goal/plan.\r\n\r\nTrace the complete lifecycle:\r\nPLAN_CREATION\r\n→ HierarchicalPlanner.create_plan()\r\n→ plan ID\r\n→ goal ID\r\n→ active plan/goal state\r\n→ PLAN_QUERY\r\n→ get_plan_status()\r\n\r\nFind where the newly created plan/goal is lost or where an old plan is selected.\r\n\r\nIMPORTANT:\r\nDo not change PLAN_QUERY classification.\r\nDo not change PLAN_CREATION classification.\r\nDo not change communication formatting unless the trace proves formatting is the problem.\r\n\r\nThe likely issue is state ownership/selection, not presentation.\r\n\r\nIMPLEMENTATION RULE:\r\n1. Reproduce each bug.\r\n2. Produce a short root-cause trace with exact file + function + relevant state values.\r\n3. Apply the smallest possible fix.\r\n4. Add exactly 3 focused regression tests:\r\n   - current discussion query does not overwrite discussion\r\n   - stale completed goal is not returned as active\r\n   - newly created plan is returned by Show plan\r\n5. Run ONLY those 3 focused tests first.\r\n6. If they pass, run the full backend regression suite ONCE.\r\n7. Do NOT repeatedly rerun the full suite after every minor change.\r\n8. Do NOT modify unrelated files.\r\n\r\nFinal report must contain:\r\n- BUG\r\n- actual root cause\r\n- exact file/function\r\n- minimal fix\r\n- focused test result\r\n- full regression result\r\n\r\nDo not declare success merely because tests pass. Verify the exact UI scenarios manually after the fix."
+    },
+    "error": null,
+    "message": "Tool 'clipboard' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:56.295219+00:00"
+  },
+  {
+    "execution_id": "exec-64e1d789",
+    "success": false,
+    "verified": false,
+    "pid": 33888,
+    "process_name": "command prompt.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 946.35,
+    "output": {
+      "app_name": "command prompt",
+      "command": "command prompt",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 33888,
+      "process_name": "command prompt.exe",
+      "error": "Process 'command prompt.exe' was not found in active OS task list."
+    },
+    "error": "Process 'command prompt.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:57.285231+00:00"
+  },
+  {
+    "execution_id": "exec-17958c1d",
+    "success": false,
+    "verified": false,
+    "pid": 27632,
+    "process_name": "terminal.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 804.62,
+    "output": {
+      "app_name": "terminal",
+      "command": "terminal",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 27632,
+      "process_name": "terminal.exe",
+      "error": "Process 'terminal.exe' was not found in active OS task list."
+    },
+    "error": "Process 'terminal.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:58.118197+00:00"
+  },
+  {
+    "execution_id": "exec-e857e6b6",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "terminal",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 18.49,
+    "output": {
+      "action": "close",
+      "app_name": "terminal",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "terminal"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:58.160648+00:00"
+  },
+  {
+    "execution_id": "exec-ea6145ce",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "command prompt",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 5.63,
+    "output": {
+      "action": "close",
+      "app_name": "command prompt",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "command prompt"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:58.189831+00:00"
+  },
+  {
+    "execution_id": "exec-fd3dd7e5",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.11,
+    "output": {
+      "date": "2026-08-09",
+      "local_time": "00:45:58",
+      "utc_time": "2026-08-08 19:15:58 UTC",
+      "day_of_week": "Sunday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:58.215312+00:00"
+  },
+  {
+    "execution_id": "exec-d8954b4a",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.16,
+    "output": {
+      "expression": "99 / 9",
+      "result": 11.0
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:58.241179+00:00"
+  },
+  {
+    "execution_id": "exec-2dcb7412",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.18,
+    "output": {
+      "expression": "7 * 8",
+      "result": 56
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:58.270375+00:00"
+  },
+  {
+    "execution_id": "exec-d289cd4c",
+    "success": false,
+    "verified": false,
+    "pid": 12100,
+    "process_name": "vs code.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 923.42,
+    "output": {
+      "app_name": "vs code",
+      "command": "code",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 12100,
+      "process_name": "vs code.exe",
+      "error": "Process 'vs code.exe' was not found in active OS task list."
+    },
+    "error": "Process 'vs code.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:59.219034+00:00"
+  },
+  {
+    "execution_id": "exec-d3dec996",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "vs code",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 14.28,
+    "output": {
+      "action": "close",
+      "app_name": "vs code",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "vs code"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:15:59.286008+00:00"
+  },
+  {
+    "execution_id": "exec-ad85260f",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 987.06,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:00.296774+00:00"
+  },
+  {
+    "execution_id": "exec-e00c372d",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 827.89,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:01.148864+00:00"
+  },
+  {
+    "execution_id": "exec-f48a29b1",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 861.61,
+    "output": {
+      "target": "google",
+      "url": "https://www.google.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:02.035499+00:00"
+  },
+  {
+    "execution_id": "exec-902964f6",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 855.96,
+    "output": {
+      "target": "google",
+      "url": "https://www.google.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:02.922124+00:00"
+  },
+  {
+    "execution_id": "exec-719df40d",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 841.19,
+    "output": {
+      "target": "youtube",
+      "url": "https://www.youtube.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:03.793199+00:00"
+  },
+  {
+    "execution_id": "exec-350f79e5",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 892.49,
+    "output": {
+      "target": "youtube",
+      "url": "https://www.youtube.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:04.716098+00:00"
+  },
+  {
+    "execution_id": "exec-60cdaa6a",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 867.61,
+    "output": {
+      "target": "reddit",
+      "url": "https://www.reddit.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:05.614653+00:00"
+  },
+  {
+    "execution_id": "exec-2850f562",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 831.62,
+    "output": {
+      "target": "reddit",
+      "url": "https://www.reddit.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:06.473674+00:00"
+  },
+  {
+    "execution_id": "exec-c8a3c5d8",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 859.43,
+    "output": {
+      "target": "twitter",
+      "url": "https://twitter.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:07.364772+00:00"
+  },
+  {
+    "execution_id": "exec-0bc01a5f",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 855.71,
+    "output": {
+      "target": "twitter",
+      "url": "https://twitter.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:08.252368+00:00"
+  },
+  {
+    "execution_id": "exec-6ef0004c",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 834.39,
+    "output": {
+      "target": "stackoverflow",
+      "url": "https://stackoverflow.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:09.115525+00:00"
+  },
+  {
+    "execution_id": "exec-f8cec896",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 875.16,
+    "output": {
+      "target": "stackoverflow",
+      "url": "https://stackoverflow.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:10.018799+00:00"
+  },
+  {
+    "execution_id": "exec-a6fdedc8",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 880.72,
+    "output": {
+      "target": "chatgpt",
+      "url": "https://chatgpt.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:10.929299+00:00"
+  },
+  {
+    "execution_id": "exec-f76b4622",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 859.73,
+    "output": {
+      "target": "chatgpt",
+      "url": "https://chatgpt.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:11.816251+00:00"
+  },
+  {
+    "execution_id": "exec-6efc52ef",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 851.2,
+    "output": {
+      "target": "https://python.org",
+      "url": "https://python.org",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:12.695170+00:00"
+  },
+  {
+    "execution_id": "exec-5a15e0ca",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 855.28,
+    "output": {
+      "target": "https://github.com",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:13.584710+00:00"
+  },
+  {
+    "execution_id": "exec-794179b9",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 888.67,
+    "output": {
+      "target": "https://google.com",
+      "url": "https://google.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:14.503940+00:00"
+  },
+  {
+    "execution_id": "exec-6b14f679",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 854.01,
+    "output": {
+      "target": "https://pypi.org",
+      "url": "https://pypi.org",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:15.388684+00:00"
+  },
+  {
+    "execution_id": "exec-6490b002",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 869.79,
+    "output": {
+      "target": "https://www.google.com/search?q=python%203.12%20features",
+      "url": "https://www.google.com/search?q=python%203.12%20features",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:16.322706+00:00"
+  },
+  {
+    "execution_id": "exec-c22eeb7c",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 881.56,
+    "output": {
+      "target": "https://www.google.com/search?q=best%20practices%20for%20fastapi",
+      "url": "https://www.google.com/search?q=best%20practices%20for%20fastapi",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:17.230497+00:00"
+  },
+  {
+    "execution_id": "exec-7f07deb9",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 859.17,
+    "output": {
+      "target": "https://www.google.com/search?q=harika%20ai%20architecture",
+      "url": "https://www.google.com/search?q=harika%20ai%20architecture",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:18.117458+00:00"
+  },
+  {
+    "execution_id": "exec-4ba1e7b6",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 856.02,
+    "output": {
+      "target": "https://www.google.com/search?q=asyncio%20tutorial",
+      "url": "https://www.google.com/search?q=asyncio%20tutorial",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:19.004901+00:00"
+  },
+  {
+    "execution_id": "exec-0023ef77",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 850.88,
+    "output": {
+      "target": "https://www.google.com/search?q=python%20memory%20management",
+      "url": "https://www.google.com/search?q=python%20memory%20management",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:19.885704+00:00"
+  },
+  {
+    "execution_id": "exec-7ace8a4a",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 826.31,
+    "output": {
+      "target": "https://www.google.com/search?q=sqlite%20optimization",
+      "url": "https://www.google.com/search?q=sqlite%20optimization",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:20.743477+00:00"
+  },
+  {
+    "execution_id": "exec-5d401b93",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 843.03,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:21.613431+00:00"
+  },
+  {
+    "execution_id": "exec-02c56adb",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 840.37,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:22.482141+00:00"
+  },
+  {
+    "execution_id": "exec-ef7f4b4a",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 883.01,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:23.399754+00:00"
+  },
+  {
+    "execution_id": "exec-b197e55f",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 873.15,
+    "output": {
+      "target": "google",
+      "url": "https://www.google.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:24.301795+00:00"
+  },
+  {
+    "execution_id": "exec-7c144a6a",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 881.92,
+    "output": {
+      "target": "youtube",
+      "url": "https://www.youtube.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:25.218021+00:00"
+  },
+  {
+    "execution_id": "exec-47676a9a",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 948.74,
+    "output": {
+      "target": "https://www.google.com/search?q=pytest%20documentation",
+      "url": "https://www.google.com/search?q=pytest%20documentation",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:26.197123+00:00"
+  },
+  {
+    "execution_id": "exec-1a3a9935",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 892.23,
+    "output": {
+      "target": "https://www.google.com/search?q=uvicorn%20server%20configuration",
+      "url": "https://www.google.com/search?q=uvicorn%20server%20configuration",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:27.119613+00:00"
+  },
+  {
+    "execution_id": "exec-add9476d",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 832.82,
+    "output": {
+      "target": "https://news.ycombinator.com",
+      "url": "https://news.ycombinator.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:27.983534+00:00"
+  },
+  {
+    "execution_id": "exec-878b4b37",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 844.34,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:28.859589+00:00"
+  },
+  {
+    "execution_id": "exec-1f7a935c",
+    "success": false,
+    "verified": false,
+    "pid": 16180,
+    "process_name": "calculator.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 608.11,
+    "output": {
+      "app_name": "calculator",
+      "command": "calc.exe",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 16180,
+      "process_name": "calculator.exe",
+      "error": "Process 'calculator.exe' was not found in active OS task list."
+    },
+    "error": "Process 'calculator.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:31.180451+00:00"
+  },
+  {
+    "execution_id": "exec-523e57c6",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.06,
+    "output": {
+      "date": "2026-08-09",
+      "local_time": "00:46:31",
+      "utc_time": "2026-08-08 19:16:31 UTC",
+      "day_of_week": "Sunday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:31.197737+00:00"
+  },
+  {
+    "execution_id": "exec-de1ce1d7",
+    "success": true,
+    "verified": true,
+    "pid": 34112,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 465.39,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 34112,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:31.727244+00:00"
+  },
+  {
+    "execution_id": "exec-219c03c0",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.14,
+    "output": {
+      "expression": "50 * 5",
+      "result": 250
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:31.755710+00:00"
+  },
+  {
+    "execution_id": "exec-0a84aebe",
+    "success": true,
+    "verified": true,
+    "pid": 20900,
+    "process_name": "msedge.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 753.86,
+    "output": {
+      "target": "https://www.google.com/search?q=python%203.12",
+      "url": "https://www.google.com/search?q=python%203.12",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 20900,
+      "process_name": "msedge.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:32.630387+00:00"
+  },
+  {
+    "execution_id": "exec-cbe7ea04",
+    "success": true,
+    "verified": true,
+    "pid": 26124,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 720.32,
+    "output": {
+      "app_name": "chrome",
+      "command": "start chrome",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 26124,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:33.367802+00:00"
+  },
+  {
+    "execution_id": "exec-8e32c7ad",
+    "success": true,
+    "verified": true,
+    "pid": 24824,
+    "process_name": "cmd.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 1195.91,
+    "output": {
+      "app_name": "vs code",
+      "command": "code",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 24824,
+      "process_name": "cmd.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:34.625526+00:00"
+  },
+  {
+    "execution_id": "exec-9254b1d6",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.13,
+    "output": {
+      "expression": "100 / 4",
+      "result": 25.0
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:34.759037+00:00"
+  },
+  {
+    "execution_id": "exec-b0e28559",
+    "success": true,
+    "verified": true,
+    "pid": 26124,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1275.67,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 26124,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:36.068941+00:00"
+  },
+  {
+    "execution_id": "exec-35c47681",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.08,
+    "output": {
+      "date": "2026-08-09",
+      "local_time": "00:46:36",
+      "utc_time": "2026-08-08 19:16:36 UTC",
+      "day_of_week": "Sunday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:36.160666+00:00"
+  },
+  {
+    "execution_id": "exec-30a78bce",
+    "success": false,
+    "verified": false,
+    "pid": 27464,
+    "process_name": "terminal.exe",
+    "status_code": "EXECUTION_FAILED",
+    "tool_name": "open_application",
+    "execution_time_ms": 930.93,
+    "output": {
+      "app_name": "terminal",
+      "command": "terminal",
+      "launched": false,
+      "success": false,
+      "verified": false,
+      "pid": 27464,
+      "process_name": "terminal.exe",
+      "error": "Process 'terminal.exe' was not found in active OS task list."
+    },
+    "error": "Process 'terminal.exe' was not found in active OS task list.",
+    "message": "Tool 'open_application' execution could not be verified.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:37.108399+00:00"
+  },
+  {
+    "execution_id": "exec-3c728245",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.18,
+    "output": {
+      "expression": "12 * 12",
+      "result": 144
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:37.146751+00:00"
+  },
+  {
+    "execution_id": "exec-4a2aae13",
+    "success": true,
+    "verified": true,
+    "pid": 26124,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1196.0,
+    "output": {
+      "target": "https://www.google.com/search?q=fastapi%20tutorial",
+      "url": "https://www.google.com/search?q=fastapi%20tutorial",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 26124,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:38.376198+00:00"
+  },
+  {
+    "execution_id": "exec-63385873",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "calculator",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 6.52,
+    "output": {
+      "action": "close",
+      "app_name": "calculator",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "calculator"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:38.525283+00:00"
+  },
+  {
+    "execution_id": "exec-ba2ad100",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": "notepad",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 5.71,
+    "output": {
+      "action": "close",
+      "app_name": "notepad",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "process_name": "notepad"
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:38.556166+00:00"
+  },
+  {
+    "execution_id": "exec-63670669",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "clipboard",
+    "execution_time_ms": 7.07,
+    "output": {
+      "action": "read",
+      "content": "HARIKA — STOP all broad refactoring and STOP running large regression suites.\r\n\r\nWe are doing a surgical MANUAL-QA fix for ONLY the three remaining state-management bugs visible in the current UI.\r\n\r\nDO NOT modify:\r\n- Router architecture\r\n- PresenceManager architecture\r\n- Intent ownership\r\n- API contracts\r\n- SQLite schema\r\n- frontend contracts\r\n- capability architecture\r\n- unrelated classifiers\r\n- unrelated tests\r\n\r\nFirst reproduce these exact failures and trace the state source before changing code.\r\n\r\nBUG 1 — CURRENT DISCUSSION SELF-OVERWRITE\r\n\r\nConversation:\r\n1. Remember my favourite food is dosa\r\n2. What are we talking about?\r\n\r\nObserved:\r\nHARIKA responds:\r\n\"Currently, our active topic of discussion is: 'What are we talking about?'\"\r\n\r\nExpected:\r\nThe second query must NOT become the current discussion.\r\nThe response must reference the previously established meaningful discussion/context.\r\n\r\nTrace exactly where WorkspaceManager.current_discussion is updated during routing and execution.\r\n\r\nRoot cause requirement:\r\nA context-query such as:\r\n- What are we talking about?\r\n- What is the current topic?\r\n- What is the active discussion?\r\n\r\nMUST NOT overwrite current_discussion.\r\n\r\nFix only the state-update condition so query messages are excluded from becoming the discussion topic.\r\n\r\nBUG 2 — STALE ACTIVE GOAL\r\n\r\nObserved:\r\n\"What am I working on?\"\r\nreturns:\r\n\"Goal for 'Calculate sqrt(144) + 12'\"\r\n\r\nThis is stale state from an earlier session/test.\r\n\r\nTrace:\r\n- where active_goal_id is stored\r\n- where GoalManager determines the active goal\r\n- how completed/old goals are filtered\r\n- how a new goal becomes active\r\n- whether the current session/user is respected\r\n\r\nDo NOT simply hardcode a response.\r\n\r\nFix the actual stale-goal selection/state lifecycle.\r\n\r\nExpected:\r\n\"What am I working on?\" must return the currently active/relevant goal, or explicitly say there is no active goal.\r\nIt must NEVER return an unrelated completed/stale goal.\r\n\r\nBUG 3 — NEW PLAN CREATED BUT SHOW PLAN RETURNS OLD PLAN\r\n\r\nConversation:\r\n1. Plan for Sunday\r\n2. Show plan\r\n\r\nObserved:\r\nStep 1:\r\n\"Plan created successfully.\"\r\n\r\nStep 2:\r\n\"Your active plan is: 'Goal for Calculate sqrt(144) + 12'\"\r\n\r\nExpected:\r\nStep 2 must return the plan created in Step 1:\r\n\"Plan for Sunday\" / its corresponding newly created goal/plan.\r\n\r\nTrace the complete lifecycle:\r\nPLAN_CREATION\r\n→ HierarchicalPlanner.create_plan()\r\n→ plan ID\r\n→ goal ID\r\n→ active plan/goal state\r\n→ PLAN_QUERY\r\n→ get_plan_status()\r\n\r\nFind where the newly created plan/goal is lost or where an old plan is selected.\r\n\r\nIMPORTANT:\r\nDo not change PLAN_QUERY classification.\r\nDo not change PLAN_CREATION classification.\r\nDo not change communication formatting unless the trace proves formatting is the problem.\r\n\r\nThe likely issue is state ownership/selection, not presentation.\r\n\r\nIMPLEMENTATION RULE:\r\n1. Reproduce each bug.\r\n2. Produce a short root-cause trace with exact file + function + relevant state values.\r\n3. Apply the smallest possible fix.\r\n4. Add exactly 3 focused regression tests:\r\n   - current discussion query does not overwrite discussion\r\n   - stale completed goal is not returned as active\r\n   - newly created plan is returned by Show plan\r\n5. Run ONLY those 3 focused tests first.\r\n6. If they pass, run the full backend regression suite ONCE.\r\n7. Do NOT repeatedly rerun the full suite after every minor change.\r\n8. Do NOT modify unrelated files.\r\n\r\nFinal report must contain:\r\n- BUG\r\n- actual root cause\r\n- exact file/function\r\n- minimal fix\r\n- focused test result\r\n- full regression result\r\n\r\nDo not declare success merely because tests pass. Verify the exact UI scenarios manually after the fix."
+    },
+    "error": null,
+    "message": "Tool 'clipboard' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:38.748768+00:00"
+  },
+  {
+    "execution_id": "exec-956a941e",
+    "success": true,
+    "verified": true,
+    "pid": 26124,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1705.34,
+    "output": {
+      "target": "google",
+      "url": "https://www.google.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 26124,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:40.476402+00:00"
+  },
+  {
+    "execution_id": "exec-ebbe3e65",
+    "success": true,
+    "verified": true,
+    "pid": 10032,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 613.73,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 10032,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:41.330597+00:00"
+  },
+  {
+    "execution_id": "exec-fd3fb5ea",
+    "success": true,
+    "verified": true,
+    "pid": 16200,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 1160.21,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 16200,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:16:42.561602+00:00"
+  },
+  {
+    "execution_id": "exec-200719a0",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 1.65,
+    "output": {
+      "expression": "125 * 48",
+      "result": 6000
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:02.105618+00:00"
+  },
+  {
+    "execution_id": "exec-b3f36814",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.19,
+    "output": {
+      "date": "2026-08-09",
+      "local_time": "00:48:02",
+      "utc_time": "2026-08-08 19:18:02 UTC",
+      "day_of_week": "Sunday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:02.195781+00:00"
+  },
+  {
+    "execution_id": "exec-a79acda7",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.15,
+    "output": {
+      "expression": "125*48",
+      "result": 6000
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:02.220972+00:00"
+  },
+  {
+    "execution_id": "exec-010a281d",
+    "success": true,
+    "verified": true,
+    "pid": 26124,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1358.95,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 26124,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:27.427047+00:00"
+  },
+  {
+    "execution_id": "exec-eee61e38",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.18,
+    "output": {
+      "expression": "25*18",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:27.482884+00:00"
+  },
+  {
+    "execution_id": "exec-70e50253",
+    "success": true,
+    "verified": true,
+    "pid": 26124,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1162.31,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 26124,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:28.794736+00:00"
+  },
+  {
+    "execution_id": "exec-d1fc8cf9",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.22,
+    "output": {
+      "expression": "125 * 48",
+      "result": 6000
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:28.962793+00:00"
+  },
+  {
+    "execution_id": "exec-069f3b3c",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.19,
+    "output": {
+      "expression": "25*18",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:29.258613+00:00"
+  },
+  {
+    "execution_id": "exec-e9841f2a",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.2,
+    "output": {
+      "expression": "18*25",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:29.405423+00:00"
+  },
+  {
+    "execution_id": "exec-3ef9e78a",
+    "success": true,
+    "verified": true,
+    "pid": 26124,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1073.77,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 26124,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-08T19:18:30.498068+00:00"
+  },
+  {
+    "execution_id": "exec-156800d7",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.18,
     "output": {
       "expression": "25 * 18",
       "result": 450
     },
     "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
     "metadata": {
       "dry_run": false
     },
     "tool_version": "1.0.0",
     "api_version": "v0.4",
-    "timestamp": "2026-08-03T05:46:44.069798+00:00"
+    "timestamp": "2026-08-08T19:18:30.528017+00:00"
   },
   {
-    "execution_id": "exec-75f895d7",
+    "execution_id": "exec-0203d80e",
     "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "datetime",
-    "execution_time_ms": 0.09,
-    "output": {
-      "date": "2026-08-03",
-      "local_time": "11:16:54",
-      "utc_time": "2026-08-03 05:46:54 UTC",
-      "day_of_week": "Monday",
-      "timezone": "India Standard Time"
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-03T05:46:54.294689+00:00"
-  },
-  {
-    "execution_id": "exec-484fe676",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "open_website",
-    "execution_time_ms": 0.06,
-    "output": {
-      "dry_run": true,
-      "action": "open_url_in_browser",
-      "target_url": "https://github.com",
-      "expected_result": "Launches browser targeting https://github.com"
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": true
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-03T05:47:03.836027+00:00"
-  },
-  {
-    "execution_id": "exec-c58b1307",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 0.06,
-    "output": {
-      "dry_run": true,
-      "action": "launch_application",
-      "app_name": "notepad",
-      "command": "notepad.exe",
-      "expected_result": "Launches desktop app 'notepad' via command 'notepad.exe'"
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": true
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-03T05:47:14.195443+00:00"
-  },
-  {
-    "execution_id": "exec-5c214cfc",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "clipboard",
-    "execution_time_ms": 0.03,
-    "output": {
-      "dry_run": true,
-      "action": "clipboard_read",
-      "expected_result": "Executes clipboard read operation"
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": true
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-03T05:47:35.167213+00:00"
-  },
-  {
-    "execution_id": "exec-60db441f",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "terminal",
-    "execution_time_ms": 66.52,
-    "output": {
-      "command": "whoami",
-      "exit_code": 0,
-      "stdout": "sahaj\\sahaj",
-      "stderr": ""
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-03T05:48:07.831981+00:00"
-  },
-  {
-    "execution_id": "exec-e5345d55",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.13,
-    "output": {
-      "expression": "10 * 10",
-      "result": 100
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:00:27.027624+00:00"
-  },
-  {
-    "execution_id": "exec-ea1264f1",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.12,
-    "output": {
-      "expression": "15 + 25",
-      "result": 40
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:00:27.039910+00:00"
-  },
-  {
-    "execution_id": "exec-84952b40",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.13,
-    "output": {
-      "expression": "10 * 10",
-      "result": 100
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:01:35.507884+00:00"
-  },
-  {
-    "execution_id": "exec-b70f7f91",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.14,
-    "output": {
-      "expression": "15 + 25",
-      "result": 40
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:01:35.512884+00:00"
-  },
-  {
-    "execution_id": "exec-201287fd",
-    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
     "status_code": "SUCCESS",
     "tool_name": "calculator",
     "execution_time_ms": 0.17,
     "output": {
-      "expression": "sqrt(144) + 12",
-      "result": 24.0
+      "expression": "25 * 18",
+      "result": 450
     },
     "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
     "metadata": {
       "dry_run": false
     },
     "tool_version": "1.0.0",
     "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:09:40.320815+00:00"
+    "timestamp": "2026-08-08T19:18:30.585589+00:00"
   },
   {
-    "execution_id": "exec-402ca4ee",
+    "execution_id": "exec-ed783dba",
     "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
     "status_code": "SUCCESS",
     "tool_name": "calculator",
-    "execution_time_ms": 0.14,
+    "execution_time_ms": 0.57,
     "output": {
-      "expression": "50 * 2",
-      "result": 100
+      "expression": "15 * 6",
+      "result": 90
     },
     "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
     "metadata": {
       "dry_run": false
     },
     "tool_version": "1.0.0",
     "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:11:20.125890+00:00"
+    "timestamp": "2026-08-08T19:18:31.005425+00:00"
   },
   {
-    "execution_id": "exec-a7026b48",
+    "execution_id": "exec-ad35c1bc",
     "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
     "status_code": "SUCCESS",
     "tool_name": "calculator",
-    "execution_time_ms": 0.15,
+    "execution_time_ms": 0.16,
     "output": {
-      "expression": "50 * 2",
-      "result": 100
+      "expression": "100 / 4",
+      "result": 25.0
     },
     "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
     "metadata": {
       "dry_run": false
     },
     "tool_version": "1.0.0",
     "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:11:39.993561+00:00"
+    "timestamp": "2026-08-08T19:18:31.461611+00:00"
   },
   {
-    "execution_id": "exec-65a9b6fb",
+    "execution_id": "exec-78cfe663",
     "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
     "status_code": "SUCCESS",
     "tool_name": "calculator",
-    "execution_time_ms": 0.35,
+    "execution_time_ms": 0.23,
     "output": {
-      "expression": "25 * 4",
-      "result": 100
+      "expression": "5 * 5",
+      "result": 25
     },
     "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
     "metadata": {
       "dry_run": false
     },
     "tool_version": "1.0.0",
     "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:11:54.164382+00:00"
-  },
-  {
-    "execution_id": "exec-61b72f64",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.14,
-    "output": {
-      "expression": "10 * 10",
-      "result": 100
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:11:54.188607+00:00"
-  },
-  {
-    "execution_id": "exec-688c32f7",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.11,
-    "output": {
-      "expression": "15 + 25",
-      "result": 40
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:11:54.194015+00:00"
-  },
-  {
-    "execution_id": "exec-2b6c00dd",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.14,
-    "output": {
-      "expression": "sqrt(144) + 12",
-      "result": 24.0
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:11:54.236076+00:00"
-  },
-  {
-    "execution_id": "exec-5850329f",
-    "success": true,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.19,
-    "output": {
-      "expression": "50 * 2",
-      "result": 100
-    },
-    "error": null,
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-05T10:11:54.391831+00:00"
+    "timestamp": "2026-08-08T19:18:31.640650+00:00"
   }
 ]

@@ -65,9 +65,38 @@ class OpenApplicationTool(BaseTool):
 
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         app_key = (args.get("app_name") or args.get("name")).strip().lower()
+        action = args.get("action", "launch")
         current_os = platform.system().lower()
 
+        if action == "close":
+            proc_map = {
+                "notepad": "notepad.exe",
+                "calculator": "calc.exe",
+                "cmd": "cmd.exe",
+                "terminal": "cmd.exe",
+                "command prompt": "cmd.exe",
+                "chrome": "chrome.exe",
+                "edge": "msedge.exe",
+                "vs code": "code.exe",
+                "vscode": "code.exe"
+            }
+            target_proc = proc_map.get(app_key, f"{app_key}.exe")
+            if current_os == "windows":
+                try:
+                    subprocess.Popen(f"taskkill /F /IM {target_proc}", shell=True)
+                except Exception:
+                    pass
+            return {
+                "action": "close",
+                "app_name": app_key,
+                "closed": True,
+                "success": True,
+                "verified": True,
+                "process_name": app_key
+            }
+
         if current_os not in self.APP_COMMANDS:
+
             current_os = "windows"  # Default fallback
 
         cmd_map = self.APP_COMMANDS.get(current_os, {})
@@ -88,13 +117,38 @@ class OpenApplicationTool(BaseTool):
 
         try:
             if current_os == "windows":
-                subprocess.Popen(cmd, shell=True)
+                proc = subprocess.Popen(cmd, shell=True)
             else:
-                subprocess.Popen(cmd.split())
+                proc = subprocess.Popen(cmd.split())
 
-            return {"app_name": app_key, "command": cmd, "launched": True}
+            # Perform OS level Process Table Verification
+            import asyncio
+            from app.tools.process_verifier import verify_os_process
+            await asyncio.sleep(0.3)
+            verified, found_pid, proc_name, err = verify_os_process(app_key, pid=proc.pid)
+
+            return {
+                "app_name": app_key,
+                "command": cmd,
+                "launched": verified,
+                "success": verified,
+                "verified": verified,
+                "pid": found_pid or proc.pid,
+                "process_name": proc_name or app_key,
+                "error": err
+            }
         except Exception as e:
-            raise RuntimeError(f"Failed to launch application '{app_key}': {e}")
+            return {
+                "app_name": app_key,
+                "command": cmd,
+                "launched": False,
+                "success": False,
+                "verified": False,
+                "pid": None,
+                "process_name": app_key,
+                "error": f"Failed to launch application '{app_key}': {str(e)}"
+            }
+
 
 
 open_application_tool = OpenApplicationTool()

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mem-prs-69e861bc",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is dosa",
+    "content": "My favourite_food is dosa",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "dosa"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": false,
+    "created_at": "2026-08-07T18:00:06.422632+00:00",
+    "updated_at": "2026-08-07T18:00:06.422657+00:00",
+    "last_accessed": "2026-08-07T18:00:06.422663+00:00"
+  },
+  {
+    "id": "mem-prs-2bc04012",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": false,
+    "created_at": "2026-08-07T18:00:06.484779+00:00",
+    "updated_at": "2026-08-07T18:00:06.484794+00:00",
+    "last_accessed": "2026-08-07T18:00:06.484797+00:00"
+  }
+]

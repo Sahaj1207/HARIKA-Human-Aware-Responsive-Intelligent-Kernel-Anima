@@ -1,0 +1,34 @@
+[
+  {
+    "id": "mem-rtr-478fbee9",
+    "category": "notes",
+    "title": "User Fact: Favourite food is dosa",
+    "content": "Favourite food is dosa",
+    "importance": 0.8,
+    "confidence": 0.9,
+    "source": "router",
+    "tags": [],
+    "version": 1,
+    "revision": 1,
+    "deleted": true,
+    "created_at": "2026-08-08T17:33:29.822085+00:00",
+    "updated_at": "2026-08-08T17:33:29.935653+00:00",
+    "last_accessed": "2026-08-08T17:33:29.822092+00:00"
+  },
+  {
+    "id": "mem-rtr-48ab8266",
+    "category": "notes",
+    "title": "User Fact: No. Favourite food is biryani",
+    "content": "No. Favourite food is biryani",
+    "importance": 0.8,
+    "confidence": 0.9,
+    "source": "router",
+    "tags": [],
+    "version": 1,
+    "revision": 1,
+    "deleted": false,
+    "created_at": "2026-08-08T17:33:29.852784+00:00",
+    "updated_at": "2026-08-08T17:33:29.852793+00:00",
+    "last_accessed": "2026-08-08T17:33:29.852798+00:00"
+  }
+]

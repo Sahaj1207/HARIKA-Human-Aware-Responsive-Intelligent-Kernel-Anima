@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mem-rtr-3c0f78b6",
+    "category": "notes",
+    "title": "User Fact: Remember my favourite food is dosa",
+    "content": "Remember my favourite food is dosa",
+    "importance": 0.8,
+    "confidence": 1.0,
+    "source": "router",
+    "tags": [],
+    "version": 1,
+    "revision": 4,
+    "deleted": false,
+    "created_at": "2026-08-08T19:12:41.616759+00:00",
+    "updated_at": "2026-08-08T19:14:33.609455+00:00",
+    "last_accessed": "2026-08-08T19:14:33.609470+00:00"
+  }
+]

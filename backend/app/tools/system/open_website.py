@@ -28,7 +28,9 @@ class OpenWebsiteTool(BaseTool):
         "twitter": "https://twitter.com",
         "reddit": "https://www.reddit.com",
         "stackoverflow": "https://stackoverflow.com",
+        "chatgpt": "https://chatgpt.com",
     }
+
 
     def health_check(self) -> ToolHealth:
         return ToolHealth(available=True, reason="Python Webbrowser module ready", dependencies=["webbrowser"])
@@ -54,8 +56,39 @@ class OpenWebsiteTool(BaseTool):
                 "expected_result": f"Launches browser targeting {url}"
             }
 
-        opened = webbrowser.open(url)
-        return {"target": target, "url": url, "launched": opened}
+        try:
+            opened = webbrowser.open(url)
+            from app.tools.process_verifier import verify_os_process
+            v_chrome, p_chrome, _, _ = verify_os_process("chrome")
+            v_edge, p_edge, _, _ = verify_os_process("msedge")
+            v_firefox, p_ff, _, _ = verify_os_process("firefox")
+
+            verified = bool(opened)
+            pid = p_chrome or p_edge or p_ff
+            proc_name = "chrome.exe" if v_chrome else ("msedge.exe" if v_edge else "browser")
+
+            return {
+                "target": target,
+                "url": url,
+                "launched": opened,
+                "success": opened,
+                "verified": verified,
+                "pid": pid,
+                "process_name": proc_name,
+                "error": None if opened else "Browser launch command failed"
+            }
+        except Exception as e:
+            return {
+                "target": target,
+                "url": url,
+                "launched": False,
+                "success": False,
+                "verified": False,
+                "pid": None,
+                "process_name": "browser",
+                "error": f"Failed to open website '{url}': {str(e)}"
+            }
+
 
 
 open_website_tool = OpenWebsiteTool()

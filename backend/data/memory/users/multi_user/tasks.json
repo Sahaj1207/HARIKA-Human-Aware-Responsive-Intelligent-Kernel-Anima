@@ -1,0 +1,40 @@
+[
+  {
+    "id": "mem-agt-327d0bfb",
+    "category": "tasks",
+    "title": "Completed Agent Goal:  continue my plan",
+    "content": "Agent 'agent-460c8cb1' completed task 'Generate conversational response' in 0.04ms. Output: {'info': \"Completed cognitive step 'Generate conversational response'.\"}",
+    "importance": 0.8,
+    "confidence": 1.0,
+    "source": "agent_engine",
+    "tags": [
+      "agent",
+      "task_completed"
+    ],
+    "version": 1,
+    "revision": 12,
+    "deleted": false,
+    "created_at": "2026-08-08T18:10:09.521654+00:00",
+    "updated_at": "2026-08-08T19:16:38.606118+00:00",
+    "last_accessed": "2026-08-08T19:16:38.606138+00:00"
+  },
+  {
+    "id": "mem-agt-f7da4e4c",
+    "category": "tasks",
+    "title": "Completed Agent Goal:  resume plan",
+    "content": "Agent 'agent-702b1906' completed task 'Generate conversational response' in 0.05ms. Output: {'info': \"Completed cognitive step 'Generate conversational response'.\"}",
+    "importance": 0.8,
+    "confidence": 1.0,
+    "source": "agent_engine",
+    "tags": [
+      "agent",
+      "task_completed"
+    ],
+    "version": 1,
+    "revision": 11,
+    "deleted": false,
+    "created_at": "2026-08-08T18:10:33.553111+00:00",
+    "updated_at": "2026-08-08T19:16:38.686015+00:00",
+    "last_accessed": "2026-08-08T19:16:38.686040+00:00"
+  }
+]

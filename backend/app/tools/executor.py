@@ -119,15 +119,30 @@ class ToolExecutor:
                 )
                 duration_ms = round((time.perf_counter() - start_time) * 1000, 2)
 
+                is_dict = isinstance(raw_output, dict)
+                out_success = raw_output.get("success", True) if is_dict else True
+                out_verified = raw_output.get("verified", out_success) if is_dict else True
+                out_pid = raw_output.get("pid") if is_dict else None
+                out_pname = raw_output.get("process_name") if is_dict else None
+                out_err = raw_output.get("error") if is_dict else None
+                out_msg = raw_output.get("message") if is_dict else None
+
                 result = ToolResult(
-                    success=True,
-                    status_code=ToolStatusCode.SUCCESS,
+                    success=out_success,
+                    verified=out_verified,
+                    pid=out_pid,
+                    process_name=out_pname,
+                    status_code=ToolStatusCode.SUCCESS if out_success else ToolStatusCode.EXECUTION_FAILED,
                     tool_name=tool_name,
                     execution_time_ms=duration_ms,
                     output=raw_output,
+                    error=out_err,
+                    message=out_msg or (f"Tool '{tool_name}' executed and verified successfully." if out_verified else f"Tool '{tool_name}' execution could not be verified."),
                     tool_version=tool.manifest.version,
                     metadata={"dry_run": dry_run}
                 )
+
+
 
                 tool_event_bus.emit(ToolEventType.TOOL_COMPLETED, result.model_dump())
                 self.history.append(result.model_dump())

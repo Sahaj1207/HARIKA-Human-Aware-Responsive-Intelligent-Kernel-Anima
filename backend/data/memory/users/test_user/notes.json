@@ -14,10 +14,26 @@
       "text_rich"
     ],
     "version": 1,
-    "revision": 3,
+    "revision": 53,
     "deleted": false,
     "created_at": "2026-08-05T09:34:04.427007+00:00",
-    "updated_at": "2026-08-05T10:11:54.657182+00:00",
-    "last_accessed": "2026-08-05T10:11:54.657206+00:00"
+    "updated_at": "2026-08-08T19:18:30.904164+00:00",
+    "last_accessed": "2026-08-08T19:18:30.904184+00:00"
+  },
+  {
+    "id": "mem-rtr-2a0262e0",
+    "category": "notes",
+    "title": "User Fact: Remember my favourite food is dosa",
+    "content": "Remember my favourite food is dosa",
+    "importance": 0.8,
+    "confidence": 0.9,
+    "source": "router",
+    "tags": [],
+    "version": 1,
+    "revision": 1,
+    "deleted": false,
+    "created_at": "2026-08-08T18:21:03.189156+00:00",
+    "updated_at": "2026-08-08T18:21:03.189177+00:00",
+    "last_accessed": "2026-08-08T18:21:03.189184+00:00"
   }
 ]

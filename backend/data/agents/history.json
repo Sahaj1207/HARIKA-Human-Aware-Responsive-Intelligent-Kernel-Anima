@@ -1,65 +1,1802 @@
 [
   {
-    "agent_id": "agent-ec1c3328",
-    "goal_id": "goal-788fbfa8",
-    "plan_id": "plan-73696b38",
+    "agent_id": "agent-9ee08050",
+    "goal_id": "goal-0073ad3d",
+    "plan_id": "plan-ebca6844",
+    "tasks_count": 1,
+    "duration_ms": 4.18,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:29:52.959882+00:00"
+  },
+  {
+    "agent_id": "agent-b13ec0c0",
+    "goal_id": "goal-9f2cedc8",
+    "plan_id": "plan-330bbcfd",
+    "tasks_count": 1,
+    "duration_ms": 3.31,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:29:53.084127+00:00"
+  },
+  {
+    "agent_id": "agent-20cb2f5e",
+    "goal_id": "goal-20b53719",
+    "plan_id": "plan-05503a9c",
+    "tasks_count": 1,
+    "duration_ms": 2.45,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:30:54.394663+00:00"
+  },
+  {
+    "agent_id": "agent-aa25e1bc",
+    "goal_id": "goal-4bf27f7e",
+    "plan_id": "plan-98e74b18",
+    "tasks_count": 1,
+    "duration_ms": 2.99,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:30:54.440949+00:00"
+  },
+  {
+    "agent_id": "agent-ae98ca8d",
+    "goal_id": "goal-1521321b",
+    "plan_id": "plan-58accc07",
+    "tasks_count": 1,
+    "duration_ms": 2.86,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:30:54.506374+00:00"
+  },
+  {
+    "agent_id": "agent-de561d01",
+    "goal_id": "goal-156e57bd",
+    "plan_id": "plan-f32ac0a8",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T17:31:30.807715+00:00"
+  },
+  {
+    "agent_id": "agent-6b360874",
+    "goal_id": "goal-33bf7f94",
+    "plan_id": "plan-b05a8d0c",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T17:31:54.291023+00:00"
+  },
+  {
+    "agent_id": "agent-ab802a38",
+    "goal_id": "goal-3678a80b",
+    "plan_id": "plan-54290ce2",
+    "tasks_count": 1,
+    "duration_ms": 6.12,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:31:55.349125+00:00"
+  },
+  {
+    "agent_id": "agent-c892d89b",
+    "goal_id": "goal-e246600f",
+    "plan_id": "plan-b39ac8d2",
+    "tasks_count": 1,
+    "duration_ms": 5.06,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:31:55.648572+00:00"
+  },
+  {
+    "agent_id": "agent-d272ee83",
+    "goal_id": "goal-f01206c2",
+    "plan_id": "plan-be93a595",
+    "tasks_count": 1,
+    "duration_ms": 4.18,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:31:55.742700+00:00"
+  },
+  {
+    "agent_id": "agent-cb84faf6",
+    "goal_id": "goal-c14153a4",
+    "plan_id": "plan-29b665e1",
+    "tasks_count": 1,
+    "duration_ms": 2.31,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:32:42.342244+00:00"
+  },
+  {
+    "agent_id": "agent-b00ef302",
+    "goal_id": "goal-c590b3b2",
+    "plan_id": "plan-180adfc8",
+    "tasks_count": 1,
+    "duration_ms": 2.27,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:32:42.382262+00:00"
+  },
+  {
+    "agent_id": "agent-762598d8",
+    "goal_id": "goal-84c92a6a",
+    "plan_id": "plan-6ba51561",
+    "tasks_count": 1,
+    "duration_ms": 2.35,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:32:42.502117+00:00"
+  },
+  {
+    "agent_id": "agent-dfd51fa9",
+    "goal_id": "goal-ee3033d3",
+    "plan_id": "plan-1ffe13c3",
+    "tasks_count": 1,
+    "duration_ms": 0.12,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T17:33:29.545839+00:00"
+  },
+  {
+    "agent_id": "agent-8fbcee14",
+    "goal_id": "goal-32f9cc06",
+    "plan_id": "plan-2c300997",
+    "tasks_count": 1,
+    "duration_ms": 0.02,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T17:33:55.995923+00:00"
+  },
+  {
+    "agent_id": "agent-c71b11db",
+    "goal_id": "goal-1e9df2a1",
+    "plan_id": "plan-ae783102",
+    "tasks_count": 1,
+    "duration_ms": 4.76,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:33:57.063012+00:00"
+  },
+  {
+    "agent_id": "agent-8368468f",
+    "goal_id": "goal-c46cb504",
+    "plan_id": "plan-c8db0451",
+    "tasks_count": 1,
+    "duration_ms": 4.1,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:33:57.386832+00:00"
+  },
+  {
+    "agent_id": "agent-65178cc3",
+    "goal_id": "goal-254f3b77",
+    "plan_id": "plan-8f8c1bf1",
+    "tasks_count": 1,
+    "duration_ms": 5.42,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:33:57.459750+00:00"
+  },
+  {
+    "agent_id": "agent-e36db3ea",
+    "goal_id": "goal-3fd1b159",
+    "plan_id": "plan-a50b3642",
+    "tasks_count": 1,
+    "duration_ms": 2.55,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:34:36.018330+00:00"
+  },
+  {
+    "agent_id": "agent-4acc42fc",
+    "goal_id": "goal-75ddb1ef",
+    "plan_id": "plan-28e165db",
+    "tasks_count": 1,
+    "duration_ms": 2.24,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:34:36.071401+00:00"
+  },
+  {
+    "agent_id": "agent-edb7446f",
+    "goal_id": "goal-68295f2f",
+    "plan_id": "plan-3368399c",
+    "tasks_count": 1,
+    "duration_ms": 2.77,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:34:36.142419+00:00"
+  },
+  {
+    "agent_id": "agent-429ab6ef",
+    "goal_id": "goal-813708d2",
+    "plan_id": "plan-2cfc254d",
     "tasks_count": 1,
     "duration_ms": 0.05,
     "result_summary": "Task 'Generate conversational response' completed successfully",
-    "timestamp": "2026-08-05T10:09:18.438555+00:00"
+    "timestamp": "2026-08-08T17:35:29.491149+00:00"
   },
   {
-    "agent_id": "agent-faa8979f",
-    "goal_id": "goal-695ed765",
-    "plan_id": "plan-adec2afa",
+    "agent_id": "agent-2a81e9ee",
+    "goal_id": "goal-fb64233f",
+    "plan_id": "plan-db7139e5",
     "tasks_count": 1,
-    "duration_ms": 1.81,
-    "result_summary": "Task 'Execute calculator action' completed successfully",
-    "timestamp": "2026-08-05T10:09:40.322572+00:00"
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T17:36:20.424456+00:00"
   },
   {
-    "agent_id": "agent-cdb84d6a",
-    "goal_id": "goal-a8e6bc3e",
-    "plan_id": "plan-50427758",
+    "agent_id": "agent-7ff4944f",
+    "goal_id": "goal-5e1261b3",
+    "plan_id": "plan-23f422da",
     "tasks_count": 1,
-    "duration_ms": 2.16,
+    "duration_ms": 5.63,
     "result_summary": "Task 'Execute calculator action' completed successfully",
-    "timestamp": "2026-08-05T10:11:20.127934+00:00"
+    "timestamp": "2026-08-08T17:36:21.511607+00:00"
   },
   {
-    "agent_id": "agent-f67acb87",
-    "goal_id": "goal-7b2e9c4f",
-    "plan_id": "plan-2f606b0e",
+    "agent_id": "agent-fa1866a5",
+    "goal_id": "goal-983e9609",
+    "plan_id": "plan-2ac46a42",
     "tasks_count": 1,
-    "duration_ms": 2.11,
+    "duration_ms": 5.11,
     "result_summary": "Task 'Execute calculator action' completed successfully",
-    "timestamp": "2026-08-05T10:11:39.995652+00:00"
+    "timestamp": "2026-08-08T17:36:21.827795+00:00"
   },
   {
-    "agent_id": "agent-5bc06814",
-    "goal_id": "goal-d7aafe62",
-    "plan_id": "plan-d06aef7f",
+    "agent_id": "agent-a0b9bc33",
+    "goal_id": "goal-004aba79",
+    "plan_id": "plan-6baf854e",
     "tasks_count": 1,
-    "duration_ms": 2.84,
+    "duration_ms": 5.05,
     "result_summary": "Task 'Execute calculator action' completed successfully",
-    "timestamp": "2026-08-05T10:11:54.166795+00:00"
+    "timestamp": "2026-08-08T17:36:21.915581+00:00"
   },
   {
-    "agent_id": "agent-29d5f795",
-    "goal_id": "goal-91f01d7c",
-    "plan_id": "plan-66ec5895",
+    "agent_id": "agent-e896ebeb",
+    "goal_id": "goal-0aaeee96",
+    "plan_id": "plan-685d0297",
     "tasks_count": 1,
-    "duration_ms": 1.73,
+    "duration_ms": 3.17,
     "result_summary": "Task 'Execute calculator action' completed successfully",
-    "timestamp": "2026-08-05T10:11:54.238313+00:00"
+    "timestamp": "2026-08-08T17:36:43.435810+00:00"
   },
   {
-    "agent_id": "agent-4d7eeb30",
-    "goal_id": "goal-131590a1",
-    "plan_id": "plan-9829f0f0",
+    "agent_id": "agent-b2bd02fb",
+    "goal_id": "goal-56a318dc",
+    "plan_id": "plan-6183b65c",
     "tasks_count": 1,
-    "duration_ms": 2.72,
+    "duration_ms": 2.3,
     "result_summary": "Task 'Execute calculator action' completed successfully",
-    "timestamp": "2026-08-05T10:11:54.394604+00:00"
+    "timestamp": "2026-08-08T17:36:43.472695+00:00"
+  },
+  {
+    "agent_id": "agent-319fcc18",
+    "goal_id": "goal-52938dca",
+    "plan_id": "plan-41786ff8",
+    "tasks_count": 1,
+    "duration_ms": 2.39,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:36:43.526832+00:00"
+  },
+  {
+    "agent_id": "agent-a6945cef",
+    "goal_id": "goal-9b696824",
+    "plan_id": "plan-b0ced0c5",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T17:37:29.296008+00:00"
+  },
+  {
+    "agent_id": "agent-c68cc761",
+    "goal_id": "goal-811b7c3e",
+    "plan_id": "plan-3e973fca",
+    "tasks_count": 1,
+    "duration_ms": 0.03,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T17:38:37.967632+00:00"
+  },
+  {
+    "agent_id": "agent-22c86158",
+    "goal_id": "goal-7e25a273",
+    "plan_id": "plan-90e6ccb3",
+    "tasks_count": 1,
+    "duration_ms": 6.4,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:38:39.171801+00:00"
+  },
+  {
+    "agent_id": "agent-18811014",
+    "goal_id": "goal-7c6daeb7",
+    "plan_id": "plan-9eea98b0",
+    "tasks_count": 1,
+    "duration_ms": 6.7,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:38:39.576166+00:00"
+  },
+  {
+    "agent_id": "agent-0d7b0402",
+    "goal_id": "goal-40905bed",
+    "plan_id": "plan-777b6d19",
+    "tasks_count": 1,
+    "duration_ms": 6.1,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T17:38:39.690323+00:00"
+  },
+  {
+    "agent_id": "agent-5945ecd6",
+    "goal_id": "goal-f680f0bc",
+    "plan_id": "plan-56519b1c",
+    "tasks_count": 1,
+    "duration_ms": 0.02,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.152440+00:00"
+  },
+  {
+    "agent_id": "agent-bcf4cc3f",
+    "goal_id": "goal-400262fa",
+    "plan_id": "plan-434e1006",
+    "tasks_count": 1,
+    "duration_ms": 0.19,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.175123+00:00"
+  },
+  {
+    "agent_id": "agent-56df8694",
+    "goal_id": "goal-55ac9f98",
+    "plan_id": "plan-5248db2c",
+    "tasks_count": 1,
+    "duration_ms": 0.02,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.197132+00:00"
+  },
+  {
+    "agent_id": "agent-1e34bf10",
+    "goal_id": "goal-0a820afd",
+    "plan_id": "plan-98d01872",
+    "tasks_count": 1,
+    "duration_ms": 0.02,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.222878+00:00"
+  },
+  {
+    "agent_id": "agent-1eb02d48",
+    "goal_id": "goal-be2c4422",
+    "plan_id": "plan-6b7ef5fc",
+    "tasks_count": 1,
+    "duration_ms": 0.02,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.257881+00:00"
+  },
+  {
+    "agent_id": "agent-44e3808e",
+    "goal_id": "goal-259586b1",
+    "plan_id": "plan-c35d02c0",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.374328+00:00"
+  },
+  {
+    "agent_id": "agent-7b0448ec",
+    "goal_id": "goal-cb990b33",
+    "plan_id": "plan-e3e19293",
+    "tasks_count": 1,
+    "duration_ms": 0.03,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.409993+00:00"
+  },
+  {
+    "agent_id": "agent-7c988693",
+    "goal_id": "goal-e3c732b5",
+    "plan_id": "plan-0006d952",
+    "tasks_count": 1,
+    "duration_ms": 0.03,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.447343+00:00"
+  },
+  {
+    "agent_id": "agent-519feb00",
+    "goal_id": "goal-d7ba5961",
+    "plan_id": "plan-d54c4e56",
+    "tasks_count": 1,
+    "duration_ms": 0.02,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.492806+00:00"
+  },
+  {
+    "agent_id": "agent-68154b77",
+    "goal_id": "goal-789c01f2",
+    "plan_id": "plan-386b72ec",
+    "tasks_count": 1,
+    "duration_ms": 0.02,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:01:42.558639+00:00"
+  },
+  {
+    "agent_id": "agent-964adc96",
+    "goal_id": "goal-c61b5281",
+    "plan_id": "plan-2a2bc7a9",
+    "tasks_count": 1,
+    "duration_ms": 0.03,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:10:09.521595+00:00"
+  },
+  {
+    "agent_id": "agent-9db37b2c",
+    "goal_id": "goal-c747f6e5",
+    "plan_id": "plan-d0c48290",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:10:33.504414+00:00"
+  },
+  {
+    "agent_id": "agent-b6d208a1",
+    "goal_id": "goal-c3b0d9c4",
+    "plan_id": "plan-f974c29c",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:10:33.553031+00:00"
+  },
+  {
+    "agent_id": "agent-17876e09",
+    "goal_id": "goal-0a303a99",
+    "plan_id": "plan-af904b66",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:24:42.145868+00:00"
+  },
+  {
+    "agent_id": "agent-6af43559",
+    "goal_id": "goal-1cc78c3f",
+    "plan_id": "plan-92817a39",
+    "tasks_count": 1,
+    "duration_ms": 7.19,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:24:50.921568+00:00"
+  },
+  {
+    "agent_id": "agent-21cb1375",
+    "goal_id": "goal-8464665f",
+    "plan_id": "plan-22d21061",
+    "tasks_count": 1,
+    "duration_ms": 7.64,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:24:51.043480+00:00"
+  },
+  {
+    "agent_id": "agent-01314eee",
+    "goal_id": "goal-54cad0c6",
+    "plan_id": "plan-fdb0471d",
+    "tasks_count": 1,
+    "duration_ms": 7.0,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:24:51.206887+00:00"
+  },
+  {
+    "agent_id": "agent-f2387267",
+    "goal_id": "goal-22845765",
+    "plan_id": "plan-9e2bd18b",
+    "tasks_count": 1,
+    "duration_ms": 0.36,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:26:06.717569+00:00"
+  },
+  {
+    "agent_id": "agent-41a423b1",
+    "goal_id": "goal-b15e849e",
+    "plan_id": "plan-6c1453a1",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:26:06.795713+00:00"
+  },
+  {
+    "agent_id": "agent-294d89e3",
+    "goal_id": "goal-6e5f8b17",
+    "plan_id": "plan-8fd9eff1",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:26:46.553606+00:00"
+  },
+  {
+    "agent_id": "agent-b48ad82d",
+    "goal_id": "goal-a6e896dc",
+    "plan_id": "plan-96386730",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:27:56.001755+00:00"
+  },
+  {
+    "agent_id": "agent-f6eecfcb",
+    "goal_id": "goal-44e16862",
+    "plan_id": "plan-cdfe0d83",
+    "tasks_count": 1,
+    "duration_ms": 6.03,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:27:57.368242+00:00"
+  },
+  {
+    "agent_id": "agent-eac07cfe",
+    "goal_id": "goal-22c14018",
+    "plan_id": "plan-46c17c47",
+    "tasks_count": 1,
+    "duration_ms": 9.21,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:27:57.765783+00:00"
+  },
+  {
+    "agent_id": "agent-7ec6e5c0",
+    "goal_id": "goal-313712ac",
+    "plan_id": "plan-84371328",
+    "tasks_count": 1,
+    "duration_ms": 6.48,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:27:57.936448+00:00"
+  },
+  {
+    "agent_id": "agent-969cac4f",
+    "goal_id": "goal-596ee864",
+    "plan_id": "plan-6d8fe702",
+    "tasks_count": 1,
+    "duration_ms": 7.41,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:28:28.086804+00:00"
+  },
+  {
+    "agent_id": "agent-8a7a86e0",
+    "goal_id": "goal-f5bd0fc8",
+    "plan_id": "plan-35372e51",
+    "tasks_count": 1,
+    "duration_ms": 7.15,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:28:28.195359+00:00"
+  },
+  {
+    "agent_id": "agent-1cb09c48",
+    "goal_id": "goal-0af8add9",
+    "plan_id": "plan-1d5da13f",
+    "tasks_count": 1,
+    "duration_ms": 6.05,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:28:28.357869+00:00"
+  },
+  {
+    "agent_id": "agent-d61181c9",
+    "goal_id": "goal-2c472213",
+    "plan_id": "plan-b55a4c87",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:29:43.549405+00:00"
+  },
+  {
+    "agent_id": "agent-8eb63c05",
+    "goal_id": "goal-75cd7195",
+    "plan_id": "plan-4d3ddcd6",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:29:43.603548+00:00"
+  },
+  {
+    "agent_id": "agent-4cf7cabb",
+    "goal_id": "goal-5785ee9e",
+    "plan_id": "plan-457a3a6f",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:30:32.654578+00:00"
+  },
+  {
+    "agent_id": "agent-8fcf50f0",
+    "goal_id": "goal-0e2fd75f",
+    "plan_id": "plan-c095221b",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:31:32.069981+00:00"
+  },
+  {
+    "agent_id": "agent-f50a7389",
+    "goal_id": "goal-0da7ff03",
+    "plan_id": "plan-71852d5f",
+    "tasks_count": 1,
+    "duration_ms": 7.07,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:31:33.514977+00:00"
+  },
+  {
+    "agent_id": "agent-65ac31ff",
+    "goal_id": "goal-1f3f5aa0",
+    "plan_id": "plan-51918a99",
+    "tasks_count": 1,
+    "duration_ms": 7.34,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:31:33.904940+00:00"
+  },
+  {
+    "agent_id": "agent-9a7ab2e2",
+    "goal_id": "goal-de3ba1e1",
+    "plan_id": "plan-fb9f4c42",
+    "tasks_count": 1,
+    "duration_ms": 6.93,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:31:34.039065+00:00"
+  },
+  {
+    "agent_id": "agent-7976583a",
+    "goal_id": "goal-b463a16f",
+    "plan_id": "plan-e81cb7cd",
+    "tasks_count": 1,
+    "duration_ms": 6.49,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:32:08.510619+00:00"
+  },
+  {
+    "agent_id": "agent-17ccf294",
+    "goal_id": "goal-3512e5b0",
+    "plan_id": "plan-036989f5",
+    "tasks_count": 1,
+    "duration_ms": 6.75,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:32:08.614622+00:00"
+  },
+  {
+    "agent_id": "agent-a1844cda",
+    "goal_id": "goal-6893bfb4",
+    "plan_id": "plan-4892405c",
+    "tasks_count": 1,
+    "duration_ms": 6.17,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:32:08.757196+00:00"
+  },
+  {
+    "agent_id": "agent-c366e9ef",
+    "goal_id": "goal-e8afca25",
+    "plan_id": "plan-df752cce",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:32:31.947515+00:00"
+  },
+  {
+    "agent_id": "agent-b83e2d8a",
+    "goal_id": "goal-3bc61c9b",
+    "plan_id": "plan-3f7281d7",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:32:31.989214+00:00"
+  },
+  {
+    "agent_id": "agent-9fd980f3",
+    "goal_id": "goal-a50d67e1",
+    "plan_id": "plan-e82d5763",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:32:32.061788+00:00"
+  },
+  {
+    "agent_id": "agent-6dbffc49",
+    "goal_id": "goal-155318e2",
+    "plan_id": "plan-0d800206",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:32:32.129961+00:00"
+  },
+  {
+    "agent_id": "agent-5538f8cd",
+    "goal_id": "goal-8e7e0316",
+    "plan_id": "plan-7f4fe5e4",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:32:32.200003+00:00"
+  },
+  {
+    "agent_id": "agent-910d5676",
+    "goal_id": "goal-e74fe506",
+    "plan_id": "plan-de988ed7",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:33:19.671970+00:00"
+  },
+  {
+    "agent_id": "agent-8e30846f",
+    "goal_id": "goal-3388a0c0",
+    "plan_id": "plan-7e47327c",
+    "tasks_count": 1,
+    "duration_ms": 0.08,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:33:19.743482+00:00"
+  },
+  {
+    "agent_id": "agent-8cdcdd77",
+    "goal_id": "goal-13d21f61",
+    "plan_id": "plan-66f29e5e",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:34:01.389785+00:00"
+  },
+  {
+    "agent_id": "agent-ec10c685",
+    "goal_id": "goal-b8c49a74",
+    "plan_id": "plan-1ae301b8",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:35:05.892531+00:00"
+  },
+  {
+    "agent_id": "agent-7b73a875",
+    "goal_id": "goal-f3c0fa35",
+    "plan_id": "plan-0d223c1d",
+    "tasks_count": 1,
+    "duration_ms": 6.81,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:35:07.277399+00:00"
+  },
+  {
+    "agent_id": "agent-b744fb7c",
+    "goal_id": "goal-dbeedd40",
+    "plan_id": "plan-3f684906",
+    "tasks_count": 1,
+    "duration_ms": 6.99,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:35:07.672559+00:00"
+  },
+  {
+    "agent_id": "agent-5732d64c",
+    "goal_id": "goal-43ed9a09",
+    "plan_id": "plan-11f7651d",
+    "tasks_count": 1,
+    "duration_ms": 8.16,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:35:07.817348+00:00"
+  },
+  {
+    "agent_id": "agent-54dffbc1",
+    "goal_id": "goal-aa0446d3",
+    "plan_id": "plan-d9602518",
+    "tasks_count": 1,
+    "duration_ms": 9.01,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:35:30.941707+00:00"
+  },
+  {
+    "agent_id": "agent-464747a3",
+    "goal_id": "goal-2b356048",
+    "plan_id": "plan-2e889dcb",
+    "tasks_count": 1,
+    "duration_ms": 8.68,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:35:31.058902+00:00"
+  },
+  {
+    "agent_id": "agent-6988fcba",
+    "goal_id": "goal-791d290e",
+    "plan_id": "plan-2f0988c0",
+    "tasks_count": 1,
+    "duration_ms": 7.8,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:35:31.219742+00:00"
+  },
+  {
+    "agent_id": "agent-4ddccd7c",
+    "goal_id": "goal-75d7a87f",
+    "plan_id": "plan-e7a2cda9",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:35:57.222752+00:00"
+  },
+  {
+    "agent_id": "agent-b1bc27e1",
+    "goal_id": "goal-e5fc8d64",
+    "plan_id": "plan-5d06b0e1",
+    "tasks_count": 1,
+    "duration_ms": 0.09,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:35:57.277728+00:00"
+  },
+  {
+    "agent_id": "agent-f89af2c3",
+    "goal_id": "goal-05913b56",
+    "plan_id": "plan-c54eceba",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:35:57.348710+00:00"
+  },
+  {
+    "agent_id": "agent-a21788a9",
+    "goal_id": "goal-9fd54157",
+    "plan_id": "plan-70b96f9a",
+    "tasks_count": 1,
+    "duration_ms": 0.07,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:35:57.431396+00:00"
+  },
+  {
+    "agent_id": "agent-7b076fbc",
+    "goal_id": "goal-209b15ea",
+    "plan_id": "plan-7ee323bb",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:35:57.509201+00:00"
+  },
+  {
+    "agent_id": "agent-1162bd09",
+    "goal_id": "goal-51818ce2",
+    "plan_id": "plan-46b53dda",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:36:53.261364+00:00"
+  },
+  {
+    "agent_id": "agent-d974317a",
+    "goal_id": "goal-021cf6af",
+    "plan_id": "plan-8553b2a0",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:36:53.314973+00:00"
+  },
+  {
+    "agent_id": "agent-c91d0349",
+    "goal_id": "goal-8d38d51c",
+    "plan_id": "plan-012b29a2",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:37:36.255304+00:00"
+  },
+  {
+    "agent_id": "agent-855e1573",
+    "goal_id": "goal-cfe2af57",
+    "plan_id": "plan-417d11ab",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:38:42.852576+00:00"
+  },
+  {
+    "agent_id": "agent-66c26883",
+    "goal_id": "goal-3f56e47f",
+    "plan_id": "plan-d58537b9",
+    "tasks_count": 1,
+    "duration_ms": 5.03,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:38:44.334755+00:00"
+  },
+  {
+    "agent_id": "agent-0715caa6",
+    "goal_id": "goal-9c2312cf",
+    "plan_id": "plan-1dc56498",
+    "tasks_count": 1,
+    "duration_ms": 11.26,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:38:44.737813+00:00"
+  },
+  {
+    "agent_id": "agent-13ec71d7",
+    "goal_id": "goal-65e6f56b",
+    "plan_id": "plan-4225a48d",
+    "tasks_count": 1,
+    "duration_ms": 5.6,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:38:44.865609+00:00"
+  },
+  {
+    "agent_id": "agent-6503a841",
+    "goal_id": "goal-6fcc8724",
+    "plan_id": "plan-3b0285f5",
+    "tasks_count": 1,
+    "duration_ms": 9.75,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:39:05.432853+00:00"
+  },
+  {
+    "agent_id": "agent-6882b9e9",
+    "goal_id": "goal-369fac26",
+    "plan_id": "plan-7b4f9c8d",
+    "tasks_count": 1,
+    "duration_ms": 7.51,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:39:05.548030+00:00"
+  },
+  {
+    "agent_id": "agent-a00b0df6",
+    "goal_id": "goal-aad21748",
+    "plan_id": "plan-ca928c5c",
+    "tasks_count": 1,
+    "duration_ms": 6.43,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:39:05.713485+00:00"
+  },
+  {
+    "agent_id": "agent-61f47e5f",
+    "goal_id": "goal-9ee98c28",
+    "plan_id": "plan-b734716b",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:31.857738+00:00"
+  },
+  {
+    "agent_id": "agent-cac0fc93",
+    "goal_id": "goal-c1291365",
+    "plan_id": "plan-0e28574e",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:31.898844+00:00"
+  },
+  {
+    "agent_id": "agent-bf98dcb3",
+    "goal_id": "goal-93e482b1",
+    "plan_id": "plan-159d32c2",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:31.965660+00:00"
+  },
+  {
+    "agent_id": "agent-6daf9ecf",
+    "goal_id": "goal-91ec1938",
+    "plan_id": "plan-a3a9b459",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:32.034062+00:00"
+  },
+  {
+    "agent_id": "agent-101b71bc",
+    "goal_id": "goal-43807e2e",
+    "plan_id": "plan-3f8af02c",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:32.102993+00:00"
+  },
+  {
+    "agent_id": "agent-50334ff3",
+    "goal_id": "goal-512ba472",
+    "plan_id": "plan-525e6441",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:32.371217+00:00"
+  },
+  {
+    "agent_id": "agent-0d968d2d",
+    "goal_id": "goal-7846b8a1",
+    "plan_id": "plan-87203dc5",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:32.437639+00:00"
+  },
+  {
+    "agent_id": "agent-748a7abe",
+    "goal_id": "goal-34c64196",
+    "plan_id": "plan-c639a369",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:32.514541+00:00"
+  },
+  {
+    "agent_id": "agent-9f31d3b5",
+    "goal_id": "goal-8fd70e04",
+    "plan_id": "plan-84b12525",
+    "tasks_count": 1,
+    "duration_ms": 0.08,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:39:32.602561+00:00"
+  },
+  {
+    "agent_id": "agent-9c452186",
+    "goal_id": "goal-f0ff5130",
+    "plan_id": "plan-02784278",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:40:23.767528+00:00"
+  },
+  {
+    "agent_id": "agent-2eb9681f",
+    "goal_id": "goal-9458e1d4",
+    "plan_id": "plan-85a4b704",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:40:23.810148+00:00"
+  },
+  {
+    "agent_id": "agent-52c5fbff",
+    "goal_id": "goal-340eb82a",
+    "plan_id": "plan-b4071330",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:42:30.720577+00:00"
+  },
+  {
+    "agent_id": "agent-917a144b",
+    "goal_id": "goal-13d5f5bb",
+    "plan_id": "plan-3db94bdc",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:43:43.908958+00:00"
+  },
+  {
+    "agent_id": "agent-cd4b1c0e",
+    "goal_id": "goal-5568c104",
+    "plan_id": "plan-eec03657",
+    "tasks_count": 1,
+    "duration_ms": 7.04,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:43:45.493931+00:00"
+  },
+  {
+    "agent_id": "agent-21e2780d",
+    "goal_id": "goal-1c676a0a",
+    "plan_id": "plan-3f070438",
+    "tasks_count": 1,
+    "duration_ms": 9.21,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:43:45.933535+00:00"
+  },
+  {
+    "agent_id": "agent-7ac189f2",
+    "goal_id": "goal-d543d9c5",
+    "plan_id": "plan-b49f6951",
+    "tasks_count": 1,
+    "duration_ms": 6.64,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:43:46.100866+00:00"
+  },
+  {
+    "agent_id": "agent-ed783ad5",
+    "goal_id": "goal-ff81d208",
+    "plan_id": "plan-dcf82a22",
+    "tasks_count": 1,
+    "duration_ms": 9.82,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:44:13.876348+00:00"
+  },
+  {
+    "agent_id": "agent-bf1ffa97",
+    "goal_id": "goal-1ba1d196",
+    "plan_id": "plan-3cca5e09",
+    "tasks_count": 1,
+    "duration_ms": 7.91,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:44:13.994123+00:00"
+  },
+  {
+    "agent_id": "agent-fa307593",
+    "goal_id": "goal-ff61d715",
+    "plan_id": "plan-147b8688",
+    "tasks_count": 1,
+    "duration_ms": 7.21,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:44:14.159332+00:00"
+  },
+  {
+    "agent_id": "agent-a5f13f14",
+    "goal_id": "goal-fbed83f2",
+    "plan_id": "plan-17cdb52f",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:39.449607+00:00"
+  },
+  {
+    "agent_id": "agent-b708367d",
+    "goal_id": "goal-bab20f3d",
+    "plan_id": "plan-694a722f",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:39.489627+00:00"
+  },
+  {
+    "agent_id": "agent-6967759e",
+    "goal_id": "goal-5761fcf3",
+    "plan_id": "plan-4a49724d",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:39.557971+00:00"
+  },
+  {
+    "agent_id": "agent-c5ca621e",
+    "goal_id": "goal-ee672f27",
+    "plan_id": "plan-0549df5f",
+    "tasks_count": 1,
+    "duration_ms": 0.07,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:39.627685+00:00"
+  },
+  {
+    "agent_id": "agent-12681c55",
+    "goal_id": "goal-d681a8a4",
+    "plan_id": "plan-5357bd47",
+    "tasks_count": 1,
+    "duration_ms": 0.12,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:39.702159+00:00"
+  },
+  {
+    "agent_id": "agent-db3defba",
+    "goal_id": "goal-9f8b9d6d",
+    "plan_id": "plan-eb62a360",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:39.971108+00:00"
+  },
+  {
+    "agent_id": "agent-5a5ffd1f",
+    "goal_id": "goal-2b986dac",
+    "plan_id": "plan-49420b3e",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:40.040228+00:00"
+  },
+  {
+    "agent_id": "agent-66a7e1d2",
+    "goal_id": "goal-3423e0a6",
+    "plan_id": "plan-3a0cae4a",
+    "tasks_count": 1,
+    "duration_ms": 0.09,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:40.109395+00:00"
+  },
+  {
+    "agent_id": "agent-42574819",
+    "goal_id": "goal-ddc82f7e",
+    "plan_id": "plan-f0441893",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:44:40.195340+00:00"
+  },
+  {
+    "agent_id": "agent-65d5a762",
+    "goal_id": "goal-31bf853a",
+    "plan_id": "plan-b2cfacba",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:45:36.929542+00:00"
+  },
+  {
+    "agent_id": "agent-ffe25575",
+    "goal_id": "goal-2069be09",
+    "plan_id": "plan-0cf3f9fd",
+    "tasks_count": 1,
+    "duration_ms": 0.09,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:45:37.033993+00:00"
+  },
+  {
+    "agent_id": "agent-7b2f8100",
+    "goal_id": "goal-d0c98830",
+    "plan_id": "plan-d80c941c",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:46:23.914275+00:00"
+  },
+  {
+    "agent_id": "agent-557b0f9f",
+    "goal_id": "goal-16c94b1e",
+    "plan_id": "plan-630d2a2e",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:47:41.328154+00:00"
+  },
+  {
+    "agent_id": "agent-3cc94c92",
+    "goal_id": "goal-28457d7e",
+    "plan_id": "plan-2bab54ea",
+    "tasks_count": 1,
+    "duration_ms": 9.82,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:47:43.030987+00:00"
+  },
+  {
+    "agent_id": "agent-62fa7a12",
+    "goal_id": "goal-ae25311b",
+    "plan_id": "plan-ec58635b",
+    "tasks_count": 1,
+    "duration_ms": 9.72,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:47:43.461908+00:00"
+  },
+  {
+    "agent_id": "agent-b6ba24fb",
+    "goal_id": "goal-d79b56eb",
+    "plan_id": "plan-26e9cf9d",
+    "tasks_count": 1,
+    "duration_ms": 7.51,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:47:43.643070+00:00"
+  },
+  {
+    "agent_id": "agent-9365f92c",
+    "goal_id": "goal-1b16c0a9",
+    "plan_id": "plan-8095c66a",
+    "tasks_count": 1,
+    "duration_ms": 9.82,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:48:11.272120+00:00"
+  },
+  {
+    "agent_id": "agent-c7824fce",
+    "goal_id": "goal-3554fb90",
+    "plan_id": "plan-b7a470c1",
+    "tasks_count": 1,
+    "duration_ms": 8.91,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:48:11.394585+00:00"
+  },
+  {
+    "agent_id": "agent-8b126b5b",
+    "goal_id": "goal-a2609abb",
+    "plan_id": "plan-f09b83ca",
+    "tasks_count": 1,
+    "duration_ms": 7.01,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:48:11.571187+00:00"
+  },
+  {
+    "agent_id": "agent-74f6cb0f",
+    "goal_id": "goal-9ce53fcd",
+    "plan_id": "plan-94bdcde7",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:38.611363+00:00"
+  },
+  {
+    "agent_id": "agent-43c9c5cf",
+    "goal_id": "goal-27ca4525",
+    "plan_id": "plan-7b7c6e79",
+    "tasks_count": 1,
+    "duration_ms": 0.13,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:38.657587+00:00"
+  },
+  {
+    "agent_id": "agent-7d769fae",
+    "goal_id": "goal-14e38125",
+    "plan_id": "plan-9de81d7c",
+    "tasks_count": 1,
+    "duration_ms": 0.11,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:38.733326+00:00"
+  },
+  {
+    "agent_id": "agent-c045e060",
+    "goal_id": "goal-2f505fde",
+    "plan_id": "plan-912ef3d8",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:38.805189+00:00"
+  },
+  {
+    "agent_id": "agent-049375fb",
+    "goal_id": "goal-f0972be1",
+    "plan_id": "plan-f4c38bc4",
+    "tasks_count": 1,
+    "duration_ms": 0.03,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:38.860084+00:00"
+  },
+  {
+    "agent_id": "agent-0104822f",
+    "goal_id": "goal-4c1b21d7",
+    "plan_id": "plan-7c01aca9",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:39.069739+00:00"
+  },
+  {
+    "agent_id": "agent-769f9c27",
+    "goal_id": "goal-b0f648dd",
+    "plan_id": "plan-10bc2088",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:39.128955+00:00"
+  },
+  {
+    "agent_id": "agent-2763141d",
+    "goal_id": "goal-59392b45",
+    "plan_id": "plan-c5e9953a",
+    "tasks_count": 1,
+    "duration_ms": 0.08,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:39.199560+00:00"
+  },
+  {
+    "agent_id": "agent-d2cb30c0",
+    "goal_id": "goal-43dc4994",
+    "plan_id": "plan-4d108836",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:39.279020+00:00"
+  },
+  {
+    "agent_id": "agent-05c90d38",
+    "goal_id": "goal-76d843b9",
+    "plan_id": "plan-f82d83e0",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:39.412329+00:00"
+  },
+  {
+    "agent_id": "agent-3e448fe1",
+    "goal_id": "goal-4789455c",
+    "plan_id": "plan-dd1ecabb",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:48:39.471846+00:00"
+  },
+  {
+    "agent_id": "agent-61657913",
+    "goal_id": "goal-236c7372",
+    "plan_id": "plan-8e95dc00",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:49:35.906850+00:00"
+  },
+  {
+    "agent_id": "agent-2883b4d5",
+    "goal_id": "goal-cfa265fd",
+    "plan_id": "plan-e4ee3e2c",
+    "tasks_count": 1,
+    "duration_ms": 0.08,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:49:35.981720+00:00"
+  },
+  {
+    "agent_id": "agent-c37729be",
+    "goal_id": "goal-30b0ca27",
+    "plan_id": "plan-528f63ea",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:50:21.994937+00:00"
+  },
+  {
+    "agent_id": "agent-d4fd49dd",
+    "goal_id": "goal-311abd3d",
+    "plan_id": "plan-73043095",
+    "tasks_count": 1,
+    "duration_ms": 0.1,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:51:30.052193+00:00"
+  },
+  {
+    "agent_id": "agent-8257b810",
+    "goal_id": "goal-cf7b94dd",
+    "plan_id": "plan-1464128c",
+    "tasks_count": 1,
+    "duration_ms": 9.72,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:51:31.789204+00:00"
+  },
+  {
+    "agent_id": "agent-f443c721",
+    "goal_id": "goal-8e754b7d",
+    "plan_id": "plan-87783cc1",
+    "tasks_count": 1,
+    "duration_ms": 8.85,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:51:32.206886+00:00"
+  },
+  {
+    "agent_id": "agent-35e0cb9e",
+    "goal_id": "goal-c06374aa",
+    "plan_id": "plan-1fadd07e",
+    "tasks_count": 1,
+    "duration_ms": 8.13,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:51:32.372504+00:00"
+  },
+  {
+    "agent_id": "agent-d3b81425",
+    "goal_id": "goal-c7f4fb4a",
+    "plan_id": "plan-eb60fb5c",
+    "tasks_count": 1,
+    "duration_ms": 8.43,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:51:54.768898+00:00"
+  },
+  {
+    "agent_id": "agent-97114665",
+    "goal_id": "goal-6900024c",
+    "plan_id": "plan-9f9e7453",
+    "tasks_count": 1,
+    "duration_ms": 6.99,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:51:54.874798+00:00"
+  },
+  {
+    "agent_id": "agent-ecf9119d",
+    "goal_id": "goal-3aa4c51a",
+    "plan_id": "plan-c7d8a2ed",
+    "tasks_count": 1,
+    "duration_ms": 6.45,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:51:55.020387+00:00"
+  },
+  {
+    "agent_id": "agent-d07b264f",
+    "goal_id": "goal-37816db5",
+    "plan_id": "plan-995bd3e1",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.284910+00:00"
+  },
+  {
+    "agent_id": "agent-24a49cba",
+    "goal_id": "goal-c359ba88",
+    "plan_id": "plan-f8c6641c",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.321846+00:00"
+  },
+  {
+    "agent_id": "agent-e61a8c64",
+    "goal_id": "goal-3518f675",
+    "plan_id": "plan-cdcf004e",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.386632+00:00"
+  },
+  {
+    "agent_id": "agent-04817dd7",
+    "goal_id": "goal-331c4878",
+    "plan_id": "plan-6667ab5c",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.456692+00:00"
+  },
+  {
+    "agent_id": "agent-70b11b89",
+    "goal_id": "goal-d475f63d",
+    "plan_id": "plan-d687b840",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.514868+00:00"
+  },
+  {
+    "agent_id": "agent-3a383b1e",
+    "goal_id": "goal-ecb3de67",
+    "plan_id": "plan-35c89089",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.761612+00:00"
+  },
+  {
+    "agent_id": "agent-f2ccb940",
+    "goal_id": "goal-1df11f1f",
+    "plan_id": "plan-a63ae44c",
+    "tasks_count": 1,
+    "duration_ms": 0.07,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.833214+00:00"
+  },
+  {
+    "agent_id": "agent-3528fca1",
+    "goal_id": "goal-81ab0630",
+    "plan_id": "plan-78636861",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.906100+00:00"
+  },
+  {
+    "agent_id": "agent-33ffca58",
+    "goal_id": "goal-32fe6065",
+    "plan_id": "plan-4035dbf3",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:19.984810+00:00"
+  },
+  {
+    "agent_id": "agent-53d58e15",
+    "goal_id": "goal-829baeb0",
+    "plan_id": "plan-fddd0593",
+    "tasks_count": 1,
+    "duration_ms": 0.07,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:20.098788+00:00"
+  },
+  {
+    "agent_id": "agent-7f6260d6",
+    "goal_id": "goal-5473d31a",
+    "plan_id": "plan-82f4fb28",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:52:20.162753+00:00"
+  },
+  {
+    "agent_id": "agent-55a435dc",
+    "goal_id": "goal-24a0fb80",
+    "plan_id": "plan-7c62c68c",
+    "tasks_count": 1,
+    "duration_ms": 0.16,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:53:09.242768+00:00"
+  },
+  {
+    "agent_id": "agent-3bac7df9",
+    "goal_id": "goal-a9a85c87",
+    "plan_id": "plan-5e366920",
+    "tasks_count": 1,
+    "duration_ms": 0.08,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:53:09.357416+00:00"
+  },
+  {
+    "agent_id": "agent-db562174",
+    "goal_id": "goal-9373e2b5",
+    "plan_id": "plan-360f7d57",
+    "tasks_count": 1,
+    "duration_ms": 0.09,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:53:47.550344+00:00"
+  },
+  {
+    "agent_id": "agent-b49f2d77",
+    "goal_id": "goal-9c370988",
+    "plan_id": "plan-f34d8b38",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T18:54:56.574453+00:00"
+  },
+  {
+    "agent_id": "agent-74e25e0c",
+    "goal_id": "goal-cc7c6663",
+    "plan_id": "plan-d2c856d6",
+    "tasks_count": 1,
+    "duration_ms": 8.78,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:54:58.112169+00:00"
+  },
+  {
+    "agent_id": "agent-6d0553f8",
+    "goal_id": "goal-55a3545c",
+    "plan_id": "plan-bdb63425",
+    "tasks_count": 1,
+    "duration_ms": 8.79,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:54:58.522418+00:00"
+  },
+  {
+    "agent_id": "agent-4dd8ff0e",
+    "goal_id": "goal-31e92d1d",
+    "plan_id": "plan-22657d72",
+    "tasks_count": 1,
+    "duration_ms": 6.79,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T18:54:58.670528+00:00"
+  },
+  {
+    "agent_id": "agent-a30abd8c",
+    "goal_id": "goal-f73529be",
+    "plan_id": "plan-f33e5654",
+    "tasks_count": 1,
+    "duration_ms": 0.45,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:06:34.360284+00:00"
+  },
+  {
+    "agent_id": "agent-ceb4757f",
+    "goal_id": "goal-b938e546",
+    "plan_id": "plan-20f7966b",
+    "tasks_count": 1,
+    "duration_ms": 6.35,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T19:15:24.923585+00:00"
+  },
+  {
+    "agent_id": "agent-23d49bf5",
+    "goal_id": "goal-75188137",
+    "plan_id": "plan-4080eefc",
+    "tasks_count": 1,
+    "duration_ms": 7.69,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T19:15:25.050249+00:00"
+  },
+  {
+    "agent_id": "agent-6d5ed8a7",
+    "goal_id": "goal-5f2e6c7a",
+    "plan_id": "plan-a373ff2d",
+    "tasks_count": 1,
+    "duration_ms": 5.8,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T19:15:25.212708+00:00"
+  },
+  {
+    "agent_id": "agent-86b05382",
+    "goal_id": "goal-1ee8e029",
+    "plan_id": "plan-ddd36522",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:48.662004+00:00"
+  },
+  {
+    "agent_id": "agent-5a0dcb9a",
+    "goal_id": "goal-f38b8ccb",
+    "plan_id": "plan-3ac7b5df",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:48.716136+00:00"
+  },
+  {
+    "agent_id": "agent-bc4e7ba6",
+    "goal_id": "goal-756a2552",
+    "plan_id": "plan-b55c69fa",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:48.793781+00:00"
+  },
+  {
+    "agent_id": "agent-1e68d844",
+    "goal_id": "goal-5f262f82",
+    "plan_id": "plan-04dc4271",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:48.867868+00:00"
+  },
+  {
+    "agent_id": "agent-05d046a2",
+    "goal_id": "goal-cb30778c",
+    "plan_id": "plan-143c4292",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:48.943183+00:00"
+  },
+  {
+    "agent_id": "agent-1a52168a",
+    "goal_id": "goal-c88dd7f1",
+    "plan_id": "plan-69115a8a",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:49.281632+00:00"
+  },
+  {
+    "agent_id": "agent-354aad32",
+    "goal_id": "goal-62fe83be",
+    "plan_id": "plan-19501d2b",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:49.359137+00:00"
+  },
+  {
+    "agent_id": "agent-fa80b754",
+    "goal_id": "goal-aebd9254",
+    "plan_id": "plan-30317c75",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:49.435342+00:00"
+  },
+  {
+    "agent_id": "agent-d15ff1fb",
+    "goal_id": "goal-f34ef1f0",
+    "plan_id": "plan-98a57e96",
+    "tasks_count": 1,
+    "duration_ms": 0.1,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:49.539344+00:00"
+  },
+  {
+    "agent_id": "agent-359779e5",
+    "goal_id": "goal-a421e5bb",
+    "plan_id": "plan-c3871b3a",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:49.700764+00:00"
+  },
+  {
+    "agent_id": "agent-52949096",
+    "goal_id": "goal-0d05ecaf",
+    "plan_id": "plan-837fc1be",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:15:49.777310+00:00"
+  },
+  {
+    "agent_id": "agent-460c8cb1",
+    "goal_id": "goal-d461301f",
+    "plan_id": "plan-d7fcc8ea",
+    "tasks_count": 1,
+    "duration_ms": 0.04,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:16:38.591966+00:00"
+  },
+  {
+    "agent_id": "agent-702b1906",
+    "goal_id": "goal-9350c9b5",
+    "plan_id": "plan-14ff374c",
+    "tasks_count": 1,
+    "duration_ms": 0.05,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:16:38.648487+00:00"
+  },
+  {
+    "agent_id": "agent-5830a85d",
+    "goal_id": "goal-ccbbd106",
+    "plan_id": "plan-51fea7ad",
+    "tasks_count": 1,
+    "duration_ms": 0.11,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:17:24.196028+00:00"
+  },
+  {
+    "agent_id": "agent-b84b17da",
+    "goal_id": "goal-47a15f35",
+    "plan_id": "plan-be41dfb4",
+    "tasks_count": 1,
+    "duration_ms": 0.06,
+    "result_summary": "Task 'Generate conversational response' completed successfully",
+    "timestamp": "2026-08-08T19:18:29.217976+00:00"
+  },
+  {
+    "agent_id": "agent-e861f5b5",
+    "goal_id": "goal-b153e933",
+    "plan_id": "plan-755a5a3d",
+    "tasks_count": 1,
+    "duration_ms": 7.23,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T19:18:31.012733+00:00"
+  },
+  {
+    "agent_id": "agent-107cf359",
+    "goal_id": "goal-243463e4",
+    "plan_id": "plan-99790b58",
+    "tasks_count": 1,
+    "duration_ms": 5.95,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T19:18:31.467680+00:00"
+  },
+  {
+    "agent_id": "agent-ca80a21c",
+    "goal_id": "goal-61276a98",
+    "plan_id": "plan-f2a997c5",
+    "tasks_count": 1,
+    "duration_ms": 8.53,
+    "result_summary": "Task 'Execute calculator action' completed successfully",
+    "timestamp": "2026-08-08T19:18:31.649455+00:00"
   }
 ]

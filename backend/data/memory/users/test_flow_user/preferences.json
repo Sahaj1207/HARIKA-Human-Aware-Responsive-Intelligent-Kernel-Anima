@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mem-prs-aebaed5e",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": true,
+    "created_at": "2026-08-08T19:17:23.157752+00:00",
+    "updated_at": "2026-08-08T19:17:23.282900+00:00",
+    "last_accessed": "2026-08-08T19:17:23.157779+00:00"
+  },
+  {
+    "id": "mem-prs-ab4bd742",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is it's tea",
+    "content": "My favourite_drink is it's tea",
+    "importance": 0.9,
+    "confidence": 0.95,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "it's tea"
+    ],
+    "version": 1,
+    "revision": 2,
+    "deleted": false,
+    "created_at": "2026-08-08T19:17:23.315692+00:00",
+    "updated_at": "2026-08-08T19:17:23.315719+00:00",
+    "last_accessed": "2026-08-08T19:17:23.315724+00:00"
+  }
+]

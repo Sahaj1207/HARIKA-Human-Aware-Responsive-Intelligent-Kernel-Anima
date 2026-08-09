@@ -16,7 +16,15 @@ class AgentManager:
         self._agents: Dict[str, AgentStatus] = {}
         self._contexts: Dict[str, AgentContext] = {}
 
+    def get_capabilities(self) -> Dict[str, Any]:
+        return {
+            "subsystem": "AgentManager",
+            "name": "Autonomous Agent Executor",
+            "features": ["Autonomous Task Execution", "Goal-driven State Tracking", "Plan Step Automation"]
+        }
+
     def create_agent(
+
         self,
         goal_id: Optional[str] = None,
         plan_id: Optional[str] = None,
@@ -128,6 +136,9 @@ class AgentManager:
         if t_res.success:
             agent_state_machine.transition(status, AgentState.COMPLETED)
             agent_event_bus.emit(AgentEventType.AGENT_COMPLETED, status.model_dump())
+            if goal_id:
+                planning_manager.complete_goal(goal_id)
+
 
             # 4. Memory Integration: Store structured fact summary
             try:

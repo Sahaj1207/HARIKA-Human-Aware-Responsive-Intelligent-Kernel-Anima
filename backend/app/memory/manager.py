@@ -24,6 +24,13 @@ class MemoryManager:
         self.extractor = extractor or memory_extractor
         self.retriever = retriever or memory_retriever
 
+    def get_capabilities(self) -> Dict[str, Any]:
+        return {
+            "subsystem": "MemoryManager",
+            "name": "Cognitive Memory System",
+            "features": ["Fact Storage", "Semantic Recall", "Contextual Disambiguation", "Self-Correction Update"]
+        }
+
     def get_memories(
         self,
         query: str = "",
@@ -37,13 +44,35 @@ class MemoryManager:
             active_items = [item for item in active_items if item.category == category]
 
         if query:
+            from app.presence.memory_reasoner import memory_reasoner
+            from app.presence.entity_extractor import entity_extractor
+            from app.presence.verification import verification_engine
+            q_ent = entity_extractor.extract_entity(query)
+            ranked = memory_reasoner.rank_and_retrieve(query, user_id=user_id, query_entity=q_ent)
+            if ranked:
+                if q_ent and q_ent.attribute:
+                    verified = [m for m in ranked if verification_engine.verify_memory_attribute(q_ent.attribute, m)]
+                    return verified
+                return ranked
             return self.retriever.search(query=query, limit=10, user_id=user_id)
 
-        active_items.sort(key=lambda x: (x.importance, x.created_at), reverse=True)
-        return active_items[:10]
 
-    def add_memory(self, item: MemoryItem, user_id: str = "default") -> MemoryItem:
+        active_items.sort(key=lambda x: (x.importance, x.created_at), reverse=True)
+        return active_items
+
+    def add_memory(self, item: MemoryItem, user_id: str = "default") -> Any:
+        from app.presence.memory_reasoner import memory_reasoner
+        from app.presence.entity_extractor import entity_extractor
+        ent = entity_extractor.extract_entity(item.content) or entity_extractor.extract_entity(item.title)
+        if ent and ent.value:
+            res = memory_reasoner.check_and_resolve_contradictions(ent, user_id=user_id)
+            new_item = self.long_term.upsert_item(item, user_id)
+            if res.has_contradiction:
+                return {"status": "updated", "value": ent.value, "memory": new_item}
+            return new_item
         return self.long_term.upsert_item(item, user_id)
+
+
 
     def soft_delete_memory(self, memory_id: str, user_id: str = "default") -> bool:
         return self.long_term.soft_delete(memory_id, user_id)

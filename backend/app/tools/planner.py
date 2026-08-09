@@ -36,8 +36,21 @@ class ActionPlanner:
                 confidence=0.95
             )
 
+        # 2.5 Web Search Trigger
+        search_match = re.search(r"(?:search\s+(?:web\s+)?for|google)\s+(.+)", msg_lower)
+        if search_match and not any(k in msg_lower for k in ["open ", "launch ", "visit "]):
+            query_str = search_match.group(1).strip()
+            import urllib.parse
+            search_url = f"https://www.google.com/search?q={urllib.parse.quote(query_str)}"
+            return ActionPlan(
+                is_tool_action=True,
+                actions=[SingleAction(tool_name="open_website", arguments={"target": search_url, "query": query_str}, reasoning=f"User requested web search for '{query_str}'.")],
+                confidence=0.95
+            )
+
         # 3. Open Website Trigger
-        web_match = re.search(r"(?:open|launch|visit)\s+(google|github|youtube|twitter|reddit|stackoverflow|https?://[^\s]+)", msg_lower)
+        web_match = re.search(r"(?:(?:open|launch|visit)\s+)?(google|github|youtube|twitter|reddit|stackoverflow|chatgpt|https?://[^\s]+)", msg_lower)
+
         if web_match:
             target = web_match.group(1).strip()
             return ActionPlan(
@@ -46,15 +59,28 @@ class ActionPlanner:
                 confidence=0.90
             )
 
-        # 4. Open Application Trigger
-        app_match = re.search(r"(?:open|launch|start|run)\s+(chrome|edge|vs code|vscode|notepad|calculator|cmd|terminal)", msg_lower)
+
+        # 4. Close Application Trigger
+        close_match = re.search(r"(?:close|kill|terminate|stop)\s+(chrome|edge|vs code|vscode|notepad|calculator|cmd|terminal|command prompt)", msg_lower)
+        if close_match:
+            app_name = close_match.group(1).strip()
+            return ActionPlan(
+                is_tool_action=True,
+                actions=[SingleAction(tool_name="open_application", arguments={"app_name": app_name, "action": "close"}, reasoning="User requested application termination.")],
+                confidence=0.90
+            )
+
+        # 4.5 Open Application Trigger
+        app_match = re.search(r"(?:(?:open|launch|start|run)\s+)?(chrome|edge|vs code|vscode|notepad|calculator|cmd|terminal|command prompt)", msg_lower)
         if app_match:
             app_name = app_match.group(1).strip()
             return ActionPlan(
                 is_tool_action=True,
-                actions=[SingleAction(tool_name="open_application", arguments={"app_name": app_name}, reasoning="User requested application launch.")],
+                actions=[SingleAction(tool_name="open_application", arguments={"app_name": app_name, "action": "launch"}, reasoning="User requested application launch.")],
                 confidence=0.90
             )
+
+
 
         # 5. Clipboard Trigger
         if "clipboard" in msg_lower:

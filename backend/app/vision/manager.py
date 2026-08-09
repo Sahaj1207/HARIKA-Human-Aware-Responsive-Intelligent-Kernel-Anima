@@ -25,7 +25,15 @@ class VisionManager:
         self.history = history or vision_history_manager
         self.metrics = metrics or vision_metrics_manager
 
+    def get_capabilities(self) -> Dict[str, Any]:
+        return {
+            "subsystem": "VisionManager",
+            "name": "Visual Analysis Engine",
+            "features": ["Image Description", "Optical Character Recognition (OCR)", "Document Reading"]
+        }
+
     def _get_provider(self, override_provider: Optional[str] = None) -> BaseVisionProvider:
+
         provider_name = override_provider or settings.VISION_PROVIDER
         provider_cls = get_vision_provider_class(provider_name)
         return provider_cls()

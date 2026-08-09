@@ -1,0 +1,82 @@
+[
+  {
+    "id": "mem-prs-e9de53ed",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 13,
+    "deleted": false,
+    "created_at": "2026-08-08T18:09:50.223792+00:00",
+    "updated_at": "2026-08-08T19:16:30.547391+00:00",
+    "last_accessed": "2026-08-08T19:16:30.547405+00:00"
+  },
+  {
+    "id": "mem-prs-39143db1",
+    "category": "preferences",
+    "title": "User Fact: user favourite_food is pizza",
+    "content": "My favourite_food is pizza",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_food",
+      "pizza"
+    ],
+    "version": 1,
+    "revision": 13,
+    "deleted": false,
+    "created_at": "2026-08-08T18:09:50.978511+00:00",
+    "updated_at": "2026-08-08T19:16:31.247780+00:00",
+    "last_accessed": "2026-08-08T19:16:31.247791+00:00"
+  },
+  {
+    "id": "mem-prs-2706697f",
+    "category": "preferences",
+    "title": "User Fact: user favourite_city is tokyo",
+    "content": "My favourite_city is tokyo",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_city",
+      "tokyo"
+    ],
+    "version": 1,
+    "revision": 12,
+    "deleted": false,
+    "created_at": "2026-08-08T18:10:08.197113+00:00",
+    "updated_at": "2026-08-08T19:16:36.104529+00:00",
+    "last_accessed": "2026-08-08T19:16:36.104542+00:00"
+  },
+  {
+    "id": "mem-prs-104ad087",
+    "category": "preferences",
+    "title": "User Fact: user favourite_language is python",
+    "content": "My favourite_language is python",
+    "importance": 0.9,
+    "confidence": 1.0,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_language",
+      "python"
+    ],
+    "version": 1,
+    "revision": 12,
+    "deleted": false,
+    "created_at": "2026-08-08T18:10:09.332764+00:00",
+    "updated_at": "2026-08-08T19:16:38.413421+00:00",
+    "last_accessed": "2026-08-08T19:16:38.413441+00:00"
+  }
+]

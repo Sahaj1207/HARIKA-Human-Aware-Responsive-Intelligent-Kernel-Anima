@@ -1,0 +1,42 @@
+[
+  {
+    "id": "mem-prs-678e9e06",
+    "category": "preferences",
+    "title": "User Fact: user favourite_is is ",
+    "content": "My favourite_is is ",
+    "importance": 0.9,
+    "confidence": 0.9,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_is",
+      ""
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": true,
+    "created_at": "2026-08-07T18:18:23.295353+00:00",
+    "updated_at": "2026-08-07T18:18:23.344305+00:00",
+    "last_accessed": "2026-08-07T18:18:23.295396+00:00"
+  },
+  {
+    "id": "mem-prs-f96f5879",
+    "category": "preferences",
+    "title": "User Fact: user favourite_is is ",
+    "content": "My favourite_is is ",
+    "importance": 0.9,
+    "confidence": 0.9,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_is",
+      ""
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": false,
+    "created_at": "2026-08-07T18:18:23.383423+00:00",
+    "updated_at": "2026-08-07T18:18:23.383460+00:00",
+    "last_accessed": "2026-08-07T18:18:23.383468+00:00"
+  }
+]

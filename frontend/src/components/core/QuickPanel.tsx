@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { X, Moon, Power, Database, Search, Trash2, Tag, Wrench, Activity, CheckCircle, AlertTriangle, Clock, Eye, FileText, Image, Bot, Play, Pause, Square } from 'lucide-react';
+import { X, Moon, Power, Database, Search, Trash2, Tag, Wrench, Activity, CheckCircle, AlertTriangle, Clock, Eye, FileText, Image, Bot, Play, Pause, Square, Mic, Volume2, GitBranch, Sparkles, Compass } from 'lucide-react';
+
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { memoryService, MemoryItemApi, MemoryMetricsApi } from '@/services/api/memory';
 import { toolsService, ToolManifestApi, ToolExecutionHistoryApi, ToolMetricsApi } from '@/services/api/tools';
 import { visionService, VisionMetricsApi, VisionHistoryItemApi } from '@/services/api/vision';
 import { agentsService, AgentStatusApi, AgentMetricsApi, AgentHistoryItemApi } from '@/services/api/agents';
+import { voiceEngineService, VoiceStatusApi, VoiceMetricsApi, VoiceHistoryItemApi } from '@/services/api/voice';
+import { routerEngineService, RouterStatusApi, RouterMetricsApi, RouterDecisionItemApi } from '@/services/api/router';
+import { presenceService, PresenceStateApi, PresenceScoreApi } from '@/services/api/presence';
 
 export const QuickPanel: React.FC = () => {
   const { isQuickPanelOpen, toggleQuickPanel, coreState, setCoreState } = useHARIKAStore();
-  const [activeTab, setActiveTab] = useState<'tools' | 'memory' | 'vision' | 'agents' | 'controls'>('tools');
+  const [activeTab, setActiveTab] = useState<'tools' | 'memory' | 'vision' | 'agents' | 'voice' | 'router' | 'presence' | 'controls'>('tools');
 
   // Memory State
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,6 +32,21 @@ export const QuickPanel: React.FC = () => {
   const [activeAgents, setActiveAgents] = useState<AgentStatusApi[]>([]);
   const [agentMetrics, setAgentMetrics] = useState<AgentMetricsApi | null>(null);
   const [agentHistory, setAgentHistory] = useState<AgentHistoryItemApi[]>([]);
+
+  // Voice State
+  const [voiceStatus, setVoiceStatus] = useState<VoiceStatusApi | null>(null);
+  const [voiceMetrics, setVoiceMetrics] = useState<VoiceMetricsApi | null>(null);
+  const [voiceHistory, setVoiceHistory] = useState<VoiceHistoryItemApi[]>([]);
+
+  // Router State
+  const [routerStatus, setRouterStatus] = useState<RouterStatusApi | null>(null);
+  const [routerMetrics, setRouterMetrics] = useState<RouterMetricsApi | null>(null);
+  const [routerHistory, setRouterHistory] = useState<RouterDecisionItemApi[]>([]);
+
+  // Presence State
+  const [presenceState, setPresenceState] = useState<PresenceStateApi | null>(null);
+  const [presenceScore, setPresenceScore] = useState<PresenceScoreApi | null>(null);
+  const [workingMemory, setWorkingMemory] = useState<Record<string, unknown>>({});
 
   const [loading, setLoading] = useState(false);
 
@@ -66,6 +85,33 @@ export const QuickPanel: React.FC = () => {
         setActiveAgents(aList);
         setAgentMetrics(aStats);
         setAgentHistory(aHistory);
+      } else if (activeTab === 'voice') {
+        const [vStatus, vStats, vHist] = await Promise.all([
+          voiceEngineService.getStatus(),
+          voiceEngineService.getMetrics(),
+          voiceEngineService.getHistory(20),
+        ]);
+        setVoiceStatus(vStatus);
+        setVoiceMetrics(vStats);
+        setVoiceHistory(vHist);
+      } else if (activeTab === 'router') {
+        const [rStatus, rStats, rHist] = await Promise.all([
+          routerEngineService.getStatus(),
+          routerEngineService.getMetrics(),
+          routerEngineService.getHistory(20),
+        ]);
+        setRouterStatus(rStatus);
+        setRouterMetrics(rStats);
+        setRouterHistory(rHist);
+      } else if (activeTab === 'presence') {
+        const [pState, pScore, pWork] = await Promise.all([
+          presenceService.getState(),
+          presenceService.getScore(),
+          presenceService.getWorkingMemory(),
+        ]);
+        setPresenceState(pState);
+        setPresenceScore(pScore);
+        setWorkingMemory(pWork);
       }
     } catch {
       // Graceful fallback
@@ -73,6 +119,9 @@ export const QuickPanel: React.FC = () => {
       setLoading(false);
     }
   };
+
+
+
 
 
   useEffect(() => {
@@ -150,6 +199,36 @@ export const QuickPanel: React.FC = () => {
                 Agents
               </button>
               <button
+                onClick={() => setActiveTab('voice')}
+                className={`px-2 py-1.5 rounded-lg text-[10px] font-mono tracking-wider uppercase transition-colors ${
+                  activeTab === 'voice'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Voice
+              </button>
+              <button
+                onClick={() => setActiveTab('router')}
+                className={`px-2 py-1.5 rounded-lg text-[10px] font-mono tracking-wider uppercase transition-colors ${
+                  activeTab === 'router'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Router
+              </button>
+              <button
+                onClick={() => setActiveTab('presence')}
+                className={`px-2 py-1.5 rounded-lg text-[10px] font-mono tracking-wider uppercase transition-colors ${
+                  activeTab === 'presence'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Presence
+              </button>
+              <button
                 onClick={() => setActiveTab('controls')}
                 className={`px-2 py-1.5 rounded-lg text-[10px] font-mono tracking-wider uppercase transition-colors ${
                   activeTab === 'controls'
@@ -159,6 +238,9 @@ export const QuickPanel: React.FC = () => {
               >
                 State
               </button>
+
+
+
 
             </div>
 
@@ -520,8 +602,257 @@ export const QuickPanel: React.FC = () => {
                 </div>
               </div>
             </div>
+          ) : activeTab === 'voice' ? (
+            /* TAB 5: VOICE TAB */
+            <div className="space-y-5">
+              {/* Voice Metrics Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Sessions</div>
+                  <div className="text-base font-mono font-semibold text-cyan-300">
+                    {voiceMetrics ? voiceMetrics.total_sessions : 0}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Interruptions</div>
+                  <div className="text-base font-mono font-semibold text-amber-400">
+                    {voiceMetrics ? voiceMetrics.total_interruptions : 0}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">STT Latency</div>
+                  <div className="text-base font-mono font-semibold text-sky-300">
+                    {voiceMetrics ? `${voiceMetrics.average_recognition_latency_ms}ms` : '0ms'}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">E2E Latency</div>
+                  <div className="text-base font-mono font-semibold text-emerald-400">
+                    {voiceMetrics ? `${voiceMetrics.average_e2e_latency_ms}ms` : '0ms'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Provider Status */}
+              <div className="surface-card p-3 rounded-lg border border-white/5 space-y-2">
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                  <span className="flex items-center space-x-1">
+                    <Mic className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Voice Providers</span>
+                  </span>
+                  <span className="text-emerald-400 font-bold">{voiceStatus ? voiceStatus.state : 'IDLE'}</span>
+                </div>
+                <div className="text-xs font-mono space-y-1 text-slate-300">
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">TTS Provider:</span>
+                    <span className="text-cyan-300 font-semibold">{voiceStatus?.speaker.provider || 'browser'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">STT Provider:</span>
+                    <span className="text-cyan-300 font-semibold">{voiceStatus?.transcriber.provider || 'browser'}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Session Controls */}
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={async () => { await voiceEngineService.startSession(true); fetchData(); }}
+                  className="flex-1 py-2 px-3 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/30 text-xs font-mono font-semibold flex items-center justify-center space-x-1.5 transition-all"
+                >
+                  <Volume2 className="w-3.5 h-3.5" /> <span>Start Continuous</span>
+                </button>
+                <button
+                  onClick={async () => { await voiceEngineService.triggerInterruption(); fetchData(); }}
+                  className="py-2 px-3 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30 hover:bg-amber-500/30 text-xs font-mono font-semibold flex items-center justify-center space-x-1.5 transition-all"
+                >
+                  <Square className="w-3.5 h-3.5" /> <span>Interrupt</span>
+                </button>
+              </div>
+
+              {/* Voice History */}
+              <div className="space-y-2 pt-2 border-t border-white/5">
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Voice Sessions History</span>
+                </div>
+                <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                  {voiceHistory.length === 0 ? (
+                    <div className="text-[11px] font-mono text-slate-500 italic p-3 text-center surface-card rounded-lg border border-white/5">
+                      No voice session history logged yet.
+                    </div>
+                  ) : (
+                    voiceHistory.map((vh, idx) => (
+                      <div key={idx} className="surface-card p-2.5 rounded-lg border border-white/5 text-xs space-y-1">
+                        <div className="flex items-center justify-between text-[10px]">
+                          <span className="font-mono text-cyan-300 font-semibold">{vh.session_id}</span>
+                          <span className="text-[9px] font-mono text-amber-300">{vh.duration_s}s</span>
+                        </div>
+                        <p className="text-[10px] text-slate-300 line-clamp-2 leading-normal">
+                          {vh.summary}
+                        </p>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : activeTab === 'router' ? (
+            /* TAB 6: ROUTER TAB */
+            <div className="space-y-5">
+              {/* Router Metrics Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Requests</div>
+                  <div className="text-base font-mono font-semibold text-cyan-300">
+                    {routerMetrics ? routerMetrics.total_requests : 0}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Accuracy</div>
+                  <div className="text-base font-mono font-semibold text-emerald-400">
+                    {routerMetrics ? `${routerMetrics.routing_accuracy}%` : '100%'}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Avg Latency</div>
+                  <div className="text-base font-mono font-semibold text-sky-300">
+                    {routerMetrics ? `${routerMetrics.average_routing_latency_ms}ms` : '0ms'}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Tool Success</div>
+                  <div className="text-base font-mono font-semibold text-amber-400">
+                    {routerMetrics ? `${routerMetrics.tool_success_rate}%` : '100%'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Status & Engine Info */}
+              <div className="surface-card p-3 rounded-lg border border-white/5 space-y-2">
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                  <span className="flex items-center space-x-1">
+                    <GitBranch className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Cognitive Router Status</span>
+                  </span>
+                  <span className="text-emerald-400 font-bold">{routerStatus ? routerStatus.status : 'healthy'}</span>
+                </div>
+                <div className="text-xs font-mono space-y-1 text-slate-300">
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Engine:</span>
+                    <span className="text-cyan-300 font-semibold">{routerStatus?.engine || 'Cognitive Router v1.0'}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Decision Trace History */}
+              <div className="space-y-2 pt-2 border-t border-white/5">
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Decision Trace Log</span>
+                </div>
+                <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                  {routerHistory.length === 0 ? (
+                    <div className="text-[11px] font-mono text-slate-500 italic p-3 text-center surface-card rounded-lg border border-white/5">
+                      No router decision trace logged yet.
+                    </div>
+                  ) : (
+                    routerHistory.map((rh, idx) => (
+                      <div key={idx} className="surface-card p-2.5 rounded-lg border border-white/5 text-xs space-y-1">
+                        <div className="flex items-center justify-between text-[10px]">
+                          <span className="font-mono text-cyan-300 font-semibold">{rh.chosen_engine}</span>
+                          <span className="text-[9px] font-mono text-emerald-400">{(rh.confidence * 100).toFixed(0)}% conf</span>
+                        </div>
+                        <p className="text-[10px] text-slate-300 line-clamp-1 leading-normal font-mono">
+                          Req: "{rh.request}"
+                        </p>
+                        <div className="flex justify-between text-[9px] font-mono text-slate-400">
+                          <span>Format: {rh.formatter_used}</span>
+                          <span>{rh.execution_time_ms}ms</span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : activeTab === 'presence' ? (
+            /* TAB 7: PRESENCE ENGINE TAB */
+            <div className="space-y-5">
+              {/* Score & Awareness Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Presence Score</div>
+                  <div className="text-base font-mono font-semibold text-cyan-300">
+                    {presenceScore ? `${presenceScore.overall_score}%` : '100%'}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Verification Rate</div>
+                  <div className="text-base font-mono font-semibold text-emerald-400">
+                    {presenceScore ? `${presenceScore.verification}%` : '100%'}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Awareness</div>
+                  <div className="text-base font-mono font-semibold text-sky-300">
+                    {presenceScore ? `${presenceScore.awareness}%` : '100%'}
+                  </div>
+                </div>
+                <div className="surface-card p-3 rounded-lg border border-white/5 space-y-1">
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Attention Stability</div>
+                  <div className="text-base font-mono font-semibold text-amber-400">
+                    {presenceScore ? `${presenceScore.attention_stability}%` : '98%'}
+                  </div>
+                </div>
+              </div>
+
+              {/* Ongoing Awareness Info */}
+              <div className="surface-card p-3 rounded-lg border border-white/5 space-y-2">
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                  <span className="flex items-center space-x-1">
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                    <span>Ongoing Companion Awareness</span>
+                  </span>
+                  <span className="text-emerald-400 font-bold">{presenceState?.conversation_mode || 'active'}</span>
+                </div>
+                <div className="text-xs font-mono space-y-1 text-slate-300">
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Focus Topic:</span>
+                    <span className="text-cyan-300 font-semibold truncate max-w-[180px]">{presenceState?.current_topic || 'General Conversation'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Current Task:</span>
+                    <span className="text-sky-300 truncate max-w-[180px]">{presenceState?.current_task || 'None'}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Working Memory Workspace */}
+              <div className="space-y-2 pt-2 border-t border-white/5">
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center space-x-1.5">
+                  <Compass className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Working Memory Workspace</span>
+                </div>
+                <div className="surface-card p-2.5 rounded-lg border border-white/5 text-xs space-y-1 font-mono">
+                  {Object.keys(workingMemory).length === 0 ? (
+                    <div className="text-[11px] text-slate-500 italic text-center p-2">Workspace empty.</div>
+                  ) : (
+                    Object.entries(workingMemory).map(([k, v]) => (
+                      <div key={k} className="flex justify-between text-[10px]">
+                        <span className="text-slate-400">{k}:</span>
+                        <span className="text-cyan-300 font-semibold truncate max-w-[170px]">{String(v)}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
           ) : (
-            /* TAB 5: CORE STATE CONTROLS */
+            /* TAB 8: CORE STATE CONTROLS */
+
+
+
 
             <div className="space-y-4">
               <div className="text-xs font-mono text-slate-500 uppercase tracking-wider">

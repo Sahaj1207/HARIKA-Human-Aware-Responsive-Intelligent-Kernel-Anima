@@ -1,0 +1,6641 @@
+[
+  {
+    "decision_id": "dec-1a965af3",
+    "timestamp": "2026-08-08T18:52:19.484885+00:00",
+    "request": "Execute next step in plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 44.07,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-bfacb4af",
+    "timestamp": "2026-08-08T18:52:19.553815+00:00",
+    "request": "Keep going with plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 54.17,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d13b0c4c",
+    "timestamp": "2026-08-08T18:52:19.571327+00:00",
+    "request": "Create plan for frontend UI polish",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 3.35,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-effb44ac",
+    "timestamp": "2026-08-08T18:52:19.589001+00:00",
+    "request": "Plan for error handling improvements",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 2.69,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-511d2b6f",
+    "timestamp": "2026-08-08T18:52:19.606814+00:00",
+    "request": "Create a plan to add unit tests",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 2.42,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c4d79c90",
+    "timestamp": "2026-08-08T18:52:19.624355+00:00",
+    "request": "Plan system backup strategy",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 3.18,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f8fcda26",
+    "timestamp": "2026-08-08T18:52:19.642892+00:00",
+    "request": "Create plan to monitor CPU usage",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 3.32,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-1685b2c5",
+    "timestamp": "2026-08-08T18:52:19.661050+00:00",
+    "request": "Show my plan status",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 2.81,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-6d1e6fd5",
+    "timestamp": "2026-08-08T18:52:19.678936+00:00",
+    "request": "What is the status of my plan?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 2.96,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f17c6a6e",
+    "timestamp": "2026-08-08T18:52:19.696354+00:00",
+    "request": "Display plan progress",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 3.45,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3f62780b",
+    "timestamp": "2026-08-08T18:52:19.714816+00:00",
+    "request": "Show current plan steps",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 4.24,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ed187ff8",
+    "timestamp": "2026-08-08T18:52:19.731773+00:00",
+    "request": "View active goal status",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 2.89,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-86cc3cf7",
+    "timestamp": "2026-08-08T18:52:19.801942+00:00",
+    "request": "Continue active plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 56.7,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9af2e979",
+    "timestamp": "2026-08-08T18:52:19.875127+00:00",
+    "request": "Resume plan execution",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 56.92,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-012aed59",
+    "timestamp": "2026-08-08T18:52:19.938906+00:00",
+    "request": "Continue goal execution",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 48.67,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-aad205a9",
+    "timestamp": "2026-08-08T18:52:19.955917+00:00",
+    "request": "Proceed to next plan step",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 2.39,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-4606167f",
+    "timestamp": "2026-08-08T18:52:20.017394+00:00",
+    "request": "Execute active plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 47.28,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d8dc0e17",
+    "timestamp": "2026-08-08T18:52:20.032898+00:00",
+    "request": "Create plan for logging integration",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 2.72,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d635e4d3",
+    "timestamp": "2026-08-08T18:52:20.050603+00:00",
+    "request": "Plan security audit workflow",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 3.94,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3e192a62",
+    "timestamp": "2026-08-08T18:52:20.067060+00:00",
+    "request": "Show current plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 2.77,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b0f8be26",
+    "timestamp": "2026-08-08T18:52:20.132070+00:00",
+    "request": "Continue plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 49.95,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-75f1984f",
+    "timestamp": "2026-08-08T18:52:20.203155+00:00",
+    "request": "Resume plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 56.64,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-adb7abf7",
+    "timestamp": "2026-08-08T18:52:20.922395+00:00",
+    "request": "Open calculator",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 702.31,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-cf626c62",
+    "timestamp": "2026-08-08T18:52:21.617746+00:00",
+    "request": "Launch calculator",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 683.96,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-bd8b0ea6",
+    "timestamp": "2026-08-08T18:52:22.348186+00:00",
+    "request": "Run calculator",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 721.88,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-17334a49",
+    "timestamp": "2026-08-08T18:52:22.858840+00:00",
+    "request": "Open notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 501.57,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-37a051f8",
+    "timestamp": "2026-08-08T18:52:23.390417+00:00",
+    "request": "Launch notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 523.37,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7dfef89c",
+    "timestamp": "2026-08-08T18:52:23.927188+00:00",
+    "request": "Run notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 528.24,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-81291b3f",
+    "timestamp": "2026-08-08T18:52:24.474319+00:00",
+    "request": "Open chrome",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 527.43,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-82280b49",
+    "timestamp": "2026-08-08T18:52:25.019788+00:00",
+    "request": "Launch chrome",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 537.14,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f8831d11",
+    "timestamp": "2026-08-08T18:52:25.756111+00:00",
+    "request": "Run chrome",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 730.02,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0c9327bb",
+    "timestamp": "2026-08-08T18:52:25.811263+00:00",
+    "request": "Close calculator",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 37.5,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c3087b7e",
+    "timestamp": "2026-08-08T18:52:25.858403+00:00",
+    "request": "Close notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 33.37,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c24809f9",
+    "timestamp": "2026-08-08T18:52:25.910559+00:00",
+    "request": "Close chrome",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 35.43,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c5c44ffe",
+    "timestamp": "2026-08-08T18:52:25.943983+00:00",
+    "request": "Terminate calculator",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 15.27,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-6be4737a",
+    "timestamp": "2026-08-08T18:52:25.976461+00:00",
+    "request": "Kill notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 18.55,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0473a04e",
+    "timestamp": "2026-08-08T18:52:26.000134+00:00",
+    "request": "What time is it?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "datetime",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 11.94,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3e525492",
+    "timestamp": "2026-08-08T18:52:26.030047+00:00",
+    "request": "Current time",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "datetime",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 11.8,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-301b5b29",
+    "timestamp": "2026-08-08T18:52:26.046886+00:00",
+    "request": "Show local time",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "datetime",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 2.66,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0fea42f4",
+    "timestamp": "2026-08-08T18:52:26.061338+00:00",
+    "request": "What date is it?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "datetime",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 2.7,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-6e031fda",
+    "timestamp": "2026-08-08T18:52:26.093469+00:00",
+    "request": "Today's date",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "datetime",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 13.84,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-2958a714",
+    "timestamp": "2026-08-08T18:52:26.118389+00:00",
+    "request": "Calculate 125 * 48",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 9.42,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f2a8f55d",
+    "timestamp": "2026-08-08T18:52:26.139860+00:00",
+    "request": "Compute 500 / 25",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 9.17,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d2c636b3",
+    "timestamp": "2026-08-08T18:52:26.169622+00:00",
+    "request": "Eval 15 + 35",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 10.31,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-8271d7a5",
+    "timestamp": "2026-08-08T18:52:26.195939+00:00",
+    "request": "Calculate 100 - 45",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 11.56,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0ec5a48a",
+    "timestamp": "2026-08-08T18:52:26.225901+00:00",
+    "request": "Compute 12 * 12",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 11.48,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-5745ff8e",
+    "timestamp": "2026-08-08T18:52:26.794428+00:00",
+    "request": "Show clipboard",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "clipboard",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 553.54,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-bd0f0e03",
+    "timestamp": "2026-08-08T18:52:26.829430+00:00",
+    "request": "Read clipboard",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "clipboard",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 15.8,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3201ad7c",
+    "timestamp": "2026-08-08T18:52:27.801623+00:00",
+    "request": "Open command prompt",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 951.01,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-65cfbbba",
+    "timestamp": "2026-08-08T18:52:28.704307+00:00",
+    "request": "Open terminal",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 890.78,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-1d76fcde",
+    "timestamp": "2026-08-08T18:52:28.745734+00:00",
+    "request": "Close terminal",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 27.63,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-37e827aa",
+    "timestamp": "2026-08-08T18:52:28.780185+00:00",
+    "request": "Close command prompt",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 18.38,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c18a23b9",
+    "timestamp": "2026-08-08T18:52:28.812425+00:00",
+    "request": "What's the current time?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "datetime",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 11.78,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-75dc644b",
+    "timestamp": "2026-08-08T18:52:28.836199+00:00",
+    "request": "Calculate 99 / 9",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 9.52,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0000643e",
+    "timestamp": "2026-08-08T18:52:28.860955+00:00",
+    "request": "Compute 7 * 8",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 10.94,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-632fcaf4",
+    "timestamp": "2026-08-08T18:52:29.872700+00:00",
+    "request": "Open VS Code",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 995.14,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ee174bf0",
+    "timestamp": "2026-08-08T18:52:29.921958+00:00",
+    "request": "Close VS Code",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "close_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 31.35,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f6977e3d",
+    "timestamp": "2026-08-08T18:52:30.956710+00:00",
+    "request": "Open GitHub",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 1007.97,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a1d052d1",
+    "timestamp": "2026-08-08T18:52:31.697039+00:00",
+    "request": "Launch GitHub",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 724.76,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-55413e20",
+    "timestamp": "2026-08-08T18:52:32.449362+00:00",
+    "request": "Open Google",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 737.41,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-6419c4e6",
+    "timestamp": "2026-08-08T18:52:33.270443+00:00",
+    "request": "Launch Google",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 805.08,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-42ff4d36",
+    "timestamp": "2026-08-08T18:52:34.174852+00:00",
+    "request": "Open YouTube",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 887.08,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-e9c6926a",
+    "timestamp": "2026-08-08T18:52:35.119589+00:00",
+    "request": "Launch YouTube",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 926.16,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-26b29a66",
+    "timestamp": "2026-08-08T18:52:35.972877+00:00",
+    "request": "Open Reddit",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 836.56,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-4828c12b",
+    "timestamp": "2026-08-08T18:52:36.839575+00:00",
+    "request": "Launch Reddit",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 843.61,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d426767d",
+    "timestamp": "2026-08-08T18:52:37.711596+00:00",
+    "request": "Open Twitter",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 852.37,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-121db4e9",
+    "timestamp": "2026-08-08T18:52:38.611505+00:00",
+    "request": "Launch Twitter",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 876.26,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a74de34e",
+    "timestamp": "2026-08-08T18:52:39.508892+00:00",
+    "request": "Open StackOverflow",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 881.05,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ec745728",
+    "timestamp": "2026-08-08T18:52:40.371791+00:00",
+    "request": "Launch StackOverflow",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 845.1,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-e64c9073",
+    "timestamp": "2026-08-08T18:52:41.213752+00:00",
+    "request": "Open ChatGPT",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 824.13,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-43c146b9",
+    "timestamp": "2026-08-08T18:52:42.139022+00:00",
+    "request": "Launch ChatGPT",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 908.14,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a104c921",
+    "timestamp": "2026-08-08T18:52:43.039242+00:00",
+    "request": "Open https://python.org",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 881.89,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-61ef9095",
+    "timestamp": "2026-08-08T18:52:43.931583+00:00",
+    "request": "Open https://github.com",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 872.27,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d7be786b",
+    "timestamp": "2026-08-08T18:52:44.790254+00:00",
+    "request": "Visit https://google.com",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 840.7,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-12f442b2",
+    "timestamp": "2026-08-08T18:52:45.670568+00:00",
+    "request": "Launch https://pypi.org",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 861.18,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c767285e",
+    "timestamp": "2026-08-08T18:52:45.692364+00:00",
+    "request": "Open docs.python.org",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 3.7,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a5fdd2a1",
+    "timestamp": "2026-08-08T18:52:45.712253+00:00",
+    "request": "Open fast.api.org",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 2.4,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ada990ce",
+    "timestamp": "2026-08-08T18:52:46.573368+00:00",
+    "request": "Search web for Python 3.12 features",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 846.0,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3c1c7ed2",
+    "timestamp": "2026-08-08T18:52:47.493724+00:00",
+    "request": "Google best practices for FastAPI",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 904.29,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-4a4b0ffd",
+    "timestamp": "2026-08-08T18:52:48.318377+00:00",
+    "request": "Search for Harika AI architecture",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 806.2,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-abb56d5b",
+    "timestamp": "2026-08-08T18:52:49.248700+00:00",
+    "request": "Search web for asyncio tutorial",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 908.74,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d08f8801",
+    "timestamp": "2026-08-08T18:52:50.117665+00:00",
+    "request": "Google Python memory management",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 850.94,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d42d9daf",
+    "timestamp": "2026-08-08T18:52:50.968967+00:00",
+    "request": "Search web for SQLite optimization",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 832.42,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-8b6d4ee9",
+    "timestamp": "2026-08-08T18:52:51.837597+00:00",
+    "request": "Open GitHub portal",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 849.37,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c29a5adf",
+    "timestamp": "2026-08-08T18:52:52.702420+00:00",
+    "request": "Launch GitHub repository",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 844.8,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-26ddcfad",
+    "timestamp": "2026-08-08T18:52:53.609833+00:00",
+    "request": "Open GitHub website",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 888.34,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-99ea6e31",
+    "timestamp": "2026-08-08T18:52:54.497891+00:00",
+    "request": "Open Google homepage",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 868.1,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a1e73fe7",
+    "timestamp": "2026-08-08T18:52:55.369234+00:00",
+    "request": "Open YouTube channel",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 856.3,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-4a477218",
+    "timestamp": "2026-08-08T18:52:56.246307+00:00",
+    "request": "Search web for pytest documentation",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 860.38,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a16c949d",
+    "timestamp": "2026-08-08T18:52:57.136298+00:00",
+    "request": "Search for uvicorn server configuration",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 875.63,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a9f88898",
+    "timestamp": "2026-08-08T18:52:58.036094+00:00",
+    "request": "Open https://news.ycombinator.com",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 882.47,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9d338cb6",
+    "timestamp": "2026-08-08T18:52:58.954531+00:00",
+    "request": "Visit github.com",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 898.51,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f59577cb",
+    "timestamp": "2026-08-08T18:52:58.975320+00:00",
+    "request": "I'm stressed",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.18,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-69659749",
+    "timestamp": "2026-08-08T18:52:58.996394+00:00",
+    "request": "I feel overwhelmed today",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.44,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3580a23f",
+    "timestamp": "2026-08-08T18:52:59.014467+00:00",
+    "request": "I'm anxious about my exam",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.12,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-164c40b3",
+    "timestamp": "2026-08-08T18:52:59.034119+00:00",
+    "request": "I'm feeling down",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.32,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-11e46be3",
+    "timestamp": "2026-08-08T18:52:59.057660+00:00",
+    "request": "I feel exhausted",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.19,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-8bc008d5",
+    "timestamp": "2026-08-08T18:52:59.080166+00:00",
+    "request": "I'm having a bad day",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.23,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-941c5480",
+    "timestamp": "2026-08-08T18:52:59.102200+00:00",
+    "request": "I'm feeling tired",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.13,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b91bef07",
+    "timestamp": "2026-08-08T18:52:59.122318+00:00",
+    "request": "I feel frustrated",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.28,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0ee6f1aa",
+    "timestamp": "2026-08-08T18:52:59.144628+00:00",
+    "request": "I am stressed out",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 4.05,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-15a431b6",
+    "timestamp": "2026-08-08T18:52:59.165370+00:00",
+    "request": "I feel hopeless",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.07,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-43f9cb5b",
+    "timestamp": "2026-08-08T18:52:59.187540+00:00",
+    "request": "I'm feeling sad today",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.4,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-8bfee9a6",
+    "timestamp": "2026-08-08T18:52:59.206936+00:00",
+    "request": "I feel burnt out",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.1,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f36d853a",
+    "timestamp": "2026-08-08T18:52:59.228662+00:00",
+    "request": "I'm feeling nervous",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.61,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-71ec5231",
+    "timestamp": "2026-08-08T18:52:59.248374+00:00",
+    "request": "I feel stressed with work",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.46,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ee734738",
+    "timestamp": "2026-08-08T18:52:59.272228+00:00",
+    "request": "I'm feeling lonely",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.12,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-6569e493",
+    "timestamp": "2026-08-08T18:52:59.292593+00:00",
+    "request": "I feel exhausted from studying",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.61,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-456ab19d",
+    "timestamp": "2026-08-08T18:52:59.312402+00:00",
+    "request": "I'm feeling demotivated",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.94,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-844e48b1",
+    "timestamp": "2026-08-08T18:52:59.335065+00:00",
+    "request": "I feel stressed about deadlines",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.33,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c08ac690",
+    "timestamp": "2026-08-08T18:52:59.359159+00:00",
+    "request": "I'm feeling worried",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 4.2,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-be36ad1e",
+    "timestamp": "2026-08-08T18:52:59.382610+00:00",
+    "request": "I feel upset",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.51,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d20abb34",
+    "timestamp": "2026-08-08T18:52:59.407793+00:00",
+    "request": "I'm feeling stressed",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.16,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a1ee862f",
+    "timestamp": "2026-08-08T18:52:59.431555+00:00",
+    "request": "I feel overwhelmed with tasks",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.36,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-61cf348c",
+    "timestamp": "2026-08-08T18:52:59.455609+00:00",
+    "request": "I'm feeling anxious",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.27,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9337406b",
+    "timestamp": "2026-08-08T18:52:59.476891+00:00",
+    "request": "I feel low today",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.26,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c56fc665",
+    "timestamp": "2026-08-08T18:52:59.499192+00:00",
+    "request": "I'm feeling stressed out",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.52,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ba7347f5",
+    "timestamp": "2026-08-08T18:52:59.521481+00:00",
+    "request": "I feel tired of errors",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.39,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-27afd6f5",
+    "timestamp": "2026-08-08T18:52:59.542867+00:00",
+    "request": "I'm feeling overwhelmed",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.39,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0cb4ad84",
+    "timestamp": "2026-08-08T18:52:59.564979+00:00",
+    "request": "I feel sad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.24,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0776d2b0",
+    "timestamp": "2026-08-08T18:52:59.587242+00:00",
+    "request": "I'm feeling down today",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.45,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7f5338e9",
+    "timestamp": "2026-08-08T18:52:59.606122+00:00",
+    "request": "I feel anxious",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.34,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-1992dd57",
+    "timestamp": "2026-08-08T18:52:59.627169+00:00",
+    "request": "I'm stressed with bug fixes",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.0,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d9d40ad5",
+    "timestamp": "2026-08-08T18:52:59.650822+00:00",
+    "request": "I feel exhausted today",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.31,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ee7e5d7a",
+    "timestamp": "2026-08-08T18:52:59.672712+00:00",
+    "request": "I'm feeling stressed about project",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.3,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-04658583",
+    "timestamp": "2026-08-08T18:52:59.697330+00:00",
+    "request": "I feel overwhelmed",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.44,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-57aab168",
+    "timestamp": "2026-08-08T18:52:59.716674+00:00",
+    "request": "I'm feeling bad today",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.08,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-29ba240e",
+    "timestamp": "2026-08-08T18:52:59.748775+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 4.3,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f0012a54",
+    "timestamp": "2026-08-08T18:52:59.768434+00:00",
+    "request": "What is our current topic?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 3.53,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b8bb3d2d",
+    "timestamp": "2026-08-08T18:52:59.799773+00:00",
+    "request": "What were we discussing?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 14.71,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-2ed5c096",
+    "timestamp": "2026-08-08T18:52:59.821012+00:00",
+    "request": "Recall our context",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 2.84,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-034b67e1",
+    "timestamp": "2026-08-08T18:52:59.855705+00:00",
+    "request": "Summarize our conversation",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 14.98,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-41e7bb5c",
+    "timestamp": "2026-08-08T18:52:59.887785+00:00",
+    "request": "What did I ask before?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 17.34,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-1c26310e",
+    "timestamp": "2026-08-08T18:52:59.927411+00:00",
+    "request": "What is my goal right now?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 17.35,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b92a1c77",
+    "timestamp": "2026-08-08T18:52:59.949160+00:00",
+    "request": "What is the workspace context?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 3.38,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-18c16b86",
+    "timestamp": "2026-08-08T18:52:59.971985+00:00",
+    "request": "Where are we?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 10.54,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-32304b74",
+    "timestamp": "2026-08-08T18:52:59.988250+00:00",
+    "request": "What are we working on?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 2.64,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9c5c084d",
+    "timestamp": "2026-08-08T18:53:00.013489+00:00",
+    "request": "What was my last question?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.83,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-07eb7970",
+    "timestamp": "2026-08-08T18:53:00.030627+00:00",
+    "request": "What is the active discussion?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 2.68,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c80df8a8",
+    "timestamp": "2026-08-08T18:53:00.061875+00:00",
+    "request": "Summarize current context",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 12.79,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c3205c83",
+    "timestamp": "2026-08-08T18:53:00.086610+00:00",
+    "request": "What was the previous topic?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.14,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d96cc44c",
+    "timestamp": "2026-08-08T18:53:00.107016+00:00",
+    "request": "What are we talking about right now?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 3.79,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-fe9253e8",
+    "timestamp": "2026-08-08T18:53:00.123051+00:00",
+    "request": "What is our focus?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 2.3,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-dd179fa5",
+    "timestamp": "2026-08-08T18:53:00.147170+00:00",
+    "request": "What topic are we on?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 10.23,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a7ef4921",
+    "timestamp": "2026-08-08T18:53:00.174591+00:00",
+    "request": "Recall current discussion",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.82,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0c2d3ae9",
+    "timestamp": "2026-08-08T18:53:00.205899+00:00",
+    "request": "What is in my context?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 16.33,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-cb64ff26",
+    "timestamp": "2026-08-08T18:53:00.226685+00:00",
+    "request": "What were we talking about earlier?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 3.71,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d967b7e1",
+    "timestamp": "2026-08-08T18:53:00.244828+00:00",
+    "request": "What is my current task?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 4.08,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b324575e",
+    "timestamp": "2026-08-08T18:53:00.264350+00:00",
+    "request": "Summarize active discussion",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 3.77,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a4cf3157",
+    "timestamp": "2026-08-08T18:53:00.293151+00:00",
+    "request": "What are we doing?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.15,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-e3b359f4",
+    "timestamp": "2026-08-08T18:53:00.318349+00:00",
+    "request": "What is the current session topic?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 13.08,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-877be609",
+    "timestamp": "2026-08-08T18:53:00.340089+00:00",
+    "request": "What was our last message about?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.57,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-6b62e927",
+    "timestamp": "2026-08-08T18:53:00.354092+00:00",
+    "request": "Recall workspace context",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 2.12,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-5b99a51c",
+    "timestamp": "2026-08-08T18:53:00.381734+00:00",
+    "request": "What is the main topic?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 12.31,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f444cd4f",
+    "timestamp": "2026-08-08T18:53:00.398643+00:00",
+    "request": "What are we working on currently?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 4.61,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-99afbfb1",
+    "timestamp": "2026-08-08T18:53:00.425905+00:00",
+    "request": "What is the active context?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 15.27,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-5ed4a810",
+    "timestamp": "2026-08-08T18:53:00.443932+00:00",
+    "request": "Summarize the workspace state",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 4.04,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f21216c6",
+    "timestamp": "2026-08-08T18:53:00.469714+00:00",
+    "request": "What did we talk about?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 10.71,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9ed6c0fd",
+    "timestamp": "2026-08-08T18:53:00.497515+00:00",
+    "request": "What is my active goal?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.68,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7cc5fdac",
+    "timestamp": "2026-08-08T18:53:00.520462+00:00",
+    "request": "Where did we leave off?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 10.18,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ed7b8df0",
+    "timestamp": "2026-08-08T18:53:00.544845+00:00",
+    "request": "Recall recent conversation",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 9.99,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ccdf553d",
+    "timestamp": "2026-08-08T18:53:00.559521+00:00",
+    "request": "What are we focusing on?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 2.92,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-e8c6b706",
+    "timestamp": "2026-08-08T18:53:00.588419+00:00",
+    "request": "Hello, remember my favourite drink is coffee",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 14.81,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-3c9df24c",
+    "timestamp": "2026-08-08T18:53:01.216411+00:00",
+    "request": "Hi, open calculator",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 618.5,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-7a407056",
+    "timestamp": "2026-08-08T18:53:01.234347+00:00",
+    "request": "Good morning, what time is it?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 7.98,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-f03f3fd6",
+    "timestamp": "2026-08-08T18:53:01.247330+00:00",
+    "request": "Hello, show my plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 2.59,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-217f9618",
+    "timestamp": "2026-08-08T18:53:01.288922+00:00",
+    "request": "Hi, remember my favourite food is pizza",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 31.81,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-0c336e30",
+    "timestamp": "2026-08-08T18:53:01.782673+00:00",
+    "request": "Good afternoon, open notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 487.09,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-24848be4",
+    "timestamp": "2026-08-08T18:53:01.807254+00:00",
+    "request": "Hello, calculate 50 * 5",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 13.03,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-994cca2e",
+    "timestamp": "2026-08-08T18:53:01.825504+00:00",
+    "request": "Hi, what date is it?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 4.01,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-c066651b",
+    "timestamp": "2026-08-08T18:53:01.874505+00:00",
+    "request": "Hello, what is my favourite drink?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 37.68,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-c7e7d968",
+    "timestamp": "2026-08-08T18:53:02.698994+00:00",
+    "request": "Hi, search web for Python 3.12",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 811.81,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-53a2fbe1",
+    "timestamp": "2026-08-08T18:53:03.338165+00:00",
+    "request": "Good evening, open chrome",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 629.77,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-d48f6c6b",
+    "timestamp": "2026-08-08T18:53:03.368176+00:00",
+    "request": "Hello, what can you do?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 7.88,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-03981cb1",
+    "timestamp": "2026-08-08T18:53:03.397982+00:00",
+    "request": "Hi, remember my project is HarikaEngine",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 10.04,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-07658f02",
+    "timestamp": "2026-08-08T18:53:04.760454+00:00",
+    "request": "Hello, open VS Code",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 1344.39,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-9fdd10d1",
+    "timestamp": "2026-08-08T18:53:04.791554+00:00",
+    "request": "Good morning, how are you?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 6.0,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-716845aa",
+    "timestamp": "2026-08-08T18:53:04.866840+00:00",
+    "request": "Hi, what is my project name?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 47.9,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-ac6fba38",
+    "timestamp": "2026-08-08T18:53:04.900954+00:00",
+    "request": "Hello, calculate 100 / 4",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 15.72,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-fd3ddbc1",
+    "timestamp": "2026-08-08T18:53:06.074351+00:00",
+    "request": "Hi, open GitHub",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 1150.62,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-405140c8",
+    "timestamp": "2026-08-08T18:53:06.105934+00:00",
+    "request": "Good afternoon, show current plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 6.67,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-405d7799",
+    "timestamp": "2026-08-08T18:53:06.156357+00:00",
+    "request": "Hello, remember my favourite city is Tokyo",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 22.69,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-8a5db799",
+    "timestamp": "2026-08-08T18:53:06.247050+00:00",
+    "request": "Hi, what is my favourite city?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 67.95,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-a19c1e4e",
+    "timestamp": "2026-08-08T18:53:06.294663+00:00",
+    "request": "Good evening, what time is it?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 18.13,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-08fd5a93",
+    "timestamp": "2026-08-08T18:53:07.596998+00:00",
+    "request": "Hello, open terminal",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 1280.86,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-630d95c0",
+    "timestamp": "2026-08-08T18:53:07.637515+00:00",
+    "request": "Hi, compute 12 * 12",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 17.09,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-21e83d69",
+    "timestamp": "2026-08-08T18:53:08.902209+00:00",
+    "request": "Hello, search web for FastAPI tutorial",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 1241.85,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-9c7af822",
+    "timestamp": "2026-08-08T18:53:08.944527+00:00",
+    "request": "Hi, remember my favourite language is Python",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 21.85,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-fd810718",
+    "timestamp": "2026-08-08T18:53:09.051158+00:00",
+    "request": "Good morning, what is my favourite language?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 85.45,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-67f9b0f9",
+    "timestamp": "2026-08-08T18:53:09.102867+00:00",
+    "request": "Hello, close calculator",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 27.1,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-903b7f0e",
+    "timestamp": "2026-08-08T18:53:09.174864+00:00",
+    "request": "Hi, close notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 37.33,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-d85cb0af",
+    "timestamp": "2026-08-08T18:53:09.285388+00:00",
+    "request": "Hello, continue my plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "AgentManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 79.65,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-88830927",
+    "timestamp": "2026-08-08T18:53:09.401400+00:00",
+    "request": "Hi, resume plan",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "AgentManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 73.33,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-8fa209c1",
+    "timestamp": "2026-08-08T18:53:09.445548+00:00",
+    "request": "Good afternoon, what are we talking about?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 7.55,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-20d37cd5",
+    "timestamp": "2026-08-08T18:53:09.485610+00:00",
+    "request": "Hello, read clipboard",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 24.68,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-e43718ad",
+    "timestamp": "2026-08-08T18:53:11.185502+00:00",
+    "request": "Hi, open Google",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 1677.59,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-fb252730",
+    "timestamp": "2026-08-08T18:53:11.251689+00:00",
+    "request": "Good evening, what is my goal right now?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "MemoryManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 43.06,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-08bc7b2a",
+    "timestamp": "2026-08-08T18:53:11.279677+00:00",
+    "request": "What can you do?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "capability_inquiry",
+    "reason": "Classified as CAPABILITY_QUERY with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.21,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-be399f4b",
+    "timestamp": "2026-08-08T18:53:11.306892+00:00",
+    "request": "Help",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "capability_inquiry",
+    "reason": "Classified as CAPABILITY_QUERY with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 4.11,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7bad1d88",
+    "timestamp": "2026-08-08T18:53:11.329266+00:00",
+    "request": "Capabilities",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "capability_inquiry",
+    "reason": "Classified as CAPABILITY_QUERY with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.91,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-64c532ef",
+    "timestamp": "2026-08-08T18:53:11.356005+00:00",
+    "request": "Commands",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "capability_inquiry",
+    "reason": "Classified as CAPABILITY_QUERY with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 4.19,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-34bbfafa",
+    "timestamp": "2026-08-08T18:53:11.383731+00:00",
+    "request": "what else can you do",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "capability_inquiry",
+    "reason": "Classified as CAPABILITY_QUERY with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 4.24,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-5dc24306",
+    "timestamp": "2026-08-08T18:53:12.052014+00:00",
+    "request": "Open Notepad",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_app",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 639.88,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c022b6da",
+    "timestamp": "2026-08-08T18:53:45.411499+00:00",
+    "request": "I can't see notepad.",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "verify_and_recover",
+    "reason": "Classified as EXECUTION_FEEDBACK with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 33338.93,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c746c454",
+    "timestamp": "2026-08-08T18:53:46.420386+00:00",
+    "request": "Remember my favourite drink is coffee.",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 22.09,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b70460b1",
+    "timestamp": "2026-08-08T18:53:46.524392+00:00",
+    "request": "What's my favourite drink?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 83.84,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-4061b8cf",
+    "timestamp": "2026-08-08T18:53:46.617261+00:00",
+    "request": "No, it's tea.",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 73.14,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-1b9a5809",
+    "timestamp": "2026-08-08T18:53:46.709408+00:00",
+    "request": "What's my favourite drink?",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 73.47,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-07db6984",
+    "timestamp": "2026-08-08T18:53:46.895849+00:00",
+    "request": "My favourite drink is coffee",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 30.9,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-4c49cc9d",
+    "timestamp": "2026-08-08T18:53:47.014214+00:00",
+    "request": "My favourite food is dosa",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 99.16,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-21a05317",
+    "timestamp": "2026-08-08T18:53:47.121431+00:00",
+    "request": "What is my favourite food",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 85.35,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-83effbab",
+    "timestamp": "2026-08-08T18:53:47.231392+00:00",
+    "request": "My favourite food is dosa",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 83.18,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0679ed0d",
+    "timestamp": "2026-08-08T18:53:47.409995+00:00",
+    "request": "No. I like biryani now",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 156.2,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9a49eff9",
+    "timestamp": "2026-08-08T18:53:47.510771+00:00",
+    "request": "What do I like",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 78.39,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3c53ecd4",
+    "timestamp": "2026-08-08T18:53:47.561609+00:00",
+    "request": "continue",
+    "context_summary": {
+      "active_agent": "agent-97114665",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 27.54,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7e537e16",
+    "timestamp": "2026-08-08T18:54:07.160517+00:00",
+    "request": "I keep getting a build error",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "process_chat",
+    "reason": "Classified as CHAT with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "CHAT_ONLY",
+    "execution_time_ms": 19579.47,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-95290636",
+    "timestamp": "2026-08-08T18:54:27.797840+00:00",
+    "request": "I'm presenting tomorrow",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "process_chat",
+    "reason": "Classified as CHAT with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "CHAT_ONLY",
+    "execution_time_ms": 20619.26,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-619e5e97",
+    "timestamp": "2026-08-08T18:54:27.828239+00:00",
+    "request": "Calculate 125 * 48",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 10.43,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-01f3317f",
+    "timestamp": "2026-08-08T18:54:27.848049+00:00",
+    "request": "Hello",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 2.64,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-5c9b4312",
+    "timestamp": "2026-08-08T18:54:27.866017+00:00",
+    "request": "Good morning",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 2.89,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-966799b2",
+    "timestamp": "2026-08-08T18:54:27.883861+00:00",
+    "request": "Hi",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 2.96,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9536accb",
+    "timestamp": "2026-08-08T18:54:27.910055+00:00",
+    "request": "What time is it?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "datetime",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 9.7,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a46db481",
+    "timestamp": "2026-08-08T18:54:27.933569+00:00",
+    "request": "Calculate 125*48",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 9.15,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-387604d6",
+    "timestamp": "2026-08-08T18:54:27.961461+00:00",
+    "request": "Remember my favourite drink is coffee",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 12.56,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-9f9b2b54",
+    "timestamp": "2026-08-08T18:54:28.040765+00:00",
+    "request": "What is my favourite food?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 65.14,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-dfc3d1e1",
+    "timestamp": "2026-08-08T18:54:28.068373+00:00",
+    "request": "Favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.61,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-2053829f",
+    "timestamp": "2026-08-08T18:54:28.204058+00:00",
+    "request": "No. Favourite food is biryani",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 121.21,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-8d66064b",
+    "timestamp": "2026-08-08T18:54:28.278421+00:00",
+    "request": "What is my favourite food?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 57.96,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-df56062d",
+    "timestamp": "2026-08-08T18:54:28.309552+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 15.18,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b026a85f",
+    "timestamp": "2026-08-08T18:54:28.386974+00:00",
+    "request": "What is my favourite food?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 60.64,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-e802013a",
+    "timestamp": "2026-08-08T18:54:28.417519+00:00",
+    "request": "Remember my favourite drink is coffee",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 13.55,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7d099c7f",
+    "timestamp": "2026-08-08T18:54:28.491854+00:00",
+    "request": "What is my favourite food?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 57.95,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0ad91c43",
+    "timestamp": "2026-08-08T18:54:28.510174+00:00",
+    "request": "Hello",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 2.88,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c3e2fb98",
+    "timestamp": "2026-08-08T18:54:28.528289+00:00",
+    "request": "How are you?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.07,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-5e898830",
+    "timestamp": "2026-08-08T18:54:28.545535+00:00",
+    "request": "Thanks",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.25,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d8573159",
+    "timestamp": "2026-08-08T18:54:28.564506+00:00",
+    "request": "Bye",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 3.05,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-08f6c21c",
+    "timestamp": "2026-08-08T18:54:53.723628+00:00",
+    "request": "Still closed",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "verify_and_recover",
+    "reason": "Classified as EXECUTION_FEEDBACK with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 25134.9,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-88858f3d",
+    "timestamp": "2026-08-08T18:54:54.962346+00:00",
+    "request": "hello open github",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 1219.81,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-8ae7a7cb",
+    "timestamp": "2026-08-08T18:54:55.014576+00:00",
+    "request": "calculate 25*18 and remember it",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 35.91,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-82cbb3ac",
+    "timestamp": "2026-08-08T18:54:56.273624+00:00",
+    "request": "remember my favourite drink is coffee then open github",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 1237.13,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-05384221",
+    "timestamp": "2026-08-08T18:54:56.291673+00:00",
+    "request": "How are you?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.11,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-303f997c",
+    "timestamp": "2026-08-08T18:54:56.309779+00:00",
+    "request": "How are you?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "social_chat",
+    "reason": "Classified as SOCIAL_CONVERSATION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 2.06,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-e1a3b16e",
+    "timestamp": "2026-08-08T18:54:56.421241+00:00",
+    "request": "Calculate 125 * 48",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 11.16,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f65fcd1d",
+    "timestamp": "2026-08-08T18:54:57.911398+00:00",
+    "request": "Calculate 25 * 18",
+    "context_summary": {
+      "active_agent": "agent-b49f2d77",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "calculator",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 9.02,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ff371a6d",
+    "timestamp": "2026-08-08T18:55:27.779641+00:00",
+    "request": "Remember my favourite drink is coffee",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 124.5,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ef375b1a",
+    "timestamp": "2026-08-08T18:55:27.947308+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 151.58,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-07f1e5bb",
+    "timestamp": "2026-08-08T18:55:28.039866+00:00",
+    "request": "Remember my favourite color is blue",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 75.92,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a74d565a",
+    "timestamp": "2026-08-08T18:55:28.170204+00:00",
+    "request": "Remember my favourite language is Python",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 115.12,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-15e779b4",
+    "timestamp": "2026-08-08T18:55:28.267250+00:00",
+    "request": "Remember my favourite pet is dog",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 80.05,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-351485c5",
+    "timestamp": "2026-08-08T18:55:28.437232+00:00",
+    "request": "Remember my favourite city is Tokyo",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 154.89,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-970822c1",
+    "timestamp": "2026-08-08T18:55:28.528703+00:00",
+    "request": "Remember my favourite sport is cricket",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 76.02,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-eb0fb535",
+    "timestamp": "2026-08-08T18:55:28.622859+00:00",
+    "request": "Remember my favourite music is rock",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 79.21,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d0c32110",
+    "timestamp": "2026-08-08T18:55:28.712570+00:00",
+    "request": "Remember my favourite fruit is mango",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 73.95,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-266df88e",
+    "timestamp": "2026-08-08T18:55:28.794118+00:00",
+    "request": "What is my favourite drink?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 66.95,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-33b5998a",
+    "timestamp": "2026-08-08T18:55:28.824749+00:00",
+    "request": "Do you know my favourite drink?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 16.04,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a564f323",
+    "timestamp": "2026-08-08T19:03:23.605904+00:00",
+    "request": "Search web for latest AI news",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 1516.46,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7c114566",
+    "timestamp": "2026-08-08T19:03:41.916783+00:00",
+    "request": "Search for FastAPI tutorials",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 1310.3,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-68edca3b",
+    "timestamp": "2026-08-08T19:03:58.663632+00:00",
+    "request": "Google latest AI news",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 1223.09,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ceeb8b7d",
+    "timestamp": "2026-08-08T19:04:16.550902+00:00",
+    "request": "Visit https://google.com",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "ToolManager"
+    ],
+    "chosen_engine": "ToolManager",
+    "chosen_action": "open_website",
+    "reason": "Classified as TOOL_EXECUTION with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "TOOL_FIRST",
+    "execution_time_ms": 1139.11,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-6fecd99e",
+    "timestamp": "2026-08-08T19:04:28.406132+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 130.39,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-13824565",
+    "timestamp": "2026-08-08T19:04:44.524943+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 30.64,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d3fd3bf6",
+    "timestamp": "2026-08-08T19:05:11.449837+00:00",
+    "request": "What am I working on?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 42.64,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-47ec9b46",
+    "timestamp": "2026-08-08T19:05:36.304386+00:00",
+    "request": "What's my favourite food?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 95.3,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-2ef7e4d3",
+    "timestamp": "2026-08-08T19:05:48.724866+00:00",
+    "request": "Plan for Sunday",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 45.84,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7793ca19",
+    "timestamp": "2026-08-08T19:06:00.709888+00:00",
+    "request": "Show plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 34.74,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7a595325",
+    "timestamp": "2026-08-08T19:06:18.833376+00:00",
+    "request": "Where is my plan?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 31.83,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-ece01f6d",
+    "timestamp": "2026-08-08T19:06:34.383051+00:00",
+    "request": "Continue my plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "AgentManager"
+    ],
+    "chosen_engine": "AgentManager",
+    "chosen_action": "continue_agent",
+    "reason": "Classified as AGENT_CONTINUE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 149.17,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-1d04d11a",
+    "timestamp": "2026-08-08T19:06:58.477750+00:00",
+    "request": "What can you do?",
+    "context_summary": {
+      "active_agent": "agent-a30abd8c",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "capability_inquiry",
+    "reason": "Classified as CAPABILITY_QUERY with confidence 0.98",
+    "confidence": 0.98,
+    "policy": "AUTO",
+    "execution_time_ms": 25.22,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-bbdf6787",
+    "timestamp": "2026-08-08T19:07:28.711204+00:00",
+    "request": "Hello search web for latest AI news",
+    "context_summary": {
+      "active_agent": "agent-a30abd8c",
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "CognitionManager",
+      "ToolManager"
+    ],
+    "chosen_engine": "CognitionManager",
+    "chosen_action": "greeting",
+    "reason": "Classified as GREETING with confidence 0.99",
+    "confidence": 0.99,
+    "policy": "AUTO",
+    "execution_time_ms": 1411.84,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 2
+  },
+  {
+    "decision_id": "dec-07814e4e",
+    "timestamp": "2026-08-08T19:12:41.628419+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 14.69,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-016a2010",
+    "timestamp": "2026-08-08T19:12:41.654179+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.64,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c19e0c60",
+    "timestamp": "2026-08-08T19:12:41.674349+00:00",
+    "request": "What am I working on?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 4.01,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0f9821b2",
+    "timestamp": "2026-08-08T19:12:41.694051+00:00",
+    "request": "Plan for Sunday",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 2.42,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-7dda0be7",
+    "timestamp": "2026-08-08T19:12:41.711941+00:00",
+    "request": "Show plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 3.82,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b89277f9",
+    "timestamp": "2026-08-08T19:12:59.791091+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 12.77,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d0e2ee8a",
+    "timestamp": "2026-08-08T19:12:59.807623+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 1.97,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-8a188351",
+    "timestamp": "2026-08-08T19:12:59.827777+00:00",
+    "request": "What am I working on?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 1.57,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0750b7d4",
+    "timestamp": "2026-08-08T19:12:59.843909+00:00",
+    "request": "Plan for Sunday",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 1.38,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-efd8ef6c",
+    "timestamp": "2026-08-08T19:12:59.862357+00:00",
+    "request": "Show plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 2.08,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-195deb43",
+    "timestamp": "2026-08-08T19:13:09.756929+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 14.31,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-45c44bfe",
+    "timestamp": "2026-08-08T19:13:09.774441+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 1.69,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-1b1ad87c",
+    "timestamp": "2026-08-08T19:13:09.793687+00:00",
+    "request": "What am I working on?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 1.37,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-d7b8ef16",
+    "timestamp": "2026-08-08T19:13:09.809972+00:00",
+    "request": "Plan for Sunday",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 1.34,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-3c13ee8f",
+    "timestamp": "2026-08-08T19:13:09.835118+00:00",
+    "request": "Show plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 1.69,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-2f2f7c5f",
+    "timestamp": "2026-08-08T19:14:33.610867+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 11.99,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-132040bc",
+    "timestamp": "2026-08-08T19:14:33.626907+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 1.7,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-c6a08617",
+    "timestamp": "2026-08-08T19:14:33.646274+00:00",
+    "request": "What am I working on?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 1.98,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-47a18f21",
+    "timestamp": "2026-08-08T19:14:33.661341+00:00",
+    "request": "Plan for Sunday",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 1.67,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-2e085350",
+    "timestamp": "2026-08-08T19:14:33.682859+00:00",
+    "request": "Show plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 1.55,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-5684e9b6",
+    "timestamp": "2026-08-08T19:14:54.616709+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 25.3,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-bade8aa2",
+    "timestamp": "2026-08-08T19:14:54.637192+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 2.82,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-f162ffd2",
+    "timestamp": "2026-08-08T19:14:54.698169+00:00",
+    "request": "What am I working on?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 4.34,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a6ba3ccb",
+    "timestamp": "2026-08-08T19:14:54.722950+00:00",
+    "request": "Plan for Sunday",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 4.25,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-85b27675",
+    "timestamp": "2026-08-08T19:14:54.742715+00:00",
+    "request": "Show plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 3.41,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-a3552bdd",
+    "timestamp": "2026-08-08T19:21:13.676392+00:00",
+    "request": "Remember my favourite food is dosa",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "add_memory",
+    "reason": "Classified as MEMORY_STORE with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 120.77,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-4f2defaf",
+    "timestamp": "2026-08-08T19:21:32.857034+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 80.09,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-27467060",
+    "timestamp": "2026-08-08T19:21:58.686632+00:00",
+    "request": "What are we talking about?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 39.37,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-2910d3d9",
+    "timestamp": "2026-08-08T19:22:22.941821+00:00",
+    "request": "What am I working on?",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "MemoryManager"
+    ],
+    "chosen_engine": "MemoryManager",
+    "chosen_action": "query_memory",
+    "reason": "Classified as MEMORY_QUERY with confidence 0.92",
+    "confidence": 0.92,
+    "policy": "MEMORY_FIRST",
+    "execution_time_ms": 26.56,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-0fae44d4",
+    "timestamp": "2026-08-08T19:22:37.661769+00:00",
+    "request": "Plan for Sunday",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "create_plan",
+    "reason": "Classified as PLAN_CREATION with confidence 0.90",
+    "confidence": 0.9,
+    "policy": "AUTO",
+    "execution_time_ms": 61.13,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  },
+  {
+    "decision_id": "dec-b35ed7aa",
+    "timestamp": "2026-08-08T19:22:46.713902+00:00",
+    "request": "Show plan",
+    "context_summary": {
+      "active_agent": null,
+      "active_goal": null
+    },
+    "candidate_engines": [
+      "HierarchicalPlanner"
+    ],
+    "chosen_engine": "HierarchicalPlanner",
+    "chosen_action": "get_plan_status",
+    "reason": "Classified as PLAN_QUERY with confidence 0.95",
+    "confidence": 0.95,
+    "policy": "AUTO",
+    "execution_time_ms": 32.36,
+    "formatter_used": "presence_communication",
+    "success": true,
+    "fallback_used": false,
+    "action_graph_nodes": 1
+  }
+]

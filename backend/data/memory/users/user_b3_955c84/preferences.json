@@ -1,0 +1,22 @@
+[
+  {
+    "id": "mem-prs-e9367706",
+    "category": "preferences",
+    "title": "User Fact: user favourite_drink is coffee",
+    "content": "My favourite_drink is coffee",
+    "importance": 0.9,
+    "confidence": 0.98,
+    "source": "presence",
+    "tags": [
+      "user",
+      "favourite_drink",
+      "coffee"
+    ],
+    "version": 1,
+    "revision": 1,
+    "deleted": false,
+    "created_at": "2026-08-07T17:45:26.814675+00:00",
+    "updated_at": "2026-08-07T17:45:26.814697+00:00",
+    "last_accessed": "2026-08-07T17:45:26.814703+00:00"
+  }
+]
