@@ -15,7 +15,7 @@ class ShortTermMemory:
         if len(self.history) > self.max_messages:
             self.history.pop(0)
 
-    def get_history(() -> List[Dict[str, str]]:
+    def get_history(self) -> List[Dict[str, str]]:
         return list(self.history)
 
     def clear(self) -> None:

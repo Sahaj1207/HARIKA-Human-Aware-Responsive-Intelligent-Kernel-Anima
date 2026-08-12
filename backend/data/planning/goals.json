@@ -4688,5 +4688,745 @@
     "progress": 0.0,
     "created_at": "2026-08-08T19:22:37.616995+00:00",
     "updated_at": "2026-08-08T19:22:37.617034+00:00"
+  },
+  {
+    "id": "goal-bddb5570",
+    "title": "Goal for 'Create a plan to refactor backend tests'",
+    "description": "Create a plan to refactor backend tests",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:42:54.019606+00:00",
+    "updated_at": "2026-08-09T17:42:54.019606+00:00"
+  },
+  {
+    "id": "goal-566d0f33",
+    "title": "Goal for 'Plan how to deploy the web application'",
+    "description": "Plan how to deploy the web application",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:42:54.033124+00:00",
+    "updated_at": "2026-08-09T17:42:54.033124+00:00"
+  },
+  {
+    "id": "goal-641f44cf",
+    "title": "Goal for 'Create plan for database migration'",
+    "description": "Create plan for database migration",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:42:54.051563+00:00",
+    "updated_at": "2026-08-09T17:42:54.052566+00:00"
+  },
+  {
+    "id": "goal-c33bc4bc",
+    "title": "Goal for 'Make a plan to optimize API endpoints'",
+    "description": "Make a plan to optimize API endpoints",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:42:54.065572+00:00",
+    "updated_at": "2026-08-09T17:42:54.065572+00:00"
+  },
+  {
+    "id": "goal-5177aaae",
+    "title": "Goal for 'Build a plan for user authentication'",
+    "description": "Build a plan for user authentication",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:42:54.080566+00:00",
+    "updated_at": "2026-08-09T17:42:54.080566+00:00"
+  },
+  {
+    "id": "goal-f883dc6a",
+    "title": "Goal for 'Plan for Sunday'",
+    "description": "Plan for Sunday",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:46:12.551171+00:00",
+    "updated_at": "2026-08-09T17:46:12.551171+00:00"
+  },
+  {
+    "id": "goal-4535155a",
+    "title": "Goal for 'Continue my plan'",
+    "description": "Continue my plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:46:12.669780+00:00",
+    "updated_at": "2026-08-09T17:46:12.676781+00:00"
+  },
+  {
+    "id": "goal-eb4be38a",
+    "title": "Goal for 'Create a plan to refactor backend tests'",
+    "description": "Create a plan to refactor backend tests",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.059257+00:00",
+    "updated_at": "2026-08-09T17:49:06.059257+00:00"
+  },
+  {
+    "id": "goal-3be5f86d",
+    "title": "Goal for 'Plan how to deploy the web application'",
+    "description": "Plan how to deploy the web application",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.072258+00:00",
+    "updated_at": "2026-08-09T17:49:06.072258+00:00"
+  },
+  {
+    "id": "goal-7a981907",
+    "title": "Goal for 'Create plan for database migration'",
+    "description": "Create plan for database migration",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.085259+00:00",
+    "updated_at": "2026-08-09T17:49:06.085259+00:00"
+  },
+  {
+    "id": "goal-8778e142",
+    "title": "Goal for 'Make a plan to optimize API endpoints'",
+    "description": "Make a plan to optimize API endpoints",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.097260+00:00",
+    "updated_at": "2026-08-09T17:49:06.097260+00:00"
+  },
+  {
+    "id": "goal-b3a8bd85",
+    "title": "Goal for 'Build a plan for user authentication'",
+    "description": "Build a plan for user authentication",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.110256+00:00",
+    "updated_at": "2026-08-09T17:49:06.110256+00:00"
+  },
+  {
+    "id": "goal-3965c773",
+    "title": "Goal for 'Continue my plan'",
+    "description": "Continue my plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.185421+00:00",
+    "updated_at": "2026-08-09T17:49:06.193925+00:00"
+  },
+  {
+    "id": "goal-51f56df3",
+    "title": "Goal for 'Resume current plan'",
+    "description": "Resume current plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.209926+00:00",
+    "updated_at": "2026-08-09T17:49:06.215928+00:00"
+  },
+  {
+    "id": "goal-82164ba4",
+    "title": "Goal for 'Proceed with plan'",
+    "description": "Proceed with plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.262440+00:00",
+    "updated_at": "2026-08-09T17:49:06.271441+00:00"
+  },
+  {
+    "id": "goal-e8307f62",
+    "title": "Goal for 'Execute next step in plan'",
+    "description": "Execute next step in plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.315521+00:00",
+    "updated_at": "2026-08-09T17:49:06.322521+00:00"
+  },
+  {
+    "id": "goal-114cf69a",
+    "title": "Goal for 'Keep going with plan'",
+    "description": "Keep going with plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.372209+00:00",
+    "updated_at": "2026-08-09T17:49:06.382218+00:00"
+  },
+  {
+    "id": "goal-38a30063",
+    "title": "Goal for 'Create plan for frontend UI polish'",
+    "description": "Create plan for frontend UI polish",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.421735+00:00",
+    "updated_at": "2026-08-09T17:49:06.421735+00:00"
+  },
+  {
+    "id": "goal-8e31259f",
+    "title": "Goal for 'Plan for error handling improvements'",
+    "description": "Plan for error handling improvements",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.434737+00:00",
+    "updated_at": "2026-08-09T17:49:06.434737+00:00"
+  },
+  {
+    "id": "goal-50843558",
+    "title": "Goal for 'Create a plan to add unit tests'",
+    "description": "Create a plan to add unit tests",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.448743+00:00",
+    "updated_at": "2026-08-09T17:49:06.448743+00:00"
+  },
+  {
+    "id": "goal-37b2ea74",
+    "title": "Goal for 'Plan system backup strategy'",
+    "description": "Plan system backup strategy",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.465249+00:00",
+    "updated_at": "2026-08-09T17:49:06.465249+00:00"
+  },
+  {
+    "id": "goal-ee342c06",
+    "title": "Goal for 'Create plan to monitor CPU usage'",
+    "description": "Create plan to monitor CPU usage",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.480253+00:00",
+    "updated_at": "2026-08-09T17:49:06.480253+00:00"
+  },
+  {
+    "id": "goal-1636d8f9",
+    "title": "Goal for 'Continue active plan'",
+    "description": "Continue active plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.531758+00:00",
+    "updated_at": "2026-08-09T17:49:06.539775+00:00"
+  },
+  {
+    "id": "goal-d56942fc",
+    "title": "Goal for 'Resume plan execution'",
+    "description": "Resume plan execution",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.578291+00:00",
+    "updated_at": "2026-08-09T17:49:06.583289+00:00"
+  },
+  {
+    "id": "goal-f51f8eb3",
+    "title": "Goal for 'Continue goal execution'",
+    "description": "Continue goal execution",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.628806+00:00",
+    "updated_at": "2026-08-09T17:49:06.633804+00:00"
+  },
+  {
+    "id": "goal-1ffe18a8",
+    "title": "Goal for 'Proceed to next plan step'",
+    "description": "Proceed to next plan step",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.674337+00:00",
+    "updated_at": "2026-08-09T17:49:06.674337+00:00"
+  },
+  {
+    "id": "goal-13dc3ee9",
+    "title": "Goal for 'Execute active plan'",
+    "description": "Execute active plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.685335+00:00",
+    "updated_at": "2026-08-09T17:49:06.692337+00:00"
+  },
+  {
+    "id": "goal-ba6dbe5e",
+    "title": "Goal for 'Create plan for logging integration'",
+    "description": "Create plan for logging integration",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.729343+00:00",
+    "updated_at": "2026-08-09T17:49:06.729343+00:00"
+  },
+  {
+    "id": "goal-03fc7e75",
+    "title": "Goal for 'Plan security audit workflow'",
+    "description": "Plan security audit workflow",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:49:06.744339+00:00",
+    "updated_at": "2026-08-09T17:49:06.744339+00:00"
+  },
+  {
+    "id": "goal-8ce4d4c9",
+    "title": "Goal for 'Continue plan'",
+    "description": "Continue plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.764846+00:00",
+    "updated_at": "2026-08-09T17:49:06.771849+00:00"
+  },
+  {
+    "id": "goal-5ad570cc",
+    "title": "Goal for 'Resume plan'",
+    "description": "Resume plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:49:06.809982+00:00",
+    "updated_at": "2026-08-09T17:49:06.815982+00:00"
+  },
+  {
+    "id": "goal-743c406b",
+    "title": "Goal for ' continue my plan'",
+    "description": " continue my plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:51:00.599772+00:00",
+    "updated_at": "2026-08-09T17:51:00.682383+00:00"
+  },
+  {
+    "id": "goal-d7afe2bf",
+    "title": "Goal for ' resume plan'",
+    "description": " resume plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:51:00.762616+00:00",
+    "updated_at": "2026-08-09T17:51:00.784645+00:00"
+  },
+  {
+    "id": "goal-fad30bb0",
+    "title": "Goal for 'Multi step plan'",
+    "description": "Multi step plan",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:52:48.225558+00:00",
+    "updated_at": "2026-08-09T17:52:48.225558+00:00"
+  },
+  {
+    "id": "goal-ba851706",
+    "title": "Goal for 'Test State Machine'",
+    "description": "Test State Machine",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:52:48.236940+00:00",
+    "updated_at": "2026-08-09T17:52:48.236940+00:00"
+  },
+  {
+    "id": "goal-9974d61e",
+    "title": "Goal for 'Versioned plan'",
+    "description": "Versioned plan",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:52:48.262386+00:00",
+    "updated_at": "2026-08-09T17:52:48.262386+00:00"
+  },
+  {
+    "id": "goal-d9e7f1f6",
+    "title": "Goal for 'Plan to Cancel'",
+    "description": "Plan to Cancel",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:52:48.271388+00:00",
+    "updated_at": "2026-08-09T17:52:48.271388+00:00"
+  },
+  {
+    "id": "goal-a152b538",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:52:49.665352+00:00",
+    "updated_at": "2026-08-09T17:52:49.678837+00:00"
+  },
+  {
+    "id": "goal-63f522b7",
+    "title": "Goal for 'Plan for Sunday'",
+    "description": "Plan for Sunday",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:55:37.643506+00:00",
+    "updated_at": "2026-08-09T17:55:37.643506+00:00"
+  },
+  {
+    "id": "goal-6a37429b",
+    "title": "Goal for 'Create a plan to refactor backend tests'",
+    "description": "Create a plan to refactor backend tests",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.337004+00:00",
+    "updated_at": "2026-08-09T17:56:47.337004+00:00"
+  },
+  {
+    "id": "goal-460c6fe3",
+    "title": "Goal for 'Plan how to deploy the web application'",
+    "description": "Plan how to deploy the web application",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.361013+00:00",
+    "updated_at": "2026-08-09T17:56:47.361013+00:00"
+  },
+  {
+    "id": "goal-45b8062e",
+    "title": "Goal for 'Create plan for database migration'",
+    "description": "Create plan for database migration",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.385696+00:00",
+    "updated_at": "2026-08-09T17:56:47.385696+00:00"
+  },
+  {
+    "id": "goal-a24c7c79",
+    "title": "Goal for 'Make a plan to optimize API endpoints'",
+    "description": "Make a plan to optimize API endpoints",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.409235+00:00",
+    "updated_at": "2026-08-09T17:56:47.409235+00:00"
+  },
+  {
+    "id": "goal-c87afd6f",
+    "title": "Goal for 'Build a plan for user authentication'",
+    "description": "Build a plan for user authentication",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.447663+00:00",
+    "updated_at": "2026-08-09T17:56:47.447663+00:00"
+  },
+  {
+    "id": "goal-b9c6e54d",
+    "title": "Goal for 'Continue my plan'",
+    "description": "Continue my plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:47.591078+00:00",
+    "updated_at": "2026-08-09T17:56:47.601080+00:00"
+  },
+  {
+    "id": "goal-8315eae3",
+    "title": "Goal for 'Resume current plan'",
+    "description": "Resume current plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:47.658375+00:00",
+    "updated_at": "2026-08-09T17:56:47.669379+00:00"
+  },
+  {
+    "id": "goal-3aabc027",
+    "title": "Goal for 'Proceed with plan'",
+    "description": "Proceed with plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:47.727128+00:00",
+    "updated_at": "2026-08-09T17:56:47.739140+00:00"
+  },
+  {
+    "id": "goal-788a9065",
+    "title": "Goal for 'Execute next step in plan'",
+    "description": "Execute next step in plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:47.794238+00:00",
+    "updated_at": "2026-08-09T17:56:47.804239+00:00"
+  },
+  {
+    "id": "goal-3c7da093",
+    "title": "Goal for 'Keep going with plan'",
+    "description": "Keep going with plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:47.866518+00:00",
+    "updated_at": "2026-08-09T17:56:47.882037+00:00"
+  },
+  {
+    "id": "goal-89183c95",
+    "title": "Goal for 'Create plan for frontend UI polish'",
+    "description": "Create plan for frontend UI polish",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.933961+00:00",
+    "updated_at": "2026-08-09T17:56:47.933961+00:00"
+  },
+  {
+    "id": "goal-77c6e224",
+    "title": "Goal for 'Plan for error handling improvements'",
+    "description": "Plan for error handling improvements",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.960027+00:00",
+    "updated_at": "2026-08-09T17:56:47.960027+00:00"
+  },
+  {
+    "id": "goal-9e4785af",
+    "title": "Goal for 'Create a plan to add unit tests'",
+    "description": "Create a plan to add unit tests",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:47.993299+00:00",
+    "updated_at": "2026-08-09T17:56:47.993299+00:00"
+  },
+  {
+    "id": "goal-ccabb6f3",
+    "title": "Goal for 'Plan system backup strategy'",
+    "description": "Plan system backup strategy",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:48.026302+00:00",
+    "updated_at": "2026-08-09T17:56:48.026302+00:00"
+  },
+  {
+    "id": "goal-e06196f5",
+    "title": "Goal for 'Create plan to monitor CPU usage'",
+    "description": "Create plan to monitor CPU usage",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:48.054792+00:00",
+    "updated_at": "2026-08-09T17:56:48.054792+00:00"
+  },
+  {
+    "id": "goal-faa1d862",
+    "title": "Goal for 'Continue active plan'",
+    "description": "Continue active plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:48.187281+00:00",
+    "updated_at": "2026-08-09T17:56:48.201635+00:00"
+  },
+  {
+    "id": "goal-3a691cb8",
+    "title": "Goal for 'Resume plan execution'",
+    "description": "Resume plan execution",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:48.274021+00:00",
+    "updated_at": "2026-08-09T17:56:48.292252+00:00"
+  },
+  {
+    "id": "goal-4bc538b4",
+    "title": "Goal for 'Continue goal execution'",
+    "description": "Continue goal execution",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:48.365301+00:00",
+    "updated_at": "2026-08-09T17:56:48.380596+00:00"
+  },
+  {
+    "id": "goal-a12ba936",
+    "title": "Goal for 'Proceed to next plan step'",
+    "description": "Proceed to next plan step",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:48.440412+00:00",
+    "updated_at": "2026-08-09T17:56:48.440412+00:00"
+  },
+  {
+    "id": "goal-4e4a3788",
+    "title": "Goal for 'Execute active plan'",
+    "description": "Execute active plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:48.470280+00:00",
+    "updated_at": "2026-08-09T17:56:48.485277+00:00"
+  },
+  {
+    "id": "goal-8ffcdc23",
+    "title": "Goal for 'Create plan for logging integration'",
+    "description": "Create plan for logging integration",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:48.558223+00:00",
+    "updated_at": "2026-08-09T17:56:48.558223+00:00"
+  },
+  {
+    "id": "goal-e88e4c6a",
+    "title": "Goal for 'Plan security audit workflow'",
+    "description": "Plan security audit workflow",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T17:56:48.597701+00:00",
+    "updated_at": "2026-08-09T17:56:48.597701+00:00"
+  },
+  {
+    "id": "goal-55a6b242",
+    "title": "Goal for 'Continue plan'",
+    "description": "Continue plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:48.646296+00:00",
+    "updated_at": "2026-08-09T17:56:48.662254+00:00"
+  },
+  {
+    "id": "goal-298673da",
+    "title": "Goal for 'Resume plan'",
+    "description": "Resume plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:56:48.722580+00:00",
+    "updated_at": "2026-08-09T17:56:48.740084+00:00"
+  },
+  {
+    "id": "goal-7006cd7e",
+    "title": "Goal for ' continue my plan'",
+    "description": " continue my plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:58:48.513618+00:00",
+    "updated_at": "2026-08-09T17:58:49.093886+00:00"
+  },
+  {
+    "id": "goal-d39d6c8e",
+    "title": "Goal for ' resume plan'",
+    "description": " resume plan",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T17:58:49.308794+00:00",
+    "updated_at": "2026-08-09T17:58:49.381862+00:00"
+  },
+  {
+    "id": "goal-80fed35b",
+    "title": "Goal for 'Multi step plan'",
+    "description": "Multi step plan",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T18:00:18.203294+00:00",
+    "updated_at": "2026-08-09T18:00:18.203294+00:00"
+  },
+  {
+    "id": "goal-98f16768",
+    "title": "Goal for 'Test State Machine'",
+    "description": "Test State Machine",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T18:00:18.222292+00:00",
+    "updated_at": "2026-08-09T18:00:18.222292+00:00"
+  },
+  {
+    "id": "goal-394ac66e",
+    "title": "Goal for 'Versioned plan'",
+    "description": "Versioned plan",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T18:00:18.257296+00:00",
+    "updated_at": "2026-08-09T18:00:18.257296+00:00"
+  },
+  {
+    "id": "goal-41cfe838",
+    "title": "Goal for 'Plan to Cancel'",
+    "description": "Plan to Cancel",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T18:00:18.271804+00:00",
+    "updated_at": "2026-08-09T18:00:18.271804+00:00"
+  },
+  {
+    "id": "goal-0caf637f",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-09T18:00:19.988157+00:00",
+    "updated_at": "2026-08-09T18:00:20.001156+00:00"
+  },
+  {
+    "id": "goal-aad36fe6",
+    "title": "Goal for 'Plan for Sunday'",
+    "description": "Plan for Sunday",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-08-09T18:03:01.562208+00:00",
+    "updated_at": "2026-08-09T18:03:01.562208+00:00"
+  },
+  {
+    "id": "goal-bd44df24",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-12T16:52:40.459567+00:00",
+    "updated_at": "2026-08-12T16:52:40.477088+00:00"
+  },
+  {
+    "id": "goal-32935c3f",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-12T16:54:09.132157+00:00",
+    "updated_at": "2026-08-12T16:54:09.152319+00:00"
+  },
+  {
+    "id": "goal-3624860d",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-12T17:14:01.707564+00:00",
+    "updated_at": "2026-08-12T17:14:01.728604+00:00"
   }
 ]

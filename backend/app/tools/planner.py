@@ -48,6 +48,16 @@ class ActionPlanner:
                 confidence=0.95
             )
 
+        # 3. Close Website Trigger
+        close_web_match = re.search(r"(?:close|kill|terminate|stop)\s+(google|github|youtube|twitter|reddit|stackoverflow|chatgpt|https?://[^\s]+|[^\s]+\.[a-z]{2,})", msg_lower)
+        if close_web_match:
+            target = close_web_match.group(1).strip()
+            return ActionPlan(
+                is_tool_action=True,
+                actions=[SingleAction(tool_name="close_website", arguments={"target": target}, reasoning="User requested closing a browser website/tab.")],
+                confidence=0.90
+            )
+
         # 3. Open Website Trigger
         web_match = re.search(r"(?:(?:open|launch|visit)\s+)?(google|github|youtube|twitter|reddit|stackoverflow|chatgpt|https?://[^\s]+)", msg_lower)
 

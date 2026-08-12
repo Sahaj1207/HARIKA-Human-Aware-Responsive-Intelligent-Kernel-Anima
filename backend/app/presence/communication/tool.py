@@ -21,13 +21,6 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
     status = engine_output.get("status", "success") if is_dict else "success"
     error_msg = engine_output.get("error") if is_dict else None
 
-    if status in ["failed", "error"] or not tool_success or not tool_verified:
-        reason = error_msg or "desktop execution isn't available"
-        target_name = (engine_output.get("tool") or engine_output.get("process_name")) if is_dict else None
-        if not target_name and raw_message:
-            target_name = raw_message.replace("Open ", "").replace("open ", "").strip()
-        return f"I attempted to open {target_name or 'application'}, but couldn't verify that it launched because {reason}."
-
     res_payload = engine_output.get("result") if is_dict else engine_output
 
     if isinstance(res_payload, dict) and "result" in res_payload and isinstance(res_payload["result"], dict):
@@ -38,6 +31,26 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
         tool_data = {}
 
     action = engine_output.get("tool") if is_dict else None
+    execution_action = tool_data.get("action") if isinstance(tool_data, dict) else None
+    app_name = tool_data.get("app_name") if isinstance(tool_data, dict) else None
+    is_close_result = action == "open_application" and execution_action == "close"
+    is_website_close = action == "close_website" or execution_action == "close_website"
+
+    if status in ["failed", "error"] or not tool_success or not tool_verified:
+        reason = (error_msg or "desktop execution isn't available").rstrip(".")
+        if is_website_close:
+            return f"I couldn't close that website tab because {reason}."
+        if is_close_result:
+            return f"I attempted to close {app_name or 'the application'}, but couldn't verify that it terminated because {reason}."
+        target_name = (tool_data.get("app_name") or (engine_output.get("process_name") if is_dict else None) or (engine_output.get("tool") if is_dict else None))
+        if not target_name and raw_message:
+            target_name = raw_message.replace("Open ", "").replace("open ", "").strip()
+        return f"I attempted to open {target_name or 'application'}, but couldn't verify that it launched because {reason}."
+
+    if is_close_result:
+        if tool_success and tool_verified:
+            return f"I've closed {app_name or 'the application'}."
+        return f"I attempted to close {app_name or 'the application'}, but couldn't verify that it terminated."
 
     if action == "datetime" or "local_time" in tool_data or "utc_time" in tool_data:
         l_time = tool_data.get("local_time", "")
@@ -76,10 +89,19 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
 
 
     if action == "open_app" or action == "open_application" or (raw_message and "open " in raw_message.lower()):
-        app_n = engine_output.get("process_name") or tool_data.get("app_name") or (raw_message.replace("Open ", "").replace("open ", "").strip() if raw_message else "application")
+        app_n = tool_data.get("app_name") or engine_output.get("process_name") or (raw_message.replace("Open ", "").replace("open ", "").strip() if raw_message else "application")
         pid_n = engine_output.get("pid")
         pid_str = f" (PID: {pid_n})" if pid_n else ""
-        app_title = "GitHub" if "github" in str(app_n).lower() else ("Notepad" if "notepad" in str(app_n).lower() else app_n)
+        app_lower = str(app_n).lower()
+        app_title = (
+            "Calculator" if "calculator" in app_lower or "calc" in app_lower else
+            "Chrome" if "chrome" in app_lower else
+            "Edge" if "edge" in app_lower or "msedge" in app_lower else
+            "GitHub" if "github" in app_lower else
+            "Notepad" if "notepad" in app_lower else
+            "VS Code" if "code" in app_lower else
+            app_n
+        )
         return f"I've opened {app_title}{pid_str}."
 
     if action == "clipboard":

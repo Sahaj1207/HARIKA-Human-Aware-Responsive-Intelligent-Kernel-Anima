@@ -34,6 +34,7 @@ class EntityExtractor:
 
             item_type = m_no.group(1).strip().replace(" ", "_") if m_no.group(1) else "preference"
             val = m_no.group(2).strip().rstrip('.')
+            val = re.sub(r"^(?:it's|it is|i meant|i like|i prefer)\s+", "", val).strip()
             attr = f"favourite_{item_type}" if item_type != "preference" else "preference"
 
             foods = ["biryani", "dosa", "idli", "burger", "pizza", "salad", "rice", "curry", "sushi", "taco", "pasta"]

@@ -7,7 +7,7 @@ from typing import Optional, Tuple
 logger = logging.getLogger("harika.tools.process_verifier")
 
 
-def verify_os_process(process_name: str, pid: Optional[int] = None) -> Tuple[bool, Optional[int], Optional[str], Optional[str]]:
+def verify_os_process(process_name: str, pid: Optional[int] = None, pid_only: bool = False) -> Tuple[bool, Optional[int], Optional[str], Optional[str]]:
     """
     Queries OS process table to verify whether a process is actively running.
     Returns: (verified: bool, pid: Optional[int], process_name: Optional[str], error: Optional[str])
@@ -16,6 +16,18 @@ def verify_os_process(process_name: str, pid: Optional[int] = None) -> Tuple[boo
 
     if platform.system().lower() == "windows":
         exec_name = clean_name if clean_name.endswith(".exe") else f"{clean_name}.exe"
+        if pid_only and pid:
+            try:
+                cmd_pid = ["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV"]
+                out_pid = subprocess.check_output(cmd_pid, text=True, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+                lines_pid = [line.strip() for line in out_pid.strip().split("\n") if line.strip() and not line.startswith("INFO:")]
+                if len(lines_pid) > 1:
+                    parts = lines_pid[1].split(",")
+                    p_name = parts[0].strip('"')
+                    return True, pid, p_name, None
+            except Exception as e:
+                return False, pid, exec_name, f"OS tasklist PID query failed: {str(e)}"
+            return False, None, exec_name, f"Process '{exec_name}' with PID {pid} was not found in active OS task list."
         try:
             cmd = ["tasklist", "/FI", f"IMAGENAME eq {exec_name}", "/FO", "CSV"]
             creation_flags = getattr(subprocess, 'CREATE_NO_WINDOW', 0)

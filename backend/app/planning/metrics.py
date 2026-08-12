@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from app.planning.schemas import PlanningMetrics
 from app.planning.history import plan_history, PlanHistory
 

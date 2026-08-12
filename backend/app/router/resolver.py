@@ -28,6 +28,20 @@ class SubsystemResolver:
         if node.engine == "ToolManager":
             from app.tools.manager import tool_manager
             query = node.arguments.get("query", "")
+            if node.action == "close_website":
+                return {
+                    "status": "failed",
+                    "success": False,
+                    "verified": False,
+                    "tool": "close_website",
+                    "result": {
+                        "action": "close_website",
+                        "target": query,
+                        "supported": False,
+                        "error": "Closing individual browser tabs is not supported by the current website tool."
+                    },
+                    "error": "Closing individual browser tabs is not supported by the current website tool."
+                }
             action_plan = tool_manager.plan_action(query)
             if action_plan.actions:
                 res = await tool_manager.execute_planned_action(action_plan)
@@ -125,7 +139,7 @@ class SubsystemResolver:
 
         # 6. Conversational & Wrapper Intents
         msg = node.arguments.get("message", node.arguments.get("query", ""))
-        if node.intent in [IntentType.GREETING, IntentType.SOCIAL_CONVERSATION, IntentType.CAPABILITY_QUERY, IntentType.UNKNOWN_INTENT] or node.action in ["greeting", "social_chat", "capability_inquiry"]:
+        if node.arguments.get("conversation_type") or node.intent in [IntentType.GREETING, IntentType.SOCIAL_CONVERSATION, IntentType.CAPABILITY_QUERY, IntentType.UNKNOWN_INTENT] or node.action in ["greeting", "social_chat", "capability_inquiry"]:
             return {"status": "conversational", "message": msg}
 
         from app.cognition.manager import cognition_manager

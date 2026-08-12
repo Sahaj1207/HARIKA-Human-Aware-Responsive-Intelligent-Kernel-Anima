@@ -17,12 +17,7 @@ class SocialFormatter:
             return "I am HARIKA, your AI assistant created by Sahaj."
 
         if "how are you" in msg or "how's it going" in msg or "how is it going" in msg:
-            variations = [
-                "I'm doing well, thank you for asking!",
-                "I'm functioning smoothly and ready for your next directive.",
-                "All systems operational and ready to assist."
-            ]
-            return variations[self._social_counter % len(variations)]
+            return "I'm doing well, thank you for asking! How can I help today?"
         if "what's up" in msg or "what is up" in msg:
             return "Not much! Ready to assist you with your tasks."
         if "are you ready" in msg:
@@ -33,6 +28,8 @@ class SocialFormatter:
             return "Absolutely! I can assist with memory, desktop tools, web tools, and planning."
         if "are you okay" in msg:
             return "I'm functioning smoothly and ready to help!"
+        if "tell me a joke" in msg:
+            return "Why did the developer go broke? Because they used up all their cache."
 
         if any(k in msg for k in ["stressed", "overwhelmed", "anxious", "feeling down", "exhausted", "bad day", "burnt out", "demotivated", "sad", "low", "tired", "worried", "frustrated", "hopeless", "upset", "nervous", "lonely"]):
             return "I'm really sorry to hear you're feeling that way. Take a deep breath and take things one step at a time. I'm right here if you need support or assistance."

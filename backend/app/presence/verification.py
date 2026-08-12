@@ -1,5 +1,5 @@
 import logging
-from typing import Any
+from typing import Any, Optional
 from app.presence.schemas import VerificationResult
 
 logger = logging.getLogger("harika.presence.verification")

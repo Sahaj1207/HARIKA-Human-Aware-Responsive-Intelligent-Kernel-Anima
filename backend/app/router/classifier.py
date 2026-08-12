@@ -52,6 +52,8 @@ class IntentClassifier:
             if clean.startswith(f"{g} ") or clean.startswith(f"{g},") or clean.startswith(f"{g}."):
                 greet_part = g
                 rest_part = text[len(g):].strip().lstrip(',.!')
+                if rest_part.lower().strip(" .!?,") in ["harika", "assistant"]:
+                    return self._stage1_single(text)
                 if rest_part:
                     greet_res = self._stage1_single(greet_part)
                     rest_res = self._stage1_deterministic(rest_part)
@@ -88,36 +90,43 @@ class IntentClassifier:
 
 
 
-        # 0. Greeting Intent (bypasses tool, memory, vision execution)
+        # 0. Standalone conversational greeting (optional assistant address)
         greetings = ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "greetings"]
-        if clean in greetings or any(clean.startswith(f"{g} ") or clean.startswith(f"{g},") for g in greetings):
-            if any(clean == f"{g} harika" or clean == f"{g} assistant" for g in greetings):
-                return [IntentResult(
-                    intent=IntentType.GREETING,
-                    confidence=0.99,
-                    reason="Greeting phrase detected",
-                    target_engine="CognitionManager",
-                    target_action="greeting",
-                    parameters={"message": text}
-                )]
+        greeting_pattern = rf"^(?:{'|'.join(re.escape(g) for g in greetings)})(?:[ ,.!]+(?:harika|assistant))?[.!?]*$"
+        if re.match(greeting_pattern, clean):
             return [IntentResult(
-                intent=IntentType.GREETING,
+                intent=IntentType.CHAT,
                 confidence=0.99,
-                reason="Greeting phrase detected",
+                reason="Standalone conversational greeting detected",
                 target_engine="CognitionManager",
-                target_action="greeting",
-                parameters={"message": text}
+                target_action="process_chat",
+                parameters={"message": text, "conversation_type": "greeting"}
             )]
 
 
-        # 0.5 Social Conversation Intent (bypasses tool, memory, vision, agent execution)
+        # 0.5 Casual Conversation Intent
+        casual_phrases = [
+            "how are you", "how's it going", "how is it going", "what's up", "what is up",
+            "what can you help me with", "can you help me", "can you assist me"
+        ]
+        if any(p in clean for p in casual_phrases):
+            return [IntentResult(
+                intent=IntentType.CHAT,
+                confidence=0.98,
+                reason="Casual conversational question detected",
+                target_engine="CognitionManager",
+                target_action="process_chat",
+                parameters={"message": text, "conversation_type": "casual"}
+            )]
+
+        # 0.6 Social Conversation Intent (bypasses tool, memory, vision, agent execution)
         social_phrases = [
             "how are you", "how's it going", "how is it going", "what's up", "are you okay",
             "are you ready", "nice to meet you", "can you help me", "can you assist me",
             "good night", "thanks", "thank you", "bye", "see you", "see ya",
             "stressed", "overwhelmed", "anxious", "feeling down", "exhausted", "bad day",
             "burnt out", "demotivated", "feeling sad", "feeling low", "feeling tired", "feeling worried", "frustrated", "hopeless", "upset",
-            "nervous", "lonely", "feeling nervous", "feeling lonely", "feeling bad",
+            "nervous", "lonely", "feeling nervous", "feeling lonely", "feeling bad", "tell me a joke",
             "feel low", "feel sad", "feel tired", "feel stressed", "feel anxious", "feel overwhelmed", "feel exhausted", "feel frustrated", "feel hopeless", "feel bad", "feel upset"
         ]
 
@@ -204,15 +213,15 @@ class IntentClassifier:
         if any(clean.startswith(k) or f" {k}" in clean for k in ["open ", "launch ", "run ", "exec ", "close ", "terminate ", "kill ", "stop ", "visit ", "search web for ", "search for ", "google "]):
             target = clean.replace("open ", "").replace("launch ", "").replace("run ", "").replace("exec ", "").replace("close ", "").replace("terminate ", "").replace("kill ", "").replace("stop ", "").replace("visit ", "").replace("search web for ", "").replace("search for ", "").replace("google ", "").strip()
             is_close = any(clean.startswith(k) for k in ["close ", "terminate ", "kill ", "stop "])
-            is_web = not is_close and ("." in target or "http" in target or any(k in target.lower() for k in ["github", "google", "youtube", "twitter", "reddit", "stackoverflow", "chatgpt"]) or any(k in clean for k in ["visit ", "search", "google "]))
-            action = "close_app" if is_close else ("open_website" if is_web else "open_app")
+            is_web = ("." in target or "http" in target or any(k in target.lower() for k in ["github", "google", "youtube", "twitter", "reddit", "stackoverflow", "chatgpt"]) or any(k in clean for k in ["visit ", "search", "google "]))
+            action = "close_website" if is_close and is_web else ("close_app" if is_close else ("open_website" if is_web else "open_app"))
             return [IntentResult(
                 intent=IntentType.TOOL_EXECUTION,
                 confidence=0.95,
                 reason="System/Web tool command detected",
                 target_engine="ToolManager",
                 target_action=action,
-                parameters={"query": text}
+                parameters={"query": text, "app_name": target} if action == "open_app" else {"query": text}
             )]
 
 
@@ -334,7 +343,7 @@ class IntentClassifier:
 
 
         # 9. Conversational Chat & Experience
-        if any(k in clean for k in ["build failure", "build failures", "build error", "build errors", "presentation", "presentation tomorrow", "presenting", "presenting tomorrow", "rehearsal", "mock q&a", "tell me about yourself", "who built you"]):
+        if any(k in clean for k in ["build failure", "build failures", "build error", "build errors", "presentation", "presentation tomorrow", "presenting", "presenting tomorrow", "rehearsal", "mock q&a", "tell me about yourself", "who built you", "tell me a joke"]):
             return [IntentResult(
                 intent=IntentType.CHAT,
                 confidence=0.95,

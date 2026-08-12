@@ -1,6 +1,6 @@
 [
   {
-    "id": "mem-rtr-aac1926f",
+    "id": "mem-rtr-a8a56b98",
     "category": "notes",
     "title": "User Fact: Remember my favourite drink is coffee.",
     "content": "Remember my favourite drink is coffee.",
@@ -11,12 +11,12 @@
     "version": 1,
     "revision": 1,
     "deleted": true,
-    "created_at": "2026-08-08T19:17:23.152137+00:00",
-    "updated_at": "2026-08-08T19:17:23.313757+00:00",
-    "last_accessed": "2026-08-08T19:17:23.152150+00:00"
+    "created_at": "2026-08-09T17:59:06.053359+00:00",
+    "updated_at": "2026-08-09T17:59:06.204777+00:00",
+    "last_accessed": "2026-08-09T17:59:06.053359+00:00"
   },
   {
-    "id": "mem-rtr-d8370a0f",
+    "id": "mem-rtr-0688f279",
     "category": "notes",
     "title": "User Fact: No, it's tea.",
     "content": "No, it's tea.",
@@ -27,8 +27,8 @@
     "version": 1,
     "revision": 1,
     "deleted": false,
-    "created_at": "2026-08-08T19:17:23.273492+00:00",
-    "updated_at": "2026-08-08T19:17:23.273501+00:00",
-    "last_accessed": "2026-08-08T19:17:23.273505+00:00"
+    "created_at": "2026-08-09T17:59:06.169361+00:00",
+    "updated_at": "2026-08-09T17:59:06.169361+00:00",
+    "last_accessed": "2026-08-09T17:59:06.169361+00:00"
   }
 ]
