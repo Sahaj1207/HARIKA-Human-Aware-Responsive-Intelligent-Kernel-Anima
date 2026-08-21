@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # LLM & Cognition Settings
     DEFAULT_LLM_PROVIDER: str = "ollama"
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "phi3:latest"  # Default development model
+    OLLAMA_MODEL: str = "qwen3:4b-instruct-2507-q4_K_M"  # Default development model
 
     # Vision Engine Settings
     VISION_PROVIDER: str = "local"
