@@ -58,6 +58,46 @@ because the model has to read the sources; a cloud model in Settings > Brain
 answers in a few seconds. Web pages are treated as material to read, never as
 instructions.
 
+### Calendar and email (Google)
+
+Ask "what's on my calendar tomorrow?", "add dentist on Friday at 5pm", "move
+my dentist appointment to 6", "any new emails?", "read the first one", "reply
+saying I'll be there" or "email Priya that I'll be late". The morning briefing
+also includes today's events and new email.
+
+- Adding an event happens straight away (only on your own calendar; nobody is
+  invited) and HARIKA tells you if it overlaps something.
+- Moving or deleting an event, and sending any email, always shows exactly
+  what will happen and waits for your "yes". "Make it shorter" (or any change)
+  redrafts an email; anything other than a yes cancels.
+- Email text is written by other people, so HARIKA only summarizes it or
+  replies to it; instructions inside an email are never followed.
+- To find "Priya", HARIKA looks for her address in your past email. If it
+  finds several, or none, it asks.
+
+**One-time setup.** Google only lets registered apps read Gmail, so each
+installation uses your own free Google OAuth client:
+
+1. In [Google Cloud Console](https://console.cloud.google.com/), create a
+   project (any name, like HARIKA).
+2. Under **APIs & Services > Library**, enable the **Google Calendar API** and
+   the **Gmail API**.
+3. Under **Google Auth Platform**, set up the app: audience **External**, name
+   HARIKA, your email as support contact, and add the Gmail address that will
+   sign in as a **test user**.
+4. Under **Clients**, create a client of type **Desktop app**. Paste its Client
+   ID and Client secret into **Settings > Accounts** in HARIKA.
+5. Under **Audience**, choose **Publish app**. In "Testing", Google signs
+   HARIKA out every 7 days. Because the app isn't verified by Google, sign-in
+   shows a warning: choose **Advanced**, then **Go to HARIKA**. (Unverified
+   apps work for up to 100 people, which is plenty for personal use.)
+
+Then press **Sign in with Google** and allow calendar and Gmail access. HARIKA
+asks for: your calendar's events, reading Gmail, and sending Gmail. The sign-in
+returns to HARIKA on this computer (127.0.0.1). The client secret and Google's
+refresh token are kept in Windows Credential Manager; **Disconnect** revokes
+HARIKA's access at Google and removes them.
+
 ### Voice ("Hey HARIKA")
 
 Open **Settings > Voice** and download HARIKA's voice once (about 180 MB:
@@ -85,6 +125,8 @@ nothing is recorded. Windows must allow desktop apps to use the microphone
 | Logs | `%LOCALAPPDATA%\com.harika.desktop\logs` |
 | API keys | Windows Credential Manager (service "HARIKA") |
 | Voice models | `%APPDATA%\com.harika.desktop\models` |
+| Google client ID and account email | `%APPDATA%\com.harika.desktop\settings\google.json` |
+| Google client secret and sign-in | Windows Credential Manager (service "HARIKA") |
 
 Uninstall from **Settings > Apps** like any other app.
 

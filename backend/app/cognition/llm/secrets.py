@@ -46,3 +46,24 @@ def delete_key(service_id: str) -> None:
 
 def has_key(service_id: str) -> bool:
     return bool(get_key(service_id))
+
+
+# Other credentials (e.g. "google:refresh_token"), kept in the same store.
+
+def get_secret(name: str) -> Optional[str]:
+    try:
+        return _keyring().get_password(_SERVICE, name)
+    except Exception as exc:
+        logger.warning(f"[Secrets] Could not read {name.split(':')[0]} credential: {exc}")
+        return None
+
+
+def set_secret(name: str, value: str) -> None:
+    _keyring().set_password(_SERVICE, name, value.strip())
+
+
+def delete_secret(name: str) -> None:
+    try:
+        _keyring().delete_password(_SERVICE, name)
+    except Exception:
+        pass  # already absent

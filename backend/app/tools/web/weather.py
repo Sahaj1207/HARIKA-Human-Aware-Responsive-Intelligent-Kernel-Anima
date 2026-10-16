@@ -11,6 +11,7 @@ from typing import Any, Dict, Optional, Tuple
 import httpx
 
 from app.core.daily_settings import daily_settings
+from app.core.dates import day_offset
 from app.tools.base_tool import BaseTool
 from app.tools.registry import tool_registry
 from app.tools.schemas import PermissionLevel, ToolHealth, ToolManifest
@@ -88,24 +89,6 @@ class _Locator:
 locator = _Locator()
 
 
-def _day_offset(value: Any, today: date) -> Optional[int]:
-    text = str(value or "today").strip().lower()
-    if text in ("", "today", "now", "tonight"):
-        return 0
-    if text == "tomorrow":
-        return 1
-    if text.isdigit():
-        return int(text)
-    try:
-        return (date.fromisoformat(text[:10]) - today).days
-    except ValueError:
-        pass
-    for offset in range(7):
-        if (today + timedelta(days=offset)).strftime("%A").lower() == text:
-            return offset
-    return None
-
-
 class WeatherTool(BaseTool):
     manifest = ToolManifest(
         name="weather",
@@ -137,7 +120,7 @@ class WeatherTool(BaseTool):
 
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         target = str(args.get("target") or "here")
-        offset = _day_offset(args.get("day"), date.today())
+        offset = day_offset(args.get("day"), date.today())
         if offset is None or not 0 <= offset <= 6:
             return self._fail("I can only see the weather for the next 7 days")
         if dry_run:

@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, patch
 
 from app.core.daily_settings import DailySettings
+from app.core.dates import day_offset
 from app.tools import recent_results
 from app.tools.utilities import briefing
 from app.tools.web import sources, weather
@@ -116,10 +117,10 @@ class WeatherTests(unittest.TestCase):
 
     def test_day_words(self):
         today = date(2026, 10, 16)  # a Friday
-        self.assertEqual(weather._day_offset("tomorrow", today), 1)
-        self.assertEqual(weather._day_offset("sunday", today), 2)
-        self.assertEqual(weather._day_offset("2026-10-20", today), 4)
-        self.assertEqual(weather._day_offset(None, today), 0)
+        self.assertEqual(day_offset("tomorrow", today), 1)
+        self.assertEqual(day_offset("sunday", today), 2)
+        self.assertEqual(day_offset("2026-10-20", today), 4)
+        self.assertEqual(day_offset(None, today), 0)
 
     def test_unknown_place_is_reported(self):
         with patch.object(weather.locator, "resolve", AsyncMock(side_effect=weather.PlaceNotFound("Atlantis"))):

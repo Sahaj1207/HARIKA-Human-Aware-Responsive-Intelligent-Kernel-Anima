@@ -1,4 +1,4 @@
-"""The daily briefing: greeting, weather, today's reminders and the top headlines.
+"""The daily briefing: greeting, weather, calendar, reminders, new email and the top headlines.
 
 It is assembled from the weather, reminders and news sources directly (no language
 model), so it is quick and every fact in it comes from a source. On request ("brief
@@ -41,6 +41,10 @@ def reminders_today(pending: List[Dict[str, Any]], now: datetime) -> str:
     return f"You have {count} today: {_join(items)}."
 
 
+async def _skip() -> str:
+    return ""
+
+
 def headlines_text(items: List[Dict[str, str]]) -> str:
     if not items:
         return ""
@@ -62,11 +66,36 @@ async def build_briefing(name: str = "", now: Optional[datetime] = None) -> Dict
     async def news() -> List[Dict[str, str]]:
         return await sources.news(None, await locator.country_code(), 3)
 
-    weather_text, headlines = await asyncio.gather(weather(), news(), return_exceptions=True)
+    async def calendar() -> str:
+        from app.integrations.google.calendar import google_calendar
+        from app.tools.productivity.calendar_tool import describe_day
+        return describe_day(await google_calendar.day(now.date()), "today")
+
+    async def inbox() -> str:
+        from app.integrations.google.gmail import gmail
+        mails = await gmail.unread(5)
+        if not mails:
+            return "No new email."
+        senders = list(dict.fromkeys(m.sender_name for m in mails))
+        count = "one new email" if len(mails) == 1 else f"{len(mails)}{'+' if len(mails) == 5 else ''} new emails"
+        return f"You have {count}, from {_join(senders[:3])}."
+
+    from app.integrations.google.account import google_account
+    account = google_account.status()
+    weather_text, headlines, events, emails = await asyncio.gather(
+        weather(), news(),
+        calendar() if account["calendar"] else _skip(),
+        inbox() if account["email_read"] else _skip(),
+        return_exceptions=True,
+    )
     parts = [_greeting(now, name)]
     if isinstance(weather_text, str):
         parts.append(weather_text)
+    if isinstance(events, str) and events:
+        parts.append(events)
     parts.append(reminders_today(reminders_tool.store.pending(), now))
+    if isinstance(emails, str) and emails:
+        parts.append(emails)
     news_items = headlines if isinstance(headlines, list) else []
     if news_items:
         parts.append(headlines_text(news_items))

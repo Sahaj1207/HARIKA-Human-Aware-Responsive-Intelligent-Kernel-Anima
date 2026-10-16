@@ -63,13 +63,21 @@ Examples:
 "remind me to drink water at 4:15 pm" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"at": "16:15"}}}}]}}
 "continue this chat" -> {{"actions": [{{"operation": "reply", "target": "this chat"}}]}}
 "reply that I'll be 10 minutes late" -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "say I'll be 10 minutes late"}}}}]}}
-"make it more casual" (after a draft) -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "make it more casual"}}}}]}}
+"make it more casual" (after a chat draft) -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "make it more casual"}}}}]}}
 "what's on my screen?" -> {{"actions": [{{"operation": "read", "target": "screen"}}]}}
 "what's the latest F1 news?" -> {{"actions": [{{"operation": "answer", "target": "latest Formula 1 news"}}]}}
 "who won the match yesterday" -> {{"actions": [{{"operation": "answer", "target": "who won yesterday's match"}}]}}
 "how's the weather" -> {{"actions": [{{"operation": "weather", "target": "here"}}]}}
 "will it rain in Mumbai tomorrow?" -> {{"actions": [{{"operation": "weather", "target": "Mumbai", "parameters": {{"day": "tomorrow"}}}}]}}
 "brief me" / "what does my day look like?" -> {{"actions": [{{"operation": "brief", "target": "today"}}]}}
+"what's on my calendar tomorrow?" -> {{"actions": [{{"operation": "agenda", "target": "tomorrow"}}]}}
+"add dentist on Friday at 5pm" -> {{"actions": [{{"operation": "schedule", "target": "Dentist", "parameters": {{"at": "<that Friday as YYYY-MM-DD>T17:00"}}}}]}}
+"move my dentist appointment to 6" -> {{"actions": [{{"operation": "reschedule", "target": "dentist", "parameters": {{"at": "18:00"}}}}]}}
+"any new emails?" -> {{"actions": [{{"operation": "check_email", "target": "inbox"}}]}}
+"read the second one" (after listing emails) -> {{"actions": [{{"operation": "read_email", "target": "2"}}]}}
+"email Priya that I'll be late tonight" -> {{"actions": [{{"operation": "email", "target": "Priya", "parameters": {{"instruction": "say I'll be late tonight"}}}}]}}
+"reply saying thanks, I'll be there" (after reading an email) -> {{"actions": [{{"operation": "reply_email", "target": "it", "parameters": {{"instruction": "say thanks, I'll be there"}}}}]}}
+"make it shorter" (after an email draft) -> {{"actions": [{{"operation": "email", "target": "it", "parameters": {{"instruction": "make it shorter"}}}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""

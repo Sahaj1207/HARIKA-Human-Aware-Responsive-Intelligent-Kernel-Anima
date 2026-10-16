@@ -19,6 +19,9 @@ import app.tools.web.web_search
 import app.tools.web.web_answer
 import app.tools.web.weather
 
+import app.tools.productivity.calendar_tool
+import app.tools.productivity.email_tool
+
 import app.tools.developer.github
 
 
