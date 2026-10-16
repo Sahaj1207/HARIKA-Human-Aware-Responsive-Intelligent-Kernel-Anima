@@ -9,9 +9,9 @@ from app.core.logging import logger
 class OllamaProvider(BaseLLMProvider):
     """Real Ollama LLM provider implementation for local model inference."""
 
-    def __init__(self):
+    def __init__(self, model: str = ""):
         self.base_url = settings.OLLAMA_BASE_URL.rstrip("/")
-        self.model = settings.OLLAMA_MODEL
+        self.model = model or settings.OLLAMA_MODEL
         self.provider_name = "ollama"
 
     @staticmethod

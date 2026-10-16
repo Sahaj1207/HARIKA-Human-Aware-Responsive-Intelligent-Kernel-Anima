@@ -5,11 +5,6 @@ from app.core.logging import logger
 from app.cognition.base_provider import BaseLLMProvider
 from app.cognition.context_builder import ContextBuilder
 from app.cognition.personality import default_personality, PersonalityProfile
-from app.cognition.providers.ollama_provider import OllamaProvider
-from app.cognition.providers.openai_provider import OpenAIProvider
-from app.cognition.providers.gemini_provider import GeminiProvider
-from app.cognition.providers.groq_provider import GroqProvider
-from app.cognition.providers.claude_provider import ClaudeProvider
 from app.memory.manager import memory_manager
 from app.tools.manager import tool_manager
 from app.tools.result import ToolResult
@@ -19,21 +14,20 @@ from app.planning.manager import planning_manager
 class CognitionManager:
     """Central Manager orchestrating Memory Retrieval, Planning Engine, Tool Execution, LLM Inference, and Post-Reflection."""
 
-    def __init__(self):
-        self.providers: Dict[str, BaseLLMProvider] = {
-            "ollama": OllamaProvider(),
-            "openai": OpenAIProvider(),
-            "gemini": GeminiProvider(),
-            "groq": GroqProvider(),
-            "claude": ClaudeProvider(),
-        }
-
     def get_provider(self, provider_name: Optional[str] = None) -> BaseLLMProvider:
-        target = (provider_name or settings.DEFAULT_LLM_PROVIDER).lower()
-        if target not in self.providers:
-            logger.warning(f"Provider '{target}' not found. Falling back to default ('ollama').")
-            target = "ollama"
-        return self.providers[target]
+        """The user's chosen conversation model, or a specific service when named."""
+        from app.cognition.llm.catalog import get_service
+        from app.cognition.llm.manager import RoleProvider, build_provider, llm_settings
+
+        if provider_name is None:
+            return RoleProvider("conversation")
+        service = get_service(provider_name.lower())
+        if service is None:
+            logger.warning(f"Provider '{provider_name}' not found. Using the configured conversation model.")
+            return RoleProvider("conversation")
+        current = llm_settings.load()["conversation"]
+        model = current["model"] if current["service"] == service.id else service.suggested.get("conversation", "")
+        return build_provider(service.id, model)
 
     async def process_chat(
         self,

@@ -274,13 +274,13 @@ class SemanticInterpreter:
 
 
 def default_semantic_interpreter() -> SemanticInterpreter:
-    from app.cognition.manager import CognitionManager
+    from app.cognition.llm.manager import RoleProvider
     from app.core.config import settings
     from app.router.registry import router_registry
     from app.tools.manager import tool_manager
     from app.presence.capability_manager import capability_manager
 
-    provider = CognitionManager().get_provider()
+    provider = RoleProvider("understanding")  # follows the user's choice on every call
     catalog = CapabilityCatalog.from_sources(
         tool_registry=tool_manager.registry,
         router_registry=router_registry,
