@@ -19,8 +19,9 @@ interface ReminderEvent {
  * Subscribes to the backend's live event stream (/events):
  * step progress while HARIKA acts, and reminders when they fall due.
  * EventSource reconnects on its own if the backend restarts.
+ * Only one window should announce reminders, so other windows pass false.
  */
-export function useLiveEvents(): void {
+export function useLiveEvents({ announceReminders = true }: { announceReminders?: boolean } = {}): void {
   useEffect(() => {
     const source = new EventSource(`${env.API_BASE_URL}/events`);
     const { setActivity, addMessage } = useHARIKAStore.getState();
@@ -40,6 +41,7 @@ export function useLiveEvents(): void {
     });
 
     source.addEventListener('reminder', (raw) => {
+      if (!announceReminders) return;
       const reminder: ReminderEvent = JSON.parse((raw as MessageEvent).data);
       notificationService.show('info', 'Reminder', reminder.text, 0);
       addMessage({ role: 'assistant', content: reminder.text, metadata: { provider: 'reminders' } });
@@ -49,5 +51,5 @@ export function useLiveEvents(): void {
       clearTimeout(clearTimer);
       source.close();
     };
-  }, []);
+  }, [announceReminders]);
 }

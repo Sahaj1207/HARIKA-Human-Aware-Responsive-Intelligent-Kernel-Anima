@@ -45,11 +45,15 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# Origins of the packaged desktop app's webview (Windows/Linux and macOS), allowed
+# regardless of .env so the installed app can always reach its own backend.
+DESKTOP_APP_ORIGINS = ["http://tauri.localhost", "https://tauri.localhost", "tauri://localhost"]
+
 # CORS middleware configuration
 if settings.CORS_ORIGINS:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.CORS_ORIGINS,
+        allow_origins=list(dict.fromkeys([*settings.CORS_ORIGINS, *DESKTOP_APP_ORIGINS])),
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

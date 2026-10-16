@@ -13,6 +13,8 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+    // The desktop shell's Rust build output changes (and is locked) while it compiles.
+    watch: { ignored: ['**/src-tauri/**'] },
     proxy: {
       '/api': {
         target: 'http://localhost:8000',
