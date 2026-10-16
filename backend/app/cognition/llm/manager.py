@@ -133,6 +133,20 @@ async def list_models(service_id: str, api_key: Optional[str] = None) -> List[st
         return sorted(m["id"] for m in reply.json().get("data", []))
 
 
+async def verify_key(service_id: str, api_key: str) -> List[str]:
+    """Prove a key works before saving it, then return the models it can use.
+
+    OpenRouter's model list is public (it answers 200 even for a bad key), so its
+    key is checked against the authenticated /key endpoint first.
+    """
+    service = get_service(service_id)
+    if service is not None and service.id == "openrouter":
+        async with httpx.AsyncClient(timeout=httpx.Timeout(15.0, connect=5.0)) as client:
+            reply = await client.get(f"{service.base_url}/key", headers={"Authorization": f"Bearer {api_key}"})
+            reply.raise_for_status()
+    return await list_models(service_id, api_key=api_key)
+
+
 def pick_default(service: LLMService, role: str, available: List[str]) -> str:
     """The suggested model if this account has it, else a sensible available one."""
     suggested = service.suggested.get(role, "")
@@ -201,6 +215,27 @@ class OpenRouterSignIn:
 
 
 openrouter_sign_in = OpenRouterSignIn()
+
+
+async def describe_with_availability() -> Dict[str, Any]:
+    """describe(), plus whether on-device servers are actually running right now."""
+    import asyncio
+
+    info = describe()
+
+    async def reachable(service_id: str) -> bool:
+        try:
+            await asyncio.wait_for(list_models(service_id), timeout=1.5)
+            return True
+        except Exception:
+            return False
+
+    local = [s for s in info["services"] if s["on_device"]]
+    results = await asyncio.gather(*(reachable(s["id"]) for s in local))
+    for service, running in zip(local, results):
+        service["connected"] = running
+        service["available"] = running
+    return info
 
 
 def describe() -> Dict[str, Any]:

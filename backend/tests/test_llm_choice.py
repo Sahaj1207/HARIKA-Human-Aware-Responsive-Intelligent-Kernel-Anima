@@ -204,6 +204,17 @@ class SettingsApiTests(unittest.TestCase):
         self.assertEqual(good.json()["suggested"]["understanding"], "llama-3.1-8b-instant")
         self.assertTrue(secrets.has_key("groq"))
 
+    def test_openrouter_bad_key_rejected_even_though_model_list_is_public(self):
+        def handler(request):
+            if request.url.path.endswith("/key"):
+                return httpx.Response(401)
+            return httpx.Response(200, json={"data": [{"id": "openai/gpt-4o-mini"}]})
+
+        with fake_http(handler):
+            reply = self.local.put("/api/v1/settings/llm/services/openrouter/key", json={"api_key": "sk-or-bad"})
+        self.assertEqual(reply.status_code, 400)
+        self.assertFalse(secrets.has_key("openrouter"))
+
     def test_choosing_a_model_requires_connecting_first(self):
         refused = self.local.put("/api/v1/settings/llm/roles/conversation", json={"service": "openai", "model": "gpt-4o"})
         self.assertEqual(refused.status_code, 409)

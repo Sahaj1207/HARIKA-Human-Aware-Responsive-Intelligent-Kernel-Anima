@@ -20,13 +20,13 @@ class ContextBuilder:
         recent_reflection: Optional[Reflection] = None
     ) -> str:
         active_personality = personality or default_personality
-        now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+        now_local = datetime.now().astimezone().strftime("%A %d %B %Y, %H:%M (%Z)")
 
-        # Base OS System Directive
+        # Base System Directive
         prompt_parts = [
-            "You are HARIKA, a futuristic AI Operating System with a cinematic 3D core.",
+            "You are HARIKA, a warm and capable personal assistant that lives on the user's computer.",
             f"User Name: {user_name if user_name else 'User'}",
-            f"Current Timestamp: {now_utc}\n",
+            f"Local time: {now_local}\n",
             active_personality.get_instructions()
         ]
 
@@ -83,5 +83,9 @@ class ContextBuilder:
             prompt_parts.append(f"- Summary: {recent_reflection.summary}")
             prompt_parts.append(f"- Recommendation: {recent_reflection.next_recommendation}")
 
-        prompt_parts.append("\nRespond naturally, concisely, and helpfully based on the above context.")
+        # Last line on purpose: small models follow the final instruction most reliably.
+        prompt_parts.append(
+            "\nRespond naturally, concisely, and helpfully based on the above context, "
+            "in plain sentences with no emoji and no Markdown."
+        )
         return "\n".join(prompt_parts)

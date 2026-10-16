@@ -1,5 +1,16 @@
+import re
 from typing import Any, Optional
 from app.presence.schemas import ExperienceDecision
+
+# Pictographic emoji, variation selectors and joiners. The chat renders plain
+# text, and small models don't always honour "no emoji" in the prompt.
+_EMOJI = re.compile("[\U0001F000-\U0001FAFF☀-➿⬀-⯿️‍]+")
+
+
+def plain_text(text: str) -> str:
+    """A model reply as clean plain text for the chat."""
+    text = _EMOJI.sub("", text)
+    return re.sub(r"[ \t]{2,}", " ", re.sub(r"[ \t]+([.,!?])", r"\1", text)).strip()
 
 
 def format_chat_response(intent: str, engine_output: Any, experience: Optional[ExperienceDecision] = None) -> str:
@@ -33,7 +44,7 @@ def format_chat_response(intent: str, engine_output: Any, experience: Optional[E
 
     # A generated answer from the cognition engine is the response; don't replace it with a template.
     if isinstance(engine_output, dict) and isinstance(engine_output.get("response"), str) and engine_output["response"].strip():
-        return engine_output["response"].strip()
+        return plain_text(engine_output["response"])
 
     if intent == "UNKNOWN_INTENT":
         return "I'm not sure how to assist with that directive. Could you please rephrase?"

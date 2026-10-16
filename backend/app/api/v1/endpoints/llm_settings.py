@@ -3,6 +3,7 @@
 Only reachable from this computer, and API keys are never returned.
 """
 import html
+import webbrowser
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException, Request
@@ -12,7 +13,7 @@ from pydantic import BaseModel
 from app.cognition.llm import secrets
 from app.cognition.llm.catalog import ROLES, get_service
 from app.cognition.llm.manager import (
-    check_role, describe, list_models, llm_settings, openrouter_sign_in, pick_default,
+    check_role, describe, describe_with_availability, list_models, llm_settings, openrouter_sign_in, pick_default, verify_key,
 )
 from app.core.live_events import live_events
 
@@ -45,7 +46,7 @@ def _service_or_404(service_id: str):
 
 @router.get("")
 async def get_llm_settings():
-    return describe()
+    return await describe_with_availability()
 
 
 @router.put("/roles/{role}")
@@ -82,7 +83,7 @@ async def connect_with_key(service_id: str, body: ApiKey):
     if not key:
         raise HTTPException(status_code=400, detail="Paste an API key.")
     try:
-        models = await list_models(service.id, api_key=key)  # proves the key works before saving it
+        models = await verify_key(service.id, key)  # proves the key works before saving it
     except httpx.HTTPStatusError as exc:
         status = exc.response.status_code
         detail = "That key was rejected." if status in (401, 403) else f"{service.name} answered with HTTP {status}."
@@ -118,9 +119,23 @@ async def test_role(role: str):
 
 
 @router.get("/openrouter/start")
-async def start_openrouter_sign_in(request: Request):
+async def start_openrouter_sign_in(request: Request, open_browser: bool = False):
     callback = str(request.url_for("finish_openrouter_sign_in")).replace("127.0.0.1", "localhost")
-    return {"auth_url": openrouter_sign_in.start(callback)}
+    url = openrouter_sign_in.start(callback)
+    if open_browser:
+        # The desktop app's webview can't open external pages itself.
+        webbrowser.open(url)
+    return {"auth_url": url}
+
+
+@router.post("/services/{service_id}/open-key-page")
+async def open_key_page(service_id: str):
+    """Open the service's own "create API key" page (from the catalog, never a caller-supplied URL)."""
+    service = _service_or_404(service_id)
+    if not service.key_url:
+        raise HTTPException(status_code=400, detail=f"{service.name} doesn't use an API key.")
+    webbrowser.open(service.key_url)
+    return {"opened": service.key_url}
 
 
 @router.get("/openrouter/callback", response_class=HTMLResponse, name="finish_openrouter_sign_in")
