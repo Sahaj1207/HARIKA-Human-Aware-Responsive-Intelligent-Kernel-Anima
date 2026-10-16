@@ -30,6 +30,7 @@ class OpenWebsiteTool(BaseTool):
             "chatgpt": ["chatgpt", "chatgpt.com"],
         },
         operations={"open": "open_website", "close": "close_website"},
+        ability="open websites",
         target_description="a well-known website name (google, github, youtube, reddit, ...) or a domain such as wikipedia.org",
     )
 

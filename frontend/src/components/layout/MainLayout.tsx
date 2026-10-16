@@ -9,7 +9,7 @@ import { useHARIKAStore } from '@/store/useHARIKAStore';
 // Crystal Core Imports
 import { ErrorBoundary } from '@/core/crystal/accessibility/ErrorBoundary';
 import { CommandPalette } from '@/core/crystal/shortcuts/CommandPalette';
-import { SettingsWindow } from '@/features/settings/SettingsWindow';
+import { SettingsWindow, SettingsPageId } from '@/features/settings/SettingsWindow';
 import { DebugOverlay } from '@/core/crystal/developer/DebugOverlay';
 import { NotificationToastContainer } from '@/core/crystal/notifications/NotificationToastContainer';
 import { useKeyboardShortcuts } from '@/core/crystal/shortcuts/useKeyboardShortcuts';
@@ -22,8 +22,19 @@ export const MainLayout: React.FC = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDebugOverlayVisible, setIsDebugOverlayVisible] = useState(false);
+  const [settingsPage, setSettingsPage] = useState<SettingsPageId>('general');
 
   useLiveEvents();
+
+  // Other parts of the app (e.g. onboarding) can open Settings on a given page.
+  useEffect(() => {
+    const open = (event: Event) => {
+      setSettingsPage(((event as CustomEvent<SettingsPageId>).detail) || 'general');
+      setIsSettingsOpen(true);
+    };
+    window.addEventListener('harika:open-settings', open);
+    return () => window.removeEventListener('harika:open-settings', open);
+  }, []);
 
   useEffect(() => {
     initializeCrystalCore({
@@ -60,7 +71,14 @@ export const MainLayout: React.FC = () => {
         <QuickPanel />
 
         <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} />
-        <SettingsWindow isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+        <SettingsWindow
+          isOpen={isSettingsOpen}
+          initialPage={settingsPage}
+          onClose={() => {
+            setIsSettingsOpen(false);
+            setSettingsPage('general');
+          }}
+        />
         <DebugOverlay visible={isDebugOverlayVisible} />
         <NotificationToastContainer />
       </div>

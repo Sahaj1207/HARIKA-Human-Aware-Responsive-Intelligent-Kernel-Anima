@@ -14,7 +14,9 @@ use tauri::{AppHandle, Manager, PhysicalPosition, RunEvent, WebviewUrl, WebviewW
 use tauri_plugin_autostart::ManagerExt;
 use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
 
-const BACKEND_ADDR: &str = "127.0.0.1:8000";
+/// Development uses the usual dev port; installed builds use an uncommon one so
+/// HARIKA doesn't collide with other local servers on :8000.
+const BACKEND_PORT: u16 = if cfg!(debug_assertions) { 8000 } else { 47801 };
 const ORB_WIDTH: f64 = 560.0;
 const ORB_HEIGHT: f64 = 220.0;
 
@@ -26,27 +28,55 @@ fn summon_shortcut() -> Shortcut {
 }
 
 fn backend_running() -> bool {
-    TcpStream::connect_timeout(&BACKEND_ADDR.parse().unwrap(), Duration::from_millis(300)).is_ok()
+    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], BACKEND_PORT));
+    TcpStream::connect_timeout(&addr, Duration::from_millis(300)).is_ok()
 }
 
-/// Development layout: the repository's backend folder with its virtualenv.
-/// HARIKA_BACKEND_DIR overrides it. (Installers will ship a bundled backend instead.)
-fn backend_dir() -> PathBuf {
-    std::env::var_os("HARIKA_BACKEND_DIR")
-        .map(PathBuf::from)
-        .unwrap_or_else(|| PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/../../backend")))
-}
-
-fn start_backend(app: &AppHandle) -> Option<Child> {
-    if backend_running() {
-        log::info!("Using the HARIKA backend that is already running on {BACKEND_ADDR}");
-        return None;
+/// How to start the backend: the bundled program shipped with the installer, or
+/// (when developing) the repository's backend with its virtualenv.
+fn backend_command(app: &AppHandle) -> Option<(Command, String)> {
+    let exe_name = if cfg!(windows) { "harika-backend.exe" } else { "harika-backend" };
+    if let Ok(resources) = app.path().resource_dir() {
+        let bundled = resources.join("backend").join(exe_name);
+        if bundled.exists() {
+            let mut command = Command::new(&bundled);
+            command.args(["--port", &BACKEND_PORT.to_string()]);
+            if let Ok(data) = app.path().app_data_dir() {
+                // Memories, reminders and settings live in the user's app-data folder.
+                let _ = std::fs::create_dir_all(&data);
+                command.env("HARIKA_DATA_DIR", &data).current_dir(&data);
+            }
+            return Some((command, bundled.display().to_string()));
+        }
     }
-    let dir = backend_dir();
+
+    // Development: HARIKA_BACKEND_DIR, or the repo's backend folder.
+    let dir = std::env::var_os("HARIKA_BACKEND_DIR")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/../../backend")));
     let python = if cfg!(windows) {
         dir.join(".venv").join("Scripts").join("python.exe")
     } else {
         dir.join(".venv").join("bin").join("python")
+    };
+    if !python.exists() {
+        return None;
+    }
+    let mut command = Command::new(&python);
+    command
+        .args(["-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", &BACKEND_PORT.to_string()])
+        .current_dir(&dir);
+    Some((command, python.display().to_string()))
+}
+
+fn start_backend(app: &AppHandle) -> Option<Child> {
+    if backend_running() {
+        log::info!("Using the HARIKA backend that is already running on port {BACKEND_PORT}");
+        return None;
+    }
+    let Some((mut command, program)) = backend_command(app) else {
+        log::error!("No HARIKA backend found to start (neither bundled nor a development virtualenv).");
+        return None;
     };
     let log_file = app
         .path()
@@ -54,11 +84,6 @@ fn start_backend(app: &AppHandle) -> Option<Child> {
         .ok()
         .and_then(|logs| std::fs::create_dir_all(&logs).ok().map(|_| logs.join("backend.log")))
         .and_then(|path| File::create(path).ok());
-
-    let mut command = Command::new(&python);
-    command
-        .args(["-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8000"])
-        .current_dir(&dir);
     match log_file.and_then(|f| f.try_clone().ok().map(|g| (f, g))) {
         Some((out, err)) => command.stdout(out).stderr(err),
         None => command.stdout(Stdio::null()).stderr(Stdio::null()),
@@ -70,11 +95,11 @@ fn start_backend(app: &AppHandle) -> Option<Child> {
     }
     match command.spawn() {
         Ok(child) => {
-            log::info!("Started HARIKA backend (pid {}) from {}", child.id(), dir.display());
+            log::info!("Started HARIKA backend (pid {}) with {program}", child.id());
             Some(child)
         }
         Err(err) => {
-            log::error!("Could not start the HARIKA backend with {}: {err}", python.display());
+            log::error!("Could not start the HARIKA backend with {program}: {err}");
             None
         }
     }

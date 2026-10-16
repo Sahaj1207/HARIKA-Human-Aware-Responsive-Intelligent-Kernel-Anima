@@ -14,10 +14,11 @@ from typing import Any, Dict, List, Optional, Tuple
 from app.tools.base_tool import BaseTool
 from app.tools.registry import tool_registry
 from app.tools.schemas import PermissionLevel, ToolHealth, ToolManifest
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.tools.reminders")
 
-_DATA_FILE = Path(__file__).resolve().parents[3] / "data" / "reminders" / "reminders.json"
+_DATA_FILE = data_path("reminders", "reminders.json")
 _NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
 
 
@@ -127,6 +128,7 @@ class RemindersTool(BaseTool):
         platforms=["windows", "linux", "darwin"],
         capabilities=["create_reminder", "list_reminders", "cancel_reminder"],
         operations={"remind": "create_reminder", "list": "list_reminders", "cancel": "cancel_reminder"},
+        ability="set reminders and timers",
         free_text_operations=["remind", "cancel"],
         target_aliases={"reminders": ["reminders", "my reminders", "timers", "alarms"]},
         default_targets={"list": "reminders"},

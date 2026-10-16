@@ -31,6 +31,9 @@ HARIKA/
 
 ## Quick Start
 
+To install HARIKA as a desktop app, or build the Windows installer, see
+[docs/DESKTOP.md](docs/DESKTOP.md). The steps below run it for development.
+
 ### 1. Backend Setup (FastAPI)
 
 ```bash

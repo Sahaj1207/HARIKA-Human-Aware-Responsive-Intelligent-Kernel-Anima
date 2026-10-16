@@ -2,6 +2,7 @@ import json
 import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.planning.history")
 
@@ -10,7 +11,7 @@ class PlanHistory:
     """Persists plan execution history records in JSON storage."""
 
     def __init__(self, history_file: Optional[Path] = None):
-        self.history_file = history_file or (Path(__file__).resolve().parent.parent.parent / "data" / "planning" / "history.json")
+        self.history_file = history_file or data_path("planning", "history.json")
         self.history_file.parent.mkdir(parents=True, exist_ok=True)
         self.history: List[Dict[str, Any]] = self._load_history()
 

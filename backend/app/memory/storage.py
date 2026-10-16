@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import List, Dict, Any
 from app.memory.models import MemoryItem, MemoryCategory
 from app.core.logging import logger
+from app.core.paths import data_path
 
 
 class MemoryStorage:
@@ -14,7 +15,7 @@ class MemoryStorage:
             self.base_dir = Path(base_dir)
         else:
             # Default storage path: backend/data/memory/users/
-            self.base_dir = Path(__file__).resolve().parent.parent.parent / "data" / "memory" / "users"
+            self.base_dir = data_path("memory", "users")
         self.base_dir.mkdir(parents=True, exist_ok=True)
 
     def _get_user_dir(self, user_id: str = "default") -> Path:

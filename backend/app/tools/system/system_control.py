@@ -45,6 +45,7 @@ class SystemControlTool(BaseTool):
             "brightness": ["brightness", "screen brightness", "display brightness"],
             "shutdown": ["shutdown", "shut down", "restart", "reboot"],
         },
+        ability="control volume, brightness, music and power",
         default_targets={
             "mute": "volume", "unmute": "volume",
             "pause": "media", "resume": "media", "next": "media", "previous": "media",

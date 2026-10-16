@@ -21,10 +21,11 @@ from app.cognition.base_provider import BaseLLMProvider
 from app.cognition.llm import secrets
 from app.cognition.llm.catalog import ROLES, SERVICES, LLMService, get_service
 from app.cognition.llm.providers import AnthropicProvider, GeminiProvider, OpenAICompatibleProvider
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.llm")
 
-_SETTINGS_FILE = Path(__file__).resolve().parents[3] / "data" / "settings" / "llm.json"
+_SETTINGS_FILE = data_path("settings", "llm.json")
 
 
 class LLMSettings:

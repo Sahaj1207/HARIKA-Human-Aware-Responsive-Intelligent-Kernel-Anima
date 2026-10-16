@@ -25,6 +25,7 @@ class MediaPlaybackTool(BaseTool):
         platforms=["windows", "linux", "darwin"],
         capabilities=["play_media"],
         operations={"play": "play_media"},
+        ability="play music and videos on YouTube or Spotify",
         free_text_operations=["play"],
         target_description="what to play, as a search query (e.g. 'relaxing music', 'believer by imagine dragons'); put the platform in parameters.platform ('youtube' or 'spotify')",
     )

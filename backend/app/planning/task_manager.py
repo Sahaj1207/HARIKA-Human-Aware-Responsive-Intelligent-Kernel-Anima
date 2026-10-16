@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import List, Dict, Optional
 from app.planning.schemas import Task, GoalPriority
 from app.planning.events import planning_event_bus, PlanningEventType
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.planning.tasks")
 
@@ -13,7 +14,7 @@ class TaskManager:
     """Manages subtask decompositions, persistence, cancellation, and task dependency execution locks."""
 
     def __init__(self, storage_file: Optional[Path] = None):
-        self.storage_file = storage_file or (Path(__file__).resolve().parent.parent.parent / "data" / "planning" / "tasks.json")
+        self.storage_file = storage_file or data_path("planning", "tasks.json")
         self.storage_file.parent.mkdir(parents=True, exist_ok=True)
         self.tasks: Dict[str, Task] = self._restore_tasks()
 

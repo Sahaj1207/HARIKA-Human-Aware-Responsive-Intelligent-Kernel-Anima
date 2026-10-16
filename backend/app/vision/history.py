@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from app.vision.schemas import VisionHistoryItem, VisionResult
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.vision.history")
 
@@ -11,7 +12,7 @@ class VisionHistoryManager:
     """Manages persistent vision processing history stored in backend/data/vision/history.json."""
 
     def __init__(self, storage_file: Optional[Path] = None):
-        self.storage_file = storage_file or (Path(__file__).resolve().parent.parent.parent / "data" / "vision" / "history.json")
+        self.storage_file = storage_file or data_path("vision", "history.json")
         self.storage_file.parent.mkdir(parents=True, exist_ok=True)
         self.history: List[Dict[str, Any]] = self._load_history()
 

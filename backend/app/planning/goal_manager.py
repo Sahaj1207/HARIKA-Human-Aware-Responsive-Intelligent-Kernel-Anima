@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 from app.planning.schemas import Goal, GoalStatus, GoalPriority
 from app.planning.events import planning_event_bus, PlanningEventType
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.planning.goals")
 
@@ -14,7 +15,7 @@ class GoalManager:
     """Manages active, completed, cancelled, and failed goals with JSON resumption persistence."""
 
     def __init__(self, storage_file: Optional[Path] = None):
-        self.storage_file = storage_file or (Path(__file__).resolve().parent.parent.parent / "data" / "planning" / "goals.json")
+        self.storage_file = storage_file or data_path("planning", "goals.json")
         self.storage_file.parent.mkdir(parents=True, exist_ok=True)
         self.goals: Dict[str, Goal] = self._restore_goals()
 

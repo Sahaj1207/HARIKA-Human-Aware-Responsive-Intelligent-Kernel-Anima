@@ -9,6 +9,7 @@ from app.tools.result import ToolResult
 from app.tools.schemas import ToolStatusCode, PermissionLevel
 from app.tools.permissions import permission_engine, PermissionEngine
 from app.tools.events import tool_event_bus, ToolEventType
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.tools.executor")
 
@@ -18,7 +19,7 @@ class ToolExecutor:
 
     def __init__(self, history_file: Optional[Path] = None):
         self._execution_lock = asyncio.Lock()
-        self.history_file = history_file or (Path(__file__).resolve().parent.parent.parent / "data" / "tools" / "history.json")
+        self.history_file = history_file or data_path("tools", "history.json")
         self.history_file.parent.mkdir(parents=True, exist_ok=True)
         self.history: List[Dict[str, Any]] = self._load_history()
 

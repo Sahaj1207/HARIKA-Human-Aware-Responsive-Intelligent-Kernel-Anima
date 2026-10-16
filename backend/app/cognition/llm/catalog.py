@@ -13,6 +13,7 @@ class LLMService(BaseModel):
     needs_key: bool = True
     sign_in: bool = False  # supports "Sign in" (OAuth) instead of pasting a key
     key_url: str = ""  # where users create a key
+    setup_url: str = ""  # where users install it (on-device services)
     blurb: str = ""
     # Suggested models when the service can't list its own (or before connecting).
     suggested: Dict[str, str] = {}
@@ -21,12 +22,14 @@ class LLMService(BaseModel):
 SERVICES: List[LLMService] = [
     LLMService(
         id="ollama", name="On this computer (Ollama)", kind="ollama", on_device=True, needs_key=False,
+        setup_url="https://ollama.com/download",
         blurb="Private and free. Runs on your own hardware, so speed depends on your computer.",
         suggested={"understanding": "", "conversation": ""},
     ),
     LLMService(
         id="lmstudio", name="On this computer (LM Studio)", kind="openai_compatible",
         base_url="http://localhost:1234/v1", on_device=True, needs_key=False,
+        setup_url="https://lmstudio.ai",
         blurb="Private and free. Uses the model loaded in LM Studio's local server.",
     ),
     LLMService(

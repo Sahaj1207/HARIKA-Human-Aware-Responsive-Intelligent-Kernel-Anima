@@ -28,8 +28,11 @@ class TestCapabilityQueries(unittest.TestCase):
             res = loop.run_until_complete(router_manager.route_request(query))
             self.assertEqual(res["intent"], "CAPABILITY_QUERY", f"Failed intent matching for '{query}'")
             resp = res["response"]
-            self.assertIn("capabilities:", resp.lower(), f"Failed response body for '{query}': {resp}")
-            self.assertTrue(any(k in resp for k in ["ToolManager", "MemoryManager", "Planning", "Vision", "Voice"]), f"Missing subsystem in response for '{query}'")
+            # Users get a plain-language answer built from tool metadata, not subsystem names.
+            self.assertTrue(resp.startswith("I can "), f"Failed response body for '{query}': {resp}")
+            self.assertIn("open and close your apps", resp)
+            self.assertIn("set reminders", resp)
+            self.assertNotIn("Manager", resp)
 
         loop.close()
 

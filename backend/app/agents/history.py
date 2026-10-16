@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from app.agents.schemas import AgentHistoryItem, AgentStatus
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.agents.history")
 
@@ -11,7 +12,7 @@ class AgentHistoryManager:
     """Persists agent execution history records in backend/data/agents/history.json."""
 
     def __init__(self, storage_file: Optional[Path] = None):
-        self.storage_file = storage_file or (Path(__file__).resolve().parent.parent.parent / "data" / "agents" / "history.json")
+        self.storage_file = storage_file or data_path("agents", "history.json")
         self.storage_file.parent.mkdir(parents=True, exist_ok=True)
         self.history: List[Dict[str, Any]] = self._load_history()
 

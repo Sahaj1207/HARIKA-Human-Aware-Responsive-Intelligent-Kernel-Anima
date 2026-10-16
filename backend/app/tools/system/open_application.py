@@ -31,6 +31,7 @@ class OpenApplicationTool(BaseTool):
             "cmd": ["cmd", "terminal", "command prompt"],
         },
         operations={"open": "open_application", "close": "close_application"},
+        ability="open and close your apps",
         target_description="the name of any installed desktop application (e.g. calculator, notepad, chrome, spotify, vs code)",
     )
     timeout_seconds = 12.0

@@ -215,6 +215,25 @@ class SettingsApiTests(unittest.TestCase):
         self.assertEqual(reply.status_code, 400)
         self.assertFalse(secrets.has_key("openrouter"))
 
+    def test_only_recommended_models_can_be_downloaded(self):
+        reply = self.local.post("/api/v1/settings/llm/local/download", json={"model": "some/huge-model:405b"})
+        self.assertEqual(reply.status_code, 400)
+
+    def test_download_needs_ollama_running(self):
+        from app.core.config import settings
+        with fake_http(lambda request: (_ for _ in ()).throw(httpx.ConnectError("refused"))):
+            reply = self.local.post("/api/v1/settings/llm/local/download", json={"model": settings.OLLAMA_MODEL})
+        self.assertEqual(reply.status_code, 409)
+
+    def test_smaller_model_recommended_for_low_memory_computers(self):
+        from app.cognition.llm import local_models
+        from app.core.config import settings
+        with patch.object(local_models, "total_memory_gb", return_value=6.0):
+            self.assertEqual(local_models.recommended_model()["model"], local_models.SMALL_MODEL)
+        with patch.object(local_models, "total_memory_gb", return_value=16.0):
+            self.assertEqual(local_models.recommended_model()["model"], settings.OLLAMA_MODEL)
+        self.assertGreater(local_models.total_memory_gb() or 0, 1)  # real reading on this machine
+
     def test_choosing_a_model_requires_connecting_first(self):
         refused = self.local.put("/api/v1/settings/llm/roles/conversation", json={"service": "openai", "model": "gpt-4o"})
         self.assertEqual(refused.status_code, 409)

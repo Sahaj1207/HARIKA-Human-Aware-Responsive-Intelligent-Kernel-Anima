@@ -24,6 +24,14 @@ export interface LLMSettings {
   services: LLMService[];
 }
 
+export interface LocalModelStatus {
+  running: boolean;
+  models: string[];
+  recommended: { model: string; size: string; reason: string };
+  has_recommended: boolean;
+  downloading: boolean;
+}
+
 export interface ModelList {
   models: string[];
   suggested: Record<Role, string>;
@@ -57,6 +65,16 @@ export const llmSettingsService = {
   /** Opens OpenRouter's sign-in page in the default browser. */
   async signInWithOpenRouter(): Promise<void> {
     await apiClient.get('/settings/llm/openrouter/start', { params: { open_browser: true } });
+  },
+  async localStatus(): Promise<LocalModelStatus> {
+    return (await apiClient.get<LocalModelStatus>('/settings/llm/local/status')).data;
+  },
+  async downloadLocalModel(model: string): Promise<void> {
+    await apiClient.post('/settings/llm/local/download', { model });
+  },
+  /** Opens an on-device service's download page (e.g. Ollama) in the default browser. */
+  async openSetupPage(serviceId: string): Promise<void> {
+    await apiClient.post(`/settings/llm/services/${serviceId}/open-setup-page`);
   },
   /** Opens the service's "create API key" page in the default browser. */
   async openKeyPage(serviceId: string): Promise<void> {

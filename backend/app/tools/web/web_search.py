@@ -28,6 +28,7 @@ class WebSearchTool(BaseTool):
         platforms=["windows", "linux", "darwin"],
         capabilities=["web_search", "open_search_result"],
         operations={"search": "web_search", "open": "open_search_result"},
+        ability="search the web",
         free_text_operations=["search"],
         # Positions are the only "open" targets this tool owns; search queries are free text.
         target_aliases={

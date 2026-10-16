@@ -111,6 +111,42 @@ async def disconnect(service_id: str):
     return describe()
 
 
+@router.post("/services/{service_id}/open-setup-page")
+async def open_setup_page(service_id: str):
+    """Open the download page for an on-device service (catalog URL only)."""
+    service = _service_or_404(service_id)
+    if not service.setup_url:
+        raise HTTPException(status_code=400, detail=f"{service.name} has no installer page.")
+    webbrowser.open(service.setup_url)
+    return {"opened": service.setup_url}
+
+
+@router.get("/local/status")
+async def local_model_status():
+    """Is Ollama running, and does it have the model recommended for this computer?"""
+    from app.cognition.llm.local_models import model_download, ollama_status
+    return {**await ollama_status(), "downloading": model_download.running}
+
+
+class DownloadRequest(BaseModel):
+    model: str
+
+
+@router.post("/local/download", status_code=202)
+async def download_local_model(body: DownloadRequest):
+    """Start downloading a recommended model; progress arrives as 'model_download' live events."""
+    from app.cognition.llm.local_models import SMALL_MODEL, model_download, ollama_status
+    from app.core.config import settings
+
+    if body.model not in {settings.OLLAMA_MODEL, SMALL_MODEL}:
+        raise HTTPException(status_code=400, detail="HARIKA only downloads its recommended models here.")
+    if not (await ollama_status())["running"]:
+        raise HTTPException(status_code=409, detail="Ollama isn't running. Install it, open it, then try again.")
+    if not model_download.start(body.model):
+        raise HTTPException(status_code=409, detail="A model is already downloading.")
+    return {"started": body.model}
+
+
 @router.post("/roles/{role}/test")
 async def test_role(role: str):
     if role not in ROLES:

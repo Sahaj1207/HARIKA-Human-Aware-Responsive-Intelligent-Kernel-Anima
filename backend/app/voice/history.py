@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from app.voice.schemas import VoiceHistoryItem, VoiceSession
+from app.core.paths import data_path
 
 logger = logging.getLogger("harika.voice.history")
 
@@ -11,7 +12,7 @@ class VoiceHistoryManager:
     """Persists voice session history records in backend/data/voice/history.json."""
 
     def __init__(self, storage_file: Optional[Path] = None):
-        self.storage_file = storage_file or (Path(__file__).resolve().parent.parent.parent / "data" / "voice" / "history.json")
+        self.storage_file = storage_file or data_path("voice", "history.json")
         self.storage_file.parent.mkdir(parents=True, exist_ok=True)
         self.history: List[Dict[str, Any]] = self._load_history()
 

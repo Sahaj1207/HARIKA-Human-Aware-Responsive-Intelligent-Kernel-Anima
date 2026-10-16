@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "desktop": "tauri dev",
-    "desktop:build": "tauri build"
+    "desktop:build": "npm run backend:bundle && tauri build",
+    "backend:bundle": "node scripts/bundle-backend.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
