@@ -42,7 +42,7 @@ class SubsystemResolver:
                     },
                     "error": "Closing individual browser tabs is not supported by the current website tool."
                 }
-            action_plan = tool_manager.plan_action(query)
+            action_plan = tool_manager.plan_node(node)
             if action_plan.actions:
                 res = await tool_manager.execute_planned_action(action_plan)
                 if res:
@@ -140,10 +140,16 @@ class SubsystemResolver:
         # 6. Conversational & Wrapper Intents
         msg = node.arguments.get("message", node.arguments.get("query", ""))
         if node.arguments.get("conversation_type") or node.intent in [IntentType.GREETING, IntentType.SOCIAL_CONVERSATION, IntentType.CAPABILITY_QUERY, IntentType.UNKNOWN_INTENT] or node.action in ["greeting", "social_chat", "capability_inquiry"]:
-            return {"status": "conversational", "message": msg}
+            return {
+                "status": "conversational",
+                "message": msg,
+                "cognitive_goal": node.arguments.get("cognitive_goal"),
+                "desired_outcome": node.arguments.get("desired_outcome"),
+                "context": node.arguments.get("cognitive_context", {}),
+            }
 
         from app.cognition.manager import cognition_manager
-        return await cognition_manager.process_chat(message=msg, user_name=user_id)
+        return await cognition_manager.process_chat(message=msg, user_name=user_id, user_id=user_id)
 
 
 

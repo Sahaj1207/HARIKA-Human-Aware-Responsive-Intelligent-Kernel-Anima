@@ -243,7 +243,7 @@ class CognitiveCoreFoundationTests(unittest.TestCase):
             def __init__(self):
                 self.calls = 0
 
-            def cognize(self, **kwargs):
+            async def cognize_async(self, **kwargs):
                 self.calls += 1
                 return decision
 

@@ -17,7 +17,8 @@ class OllamaProvider(BaseLLMProvider):
     async def generate_response(
         self,
         messages: List[Dict[str, str]],
-        system_prompt: str
+        system_prompt: str,
+        json_mode: bool = False
     ) -> Dict[str, Any]:
         start_time = time.perf_counter()
 
@@ -30,8 +31,13 @@ class OllamaProvider(BaseLLMProvider):
         payload = {
             "model": self.model,
             "messages": formatted_messages,
-            "stream": False
+            "stream": False,
+            "keep_alive": settings.OLLAMA_KEEP_ALIVE,
         }
+        if json_mode:
+            # Structured interpretation: constrain output to JSON and decode deterministically.
+            payload["format"] = "json"
+            payload["options"] = {"temperature": 0, "num_predict": 256}
 
         url = f"{self.base_url}/api/chat"
 

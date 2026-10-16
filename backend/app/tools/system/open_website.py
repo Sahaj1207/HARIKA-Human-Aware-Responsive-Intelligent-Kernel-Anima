@@ -1,3 +1,4 @@
+import re
 import webbrowser
 from typing import Dict, Any, Tuple, Optional
 from app.tools.base_tool import BaseTool
@@ -17,8 +18,28 @@ class OpenWebsiteTool(BaseTool):
         category="system",
         permissions=PermissionLevel.LOW,
         enabled=True,
-        platforms=["windows", "linux", "darwin"]
+        platforms=["windows", "linux", "darwin"],
+        capabilities=["open_website", "close_website"],
+        target_aliases={
+            "google": ["google", "google.com"],
+            "github": ["github", "github.com"],
+            "youtube": ["youtube", "youtube.com"],
+            "twitter": ["twitter", "x"],
+            "reddit": ["reddit", "reddit.com"],
+            "stackoverflow": ["stackoverflow", "stackoverflow.com"],
+            "chatgpt": ["chatgpt", "chatgpt.com"],
+        },
+        operations={"open": "open_website", "close": "close_website"},
+        target_description="a well-known website name (google, github, youtube, reddit, ...) or a domain such as wikipedia.org",
     )
+
+    _DOMAIN = re.compile(r"^(?:https?://)?(?:[a-z0-9-]+\.)+[a-z]{2,}(?:/\S*)?$", re.I)
+
+    def match_target(self, requested: str, operation: Optional[str] = None) -> Tuple[Optional[str], float]:
+        canonical, score = super().match_target(requested, operation)
+        if score < 0.9 and self._DOMAIN.match((requested or "").strip()):
+            return requested.strip().lower(), 0.9
+        return canonical, score
     timeout_seconds = 10.0
 
     URL_MAP = {

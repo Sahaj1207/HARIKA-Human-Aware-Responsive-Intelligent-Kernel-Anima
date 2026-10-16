@@ -14,15 +14,26 @@ class OpenApplicationTool(BaseTool):
     manifest = ToolManifest(
         name="open_application",
         display_name="Application Launcher",
-        description="Launches local applications (Chrome, Edge, VS Code, Notepad, Calculator) safely.",
+        description="Launches or closes any application installed on this computer.",
         version="1.0.0",
         author="HARIKA OS Core",
         category="system",
         permissions=PermissionLevel.LOW,
         enabled=True,
-        platforms=["windows", "linux", "darwin"]
+        platforms=["windows", "linux", "darwin"],
+        capabilities=["open_application", "close_application"],
+        target_aliases={
+            "calculator": ["calculator", "calc", "cal", "calculator app"],
+            "notepad": ["notepad", "note pad"],
+            "chrome": ["chrome", "google chrome"],
+            "edge": ["edge", "microsoft edge"],
+            "vs code": ["vs code", "vscode", "visual studio code", "code"],
+            "cmd": ["cmd", "terminal", "command prompt"],
+        },
+        operations={"open": "open_application", "close": "close_application"},
+        target_description="the name of any installed desktop application (e.g. calculator, notepad, chrome, spotify, vs code)",
     )
-    timeout_seconds = 5.0
+    timeout_seconds = 12.0
 
     # Application execution map per OS
     APP_COMMANDS = {
@@ -58,6 +69,16 @@ class OpenApplicationTool(BaseTool):
             dependencies=["subprocess"]
         )
 
+    def match_target(self, requested: str, operation: Optional[str] = None) -> Tuple[Optional[str], float]:
+        canonical, score = super().match_target(requested, operation)
+        if score >= 0.9:
+            return canonical, score
+        from app.tools.system.installed_apps import installed_app_index
+        app = installed_app_index.find(requested)
+        if app is not None:
+            return installed_app_index.normalize(app.name), 0.95
+        return canonical, score
+
     def validate(self, args: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
         app_name = args.get("app_name") or args.get("name")
         if not app_name or not isinstance(app_name, str) or not app_name.strip():
@@ -82,6 +103,11 @@ class OpenApplicationTool(BaseTool):
                 "vscode": "code.exe"
             }
             proc_candidates = [proc_map.get(app_key, f"{app_key}.exe")]
+            if app_key not in proc_map:
+                from app.tools.system.installed_apps import installed_app_index
+                installed = installed_app_index.find(app_key)
+                if installed is not None:
+                    proc_candidates = [f"{name}.exe" for name in installed.process_candidates]
             if app_key == "calculator":
                 proc_candidates.insert(0, "CalculatorApp.exe")
             if current_os == "windows":
@@ -203,8 +229,9 @@ class OpenApplicationTool(BaseTool):
         cmd = cmd_map.get(app_key)
 
         if not cmd:
-            # Fallback to direct name execution if command map missing
-            cmd = app_key
+            # Never hand an unrecognized name to a shell. Unknown names may only
+            # launch through an OS-registered application ID from the index.
+            return await self._launch_installed(app_key, current_os, dry_run)
 
         if dry_run:
             return {
@@ -261,5 +288,56 @@ class OpenApplicationTool(BaseTool):
 
 
 
-open_application_tool = OpenApplicationTool()
+    async def _launch_installed(self, app_key: str, current_os: str, dry_run: bool) -> Dict[str, Any]:
+        from app.tools.system.installed_apps import installed_app_index
+        from app.tools.process_verifier import verify_os_process
+
+        app = installed_app_index.find(app_key) if current_os == "windows" else None
+        if app is None:
+            return {
+                "app_name": app_key,
+                "launched": False,
+                "success": False,
+                "verified": False,
+                "pid": None,
+                "process_name": None,
+                "error": f"'{app_key}' isn't an application I can find installed on this computer",
+            }
+        if dry_run:
+            return {
+                "dry_run": True,
+                "action": "launch_application",
+                "app_name": app.name,
+                "app_id": app.app_id,
+                "expected_result": f"Launches installed app '{app.name}'",
+            }
+
+        # Argument list (no shell); the AppID comes from the OS index, not user text.
+        subprocess.Popen(["explorer.exe", f"shell:AppsFolder\\{app.app_id}"])
+        for _ in range(10):
+            await asyncio.sleep(0.5)
+            for candidate in app.process_candidates:
+                verified, pid, proc_name, _ = verify_os_process(candidate)
+                if verified:
+                    return {
+                        "app_name": app.name,
+                        "launched": True,
+                        "success": True,
+                        "verified": True,
+                        "pid": pid,
+                        "process_name": proc_name,
+                        "error": None,
+                    }
+        return {
+            "app_name": app.name,
+            "launched": True,
+            "success": True,
+            "verified": False,
+            "pid": None,
+            "process_name": None,
+            "error": f"I asked Windows to start {app.name} but couldn't confirm its process is running",
+        }
+
+
+open_application_tool =OpenApplicationTool()
 tool_registry.register_tool(open_application_tool)

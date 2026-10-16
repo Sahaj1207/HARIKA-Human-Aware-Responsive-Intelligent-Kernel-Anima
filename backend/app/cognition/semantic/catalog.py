@@ -1,7 +1,8 @@
-import re
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from pydantic import BaseModel, Field
+
+from app.tools.capability_resolver import CapabilityResolution, CapabilityResolver, operations_of
 
 
 class CapabilityCatalogEntry(BaseModel):
@@ -18,13 +19,20 @@ class CapabilityCatalogEntry(BaseModel):
     engine: Optional[str] = None
     action: Optional[str] = None
     target_aliases: Dict[str, List[str]] = Field(default_factory=dict)
+    target_description: str = ""
+    free_text: bool = False
 
 
 class CapabilityCatalog:
-    """Read-only normalized view over existing tools and subsystem metadata."""
+    """Read-only normalized view over registered tools and subsystem metadata.
 
-    def __init__(self, entries: Iterable[CapabilityCatalogEntry] = ()):
+    Resolution is delegated to the same CapabilityResolver that execution uses,
+    so the semantic layer can never accept something execution would reject.
+    """
+
+    def __init__(self, entries: Iterable[CapabilityCatalogEntry] = (), resolver: Optional[CapabilityResolver] = None):
         self._entries = {entry.capability_id: entry for entry in entries}
+        self.resolver = resolver
 
     @classmethod
     def from_sources(
@@ -35,19 +43,16 @@ class CapabilityCatalog:
     ) -> "CapabilityCatalog":
         entries: List[CapabilityCatalogEntry] = []
         for tool in tool_registry.list_tools():
-            manifest = tool.manifest
-            capabilities = list(getattr(manifest, "capabilities", []) or [])
-            if not capabilities:
-                capabilities = [manifest.name]
+            if not tool.manifest.enabled:
+                continue
+            capabilities = list(getattr(tool.manifest, "capabilities", []) or []) or [tool.manifest.name]
             for capability_id in capabilities:
                 entries.append(cls._tool_entry(tool, capability_id))
 
         for capability in router_registry.get_capabilities():
             entries.extend(cls._router_entries(capability))
 
-        # CapabilityManager remains an optional source for subsystem descriptions.
-        # Its summaries do not expose executable schemas, so they enrich only
-        # missing capability IDs and never replace tool metadata.
+        # CapabilityManager only enriches missing IDs with descriptions.
         if capability_manager is not None:
             for summary in capability_manager.get_all_capabilities():
                 subsystem = summary.get("subsystem")
@@ -60,7 +65,7 @@ class CapabilityCatalog:
                             description=description,
                             engine=subsystem,
                         ))
-        return cls(entries)
+        return cls(entries, resolver=CapabilityResolver(tool_registry))
 
     @staticmethod
     def _tool_entry(tool: Any, capability_id: str) -> CapabilityCatalogEntry:
@@ -68,26 +73,20 @@ class CapabilityCatalog:
         action = {
             "open_application": "open_app",
             "close_application": "close_app",
-            "open_website": "open_website",
-            "close_website": "close_website",
         }.get(capability_id, capability_id)
-        operations = list(getattr(manifest, "supported_operations", []) or [])
-        if not operations:
-            operations = ["execute"]
+        operations = [op for op, cap in operations_of(manifest).items() if cap == capability_id] or ["execute"]
         return CapabilityCatalogEntry(
             capability_id=capability_id,
             description=manifest.description,
             supported_operations=operations,
-            argument_schema=getattr(manifest, "argument_schema", {}) or {},
-            entity_types=getattr(manifest, "entity_types", []) or [],
             permissions=manifest.permissions.value,
-            verification_requirements=getattr(manifest, "verification_requirements", []) or [],
             platforms=list(manifest.platforms),
-            composable_with=getattr(manifest, "composable_with", []) or [],
             tool_name=manifest.name,
             engine="ToolManager",
             action=action,
             target_aliases=dict(getattr(manifest, "target_aliases", {}) or {}),
+            target_description=getattr(manifest, "target_description", "") or "",
+            free_text=any(op in (getattr(manifest, "free_text_operations", []) or []) for op in operations),
         )
 
     @staticmethod
@@ -117,54 +116,29 @@ class CapabilityCatalog:
     def validate_candidates(self, candidates: Iterable[str]) -> List[str]:
         return [candidate for candidate in candidates if self.contains(candidate)]
 
+    def describe_operations(self) -> str:
+        """Human-readable operation list for the interpreter prompt, built from tool metadata."""
+        lines = []
+        for entry in self._entries.values():
+            if entry.engine != "ToolManager" or entry.supported_operations == ["execute"]:
+                continue
+            for operation in entry.supported_operations:
+                target = entry.target_description or (
+                    "one of: " + ", ".join(entry.target_aliases) if entry.target_aliases else "free text"
+                )
+                lines.append(f'- "{operation}": {entry.description} Target: {target}.')
+        return "\n".join(dict.fromkeys(lines))
+
+    def resolve_action(self, operation: str, target: Optional[str]) -> CapabilityResolution:
+        if self.resolver is None:
+            return CapabilityResolution(capability=operation, action=operation, supported=False)
+        return self.resolver.resolve_operation(operation, target or "")
+
     def resolve_intent(self, goal: str, operation: str, target: Optional[str]) -> Tuple[Optional[CapabilityCatalogEntry], Optional[str]]:
         """Resolve an LLM target against registered metadata only."""
-        requested = self._normalize(target)
-        if not requested:
+        if not (target or "").strip():
             return None, None
-
-        goal_words = self._words(goal)
-        operation_words = self._words(operation)
-        matches = []
-        for entry in self._entries.values():
-            canonical = self._resolve_target(entry, requested)
-            if canonical is None:
-                continue
-            capability_words = self._words(entry.capability_id) | self._words(entry.action or "")
-            goal_score = len(goal_words & capability_words)
-            operation_score = int(self._operation_matches(entry, operation_words))
-            matches.append((goal_score + operation_score, goal_score, operation_score, entry, canonical))
-
-        if not matches:
+        resolution = self.resolve_action(operation, target)
+        if not resolution.supported:
             return None, None
-        matches.sort(key=lambda item: (item[0], item[1], item[2]), reverse=True)
-        _, goal_score, operation_score, entry, canonical = matches[0]
-        if goal_score == 0 and operation_score == 0:
-            return None, None
-        return entry, canonical
-
-    @classmethod
-    def _resolve_target(cls, entry: CapabilityCatalogEntry, requested: str) -> Optional[str]:
-        for canonical, aliases in entry.target_aliases.items():
-            candidates = [canonical, *aliases]
-            if requested in {cls._normalize(value) for value in candidates}:
-                return canonical
-        return None
-
-    @staticmethod
-    def _operation_matches(entry: CapabilityCatalogEntry, operation_words: set[str]) -> bool:
-        if operation_words == {"execute"} and entry.action not in (None, "execute"):
-            return False
-        supported = set()
-        for value in entry.supported_operations:
-            supported.update(CapabilityCatalog._words(value))
-        action_words = CapabilityCatalog._words(entry.action or "")
-        return bool(operation_words & (supported | action_words))
-
-    @staticmethod
-    def _normalize(value: Optional[str]) -> str:
-        return " ".join((value or "").lower().strip().split())
-
-    @staticmethod
-    def _words(value: Optional[str]) -> set[str]:
-        return set(re.findall(r"[a-z0-9]+", (value or "").lower()))
+        return self.get(resolution.capability), resolution.target

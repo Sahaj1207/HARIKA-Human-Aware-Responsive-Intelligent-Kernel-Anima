@@ -9,6 +9,9 @@ import app.tools.system.clipboard
 import app.tools.system.filesystem
 import app.tools.system.terminal
 
+import app.tools.web.media_playback
+import app.tools.web.web_search
+
 import app.tools.developer.github
 
 

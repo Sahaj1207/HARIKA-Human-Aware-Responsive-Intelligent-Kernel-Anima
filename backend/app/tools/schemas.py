@@ -44,6 +44,11 @@ class ToolManifest(BaseModel):
     permissions: PermissionLevel = Field(default=PermissionLevel.NONE, description="Permission risk level")
     enabled: bool = Field(default=True, description="Enable / disable toggle state")
     platforms: List[str] = Field(default_factory=lambda: ["windows", "linux", "darwin"], description="Supported OS platforms")
+    capabilities: List[str] = Field(default_factory=list, description="Normalized actions this tool provides")
+    target_aliases: Dict[str, List[str]] = Field(default_factory=dict, description="Canonical targets and natural aliases owned by the tool")
+    operations: Dict[str, str] = Field(default_factory=dict, description="Semantic verb -> capability id, e.g. {'open': 'open_application', 'close': 'close_application'}")
+    free_text_operations: List[str] = Field(default_factory=list, description="Operations whose target is free text (a search query) rather than a registered name")
+    target_description: str = Field(default="", description="Natural-language description of acceptable targets, shown to the semantic interpreter")
 
 
 class SingleAction(BaseModel):

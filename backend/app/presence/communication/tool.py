@@ -42,10 +42,16 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
             return f"I couldn't close that website tab because {reason}."
         if is_close_result:
             return f"I attempted to close {app_name or 'the application'}, but couldn't verify that it terminated because {reason}."
+        if action not in (None, "open_application", "open_website"):
+            return f"I couldn't complete that because {reason}."
         target_name = (tool_data.get("app_name") or (engine_output.get("process_name") if is_dict else None) or (engine_output.get("tool") if is_dict else None))
         if not target_name and raw_message:
             target_name = raw_message.replace("Open ", "").replace("open ", "").strip()
         return f"I attempted to open {target_name or 'application'}, but couldn't verify that it launched because {reason}."
+
+    # Tools that describe their own outcome know best what they did.
+    if isinstance(tool_data, dict) and tool_data.get("summary"):
+        return str(tool_data["summary"])
 
     if is_close_result:
         if tool_success and tool_verified:

@@ -1,12 +1,19 @@
 import asyncio
+import inspect
 import json
 import re
 import threading
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from app.cognition.semantic.catalog import CapabilityCatalog
-from app.cognition.semantic.contract import MinimalSemanticIntent, SemanticRequest
+from app.cognition.semantic.contract import (
+    MinimalSemanticIntent,
+    ResolvedStep,
+    SemanticAction,
+    SemanticPlan,
+    SemanticRequest,
+)
 
 
 class SemanticInterpretationError(ValueError):
@@ -21,6 +28,32 @@ class LLMResponseProvider(ABC):
         raise NotImplementedError
 
 
+_PROMPT_TEMPLATE = """You are the language-understanding layer of HARIKA, a desktop AI assistant.
+Decide whether the user's message asks HARIKA to perform actions on the computer, and if so which ones, in order.
+
+Operations HARIKA can perform (use these operation names exactly):
+{operations}
+
+Reply with STRICT JSON only, in this shape:
+{{"actions": [{{"operation": "<operation>", "target": "<plain-language target>", "parameters": {{}}}}]}}
+
+Rules:
+- List actions in the order the user wants them done. Most messages have one action.
+- "target" is what the user means in plain words, normalized: fix abbreviations and typos ("calci" -> "calculator").
+- Resolve references like "it", "that" or "the app" using the recent context below.
+- If the message is conversation, a question, a request to remember or recall something, planning, or anything not covered by the operations above, reply {{"actions": []}}.
+- Never output shell commands, code, file paths, or any keys other than operation, target and parameters.
+
+Examples:
+"bring up the calculator" -> {{"actions": [{{"operation": "open", "target": "calculator", "parameters": {{}}}}]}}
+"I need to use calci" -> {{"actions": [{{"operation": "open", "target": "calculator", "parameters": {{}}}}]}}
+"play something relaxing on spotify" -> {{"actions": [{{"operation": "play", "target": "relaxing music", "parameters": {{"platform": "spotify"}}}}]}}
+"open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome", "parameters": {{}}}}, {{"operation": "search", "target": "F1 news", "parameters": {{}}}}, {{"operation": "open", "target": "first result", "parameters": {{}}}}]}}
+"what is the capital of France?" -> {{"actions": []}}
+"remember that I like cricket" -> {{"actions": []}}
+{context}"""
+
+
 class SemanticInterpreter:
     """Interprets language only; it cannot execute or invoke capabilities."""
 
@@ -29,13 +62,22 @@ class SemanticInterpreter:
         self.catalog = catalog
         self.timeout_seconds = timeout_seconds
 
-    async def interpret(self, raw_text: str, context: Optional[Any] = None) -> SemanticRequest:
-        prompt = self._build_prompt(context)
+    async def interpret(
+        self,
+        raw_text: str,
+        context: Optional[Any] = None,
+        hints: Optional[Dict[str, Any]] = None,
+    ) -> SemanticRequest:
+        prompt = self._build_prompt(context, hints)
+        kwargs = {}
+        if "json_mode" in inspect.signature(self.provider.generate_response).parameters:
+            kwargs["json_mode"] = True
         try:
             result = await asyncio.wait_for(
                 self.provider.generate_response(
                     messages=[{"role": "user", "content": raw_text}],
                     system_prompt=prompt,
+                    **kwargs,
                 ),
                 timeout=self.timeout_seconds,
             )
@@ -46,25 +88,21 @@ class SemanticInterpreter:
         response = result.get("response") if isinstance(result, dict) else None
         payload = self._parse_json(response)
         self._reject_unsafe_payload(payload)
-        try:
-            intent = MinimalSemanticIntent.model_validate(payload)
-        except Exception as exc:
-            raise SemanticInterpretationError(f"Invalid minimal semantic intent: {exc}") from exc
-        return self._normalize_intent(raw_text, intent)
+        return self._normalize_payload(raw_text, payload)
 
-    def interpret_sync(self, raw_text: str, context: Optional[Any] = None) -> SemanticRequest:
-        """Bridge async providers for the current synchronous CognitiveCore API."""
+    def interpret_sync(self, raw_text: str, context: Optional[Any] = None, hints: Optional[Dict[str, Any]] = None) -> SemanticRequest:
+        """Bridge for synchronous callers; async callers should await interpret()."""
         try:
             asyncio.get_running_loop()
         except RuntimeError:
-            return asyncio.run(self.interpret(raw_text, context))
+            return asyncio.run(self.interpret(raw_text, context, hints))
 
         result: Dict[str, Any] = {}
         error: Dict[str, BaseException] = {}
 
         def runner():
             try:
-                result["value"] = asyncio.run(self.interpret(raw_text, context))
+                result["value"] = asyncio.run(self.interpret(raw_text, context, hints))
             except BaseException as exc:  # re-raise in caller thread
                 error["value"] = exc
 
@@ -75,60 +113,102 @@ class SemanticInterpreter:
             raise error["value"]
         return result["value"]
 
-    def _build_prompt(self, context: Optional[Any]) -> str:
-        return (
-            "You are HARIKA's semantic interpreter. Return STRICT JSON only with exactly "
-            "these four keys: goal, operation, target, parameters. The target is plain "
-            "natural language, never a capability ID. Do not output confidence, ambiguity, "
-            "constraints, context references, permissions, verification data, ActionGraphs, "
-            "shell commands, Python, executable paths, or tool calls. Use normalized values: "
-            "launch_application/open/calculator for calculator launch requests; "
-            "media_playback/play/YouTube with parameters {query: song} for song playback. "
-            "Understand natural variations such as 'bring up', 'start', 'I need', and "
-            "'calci' without returning aliases or capability IDs. Examples:\n"
-            "open calculator -> {goal: launch_application, operation: open, target: calculator, parameters: {}}\n"
-            "open calci -> {goal: launch_application, operation: open, target: calculator, parameters: {}}\n"
-            "play a song on YouTube -> {goal: media_playback, operation: play, target: YouTube, parameters: {query: song}}"
-        )
+    def _build_prompt(self, context: Optional[Any], hints: Optional[Dict[str, Any]] = None) -> str:
+        operations = self.catalog.describe_operations() or "- (no actions are currently available)"
+        lines: List[str] = []
+        history = list(getattr(context, "conversation_history", None) or [])[-4:]
+        for turn in history:
+            role = turn.get("role") or turn.get("sender") or "user"
+            content = str(turn.get("content", "")).strip()
+            if content:
+                lines.append(f"{role}: {content[:200]}")
+        for action in (hints or {}).get("recent_actions", [])[-3:]:
+            lines.append(f"HARIKA recently did: {action}")
+        context_block = ("\nRecent context:\n" + "\n".join(lines) + "\n") if lines else ""
+        return _PROMPT_TEMPLATE.format(operations=operations, context=context_block)
 
-    def _normalize_intent(self, raw_text: str, intent: MinimalSemanticIntent) -> SemanticRequest:
-        entry, canonical_target = self.catalog.resolve_intent(
-            intent.goal,
-            intent.operation,
-            intent.target,
-        )
-        entities = dict(intent.parameters)
-        if intent.target is not None:
-            entities["target"] = canonical_target or intent.target
-        if entry is None:
+    def _normalize_payload(self, raw_text: str, payload: Dict[str, Any]) -> SemanticRequest:
+        if "actions" in payload:
+            try:
+                plan = SemanticPlan.model_validate(payload)
+            except Exception as exc:
+                raise SemanticInterpretationError(f"Invalid semantic action list: {exc}") from exc
+            actions = plan.actions
+        else:
+            try:
+                intent = MinimalSemanticIntent.model_validate(payload)
+            except Exception as exc:
+                raise SemanticInterpretationError(f"Invalid minimal semantic intent: {exc}") from exc
+            actions = [SemanticAction(operation=intent.operation, target=intent.target, parameters=intent.parameters, goal=intent.goal)]
+
+        if not actions:
+            return SemanticRequest(raw_text=raw_text, probable_goal="conversation", confidence=0.9, is_conversational=True)
+
+        steps: List[ResolvedStep] = []
+        unresolved: List[SemanticAction] = []
+        for action in actions:
+            operation = action.operation.strip().lower()
+            target = action.target or action.parameters.get("query")
+            resolution = self.catalog.resolve_action(operation, target)
+            if not resolution.supported:
+                unresolved.append(action)
+                continue
+            steps.append(ResolvedStep(
+                operation=operation,
+                target=resolution.target,
+                parameters=dict(action.parameters),
+                capability=resolution.capability,
+                tool_name=resolution.tool_name,
+                arguments=dict(resolution.arguments),
+                confidence=resolution.confidence,
+            ))
+
+        first = actions[0]
+        entities = dict(first.parameters)
+        if first.target is not None:
+            entities["target"] = steps[0].target if steps and not unresolved else first.target
+        probable_goal = first.goal or (steps[0].capability if steps else first.operation)
+
+        if unresolved:
+            missing = unresolved[0]
+            described = f"{missing.operation} {missing.target}".strip() if missing.target else missing.operation
             return SemanticRequest(
                 raw_text=raw_text,
-                probable_goal=intent.goal,
-                operation=intent.operation,
+                probable_goal=probable_goal,
+                operation=first.operation,
                 entities=entities,
                 candidate_capabilities=[],
                 confidence=0.0,
                 ambiguity=["unresolved_capability"],
-                clarification_question="I could not match that request to a registered capability.",
+                clarification_question=f"I understood that you want me to {described}, but I don't have a way to do that yet.",
                 validation_error="No registered capability matched the semantic intent.",
+                steps=steps,
             )
         return SemanticRequest(
             raw_text=raw_text,
-            probable_goal=intent.goal,
-            operation=intent.operation,
+            probable_goal=probable_goal,
+            operation=first.operation,
             entities=entities,
-            candidate_capabilities=[entry.capability_id],
+            candidate_capabilities=[step.capability for step in steps],
             confidence=0.95,
-            ambiguity=[],
-            clarification_question=None,
+            steps=steps,
         )
 
     @staticmethod
     def _parse_json(response: Any) -> Dict[str, Any]:
         if not isinstance(response, str):
             raise SemanticInterpretationError("LLM semantic response was not text JSON.")
+        text = response.strip()
+        # Small models sometimes wrap JSON in a code fence or add a sentence around it.
+        fenced = re.search(r"```(?:json)?\s*(\{.*\})\s*```", text, re.S)
+        if fenced:
+            text = fenced.group(1)
+        elif not text.startswith("{"):
+            start, end = text.find("{"), text.rfind("}")
+            if start != -1 and end > start:
+                text = text[start:end + 1]
         try:
-            payload = json.loads(response)
+            payload = json.loads(text)
         except json.JSONDecodeError as exc:
             raise SemanticInterpretationError("LLM semantic response was malformed JSON.") from exc
         if not isinstance(payload, dict):
@@ -157,6 +237,7 @@ class SemanticInterpreter:
 
 def default_semantic_interpreter() -> SemanticInterpreter:
     from app.cognition.manager import CognitionManager
+    from app.core.config import settings
     from app.router.registry import router_registry
     from app.tools.manager import tool_manager
     from app.presence.capability_manager import capability_manager
@@ -167,4 +248,4 @@ def default_semantic_interpreter() -> SemanticInterpreter:
         router_registry=router_registry,
         capability_manager=capability_manager,
     )
-    return SemanticInterpreter(provider=provider, catalog=catalog)
+    return SemanticInterpreter(provider=provider, catalog=catalog, timeout_seconds=settings.SEMANTIC_TIMEOUT_SECONDS)

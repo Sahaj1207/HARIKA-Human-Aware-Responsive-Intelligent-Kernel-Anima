@@ -1,7 +1,7 @@
 import uuid
 import time
 import logging
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, TYPE_CHECKING
 from app.router.schemas import (
     RequestContext, RoutingDecision, PolicyType, IntentType,
     SimulationRequest, SimulationResponse
@@ -16,6 +16,9 @@ from app.router.formatter import response_formatter, ResponseFormatter
 from app.router.events import router_event_bus, RouterEventType
 from app.router.history import router_history_manager, RouterHistoryManager
 from app.router.metrics import router_metrics_manager, RouterMetricsManager
+
+if TYPE_CHECKING:
+    from app.cognition.core import CognitiveCore
 
 logger = logging.getLogger("harika.router.manager")
 
@@ -33,7 +36,8 @@ class RouterManager:
         sub_resolver: Optional[SubsystemResolver] = None,
         formatter: Optional[ResponseFormatter] = None,
         history: Optional[RouterHistoryManager] = None,
-        metrics: Optional[RouterMetricsManager] = None
+        metrics: Optional[RouterMetricsManager] = None,
+        cognitive_core_instance: Optional["CognitiveCore"] = None
     ):
         self.ctx_builder = ctx_builder or context_builder
         self.classifier = classifier or intent_classifier
@@ -44,6 +48,10 @@ class RouterManager:
         self.formatter = formatter or response_formatter
         self.history = history or router_history_manager
         self.metrics = metrics or router_metrics_manager
+        if cognitive_core_instance is None:
+            from app.cognition.core import cognitive_core as default_cognitive_core
+            cognitive_core_instance = default_cognitive_core
+        self.cognitive_core = cognitive_core_instance
 
     async def route_request(
         self,
@@ -58,12 +66,17 @@ class RouterManager:
 
         logger.info(f"\n=========================================================\nREQUEST\nUser Request: {message}\n=========================================================")
 
-        # Stage 1: Context Built
-        ctx = self.ctx_builder.build_context(message, user_id=user_id, session_id=session_id, conversation_history=conversation_history)
+        # Stage 1-2: Cognitive Core perceives context and classifies once.
+        cognitive_decision = await self.cognitive_core.cognize_async(
+            message=message,
+            user_id=user_id,
+            session_id=session_id,
+            conversation_history=conversation_history,
+        )
+        ctx = cognitive_decision.context
+        graph = cognitive_decision.action_graph
+        confidence = cognitive_decision.confidence
         logger.info("Stage 1\nContext Built")
-
-        # Stage 2: Intent Classified
-        graph, confidence = self.classifier.classify_request(ctx)
         router_event_bus.emit(RouterEventType.INTENT_DETECTED, {"message": message, "nodes": len(graph.nodes)})
         logger.info("Stage 2\nIntent Classified")
 
@@ -72,15 +85,21 @@ class RouterManager:
         router_event_bus.emit(RouterEventType.CONFIDENCE_CALCULATED, {"confidence": confidence})
         logger.info(f"Stage 3\nConfidence Calculated ({confidence:.2f})")
 
-        should_clarify, clarify_msg = self.conf_estimator.evaluate(confidence, primary_intent)
+        should_clarify = cognitive_decision.clarification_needed
+        clarify_msg = cognitive_decision.clarification_question or "Cognitive Core requested clarification."
+        confidence_clarify, _ = self.conf_estimator.evaluate(confidence, primary_intent)
+        if cognitive_decision.mode.value == "ANSWER":
+            confidence_clarify = False
+        should_clarify = should_clarify or confidence_clarify
         if should_clarify:
             router_event_bus.emit(RouterEventType.CLARIFICATION_REQUESTED, {"message": clarify_msg})
             return {
                 "decision_id": decision_id,
-                "response": "I'm not completely certain what you'd like me to do. Could you please clarify your request?",
+                "response": cognitive_decision.clarification_question or "I'm not completely certain what you'd like me to do. Could you please clarify your request?",
                 "clarification_needed": True,
                 "confidence": confidence,
                 "intent": primary_intent.value,
+                "mode": cognitive_decision.mode.value,
                 "latency_ms": round((time.time() - t_start) * 1000, 2)
             }
 
@@ -98,30 +117,43 @@ class RouterManager:
         fmt_responses: List[str] = []
         formatter_method = "direct"
 
+        from app.presence.manager import presence_manager
+
+        # Nodes run in order. A failed step halts the remaining steps so later
+        # actions never run on top of an unmet precondition.
+        halted_reason: Optional[str] = None
         for node in graph.nodes:
+            if halted_reason is not None:
+                node.status = "skipped"
+                continue
             logger.info(f"Stage 6\nManager Invoked ({node.engine})")
             router_event_bus.emit(RouterEventType.ENGINE_STARTED, {"engine": node.engine})
             node_msg = node.arguments.get("message") or node.arguments.get("query") or node.arguments.get("goal") or message
 
-
             try:
-                from app.presence.manager import presence_manager
                 prs_res = await presence_manager.process_directive(
                     intent=node.intent.value,
                     engine_name=node.engine,
                     raw_message=node_msg,
-                    subsystem_executor_fn=lambda: self.sub_resolver.execute_node(node, user_id=user_id),
+                    subsystem_executor_fn=lambda node=node: self.sub_resolver.execute_node(node, user_id=user_id),
                     user_id=user_id
                 )
-                res = prs_res.structured_output
-                node.result = res
-                node.status = "completed"
-                logger.info(f"Stage 7\nExecution Completed ({node.engine})")
-                router_event_bus.emit(RouterEventType.ENGINE_COMPLETED, {"engine": node.engine, "status": "completed"})
             except Exception as exc:
                 err_trace = traceback.format_exc()
                 logger.error(f"Execution Failed for node '{node.id}' on engine '{node.engine}': {exc}\nFull Exception Stack Trace:\n{err_trace}")
-                raise exc
+                if len(graph.nodes) == 1:
+                    raise
+                node.status = "failed"
+                halted_reason = f"The '{node.action}' step failed ({exc})"
+                router_event_bus.emit(RouterEventType.ENGINE_COMPLETED, {"engine": node.engine, "status": "failed"})
+                continue
+
+            res = prs_res.structured_output
+            node.result = res
+            step_failed = isinstance(res, dict) and res.get("success") is False
+            node.status = "failed" if step_failed else "completed"
+            logger.info(f"Stage 7\nExecution Completed ({node.engine})")
+            router_event_bus.emit(RouterEventType.ENGINE_COMPLETED, {"engine": node.engine, "status": node.status})
 
             # Stage 8: Formatter / Presence Communication Invoked
             logger.info("Stage 8\nFormatter Invoked (Presence Communication Layer)")
@@ -131,6 +163,14 @@ class RouterManager:
             if fmt_text and fmt_text.strip():
                 fmt_responses.append(fmt_text.strip())
             node_results.append(res)
+            if step_failed and len(graph.nodes) > 1:
+                halted_reason = f"The '{node.action}' step did not succeed"
+
+        skipped = [n for n in graph.nodes if n.status == "skipped"]
+        if halted_reason and skipped:
+            fmt_responses.append(f"{halted_reason}, so I stopped before the remaining {len(skipped)} step(s).")
+        elif halted_reason:
+            fmt_responses.append(f"{halted_reason}.")
 
         final_text = "\n\n".join(fmt_responses)
         elapsed_ms = round((time.time() - t_start) * 1000, 2)
@@ -172,8 +212,10 @@ class RouterManager:
 
 
     def simulate_request(self, sim_req: SimulationRequest) -> SimulationResponse:
-        ctx = self.ctx_builder.build_context(sim_req.message, session_id=sim_req.session_id)
-        graph, confidence = self.classifier.classify_request(ctx)
+        decision = self.cognitive_core.cognize(sim_req.message, session_id=sim_req.session_id)
+        ctx = decision.context
+        graph = decision.action_graph
+        confidence = decision.confidence
         primary_intent = graph.nodes[0].intent if graph.nodes else IntentType.CHAT
         policy = self.policy_eng.determine_policy(primary_intent, ctx)
         primary_node = graph.nodes[0] if graph.nodes else None

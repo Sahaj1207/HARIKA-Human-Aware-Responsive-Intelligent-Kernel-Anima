@@ -44,21 +44,37 @@ class MemoryManager:
             active_items = [item for item in active_items if item.category == category]
 
         if query:
-            from app.presence.memory_reasoner import memory_reasoner
             from app.presence.entity_extractor import entity_extractor
             from app.presence.verification import verification_engine
             q_ent = entity_extractor.extract_entity(query)
-            ranked = memory_reasoner.rank_and_retrieve(query, user_id=user_id, query_entity=q_ent)
-            if ranked:
-                if q_ent and q_ent.attribute:
-                    verified = [m for m in ranked if verification_engine.verify_memory_attribute(q_ent.attribute, m)]
-                    return verified
-                return ranked
-            return self.retriever.search(query=query, limit=10, user_id=user_id)
+            lowered_query = query.lower()
+            if q_ent is None and "remember" in lowered_query and ("about me" in lowered_query or "do you" in lowered_query):
+                active_items.sort(key=lambda x: (x.importance, x.created_at), reverse=True)
+                return active_items[:10]
+            ranked = self._rank_scoped_memories(active_items, query, q_ent)
+            if q_ent and q_ent.attribute:
+                ranked = [m for m in ranked if verification_engine.verify_memory_attribute(q_ent.attribute, m)]
+            return ranked[:10]
 
 
         active_items.sort(key=lambda x: (x.importance, x.created_at), reverse=True)
         return active_items
+
+    @staticmethod
+    def _rank_scoped_memories(items: List[MemoryItem], query: str, entity: Any = None) -> List[MemoryItem]:
+        """Rank only the already user-scoped items; never consult a global memory manager."""
+        words = [word for word in query.lower().split() if len(word) > 2]
+        attribute = (getattr(entity, "attribute", "") or "").lower()
+
+        def score(item: MemoryItem) -> float:
+            haystack = " ".join([item.title, item.content, *item.tags]).lower()
+            value = sum(1.0 for word in words if word in haystack)
+            if attribute and attribute.replace("_", " ") in haystack:
+                value += 3.0
+            return value + item.importance * 0.1
+
+        ranked = sorted(items, key=lambda item: (score(item), item.created_at), reverse=True)
+        return [item for item in ranked if score(item) > 0.1]
 
     def add_memory(self, item: MemoryItem, user_id: str = "default") -> Any:
         from app.presence.memory_reasoner import memory_reasoner

@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, Field
 
@@ -16,25 +16,76 @@ class CapabilityResolution(BaseModel):
     reason: Optional[str] = None
 
 
+# Router node actions that predate generic capabilities; kept for API compatibility.
+_LEGACY_NODE_ACTIONS = {
+    "open_application": "open_app",
+    "close_application": "close_app",
+    "open_website": "open_website",
+    "close_website": "close_website",
+}
+
+
+def operations_of(manifest: Any) -> Dict[str, str]:
+    """Declared verb -> capability map, inferring "open_application" -> "open" for older manifests."""
+    declared = dict(getattr(manifest, "operations", {}) or {})
+    if declared:
+        return declared
+    inferred: Dict[str, str] = {}
+    for capability in getattr(manifest, "capabilities", []) or []:
+        verb = capability.split("_", 1)[0]
+        if "_" in capability:
+            inferred.setdefault(verb, capability)
+    return inferred
+
+
 class CapabilityResolver:
-    """Resolves normalized goals against registered tool metadata, not phrase branches."""
+    """Resolves (operation, target) against registered tool metadata, not phrase branches."""
 
     def __init__(self, registry: Optional[ToolRegistry] = None):
         self.registry = registry or tool_registry
 
+    def resolve_operation(self, operation: str, target: str) -> CapabilityResolution:
+        """Pick the tool whose declared operation and own target matching fit best."""
+        operation = (operation or "").strip().lower()
+        best = None
+        for tool in self.registry.list_tools():
+            manifest = tool.manifest
+            operations = operations_of(manifest)
+            if not manifest.enabled or operation not in operations:
+                continue
+            canonical, score = tool.match_target(target, operation)
+            if canonical and score > (best[0] if best else 0.0):
+                best = (score, tool, canonical)
+        if best is None:
+            return CapabilityResolution(
+                capability=operation,
+                action=operation,
+                target=self._normalize(target) or None,
+                supported=False,
+                reason=f"No registered capability can {operation or 'handle'} '{target}'.",
+            )
+        score, tool, canonical = best
+        capability = operations_of(tool.manifest)[operation]
+        return CapabilityResolution(
+            capability=capability,
+            action=operation,
+            target=canonical,
+            tool_name=tool.manifest.name,
+            confidence=score,
+            arguments=self._arguments(tool.manifest.name, capability, operation, canonical),
+        )
+
     def resolve(self, capability: str, target: str, action: str = "launch") -> CapabilityResolution:
-        requested = self._normalize(target)
+        """Resolve a target for one specific capability."""
         best = None
         for tool in self.registry.list_tools():
             manifest = tool.manifest
             if capability not in manifest.capabilities and not self._capability_matches(capability, manifest.name):
                 continue
-            for canonical, aliases in manifest.target_aliases.items():
-                for alias in self._unique([canonical, *aliases]):
-                    candidate = self._normalize(alias)
-                    score = self._match_score(requested, candidate)
-                    if score > (best[0] if best else 0.0):
-                        best = (score, tool, canonical)
+            operation = next((op for op, cap in operations_of(manifest).items() if cap == capability), None)
+            canonical, score = tool.match_target(target, operation)
+            if canonical and score > (best[0] if best else 0.0):
+                best = (score, tool, canonical)
 
         if best:
             score, tool, canonical = best
@@ -44,45 +95,55 @@ class CapabilityResolver:
                 target=canonical,
                 tool_name=tool.manifest.name,
                 confidence=score,
-                arguments=self._arguments(tool.manifest.name, action, canonical),
+                arguments=self._arguments(tool.manifest.name, capability, action, canonical),
             )
 
         return CapabilityResolution(
             capability=capability,
             action=action,
-            target=requested or None,
+            target=self._normalize(target) or None,
             confidence=0.0,
             supported=False,
             reason=f"No registered capability target matched '{target}'.",
         )
 
     def resolve_open_target(self, target: str) -> CapabilityResolution:
-        app = self.resolve("open_application", target, "launch")
-        if app.supported:
-            return app
-        return self.resolve("open_website", target, "open")
+        return self.resolve_operation("open", target)
+
+    def apply_to_node(self, node: Any, resolution: CapabilityResolution, operation: str, extra: Optional[Dict[str, Any]] = None) -> Any:
+        """Write a supported resolution onto a router ActionNode."""
+        query = node.arguments.get("query") or resolution.target
+        node.action = _LEGACY_NODE_ACTIONS.get(resolution.capability, resolution.capability)
+        arguments = dict(extra or {})
+        arguments.update(resolution.arguments)
+        arguments.update({"query": query, "operation": operation})
+        node.arguments = arguments
+        return node
 
     def normalize_node(self, node: Any) -> Any:
-        """Normalize a ToolManager action node in-place while preserving its public shape."""
-        if node.engine != "ToolManager":
+        """Resolve a generic open/close ToolManager node in place; unresolved nodes are left as-is."""
+        if node.engine != "ToolManager" or node.action not in {"open_target", "close_target", "open_app", "close_app"}:
             return node
-        raw = node.arguments.get("app_name") or node.arguments.get("target") or self._extract_target(node.arguments.get("query", ""))
+        raw = node.arguments.get("app_name") or node.arguments.get("target") or ""
         if not raw:
             return node
-
-        if node.action in {"open_app", "close_app", "open_target", "close_target"}:
-            is_close = node.action in {"close_app", "close_target"}
-            resolution = self.resolve("open_application", raw, "close" if is_close else "launch")
-            if not resolution.supported:
-                resolution = self.resolve("open_website", raw, "open" if not is_close else "close")
-            if resolution.supported:
-                if resolution.tool_name == "open_website":
-                    node.action = "close_website" if is_close else "open_website"
-                    node.arguments = {"target": resolution.target, "query": resolution.target}
-                else:
-                    node.action = "close_app" if is_close else "open_app"
-                    node.arguments = {"app_name": resolution.target, "query": resolution.target, "action": "close" if is_close else "launch"}
+        operation = "close" if node.action in {"close_target", "close_app"} else "open"
+        resolution = self.resolve_operation(operation, raw)
+        if resolution.supported:
+            self.apply_to_node(node, resolution, operation)
         return node
+
+    def is_semantic_capability(self, action: Optional[str]) -> bool:
+        """Whether a node action is one the semantic interpreter can express via an operation."""
+        declared = set()
+        for tool in self.registry.list_tools():
+            declared.update(operations_of(tool.manifest).values())
+        declared.update(_LEGACY_NODE_ACTIONS[c] for c in list(declared) if c in _LEGACY_NODE_ACTIONS)
+        return action in declared or action in {"open_target", "close_target"}
+
+    @staticmethod
+    def is_resolved(node: Any) -> bool:
+        return not (node.engine == "ToolManager" and node.action in {"open_target", "close_target"})
 
     @staticmethod
     def _capability_matches(capability: str, tool_name: str) -> bool:
@@ -93,39 +154,10 @@ class CapabilityResolver:
         return " ".join((value or "").lower().strip().strip(".,!?/").split())
 
     @staticmethod
-    def _unique(values: Iterable[str]) -> list[str]:
-        return list(dict.fromkeys(values))
-
-    @staticmethod
-    def _match_score(requested: str, candidate: str) -> float:
-        if not requested or not candidate:
-            return 0.0
-        if requested == candidate:
-            return 1.0
-        if candidate.startswith(requested) or requested.startswith(candidate):
-            ratio = min(len(requested), len(candidate)) / max(len(requested), len(candidate))
-            return 0.82 + (0.12 * ratio)
-        return 0.0
-
-    @staticmethod
-    def _arguments(tool_name: str, action: str, target: str) -> Dict[str, Any]:
+    def _arguments(tool_name: str, capability: str, operation: str, target: str) -> Dict[str, Any]:
         if tool_name == "open_application":
-            return {"app_name": target, "action": "close" if action == "close" else "launch"}
+            return {"app_name": target, "action": "close" if operation == "close" or capability == "close_application" else "launch"}
         return {"target": target}
-
-    @staticmethod
-    def _extract_target(query: str) -> str:
-        words = (query or "").strip().split()
-        if not words:
-            return ""
-        verbs = {"open", "launch", "start", "run", "bring", "get", "close", "stop", "kill", "terminate", "visit"}
-        if words[0].lower() in verbs:
-            words = words[1:]
-        if words[:2] == ["me", "the"]:
-            words = words[2:]
-        elif words and words[0].lower() == "the":
-            words = words[1:]
-        return " ".join(words)
 
 
 capability_resolver = CapabilityResolver()

@@ -209,19 +209,23 @@ class IntentClassifier:
             )]
 
 
-        # 3. Application / Website Tool Execution
-        if any(clean.startswith(k) or f" {k}" in clean for k in ["open ", "launch ", "run ", "exec ", "close ", "terminate ", "kill ", "stop ", "visit ", "search web for ", "search for ", "google "]):
-            target = clean.replace("open ", "").replace("launch ", "").replace("run ", "").replace("exec ", "").replace("close ", "").replace("terminate ", "").replace("kill ", "").replace("stop ", "").replace("visit ", "").replace("search web for ", "").replace("search for ", "").replace("google ", "").strip()
-            is_close = any(clean.startswith(k) for k in ["close ", "terminate ", "kill ", "stop "])
-            is_web = ("." in target or "http" in target or any(k in target.lower() for k in ["github", "google", "youtube", "twitter", "reddit", "stackoverflow", "chatgpt"]) or any(k in clean for k in ["visit ", "search", "google "]))
-            action = "close_website" if is_close and is_web else ("close_app" if is_close else ("open_website" if is_web else "open_app"))
+        # 3. Generic capability command grammar. Target meaning is resolved by registry metadata later.
+        command_match = re.match(
+            r"^(?:can you\s+|please\s+)?(?P<verb>open|launch|start|run|bring up|get me|close|terminate|kill|stop|visit)\s+(?:the\s+)?(?P<target>.+)$",
+            clean,
+        )
+        if command_match:
+            verb = command_match.group("verb")
+            target = command_match.group("target").strip()
+            is_close = verb in {"close", "terminate", "kill", "stop"}
+            action = "close_target" if is_close else "open_target"
             return [IntentResult(
                 intent=IntentType.TOOL_EXECUTION,
                 confidence=0.95,
-                reason="System/Web tool command detected",
+                reason="Generic capability command detected",
                 target_engine="ToolManager",
                 target_action=action,
-                parameters={"query": text, "app_name": target} if action == "open_app" else {"query": text}
+                parameters={"query": text, "target": target}
             )]
 
 

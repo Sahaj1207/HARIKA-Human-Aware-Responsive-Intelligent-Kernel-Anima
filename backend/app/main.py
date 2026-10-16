@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,8 +11,23 @@ from app.api.v1.router import api_router
 async def lifespan(app: FastAPI):
     """FastAPI application lifespan handler."""
     logger.info(f"Starting {settings.APP_NAME} service in {settings.APP_ENV} mode...")
+    warm_up = asyncio.create_task(_warm_up())
     yield
+    warm_up.cancel()
     logger.info(f"Shutting down {settings.APP_NAME} service gracefully...")
+
+
+async def _warm_up():
+    """Index installed apps and load the local model in the background so first requests are fast."""
+    try:
+        from app.tools.system.installed_apps import installed_app_index
+        await asyncio.to_thread(installed_app_index.apps)
+        from app.cognition.core import cognitive_core
+        await cognitive_core.warm_up()
+    except asyncio.CancelledError:
+        raise
+    except Exception as exc:
+        logger.warning(f"Background warm-up skipped: {exc}")
 
 
 app = FastAPI(

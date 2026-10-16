@@ -39,12 +39,14 @@ class CognitionManager:
         self,
         message: str,
         user_name: Optional[str] = "User",
+        user_id: Optional[str] = None,
         conversation_history: Optional[List[Dict[str, str]]] = None,
         provider_name: Optional[str] = None,
         personality: Optional[PersonalityProfile] = None
     ) -> Dict[str, Any]:
         # 1. Retrieve top 10 relevant persistent memories
-        retrieved_memories = memory_manager.get_memories(query=message, user_id="default")
+        scoped_user_id = user_id or user_name or "default"
+        retrieved_memories = memory_manager.get_memories(query=message, user_id=scoped_user_id)
 
         # 2. Action Engine: Plan action
         action_plan = tool_manager.plan_action(message)
@@ -93,7 +95,7 @@ class CognitionManager:
         memory_manager.process_conversation_async(
             user_message=message,
             assistant_response=assistant_text,
-            user_id="default"
+            user_id=scoped_user_id
         )
 
         # 10. Asynchronous Non-blocking Post-Response Reflection Recording

@@ -4,6 +4,10 @@ from app.presence.schemas import ExperienceDecision
 
 def format_chat_response(intent: str, engine_output: Any, experience: Optional[ExperienceDecision] = None) -> str:
     message = engine_output.get("message", "").lower() if isinstance(engine_output, dict) else ""
+    if isinstance(engine_output, dict) and engine_output.get("cognitive_goal") == "conversation_or_entertainment":
+        return "You could listen to something relaxing, watch something interesting, or just chat. What sounds good?"
+    if isinstance(engine_output, dict) and engine_output.get("cognitive_goal") == "advice_or_exploration":
+        return "We can explore a few options together. Tell me what kind of time, energy, or outcome you have in mind."
     if message:
         if "good morning" in message:
             return "Good morning! How can I help today?"
@@ -26,6 +30,10 @@ def format_chat_response(intent: str, engine_output: Any, experience: Optional[E
         return "I noticed repeated build failures. Shall I inspect the logs to help diagnose the issue?"
     elif experience and experience.decision == "offer_rehearsal":
         return "Good luck with your presentation tomorrow! Would you like to rehearse with a quick mock Q&A session?"
+
+    # A generated answer from the cognition engine is the response; don't replace it with a template.
+    if isinstance(engine_output, dict) and isinstance(engine_output.get("response"), str) and engine_output["response"].strip():
+        return engine_output["response"].strip()
 
     if intent == "UNKNOWN_INTENT":
         return "I'm not sure how to assist with that directive. Could you please rephrase?"

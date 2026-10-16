@@ -6,6 +6,48 @@ from app.tools.schemas import ActionPlan, SingleAction
 class ActionPlanner:
     """Parses user input directives to generate structured ActionPlan objects without calling tools directly."""
 
+    def plan_capability(
+        self,
+        capability: str,
+        action: str,
+        target: Optional[str] = None,
+        arguments: Optional[Dict[str, Any]] = None,
+    ) -> ActionPlan:
+        """Plan an already-normalized capability request without reparsing user language."""
+        args = dict(arguments or {})
+        if capability == "open_application":
+            args.update({"app_name": target or args.get("app_name"), "action": "close" if action == "close" else "launch"})
+            tool_name = "open_application"
+        elif capability == "open_website":
+            args.update({"target": target or args.get("target")})
+            tool_name = "open_website"
+        elif capability == "close_website":
+            args.update({"target": target or args.get("target")})
+            tool_name = "close_website"
+        else:
+            tool_name = self._tool_for_capability(capability) or capability
+            if target is not None:
+                args["target"] = target
+            if action:
+                args["operation"] = action
+
+        if not args.get("app_name") and not args.get("target") and capability not in {"calculator", "datetime"}:
+            return ActionPlan(is_tool_action=False, actions=[], confidence=0.0)
+        return ActionPlan(
+            is_tool_action=True,
+            actions=[SingleAction(tool_name=tool_name, arguments=args, reasoning="Normalized capability request." )],
+            confidence=0.95,
+        )
+
+    @staticmethod
+    def _tool_for_capability(capability: str) -> Optional[str]:
+        """Find the registered tool that declares this capability."""
+        from app.tools.registry import tool_registry
+        for tool in tool_registry.list_tools():
+            if capability in tool.manifest.capabilities:
+                return tool.manifest.name
+        return None
+
     def plan_action(self, user_message: str) -> ActionPlan:
         msg = user_message.strip()
         msg_lower = msg.lower()

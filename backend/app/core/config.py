@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     DEFAULT_LLM_PROVIDER: str = "ollama"
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "qwen3:4b-instruct-2507-q4_K_M"  # Default development model
+    OLLAMA_KEEP_ALIVE: str = "30m"  # Keep the model resident between requests (avoids cold starts)
+    SEMANTIC_TIMEOUT_SECONDS: float = 20.0  # Upper bound for one semantic interpretation call
 
     # Vision Engine Settings
     VISION_PROVIDER: str = "local"

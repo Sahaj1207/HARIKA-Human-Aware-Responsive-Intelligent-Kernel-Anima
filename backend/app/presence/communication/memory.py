@@ -22,17 +22,21 @@ def format_memory_response(intent: str, engine_output: Any, raw_message: str = "
         if isinstance(engine_output, dict) and engine_output.get("status") == "context_query":
             return engine_output.get("summary", "We are currently in an active conversation session.")
         if isinstance(engine_output, list) and len(engine_output) > 0:
-
-            top = engine_output[0]
-            title = top.title if hasattr(top, 'title') else (top.get("title") if isinstance(top, dict) else str(top))
-            val = title.replace("User Fact: ", "").replace("user ", "").strip()
-            if " is " in val:
-                parts = val.split(" is ")
+            values = []
+            for item in engine_output[:5]:
+                title = item.title if hasattr(item, 'title') else (item.get("title") if isinstance(item, dict) else str(item))
+                val = title.replace("User Fact: ", "").replace("user ", "").strip()
+                content = item.content if hasattr(item, "content") else (item.get("content", "") if isinstance(item, dict) else "")
+                if val.lower() in {"preference", "note", "user fact"} and content:
+                    val = content.strip()
+                values.append(val)
+            if len(values) == 1 and " is " in values[0]:
+                parts = values[0].split(" is ", 1)
                 attr_name = parts[0].replace("favourite_", "").replace("_", " ").strip()
                 val_str = parts[1].strip()
                 if val_str:
                     return f"Your favourite {attr_name} is {val_str}."
-            return f"I remember you mentioned: {val}."
+            return "I remember: " + "; ".join(values) + "."
 
         q = (engine_output.get("query", "") if isinstance(engine_output, dict) else "").lower()
         if "food" in q:
