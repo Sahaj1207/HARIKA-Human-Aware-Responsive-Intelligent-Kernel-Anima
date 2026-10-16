@@ -1,3 +1,4 @@
+from tests.live_guard import live_only as load_tests  # opens real apps: runs only with HARIKA_LIVE_TESTS=1
 import asyncio
 import platform
 import subprocess

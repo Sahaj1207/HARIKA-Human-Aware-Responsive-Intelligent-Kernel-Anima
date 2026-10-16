@@ -130,6 +130,9 @@ class BriefingTool(BaseTool):
     def match_target(self, requested: str, operation: Optional[str] = None) -> Tuple[Optional[str], float]:
         return "today", 0.9
 
+    def describe_action(self, args: Dict[str, Any]) -> str:
+        return "give you your briefing"
+
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         if dry_run:
             return {"dry_run": True, "action": "daily_briefing"}

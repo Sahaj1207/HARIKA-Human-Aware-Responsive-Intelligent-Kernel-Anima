@@ -101,6 +101,15 @@ class EmailTool(BaseTool):
     def describe_action(self, args: Dict[str, Any]) -> str:
         if args.get("operation") == "send_email" and self.draft:
             return f"send the email “{self.draft.subject}” to {self.draft.to}"
+        operation, target = args.get("operation"), str(args.get("target") or "").strip()
+        if operation == "check_email":
+            return "check your email" if target.lower() in ("", "inbox") else f"look for emails about {target}"
+        if operation == "read_email":
+            return "read that email"
+        if operation == "email":
+            return f"write an email to {target}"
+        if operation == "reply_email":
+            return "write a reply"
         return super().describe_action(args)
 
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:

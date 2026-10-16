@@ -7,6 +7,7 @@ from app.router.schemas import IntentType, SimulationRequest, RequestContext
 from app.router.manager import RouterManager
 from app.router.history import RouterHistoryManager
 from app.router.metrics import RouterMetricsManager
+from tests.live_guard import LIVE, REASON
 
 
 class TestRouterAllE2E(unittest.TestCase):
@@ -31,6 +32,7 @@ class TestRouterAllE2E(unittest.TestCase):
         self.assertIn(res["formatter_used"], ["direct_tool_result", "presence_communication"])
 
 
+    @unittest.skipUnless(LIVE, REASON)  # really opens GitHub in the browser
     def test_e2e_open_github_website_tool(self):
         loop = asyncio.new_event_loop()
         res = loop.run_until_complete(self.router.route_request("Open GitHub"))

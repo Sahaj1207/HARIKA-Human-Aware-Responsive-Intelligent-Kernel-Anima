@@ -136,13 +136,16 @@ class IntentClassifier:
 
 
         if any(p in clean for p in social_phrases):
+            # Only the bare phrase ("good night", "thanks") is certain small talk; inside a longer
+            # message ("delete the good night routine") the Cognitive Core confirms the meaning.
+            bare = re.sub(r"[ ,.!]*(?:harika|assistant)$", "", clean).strip(" ,.!")
             return [IntentResult(
                 intent=IntentType.SOCIAL_CONVERSATION,
                 confidence=0.98,
                 reason="Social conversation phrase detected",
                 target_engine="CognitionManager",
                 target_action="social_chat",
-                parameters={"message": text}
+                parameters={"message": text, "whole_message": bare in social_phrases}
             )]
 
         # 0.6 Capability Query Intent

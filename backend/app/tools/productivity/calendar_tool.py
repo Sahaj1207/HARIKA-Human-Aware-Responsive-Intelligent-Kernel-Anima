@@ -123,6 +123,15 @@ class CalendarTool(BaseTool):
             if self.proposal.kind == "delete":
                 return f"delete “{event.title}” {when(event.start, event.all_day)} from your calendar"
             return f"move “{event.title}” to {when(self.proposal.start, event.all_day)}"
+        operation, target = args.get("operation"), str(args.get("target") or "").strip()
+        if operation == "agenda":
+            return f"check your calendar for {target or 'today'}"
+        if operation == "schedule":
+            return f"add “{target}” to your calendar"
+        if operation == "reschedule":
+            return f"move “{target}” on your calendar"
+        if operation == "unschedule":
+            return f"remove “{target}” from your calendar"
         return super().describe_action(args)
 
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:

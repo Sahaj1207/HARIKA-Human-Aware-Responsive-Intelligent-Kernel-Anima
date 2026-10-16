@@ -160,6 +160,18 @@ class RemindersTool(BaseTool):
             return False, "When should I remind you? For example 'in 10 minutes' or 'at 6 pm'."
         return True, None
 
+    def describe_action(self, args: Dict[str, Any]) -> str:
+        operation, text = args.get("operation"), str(args.get("target") or "").strip()
+        if operation == "remind":
+            due = parse_due(args)
+            when = f" {_spoken_time(due)}" if due else ""
+            return f"set a timer{when}" if text.lower() == "timer" else f"remind you to {text}{when}"
+        if operation == "list":
+            return "list your reminders"
+        if operation == "cancel":
+            return f"cancel the reminder to {text}"
+        return super().describe_action(args)
+
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         operation = args.get("operation")
         if operation == "remind":

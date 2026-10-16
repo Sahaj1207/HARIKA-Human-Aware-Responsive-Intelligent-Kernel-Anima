@@ -21,6 +21,7 @@ import app.tools.web.weather
 
 import app.tools.productivity.calendar_tool
 import app.tools.productivity.email_tool
+import app.tools.productivity.routine_tool
 
 import app.tools.developer.github
 

@@ -86,6 +86,8 @@ class CognitiveCore:
             # Memory questions are spotted from loose word hints ("what's ... like"),
             # so the interpreter confirms them ("what's the weather like" is weather).
             or node.intent is IntentType.MEMORY_QUERY
+            # Likewise small talk found inside a longer message ("delete the good night routine").
+            or (node.intent is IntentType.SOCIAL_CONVERSATION and node.arguments.get("whole_message") is False)
             or not capability_resolver.is_resolved(node)
             # A free-text fallback ("open <anything>" as a file search) is a guess, not understanding.
             or node.arguments.get("resolution_confidence", 1.0) < _CONFIDENT
@@ -99,7 +101,23 @@ class CognitiveCore:
         return self.semantic_interpreter
 
     def _hints(self, user_id: str, session_id: str, spoken: bool = False) -> Dict[str, Any]:
-        return {"recent_actions": list(self._session_actions.get((user_id, session_id), [])), "spoken": spoken}
+        from app.tools.productivity.routine_tool import routine_store
+        return {"recent_actions": list(self._session_actions.get((user_id, session_id), [])), "spoken": spoken,
+                "routines": routine_store.names()}
+
+    def _routine_trigger(self, message: str) -> Optional[Any]:
+        """The user said a saved routine's own name: run it without asking the model what it means."""
+        from app.cognition.semantic.contract import ResolvedStep, SemanticRequest
+        from app.tools.productivity.routine_tool import routine_store
+
+        routine = routine_store.match_trigger(message)
+        if routine is None:
+            return None
+        step = ResolvedStep(operation="run_routine", target=routine["name"], capability="run_routine",
+                            tool_name="routines", confidence=1.0)
+        return SemanticRequest(raw_text=message, probable_goal="run_routine", operation="run_routine",
+                               entities={"target": routine["name"]}, candidate_capabilities=["run_routine"],
+                               confidence=0.99, steps=[step])
 
     async def _interpret_async(self, context: "RequestContext", user_id: str, session_id: str, spoken: bool = False):
         interpreter = self._interpreter()
@@ -167,9 +185,11 @@ class CognitiveCore:
         """
         context = self.perceive(message, user_id, session_id, conversation_history)
         graph, confidence = self.understand(context)
-        semantic_request = None
+        semantic_request = self._routine_trigger(message)
+        if semantic_request is not None:
+            graph = type(graph)()  # the user's own routine name replaces any keyword guess ("good night" small talk)
         semantic_failure = None
-        if self.needs_deliberation(graph, confidence):
+        if semantic_request is None and self.needs_deliberation(graph, confidence):
             try:
                 semantic_request = await self._interpret_async(context, user_id, session_id, spoken)
             except Exception as exc:
@@ -190,8 +210,10 @@ class CognitiveCore:
     ) -> CognitiveDecision:
         context = self.perceive(message, user_id, session_id, conversation_history)
         graph, confidence = self.understand(context)
-        semantic_request = None
-        if self.needs_deliberation(graph, confidence):
+        semantic_request = self._routine_trigger(message)
+        if semantic_request is not None:
+            graph = type(graph)()  # the user's own routine name replaces any keyword guess ("good night" small talk)
+        if semantic_request is None and self.needs_deliberation(graph, confidence):
             try:
                 semantic_request = self._interpret_sync(context, user_id, session_id)
             except Exception as exc:
@@ -276,7 +298,10 @@ class CognitiveCore:
             # Preserve confident fast-path intents the interpreter does not model
             # ("calculate ... and remember it"): memory, planning, calculator, etc.
             for node in graph.nodes:
-                if node.intent in (IntentType.UNKNOWN_INTENT, IntentType.CHAT, IntentType.MEMORY_QUERY) \
+                # Small talk spotted from words like "good night" is residue once the
+                # interpreter found a real request ("when I say good night, ...").
+                if node.intent in (IntentType.UNKNOWN_INTENT, IntentType.CHAT, IntentType.MEMORY_QUERY,
+                                   IntentType.GREETING, IntentType.SOCIAL_CONVERSATION) \
                         or not capability_resolver.is_resolved(node):
                     continue
                 if node.engine == "ToolManager" and capability_resolver.is_semantic_capability(node.action):
@@ -333,7 +358,7 @@ class CognitiveCore:
             return graph
 
         previous_id = None
-        for step in steps:
+        for step in CognitiveCore._expand_routines(steps):
             node = ActionNode(
                 intent=IntentType.TOOL_EXECUTION,
                 engine="ToolManager",
@@ -357,6 +382,35 @@ class CognitiveCore:
             graph.add_node(node)
             previous_id = node.id
         return graph
+
+    @staticmethod
+    def _expand_routines(steps: List[Any]) -> List[Any]:
+        """A run_routine step becomes the routine's own steps, re-resolved against today's capabilities.
+
+        The steps then run like any multi-step request: permissions, confirmation of risky
+        steps, progress, verification and halting on failure all apply unchanged.
+        """
+        from app.cognition.semantic.contract import ResolvedStep
+        from app.tools.capability_resolver import capability_resolver
+        from app.tools.productivity.routine_tool import routine_store
+
+        expanded: List[Any] = []
+        for step in steps:
+            routine = routine_store.best_match(step.target or "") if step.capability == "run_routine" else None
+            if routine is None:
+                expanded.append(step)  # not a routine (or an unknown one, which the tool explains)
+                continue
+            for saved in routine["steps"]:
+                resolution = capability_resolver.resolve_operation(saved["operation"], saved.get("target") or "")
+                if not resolution.supported:
+                    logger.warning(f"[CognitiveCore] Routine '{routine['name']}' step '{saved.get('label')}' is no longer available.")
+                    continue
+                expanded.append(ResolvedStep(
+                    operation=saved["operation"], target=resolution.target, parameters=dict(saved.get("parameters") or {}),
+                    capability=resolution.capability, tool_name=resolution.tool_name,
+                    arguments=dict(resolution.arguments), confidence=resolution.confidence,
+                ))
+        return expanded
 
     def remember_completed(self, graph: "ActionGraph", user_id: str, session_id: str) -> None:
         """Record actions that actually succeeded, so "close it" refers to something real."""

@@ -70,6 +70,9 @@ class WebAnswerTool(BaseTool):
         text = (requested or "").strip()
         return (text, 0.7) if text else (None, 0.0)
 
+    def describe_action(self, args: Dict[str, Any]) -> str:
+        return f"look up {args.get('target') or 'that'}"
+
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         question = str(args.get("target") or args.get("request")).strip()
         if dry_run:

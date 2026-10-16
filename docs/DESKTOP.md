@@ -58,6 +58,25 @@ because the model has to read the sources; a cloud model in Settings > Brain
 answers in a few seconds. Web pages are treated as material to read, never as
 instructions.
 
+### Routines
+
+A routine is a phrase of your own that runs several actions:
+
+- "When I say good night, mute, set a reminder to wake up at 7 and tell me
+  tomorrow's weather." HARIKA lists the steps it understood and saves the
+  routine only after your "yes". "Also open Spotify" (or any change) adjusts it
+  first. Steps HARIKA can't do yet are named and left out.
+- Say the routine's name ("good night") to run it: an exact name runs
+  instantly, and "start my good night routine" works too. Steps run in order,
+  stop if one fails, and anything risky (like shutting down) still asks first.
+- "Every weekday at 8 am, check my email and tell me the weather" also runs on
+  its own at that time; the result appears in HARIKA and as a notification.
+  Scheduled routines can't include steps that need your OK.
+- "What routines do I have?", "delete the good night routine".
+
+Routines are stored on this computer in `routines\routines.json` inside
+HARIKA's data folder.
+
 ### Calendar and email (Google)
 
 Ask "what's on my calendar tomorrow?", "add dentist on Friday at 5pm", "move

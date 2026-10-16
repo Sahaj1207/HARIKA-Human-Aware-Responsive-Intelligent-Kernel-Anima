@@ -118,6 +118,12 @@ class WeatherTool(BaseTool):
     def match_target(self, requested: str, operation: Optional[str] = None) -> Tuple[Optional[str], float]:
         return ((requested or "").strip() or "here"), 0.8
 
+    def describe_action(self, args: Dict[str, Any]) -> str:
+        place = str(args.get("target") or "here").strip()
+        where = "" if place.lower() in ("here", "") else f" in {place}"
+        day = str(args.get("day") or "").strip().lower()
+        return f"check the weather{where}" + (f" for {day}" if day and day != "today" else "")
+
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         target = str(args.get("target") or "here")
         offset = day_offset(args.get("day"), date.today())

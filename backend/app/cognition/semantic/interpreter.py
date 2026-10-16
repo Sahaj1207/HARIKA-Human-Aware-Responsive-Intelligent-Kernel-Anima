@@ -79,6 +79,9 @@ Examples:
 "email Priya that I'll be late tonight" -> {{"actions": [{{"operation": "email", "target": "Priya", "parameters": {{"instruction": "say I'll be late tonight"}}}}]}}
 "reply saying thanks, I'll be there" (after reading an email) -> {{"actions": [{{"operation": "reply_email", "target": "it", "parameters": {{"instruction": "say thanks, I'll be there"}}}}]}}
 "make it shorter" (after an email draft) -> {{"actions": [{{"operation": "email", "target": "it", "parameters": {{"instruction": "make it shorter"}}}}]}}
+"when I say good night, mute and close chrome" -> {{"actions": [{{"operation": "create_routine", "target": "good night", "parameters": {{"steps": "mute the volume and close chrome"}}}}]}}
+"every weekday at 9 open slack and play lofi" -> {{"actions": [{{"operation": "create_routine", "target": "weekday morning", "parameters": {{"steps": "open slack and play lofi", "at": "09:00", "days": "weekdays"}}}}]}}
+"start my work routine" -> {{"actions": [{{"operation": "run_routine", "target": "work"}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""
@@ -195,6 +198,12 @@ class SemanticInterpreter:
             lines.append(f"The last thing HARIKA did: {recent[-1]}")
             if len(recent) > 1:
                 lines.append("Before that: " + "; ".join(reversed(recent[:-1])))
+        routines = list((hints or {}).get("routines") or [])
+        if routines:
+            lines.append(
+                "The user's saved routines: " + "; ".join(routines) +
+                ". A message asking for one of these runs it (run_routine with its name)."
+            )
         if (hints or {}).get("spoken"):
             lines.append(
                 "This message came from speech recognition, so some words may be misheard "

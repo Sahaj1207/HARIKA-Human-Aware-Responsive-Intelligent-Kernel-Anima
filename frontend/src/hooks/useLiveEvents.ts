@@ -53,6 +53,15 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
       }
     });
 
+    // A routine that ran on its schedule ("every weekday at 9").
+    source.addEventListener('routine', (raw) => {
+      if (!announceReminders) return;
+      const { name, text } = JSON.parse((raw as MessageEvent).data) as { name: string; text: string };
+      notificationService.show('info', `Ran “${name}”`, text, 8000);
+      const content = text ? `Ran “${name}”.\n\n${text}` : `Ran “${name}”.`;
+      addMessage({ role: 'assistant', content, metadata: { provider: 'routines' } });
+    });
+
     // The morning briefing (Settings > General > Your day).
     source.addEventListener('briefing', (raw) => {
       if (!announceReminders) return;
