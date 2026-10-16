@@ -4,7 +4,7 @@ import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { healthService } from '@/services/api/health';
 
 export const StatusBar: React.FC = () => {
-  const { coreState, isOnline, setIsOnline, toggleQuickPanel } = useHARIKAStore();
+  const { coreState, isOnline, setIsOnline, toggleQuickPanel, activity } = useHARIKAStore();
 
   useEffect(() => {
     // Check backend FastAPI server status
@@ -29,7 +29,9 @@ export const StatusBar: React.FC = () => {
       {/* Center Core Mode Indicator */}
       <div className="hidden sm:flex items-center space-x-2 text-xs font-mono text-slate-400">
         <Activity className="w-3.5 h-3.5 text-cyan-500 animate-pulse" />
-        <span className="uppercase text-[11px] tracking-wider">Mode: {coreState}</span>
+        <span className="uppercase text-[11px] tracking-wider">
+          {activity ? activity : `Mode: ${coreState}`}
+        </span>
       </div>
 
       {/* Right Telemetry Dot & Quick Panel Trigger */}

@@ -10,6 +10,7 @@ import app.tools.system.filesystem
 import app.tools.system.terminal
 import app.tools.system.system_control
 import app.tools.system.files
+import app.tools.system.reminders
 
 import app.tools.web.media_playback
 import app.tools.web.web_search

@@ -67,7 +67,7 @@ class BaseTool(ABC):
     def describe_action(self, args: Dict[str, Any]) -> str:
         """Short plain-language description of what a call will do, used when asking for confirmation."""
         target = args.get("target") or args.get("app_name") or args.get("command") or self.manifest.display_name
-        return f"{args.get('operation') or 'use'} {target}".strip()
+        return f"{args.get('operation') or args.get('action') or 'use'} {target}".strip()
 
     @abstractmethod
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:

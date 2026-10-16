@@ -190,7 +190,7 @@ class SemanticPlanTests(unittest.TestCase):
         decision = core.cognize("now close it", user_id="u", session_id="s")
         prompt = interpreter.provider.prompts[-1]
         self.assertIn('"play"', prompt)
-        self.assertIn("HARIKA recently did: open calculator", prompt)
+        self.assertIn("The last thing HARIKA did: open calculator", prompt)
         self.assertEqual(decision.action_graph.nodes[0].action, "close_app")
 
 

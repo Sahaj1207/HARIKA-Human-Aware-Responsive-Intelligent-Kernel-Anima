@@ -31,6 +31,10 @@ interface HARIKAStore {
   stopStreamingHandler: (() => void) | null;
   setStopStreamingHandler: (handler: (() => void) | null) => void;
 
+  // Live step progress pushed by the backend ("Step 2/3: search F1 news")
+  activity: string | null;
+  setActivity: (activity: string | null) => void;
+
   // Panel State
   isQuickPanelOpen: boolean;
   toggleQuickPanel: () => void;
@@ -80,6 +84,9 @@ export const useHARIKAStore = create<HARIKAStore>((set, get) => ({
 
   stopStreamingHandler: null,
   setStopStreamingHandler: (stopStreamingHandler) => set({ stopStreamingHandler }),
+
+  activity: null,
+  setActivity: (activity) => set({ activity }),
 
   isQuickPanelOpen: false,
   toggleQuickPanel: () => set((state) => ({ isQuickPanelOpen: !state.isQuickPanelOpen })),

@@ -118,16 +118,22 @@ class CapabilityCatalog:
 
     def describe_operations(self) -> str:
         """Human-readable operation list for the interpreter prompt, built from tool metadata."""
-        lines = []
+        # One line per tool (not per verb): the prompt stays small and cacheable as tools grow.
+        tools: Dict[str, Dict[str, Any]] = {}
         for entry in self._entries.values():
             if entry.engine != "ToolManager" or entry.supported_operations == ["execute"]:
                 continue
-            for operation in entry.supported_operations:
-                target = entry.target_description or (
-                    "one of: " + ", ".join(entry.target_aliases) if entry.target_aliases else "free text"
-                )
-                lines.append(f'- "{operation}": {entry.description} Target: {target}.')
-        return "\n".join(dict.fromkeys(lines))
+            tool = tools.setdefault(entry.tool_name or entry.capability_id, {"entry": entry, "operations": []})
+            tool["operations"].extend(op for op in entry.supported_operations if op not in tool["operations"])
+        lines = []
+        for tool in tools.values():
+            entry = tool["entry"]
+            target = entry.target_description or (
+                "one of: " + ", ".join(entry.target_aliases) if entry.target_aliases else "free text"
+            )
+            operations = ", ".join(f'"{op}"' for op in tool["operations"])
+            lines.append(f"- {operations}: {entry.description} Target: {target}.")
+        return "\n".join(lines)
 
     def resolve_action(self, operation: str, target: Optional[str]) -> CapabilityResolution:
         if self.resolver is None:

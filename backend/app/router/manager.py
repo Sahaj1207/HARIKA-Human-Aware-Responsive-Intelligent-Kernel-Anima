@@ -17,6 +17,7 @@ from app.router.formatter import response_formatter, ResponseFormatter
 from app.router.events import router_event_bus, RouterEventType
 from app.router.history import router_history_manager, RouterHistoryManager
 from app.router.metrics import router_metrics_manager, RouterMetricsManager
+from app.core.live_events import live_events
 
 if TYPE_CHECKING:
     from app.cognition.core import CognitiveCore
@@ -89,7 +90,7 @@ class RouterManager:
                 for node in pending.graph.nodes:
                     node.confirmed = True
                 return await self._execute_graph(
-                    pending.graph, pending.context, message, user_id, pending.intent,
+                    pending.graph, pending.context, message, user_id, session_id, pending.intent,
                     pending.confidence, pending.policy, decision_id, t_start,
                 )
             if verdict == "decline":
@@ -163,9 +164,9 @@ class RouterManager:
                 "latency_ms": round((time.time() - t_start) * 1000, 2)
             }
 
-        return await self._execute_graph(graph, ctx, message, user_id, primary_intent, confidence, policy, decision_id, t_start)
+        return await self._execute_graph(graph, ctx, message, user_id, session_id, primary_intent, confidence, policy, decision_id, t_start)
 
-    async def _execute_graph(self, graph, ctx, message, user_id, primary_intent, confidence, policy, decision_id, t_start) -> Dict[str, Any]:
+    async def _execute_graph(self, graph, ctx, message, user_id, session_id, primary_intent, confidence, policy, decision_id, t_start) -> Dict[str, Any]:
         import traceback
 
         # Stage 6: Sequential Subsystem Execution & Formatting
@@ -179,10 +180,13 @@ class RouterManager:
         # Nodes run in order. A failed step halts the remaining steps so later
         # actions never run on top of an unmet precondition.
         halted_reason: Optional[str] = None
-        for node in graph.nodes:
+        total = len(graph.nodes)
+        for index, node in enumerate(graph.nodes, 1):
             if halted_reason is not None:
                 node.status = "skipped"
+                live_events.publish("step", index=index, total=total, status="skipped", label=self._step_label(node))
                 continue
+            live_events.publish("step", index=index, total=total, status="started", label=self._step_label(node))
             logger.info(f"Stage 6\nManager Invoked ({node.engine})")
             router_event_bus.emit(RouterEventType.ENGINE_STARTED, {"engine": node.engine})
             node_msg = node.arguments.get("message") or node.arguments.get("query") or node.arguments.get("goal") or message
@@ -203,6 +207,7 @@ class RouterManager:
                 node.status = "failed"
                 halted_reason = f"The '{node.action}' step failed ({exc})"
                 router_event_bus.emit(RouterEventType.ENGINE_COMPLETED, {"engine": node.engine, "status": "failed"})
+                live_events.publish("step", index=index, total=total, status="failed", label=self._step_label(node))
                 continue
 
             res = prs_res.structured_output
@@ -211,6 +216,7 @@ class RouterManager:
             node.status = "failed" if step_failed else "completed"
             logger.info(f"Stage 7\nExecution Completed ({node.engine})")
             router_event_bus.emit(RouterEventType.ENGINE_COMPLETED, {"engine": node.engine, "status": node.status})
+            live_events.publish("step", index=index, total=total, status=node.status, label=self._step_label(node))
 
             # Stage 8: Formatter / Presence Communication Invoked
             logger.info("Stage 8\nFormatter Invoked (Presence Communication Layer)")
@@ -228,6 +234,10 @@ class RouterManager:
             fmt_responses.append(f"{halted_reason}, so I stopped before the remaining {len(skipped)} step(s).")
         elif halted_reason:
             fmt_responses.append(f"{halted_reason}.")
+
+        remember_completed = getattr(self.cognitive_core, "remember_completed", None)
+        if remember_completed is not None:
+            remember_completed(graph, user_id, session_id)
 
         final_text = "\n\n".join(fmt_responses)
         elapsed_ms = round((time.time() - t_start) * 1000, 2)
@@ -273,6 +283,22 @@ class RouterManager:
         if pending is None or time.time() - pending.created_at > CONFIRMATION_TTL_SECONDS:
             return None
         return pending
+
+    @staticmethod
+    def _step_label(node) -> str:
+        """Short present-tense label for progress display ("open chrome", "thinking")."""
+        if node.engine != "ToolManager":
+            return "thinking"
+        from app.tools.manager import tool_manager
+        try:
+            plan = tool_manager.plan_node(node)
+            if plan.actions:
+                tool = tool_manager.registry.get_tool(plan.actions[0].tool_name)
+                if tool is not None:
+                    return tool.describe_action(plan.actions[0].arguments)
+        except Exception:
+            pass  # progress display must never affect execution
+        return node.action or "working"
 
     def _confirmation_question(self, graph) -> Optional[str]:
         """Ask before any step whose tool marks this call as needing approval."""

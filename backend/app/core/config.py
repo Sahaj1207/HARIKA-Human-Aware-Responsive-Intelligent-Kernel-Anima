@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "qwen3:4b-instruct-2507-q4_K_M"  # Default development model
     OLLAMA_KEEP_ALIVE: str = "-1"  # Keep the model (and its prompt cache) resident; a cold CPU prompt eval can take over a minute
+    OLLAMA_NUM_CTX: int = 8192  # Context window for every request; the interpreter prompt alone is ~2k tokens
     SEMANTIC_TIMEOUT_SECONDS: float = 20.0  # Upper bound for one semantic interpretation call
 
     # Vision Engine Settings

@@ -3,6 +3,7 @@ import inspect
 import json
 import re
 import threading
+from datetime import datetime
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
@@ -39,22 +40,25 @@ Operations HARIKA can perform (use these operation names exactly):
 {operations}
 
 Reply with STRICT JSON only, in this shape:
-{{"actions": [{{"operation": "<operation>", "target": "<plain-language target>", "parameters": {{}}}}]}}
+{{"actions": [{{"operation": "<operation>", "target": "<plain-language target>", "parameters": {{...}}}}]}}
+Leave out "parameters" when there are none.
 
 Rules:
 - List actions in the order the user wants them done. Most messages have one action.
 - "target" is what the user means in plain words, normalized: fix abbreviations and typos ("calci" -> "calculator").
-- Resolve references like "it", "that" or "the app" using the recent context below.
+- "it", "that" or "the app" mean the most recent matching thing in the recent context below; output its name, never "it".
+- Times: use "in_seconds"/"in_minutes"/"in_hours" for relative times; for clock times use "at" as 24-hour "HH:MM" today, or "YYYY-MM-DDTHH:MM" for another day (use the current local time below).
 - If the message is conversation, a question, a request to remember or recall something, planning, or anything not covered by the operations above, reply {{"actions": []}}.
 - Never output shell commands, code, file paths, or any keys other than operation, target and parameters.
 
 Examples:
-"bring up the calculator" -> {{"actions": [{{"operation": "open", "target": "calculator", "parameters": {{}}}}]}}
-"I need to use calci" -> {{"actions": [{{"operation": "open", "target": "calculator", "parameters": {{}}}}]}}
+"bring up the calculator" -> {{"actions": [{{"operation": "open", "target": "calculator"}}]}}
+"I need to use calci" -> {{"actions": [{{"operation": "open", "target": "calculator"}}]}}
 "play something relaxing on spotify" -> {{"actions": [{{"operation": "play", "target": "relaxing music", "parameters": {{"platform": "spotify"}}}}]}}
-"open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome", "parameters": {{}}}}, {{"operation": "search", "target": "F1 news", "parameters": {{}}}}, {{"operation": "open", "target": "first result", "parameters": {{}}}}]}}
-"open my resume" -> {{"actions": [{{"operation": "open", "target": "resume", "parameters": {{}}}}]}}
-"where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf", "parameters": {{}}}}]}}
+"open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome"}}, {{"operation": "search", "target": "F1 news"}}, {{"operation": "open", "target": "first result"}}]}}
+"open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}
+"where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf"}}]}}
+"remind me to drink water at 4:15 pm" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"at": "16:15"}}}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""
@@ -150,9 +154,15 @@ class SemanticInterpreter:
             content = str(turn.get("content", "")).strip()
             if content:
                 lines.append(f"{role}: {content[:200]}")
-        for action in (hints or {}).get("recent_actions", [])[-3:]:
-            lines.append(f"HARIKA recently did: {action}")
-        context_block = ("\nRecent context:\n" + "\n".join(lines) + "\n") if lines else ""
+        recent = list((hints or {}).get("recent_actions", []))[-3:]
+        if recent:
+            # Newest first and explicitly labelled: small models otherwise lose track of "it".
+            lines.append(f"The last thing HARIKA did: {recent[-1]}")
+            if len(recent) > 1:
+                lines.append("Before that: " + "; ".join(reversed(recent[:-1])))
+        # Kept last so the long, stable part of the prompt stays in the model's cache.
+        lines.append(f"Current local time: {datetime.now():%A %Y-%m-%d %H:%M}")
+        context_block = "\nRecent context:\n" + "\n".join(lines) + "\n"
         return _PROMPT_TEMPLATE.format(operations=operations, context=context_block)
 
     def _normalize_payload(self, raw_text: str, payload: Dict[str, Any]) -> SemanticRequest:

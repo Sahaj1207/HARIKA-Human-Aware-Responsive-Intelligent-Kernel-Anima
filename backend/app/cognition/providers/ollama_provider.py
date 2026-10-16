@@ -39,11 +39,13 @@ class OllamaProvider(BaseLLMProvider):
             "messages": formatted_messages,
             "stream": False,
             "keep_alive": self._keep_alive(settings.OLLAMA_KEEP_ALIVE),
+            # Same context size on every request: a different num_ctx makes Ollama reload the model.
+            "options": {"num_ctx": settings.OLLAMA_NUM_CTX},
         }
         if json_mode:
             # Structured interpretation: constrain output to JSON and decode deterministically.
             payload["format"] = "json"
-            payload["options"] = {"temperature": 0, "num_predict": 256}
+            payload["options"].update({"temperature": 0, "num_predict": 256})
 
         url = f"{self.base_url}/api/chat"
 

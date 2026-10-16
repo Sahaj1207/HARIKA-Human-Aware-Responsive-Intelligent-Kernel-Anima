@@ -49,13 +49,13 @@ class SystemControlTool(BaseTool):
             "mute": "volume", "unmute": "volume",
             "pause": "media", "resume": "media", "next": "media", "previous": "media",
             "lock": "computer", "sleep": "computer", "shutdown": "computer", "restart": "computer",
-            "cancel": "shutdown", "screenshot": "screen",
+            "screenshot": "screen",
         },
         operation_permissions={"shutdown": PermissionLevel.HIGH, "restart": PermissionLevel.HIGH},
         target_description=(
             "for set/increase/decrease: 'volume' or 'brightness'; set needs parameters.level (0-100); "
             "include parameters.amount only if the user gives a number; "
-            "for pause/resume/next/previous: the media; for cancel: 'shutdown'; other operations need no target"
+            "for pause/resume/next/previous: the media; for cancel: 'shutdown' or 'restart'; other operations need no target"
         ),
     )
     timeout_seconds = 15.0

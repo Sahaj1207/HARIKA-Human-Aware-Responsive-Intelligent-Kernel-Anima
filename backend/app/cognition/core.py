@@ -220,9 +220,6 @@ class CognitiveCore:
                 "desired_outcome": goal.desired_outcome,
                 "cognitive_context": goal.context,
             })
-        if mode is CognitiveMode.ACT:
-            self._remember_actions(graph, user_id, session_id)
-
         if mode is not CognitiveMode.ASK or goal.probable_goal != "understand_user_request":
             self._session_goals[(user_id, session_id)] = goal.probable_goal
 
@@ -353,11 +350,12 @@ class CognitiveCore:
             previous_id = node.id
         return graph
 
-    def _remember_actions(self, graph: "ActionGraph", user_id: str, session_id: str) -> None:
+    def remember_completed(self, graph: "ActionGraph", user_id: str, session_id: str) -> None:
+        """Record actions that actually succeeded, so "close it" refers to something real."""
         key = (user_id, session_id)
         recent = self._session_actions.setdefault(key, deque(maxlen=5))
         for node in graph.nodes:
-            if node.engine != "ToolManager":
+            if node.engine != "ToolManager" or node.status != "completed":
                 continue
             target = node.arguments.get("app_name") or node.arguments.get("target")
             if target:

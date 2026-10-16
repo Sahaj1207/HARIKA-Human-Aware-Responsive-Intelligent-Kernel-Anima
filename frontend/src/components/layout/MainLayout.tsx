@@ -15,6 +15,7 @@ import { DebugOverlay } from '@/core/crystal/developer/DebugOverlay';
 import { NotificationToastContainer } from '@/core/crystal/notifications/NotificationToastContainer';
 import { useKeyboardShortcuts } from '@/core/crystal/shortcuts/useKeyboardShortcuts';
 import { initializeCrystalCore } from '@/core/crystal/crystalInit';
+import { useLiveEvents } from '@/hooks/useLiveEvents';
 import '@/core/crystal/motion/animations.css';
 
 export const MainLayout: React.FC = () => {
@@ -22,6 +23,8 @@ export const MainLayout: React.FC = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDebugOverlayVisible, setIsDebugOverlayVisible] = useState(false);
+
+  useLiveEvents();
 
   useEffect(() => {
     initializeCrystalCore({
