@@ -60,6 +60,10 @@ Examples:
 "open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}
 "where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf"}}]}}
 "remind me to drink water at 4:15 pm" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"at": "16:15"}}}}]}}
+"continue this chat" -> {{"actions": [{{"operation": "reply", "target": "this chat"}}]}}
+"reply that I'll be 10 minutes late" -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "say I'll be 10 minutes late"}}}}]}}
+"make it more casual" (after a draft) -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "make it more casual"}}}}]}}
+"what's on my screen?" -> {{"actions": [{{"operation": "read", "target": "screen"}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""
@@ -104,13 +108,24 @@ class SemanticInterpreter:
         return self._normalize_payload(raw_text, payload)
 
     async def interpret_confirmation(self, reply: str, question: str) -> str:
-        """Classify a reply to a yes/no question as 'confirm', 'decline' or 'other'."""
+        """Classify a reply to a yes/no question as 'confirm', 'decline' or 'other'.
+
+        Approval must be explicit and unconditional: anything that asks for a
+        change, adds a condition, or is about something else is 'other', and the
+        model must also state it is certain before 'confirm' counts.
+        """
         prompt = (
             "HARIKA asked the user this question before doing something on their computer:\n"
-            f"\"{question}\"\n"
-            "Classify the user's reply. Reply with STRICT JSON only: "
-            '{"decision": "confirm"} if they agree, {"decision": "decline"} if they refuse or want to stop, '
-            'or {"decision": "other"} if the reply is unrelated or a new request.'
+            f"\"{question}\"\n\n"
+            "Classify the user's reply. Reply with STRICT JSON only, in this shape:\n"
+            '{"decision": "confirm" | "decline" | "other", "certain": true | false}\n\n'
+            "- confirm: plain, unconditional approval to do exactly what was asked. "
+            "Examples: yes; send it; go ahead; sure; do it; yes please; ok send.\n"
+            "- decline: refusal. Examples: no; don't; cancel; stop; never mind; don't send it.\n"
+            "- other: anything else, including any request to change, shorten, rewrite or add something, "
+            "a condition, a question, or a new topic. Examples: make it shorter; change the time to 8; "
+            "add a smiley; yes but make it friendlier; what time is it; send it to Mom instead.\n"
+            "Set certain to true only if the reply clearly belongs to that category."
         )
         kwargs = {}
         if "json_mode" in inspect.signature(self.provider.generate_response).parameters:
@@ -121,6 +136,8 @@ class SemanticInterpreter:
         )
         payload = self._parse_json(result.get("response") if isinstance(result, dict) else None)
         decision = str(payload.get("decision", "other")).lower()
+        if decision == "confirm" and payload.get("certain") is not True:
+            return "other"  # an uncertain "yes" never runs a risky action
         return decision if decision in {"confirm", "decline"} else "other"
 
     def interpret_sync(self, raw_text: str, context: Optional[Any] = None, hints: Optional[Dict[str, Any]] = None) -> SemanticRequest:

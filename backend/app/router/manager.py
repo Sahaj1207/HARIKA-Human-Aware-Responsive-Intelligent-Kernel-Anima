@@ -228,6 +228,8 @@ class RouterManager:
             node_results.append(res)
             if step_failed and len(graph.nodes) > 1:
                 halted_reason = f"The '{node.action}' step did not succeed"
+            elif not step_failed:
+                self._hold_tool_follow_up(res, ctx, message, user_id, session_id, primary_intent, confidence, policy)
 
         skipped = [n for n in graph.nodes if n.status == "skipped"]
         if halted_reason and skipped:
@@ -283,6 +285,35 @@ class RouterManager:
         if pending is None or time.time() - pending.created_at > CONFIRMATION_TTL_SECONDS:
             return None
         return pending
+
+    def _hold_tool_follow_up(self, res, ctx, message, user_id, session_id, intent, confidence, policy) -> None:
+        """A tool can propose a follow-up step that needs approval (e.g. sending a draft it just showed).
+
+        The step is held exactly like a router confirmation: "yes" runs it with
+        the confirmed flag, anything else drops it. The tool supplies only data;
+        the node is built here, so the follow-up still goes through the executor.
+        """
+        result = res.get("result") if isinstance(res, dict) else None
+        follow_up = result.get("confirmation") if isinstance(result, dict) else None
+        if not isinstance(follow_up, dict) or not follow_up.get("capability"):
+            return
+        from app.router.action_graph import ActionGraph, ActionNode
+
+        graph = ActionGraph()
+        graph.add_node(ActionNode(
+            intent=IntentType.TOOL_EXECUTION,
+            engine="ToolManager",
+            action=str(follow_up["capability"]),
+            arguments={
+                "target": follow_up.get("target"),
+                "operation": follow_up.get("operation"),
+                "query": message,
+            },
+        ))
+        self._pending[(user_id, session_id)] = _PendingPlan(
+            graph=graph, context=ctx, intent=intent, confidence=confidence, policy=policy,
+            question=str(follow_up.get("question") or "Should I go ahead?"), created_at=time.time(),
+        )
 
     @staticmethod
     def _step_label(node) -> str:

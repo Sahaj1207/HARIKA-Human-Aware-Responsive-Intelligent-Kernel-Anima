@@ -22,6 +22,23 @@ Once running, HARIKA lives in the system tray. Press **Ctrl + Shift + Space**
 anywhere to ask it something. Closing the window keeps it in the tray; use
 **Quit HARIKA** in the tray menu to exit.
 
+### Help in other apps ("continue this chat")
+
+Open a chat (WhatsApp, Instagram or any web chat, Telegram, Teams...), then
+ask HARIKA from the orb or its window:
+
+- "continue this chat", "reply that I'll be late": HARIKA reads the visible
+  conversation and shows a draft. Say "send it" to send, "make it shorter"
+  (or any change) to redraft, or "no" to cancel. Nothing is sent without
+  that explicit yes.
+- "what's on my screen?", "summarize this": answers about the app you were
+  just using.
+
+HARIKA reads apps through Windows UI Automation (the accessibility interface
+screen readers use), so it needs no screenshots. The visible text goes to the
+conversation model chosen in Settings > Brain. Apps that hide their text from
+accessibility tools can't be read yet.
+
 ### Where things are stored
 
 | What | Where |

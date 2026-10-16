@@ -25,7 +25,7 @@ const args = [
   '--collect-submodules', 'app',
   '--collect-submodules', 'uvicorn',
   '--collect-submodules', 'keyring',
-  ...(process.platform === 'win32' ? ['--collect-all', 'pycaw', '--collect-submodules', 'comtypes'] : []),
+  ...(process.platform === 'win32' ? ['--collect-all', 'pycaw', '--collect-submodules', 'comtypes', '--collect-all', 'uiautomation'] : []),
 ];
 
 const result = spawnSync(python, args, { cwd: backend, stdio: 'inherit' });

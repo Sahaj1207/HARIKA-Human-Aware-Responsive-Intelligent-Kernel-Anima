@@ -113,6 +113,9 @@ class ToolManager:
         # "query" on a node is the raw utterance; a model-supplied query is a search term.
         if "query" in params:
             params["search"] = params.pop("query")
+        # The user's own words, for tools that answer or write about them.
+        if arguments.get("query"):
+            params.setdefault("request", arguments["query"])
         return params
 
     def confirmation_for(self, plan: ActionPlan) -> Optional[str]:

@@ -94,6 +94,10 @@ const PrivacyPage: React.FC = () => {
         <Row title="Conversations, memories and reminders" subtitle="Stored on this computer." />
         <Row title="API keys" subtitle={isMac ? 'Kept in your Keychain.' : 'Kept in Windows Credential Manager.'} />
         <Row title="Cloud models" subtitle="Only see the messages HARIKA sends them, and only when you choose one in Brain." />
+        <Row
+          title="Reading your screen"
+          subtitle="Only when you ask, like &ldquo;continue this chat&rdquo;. The visible text goes to your conversation model, and nothing is sent in a chat until you say yes."
+        />
       </GroupedSection>
       <GroupedSection footer="Removes the messages shown in this window. HARIKA's memories are kept.">
         <Row
