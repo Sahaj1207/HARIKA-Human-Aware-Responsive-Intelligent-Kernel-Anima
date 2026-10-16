@@ -1,4 +1,5 @@
 import uuid
+from dataclasses import dataclass
 import time
 import logging
 from typing import Dict, Any, Optional, List, TYPE_CHECKING
@@ -21,6 +22,20 @@ if TYPE_CHECKING:
     from app.cognition.core import CognitiveCore
 
 logger = logging.getLogger("harika.router.manager")
+
+CONFIRMATION_TTL_SECONDS = 120.0
+
+
+@dataclass
+class _PendingPlan:
+    """An approved-pending action graph waiting for the user's yes/no."""
+    graph: Any
+    context: Any
+    intent: IntentType
+    confidence: float
+    policy: Any
+    question: str
+    created_at: float
 
 
 class RouterManager:
@@ -52,6 +67,7 @@ class RouterManager:
             from app.cognition.core import cognitive_core as default_cognitive_core
             cognitive_core_instance = default_cognitive_core
         self.cognitive_core = cognitive_core_instance
+        self._pending: Dict[tuple, _PendingPlan] = {}
 
     async def route_request(
         self,
@@ -60,11 +76,31 @@ class RouterManager:
         session_id: str = "default",
         conversation_history: Optional[List[Dict[str, Any]]] = None
     ) -> Dict[str, Any]:
-        import traceback
         t_start = time.time()
         decision_id = f"dec-{uuid.uuid4().hex[:8]}"
 
         logger.info(f"\n=========================================================\nREQUEST\nUser Request: {message}\n=========================================================")
+
+        pending = self._take_pending(user_id, session_id)
+        if pending is not None:
+            verdict = await self.cognitive_core.interpret_confirmation(message, pending.question)
+            logger.info(f"Pending confirmation answered: {verdict}")
+            if verdict == "confirm":
+                for node in pending.graph.nodes:
+                    node.confirmed = True
+                return await self._execute_graph(
+                    pending.graph, pending.context, message, user_id, pending.intent,
+                    pending.confidence, pending.policy, decision_id, t_start,
+                )
+            if verdict == "decline":
+                return {
+                    "decision_id": decision_id,
+                    "response": "Okay, I won't do that.",
+                    "intent": pending.intent.value,
+                    "confidence": pending.confidence,
+                    "latency_ms": round((time.time() - t_start) * 1000, 2)
+                }
+            # Anything else is a new request; the unanswered action is dropped.
 
         # Stage 1-2: Cognitive Core perceives context and classifies once.
         cognitive_decision = await self.cognitive_core.cognize_async(
@@ -110,6 +146,27 @@ class RouterManager:
         # Stage 5: Engine Priority Resolution / Engine Resolved
         graph = self.pri_resolver.resolve_priority(graph)
         logger.info("Stage 5\nEngine Resolved")
+
+        # Stage 5b: Risky actions wait for the user's explicit approval.
+        pending_question = self._confirmation_question(graph)
+        if pending_question:
+            self._pending[(user_id, session_id)] = _PendingPlan(
+                graph=graph, context=ctx, intent=primary_intent, confidence=confidence,
+                policy=policy, question=pending_question, created_at=time.time(),
+            )
+            return {
+                "decision_id": decision_id,
+                "response": pending_question,
+                "confirmation_needed": True,
+                "confidence": confidence,
+                "intent": primary_intent.value,
+                "latency_ms": round((time.time() - t_start) * 1000, 2)
+            }
+
+        return await self._execute_graph(graph, ctx, message, user_id, primary_intent, confidence, policy, decision_id, t_start)
+
+    async def _execute_graph(self, graph, ctx, message, user_id, primary_intent, confidence, policy, decision_id, t_start) -> Dict[str, Any]:
+        import traceback
 
         # Stage 6: Sequential Subsystem Execution & Formatting
         router_event_bus.emit(RouterEventType.ENGINE_SELECTED, {"nodes": len(graph.nodes)})
@@ -209,6 +266,28 @@ class RouterManager:
             "provider": "router-v1.0",
             "model": "cognitive-router"
         }
+
+
+    def _take_pending(self, user_id: str, session_id: str) -> Optional["_PendingPlan"]:
+        pending = self._pending.pop((user_id, session_id), None)
+        if pending is None or time.time() - pending.created_at > CONFIRMATION_TTL_SECONDS:
+            return None
+        return pending
+
+    def _confirmation_question(self, graph) -> Optional[str]:
+        """Ask before any step whose tool marks this call as needing approval."""
+        from app.tools.manager import tool_manager
+
+        risky = []
+        for node in graph.nodes:
+            if node.engine != "ToolManager" or node.confirmed:
+                continue
+            description = tool_manager.confirmation_for(tool_manager.plan_node(node))
+            if description:
+                risky.append(description)
+        if not risky:
+            return None
+        return f"Just to confirm, you want me to {' and '.join(risky)}? Should I go ahead?"
 
 
     def simulate_request(self, sim_req: SimulationRequest) -> SimulationResponse:

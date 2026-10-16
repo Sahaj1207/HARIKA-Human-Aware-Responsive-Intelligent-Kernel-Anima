@@ -20,6 +20,10 @@ class SemanticInterpretationError(ValueError):
     """The provider response cannot safely become a semantic request."""
 
 
+class SemanticTimeoutError(SemanticInterpretationError):
+    """The model did not answer in time (typically still loading or re-reading its prompt)."""
+
+
 class LLMResponseProvider(ABC):
     """Minimal adapter over HARIKA's existing async LLM provider contract."""
 
@@ -67,8 +71,10 @@ class SemanticInterpreter:
         raw_text: str,
         context: Optional[Any] = None,
         hints: Optional[Dict[str, Any]] = None,
+        timeout: Optional[float] = None,
     ) -> SemanticRequest:
         prompt = self._build_prompt(context, hints)
+        limit = timeout or self.timeout_seconds
         kwargs = {}
         if "json_mode" in inspect.signature(self.provider.generate_response).parameters:
             kwargs["json_mode"] = True
@@ -79,16 +85,36 @@ class SemanticInterpreter:
                     system_prompt=prompt,
                     **kwargs,
                 ),
-                timeout=self.timeout_seconds,
+                timeout=limit,
             )
         except asyncio.TimeoutError as exc:
-            raise SemanticInterpretationError(
-                f"LLM semantic interpretation timed out after {self.timeout_seconds:.2f}s."
+            raise SemanticTimeoutError(
+                f"LLM semantic interpretation timed out after {limit:.2f}s."
             ) from exc
         response = result.get("response") if isinstance(result, dict) else None
         payload = self._parse_json(response)
         self._reject_unsafe_payload(payload)
         return self._normalize_payload(raw_text, payload)
+
+    async def interpret_confirmation(self, reply: str, question: str) -> str:
+        """Classify a reply to a yes/no question as 'confirm', 'decline' or 'other'."""
+        prompt = (
+            "HARIKA asked the user this question before doing something on their computer:\n"
+            f"\"{question}\"\n"
+            "Classify the user's reply. Reply with STRICT JSON only: "
+            '{"decision": "confirm"} if they agree, {"decision": "decline"} if they refuse or want to stop, '
+            'or {"decision": "other"} if the reply is unrelated or a new request.'
+        )
+        kwargs = {}
+        if "json_mode" in inspect.signature(self.provider.generate_response).parameters:
+            kwargs["json_mode"] = True
+        result = await asyncio.wait_for(
+            self.provider.generate_response(messages=[{"role": "user", "content": reply}], system_prompt=prompt, **kwargs),
+            timeout=self.timeout_seconds,
+        )
+        payload = self._parse_json(result.get("response") if isinstance(result, dict) else None)
+        decision = str(payload.get("decision", "other")).lower()
+        return decision if decision in {"confirm", "decline"} else "other"
 
     def interpret_sync(self, raw_text: str, context: Optional[Any] = None, hints: Optional[Dict[str, Any]] = None) -> SemanticRequest:
         """Bridge for synchronous callers; async callers should await interpret()."""

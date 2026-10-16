@@ -14,6 +14,8 @@ class ActionNode(BaseModel):
     status: str = "pending"  # pending, executing, completed, failed
     result: Optional[Any] = None
     priority: EnginePriority = EnginePriority.CHAT
+    # Set only by the router after the user approves; never derived from arguments.
+    confirmed: bool = False
 
 
 class ActionGraph(BaseModel):

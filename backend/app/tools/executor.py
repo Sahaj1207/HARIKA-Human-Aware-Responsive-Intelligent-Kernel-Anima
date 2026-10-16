@@ -47,7 +47,8 @@ class ToolExecutor:
         tool: BaseTool,
         args: Dict[str, Any],
         dry_run: bool = False,
-        permissions: Optional[PermissionEngine] = None
+        permissions: Optional[PermissionEngine] = None,
+        confirmed: bool = False
     ) -> ToolResult:
         perm_engine = permissions or permission_engine
         tool_name = tool.manifest.name
@@ -86,7 +87,16 @@ class ToolExecutor:
                 )
 
             # 4. Evaluate Security Permissions
-            is_permitted, _, perm_reason = perm_engine.evaluate(tool_name, tool.manifest.permissions)
+            is_permitted, needs_prompt, perm_reason = perm_engine.evaluate(tool_name, tool.permission_for(args))
+            if is_permitted and needs_prompt and not confirmed and not dry_run:
+                # Defense in depth: the router asks the user first; nothing else may skip that.
+                return ToolResult(
+                    success=False,
+                    status_code=ToolStatusCode.CONFIRMATION_REQUIRED,
+                    tool_name=tool_name,
+                    error=f"This action needs your confirmation first: {tool.describe_action(args)}.",
+                    tool_version=tool.manifest.version
+                )
             if not is_permitted:
                 return ToolResult(
                     success=False,

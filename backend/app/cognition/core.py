@@ -40,6 +40,7 @@ class CognitiveCore:
         self._session_goals: Dict[Tuple[str, str], str] = {}
         self._session_targets: Dict[Tuple[str, str], str] = {}
         self._session_actions: Dict[Tuple[str, str], Deque[str]] = {}
+        self._warming = None
 
     # ------------------------------------------------------------------ stages
 
@@ -111,14 +112,38 @@ class CognitiveCore:
         """Load the interpretation model before the first request; a cold load takes ~15s."""
         if not self._semantic_enabled:
             return
-        interpreter = self._interpreter()
-        original = interpreter.timeout_seconds
-        interpreter.timeout_seconds = max(original, 90.0)
         try:
-            await interpreter.interpret("hello")
+            # Generous limit: on CPU a cold prompt evaluation alone can exceed a minute.
+            await self._interpreter().interpret("hello", timeout=240.0)
             logger.info("[CognitiveCore] Semantic interpreter warmed up.")
-        finally:
-            interpreter.timeout_seconds = original
+        except Exception as exc:
+            logger.warning(f"[CognitiveCore] Warm-up did not complete: {exc}")
+
+    def _rewarm_in_background(self) -> None:
+        """After a timeout, rebuild the model's prompt cache once instead of failing every request."""
+        import asyncio
+        if self._warming is None or self._warming.done():
+            self._warming = asyncio.get_running_loop().create_task(self.warm_up())
+
+    async def interpret_confirmation(self, reply: str, question: str) -> str:
+        """'confirm', 'decline' or 'other' for a reply to a pending yes/no question.
+
+        Bare yes/no is answered immediately; anything else is judged by the
+        interpreter. If the interpreter is unavailable the answer is 'other', so a
+        risky action is never run on an uncertain reading.
+        """
+        bare = reply.strip().lower().strip(".!?")
+        if bare in {"yes", "y"}:
+            return "confirm"
+        if bare in {"no", "n"}:
+            return "decline"
+        if not self._semantic_enabled:
+            return "other"
+        try:
+            return await self._interpreter().interpret_confirmation(reply, question)
+        except Exception as exc:
+            logger.warning(f"[CognitiveCore] Could not interpret confirmation reply: {exc}")
+            return "other"
 
     # --------------------------------------------------------------- decisions
 
@@ -133,13 +158,18 @@ class CognitiveCore:
         context = self.perceive(message, user_id, session_id, conversation_history)
         graph, confidence = self.understand(context)
         semantic_request = None
+        semantic_failure = None
         if self.needs_deliberation(graph, confidence):
             try:
                 semantic_request = await self._interpret_async(context, user_id, session_id)
             except Exception as exc:
                 # Malformed/unavailable interpretation keeps the fast-path result, never executes.
                 logger.warning(f"[CognitiveCore] Semantic interpretation unavailable: {exc}")
-        return self._conclude(context, graph, confidence, semantic_request, user_id, session_id)
+                from app.cognition.semantic.interpreter import SemanticTimeoutError
+                if isinstance(exc, SemanticTimeoutError):
+                    semantic_failure = "timeout"
+                    self._rewarm_in_background()
+        return self._conclude(context, graph, confidence, semantic_request, user_id, session_id, semantic_failure)
 
     def cognize(
         self,
@@ -166,12 +196,15 @@ class CognitiveCore:
         semantic_request: Optional[Any],
         user_id: str,
         session_id: str,
+        semantic_failure: Optional[str] = None,
     ) -> CognitiveDecision:
         from app.router.schemas import IntentType
 
         graph, confidence = self._merge(graph, confidence, semantic_request, context.message)
         goal = self._infer_goal(context, graph, confidence, semantic_request)
         mode, clarification = self._decide(graph, goal, semantic_request)
+        if mode is CognitiveMode.ASK and semantic_failure == "timeout":
+            clarification = "My language model is still loading, so I couldn't fully understand that. Give me a moment and try again."
 
         if graph.nodes and goal.probable_goal in {"conversation_or_entertainment", "advice_or_exploration"}:
             primary = graph.nodes[0]

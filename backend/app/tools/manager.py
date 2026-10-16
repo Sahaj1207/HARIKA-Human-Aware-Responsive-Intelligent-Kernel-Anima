@@ -114,7 +114,20 @@ class ToolManager:
             params["search"] = params.pop("query")
         return params
 
-    async def execute_planned_action(self, plan: ActionPlan, dry_run: bool = False) -> Optional[ToolResult]:
+    def confirmation_for(self, plan: ActionPlan) -> Optional[str]:
+        """Plain-language description of the planned action if it needs user confirmation, else None."""
+        from app.tools.permissions import permission_engine
+
+        if not plan.is_tool_action or not plan.actions:
+            return None
+        action = plan.actions[0]
+        tool = self.registry.get_tool(action.tool_name)
+        if tool is None:
+            return None
+        _, needs_prompt, _ = permission_engine.evaluate(tool.manifest.name, tool.permission_for(action.arguments))
+        return tool.describe_action(action.arguments) if needs_prompt else None
+
+    async def execute_planned_action(self, plan: ActionPlan, dry_run: bool = False, confirmed: bool = False) -> Optional[ToolResult]:
         if not plan.is_tool_action or not plan.actions:
             return None
 
@@ -130,7 +143,7 @@ class ToolManager:
                 error=f"Tool '{action.tool_name}' is not registered."
             )
 
-        return await self.executor.execute_tool(tool, action.arguments, dry_run=dry_run)
+        return await self.executor.execute_tool(tool, action.arguments, dry_run=dry_run, confirmed=confirmed)
 
 
 tool_manager = ToolManager()

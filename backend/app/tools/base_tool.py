@@ -55,6 +55,20 @@ class BaseTool(ABC):
                     best = (canonical, score)
         return best
 
+    def permission_for(self, args: Dict[str, Any]) -> PermissionLevel:
+        """Effective risk of this call: the tool level, raised by a riskier operation."""
+        order = [PermissionLevel.NONE, PermissionLevel.LOW, PermissionLevel.MEDIUM, PermissionLevel.HIGH]
+        level = self.manifest.permissions
+        override = self.manifest.operation_permissions.get(str(args.get("operation") or ""))
+        if override is not None and order.index(override) > order.index(level):
+            level = override
+        return level
+
+    def describe_action(self, args: Dict[str, Any]) -> str:
+        """Short plain-language description of what a call will do, used when asking for confirmation."""
+        target = args.get("target") or args.get("app_name") or args.get("command") or self.manifest.display_name
+        return f"{args.get('operation') or 'use'} {target}".strip()
+
     @abstractmethod
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         """Executes the tool action or returns dry-run outcome prediction."""

@@ -44,7 +44,7 @@ class SubsystemResolver:
                 }
             action_plan = tool_manager.plan_node(node)
             if action_plan.actions:
-                res = await tool_manager.execute_planned_action(action_plan)
+                res = await tool_manager.execute_planned_action(action_plan, confirmed=node.confirmed)
                 if res:
                     tool_act = action_plan.actions[0].tool_name if action_plan.actions else (node.action or "tool")
                     return {

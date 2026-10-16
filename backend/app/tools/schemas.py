@@ -12,6 +12,7 @@ class ToolStatusCode(str, Enum):
     TIMEOUT = "TIMEOUT"
     EXECUTION_FAILED = "EXECUTION_FAILED"
     TOOL_BUSY = "TOOL_BUSY"
+    CONFIRMATION_REQUIRED = "CONFIRMATION_REQUIRED"
     UNKNOWN = "UNKNOWN"
 
 
@@ -49,6 +50,8 @@ class ToolManifest(BaseModel):
     operations: Dict[str, str] = Field(default_factory=dict, description="Semantic verb -> capability id, e.g. {'open': 'open_application', 'close': 'close_application'}")
     free_text_operations: List[str] = Field(default_factory=list, description="Operations whose target is free text (a search query) rather than a registered name")
     target_description: str = Field(default="", description="Natural-language description of acceptable targets, shown to the semantic interpreter")
+    default_targets: Dict[str, str] = Field(default_factory=dict, description="Operation -> target used when the request names none (e.g. 'mute' -> 'volume')")
+    operation_permissions: Dict[str, PermissionLevel] = Field(default_factory=dict, description="Per-operation risk overriding the tool level when higher (e.g. 'shutdown' -> HIGH)")
 
 
 class SingleAction(BaseModel):

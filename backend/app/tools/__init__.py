@@ -8,6 +8,7 @@ import app.tools.system.open_application
 import app.tools.system.clipboard
 import app.tools.system.filesystem
 import app.tools.system.terminal
+import app.tools.system.system_control
 
 import app.tools.web.media_playback
 import app.tools.web.web_search

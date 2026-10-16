@@ -14,6 +14,12 @@ class OllamaProvider(BaseLLMProvider):
         self.model = settings.OLLAMA_MODEL
         self.provider_name = "ollama"
 
+    @staticmethod
+    def _keep_alive(value: str):
+        """Ollama takes durations as strings ("30m") but bare seconds/-1 only as numbers."""
+        text = str(value).strip()
+        return int(text) if text.lstrip("-").isdigit() else text
+
     async def generate_response(
         self,
         messages: List[Dict[str, str]],
@@ -32,7 +38,7 @@ class OllamaProvider(BaseLLMProvider):
             "model": self.model,
             "messages": formatted_messages,
             "stream": False,
-            "keep_alive": settings.OLLAMA_KEEP_ALIVE,
+            "keep_alive": self._keep_alive(settings.OLLAMA_KEEP_ALIVE),
         }
         if json_mode:
             # Structured interpretation: constrain output to JSON and decode deterministically.

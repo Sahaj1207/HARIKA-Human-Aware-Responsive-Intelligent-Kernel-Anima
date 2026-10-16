@@ -58,6 +58,9 @@ class TerminalTool(BaseTool):
 
         return True, None
 
+    def describe_action(self, args: Dict[str, Any]) -> str:
+        return f"run the command `{args.get('command', '')}`"
+
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         cmd = args["command"].strip()
 
