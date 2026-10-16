@@ -17,8 +17,9 @@ use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut,
 /// Development uses the usual dev port; installed builds use an uncommon one so
 /// HARIKA doesn't collide with other local servers on :8000.
 const BACKEND_PORT: u16 = if cfg!(debug_assertions) { 8000 } else { 47801 };
-const ORB_WIDTH: f64 = 560.0;
-const ORB_HEIGHT: f64 = 220.0;
+// Includes a 24px transparent margin so the panel's glow is never clipped.
+const ORB_WIDTH: f64 = 600.0;
+const ORB_HEIGHT: f64 = 244.0;
 
 /// The backend process this app started (None when one was already running).
 struct Backend(Mutex<Option<Child>>);

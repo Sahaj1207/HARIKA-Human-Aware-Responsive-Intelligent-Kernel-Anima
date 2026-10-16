@@ -87,7 +87,8 @@ class ToolManager:
                 target,
             )
         if node.action == "open_website":
-            return self.planner.plan_capability("open_website", "open", target)
+            # Parameters such as a named browser ("in Chrome") travel with the request.
+            return self.planner.plan_capability("open_website", "open", target, self._tool_parameters(node.arguments))
         if node.action == "close_website":
             return self.planner.plan_capability("close_website", "close", target)
         if node.action in {"open_target", "close_target"}:

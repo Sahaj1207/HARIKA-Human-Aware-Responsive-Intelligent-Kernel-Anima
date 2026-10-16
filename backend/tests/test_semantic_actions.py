@@ -251,6 +251,30 @@ class SafeExecutionTests(unittest.TestCase):
         self.assertEqual(open_website_tool.match_target("wikipedia.org", "open"), ("wikipedia.org", 0.9))
         self.assertEqual(open_website_tool.match_target("blorptastic", "open")[0], None)
 
+    def test_named_browser_reaches_website_tool(self):
+        from app.tools.manager import tool_manager
+        node = ActionNode(
+            intent=IntentType.TOOL_EXECUTION, engine="ToolManager", action="open_website",
+            arguments={"target": "instagram.com", "query": "open instagram in chrome", "parameters": {"browser": "chrome"}},
+        )
+        args = tool_manager.plan_node(node).actions[0].arguments
+        self.assertEqual((args["target"], args["browser"]), ("instagram.com", "chrome"))
+
+    def test_website_opens_in_named_browser_without_shell(self):
+        from app.tools.system.open_website import open_website_tool
+        with patch.object(type(open_website_tool), "_find_browser", return_value=("Chrome", ["C:/chrome.exe"])), \
+             patch("app.tools.system.open_website.subprocess.Popen") as popen:
+            result = asyncio.run(open_website_tool.execute({"target": "instagram.com", "browser": "chrome"}))
+        self.assertEqual(popen.call_args.args[0], ["C:/chrome.exe", "https://instagram.com"])
+        self.assertEqual(result["summary"], "Opened instagram.com in Chrome.")
+
+    def test_missing_browser_falls_back_to_default_and_says_so(self):
+        from app.tools.system.open_website import open_website_tool
+        with patch.object(type(open_website_tool), "_find_browser", return_value=None), \
+             patch("app.tools.system.open_website.webbrowser.open", return_value=True):
+            result = asyncio.run(open_website_tool.execute({"target": "wikipedia.org", "browser": "firefox"}))
+        self.assertIn("Firefox isn't installed", result["summary"])
+
     def test_open_result_without_search_fails_honestly(self):
         from app.tools import recent_results
         from app.tools.web.web_search import WebSearchTool

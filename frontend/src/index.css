@@ -178,6 +178,14 @@
 .harika-glow-edge[data-active="true"]::before { opacity: 0.55; }
 .harika-glow-edge[data-active="true"]::after { opacity: 1; }
 
+/* The floating "Ask HARIKA" panel. A web view can't blur the desktop behind
+   it, so it is nearly opaque instead of frosted, with no outer shadow. */
+.orb-panel {
+  background: var(--surface);
+  border: 0.5px solid var(--glass-edge);
+  box-shadow: inset 0 1px 0 var(--glass-shine);
+}
+
 /* Glass that stays readable over a glow or busy content. */
 .glass-strong {
   background: color-mix(in srgb, var(--surface) 90%, transparent);

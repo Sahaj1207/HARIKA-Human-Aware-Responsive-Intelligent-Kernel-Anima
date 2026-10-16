@@ -83,12 +83,14 @@ export const OrbApp: React.FC = () => {
   const status = thinking ? activity || 'Thinking…' : reply;
 
   return (
-    <div className="h-screen w-screen p-3 select-none">
+    // The window is transparent and clips anything past its edges, so the panel
+    // casts no outer shadow and keeps a margin wide enough for the thinking glow.
+    <div className="h-screen w-screen p-6 select-none">
       <div
         data-active={thinking}
         className="harika-glow-edge h-full w-full rounded-[26px]"
       >
-        <div className="glass glass-strong h-full w-full rounded-[26px] flex flex-col px-5 pt-4 pb-3">
+        <div className="orb-panel h-full w-full rounded-[26px] flex flex-col px-5 pt-4 pb-3">
           <form onSubmit={send} className="flex items-center gap-3.5" data-tauri-drag-region>
             <HarikaOrb state={state} size={34} />
             <input

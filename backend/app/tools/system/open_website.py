@@ -1,5 +1,8 @@
+import platform
 import re
+import subprocess
 import webbrowser
+from pathlib import Path
 from typing import Dict, Any, Tuple, Optional
 from app.tools.base_tool import BaseTool
 from app.tools.schemas import ToolManifest, ToolHealth, PermissionLevel
@@ -12,7 +15,7 @@ class OpenWebsiteTool(BaseTool):
     manifest = ToolManifest(
         name="open_website",
         display_name="Website Launcher",
-        description="Launches websites (Google, GitHub, YouTube, or custom URLs) in default browser.",
+        description="Opens any website, in the default browser or a named one (Chrome, Edge, Firefox, Brave).",
         version="1.0.0",
         author="HARIKA OS Core",
         category="system",
@@ -31,7 +34,7 @@ class OpenWebsiteTool(BaseTool):
         },
         operations={"open": "open_website", "close": "close_website"},
         ability="open websites",
-        target_description="a well-known website name (google, github, youtube, reddit, ...) or a domain such as wikipedia.org",
+        target_description="the website's domain, such as instagram.com or netflix.com (always a domain, not just the name); put a named browser in parameters.browser",
     )
 
     _DOMAIN = re.compile(r"^(?:https?://)?(?:[a-z0-9-]+\.)+[a-z]{2,}(?:/\S*)?$", re.I)
@@ -70,34 +73,39 @@ class OpenWebsiteTool(BaseTool):
         if not url.startswith("http://") and not url.startswith("https://"):
             url = f"https://{url}"
 
+        browser = self._find_browser(str(args.get("browser") or ""))
+        requested_browser = str(args.get("browser") or "").strip()
+
         if dry_run:
             return {
                 "dry_run": True,
                 "action": "open_url_in_browser",
                 "target_url": url,
+                "browser": browser[0] if browser else "default",
                 "expected_result": f"Launches browser targeting {url}"
             }
 
+        site = url.split("://", 1)[-1].split("/", 1)[0].removeprefix("www.")
         try:
-            opened = webbrowser.open(url)
-            from app.tools.process_verifier import verify_os_process
-            v_chrome, p_chrome, _, _ = verify_os_process("chrome")
-            v_edge, p_edge, _, _ = verify_os_process("msedge")
-            v_firefox, p_ff, _, _ = verify_os_process("firefox")
-
-            verified = bool(opened)
-            pid = p_chrome or p_edge or p_ff
-            proc_name = "chrome.exe" if v_chrome else ("msedge.exe" if v_edge else "browser")
-
+            if browser:
+                name, command = browser
+                # Argument list, no shell: the URL is a single argument.
+                subprocess.Popen([*command, url], creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+                opened, where = True, f" in {name}"
+            else:
+                opened, where = bool(webbrowser.open(url)), ""
+            note = ""
+            if requested_browser and not browser and requested_browser.lower() not in ("browser", "default", "web browser"):
+                note = f" {requested_browser.title()} isn't installed, so I used your default browser."
             return {
                 "target": target,
                 "url": url,
                 "launched": opened,
                 "success": opened,
-                "verified": verified,
-                "pid": pid,
-                "process_name": proc_name,
-                "error": None if opened else "Browser launch command failed"
+                "verified": opened,
+                "process_name": browser[0] if browser else "browser",
+                "summary": f"Opened {site}{where}.{note}" if opened else None,
+                "error": None if opened else "the browser could not be opened",
             }
         except Exception as e:
             return {
@@ -106,11 +114,44 @@ class OpenWebsiteTool(BaseTool):
                 "launched": False,
                 "success": False,
                 "verified": False,
-                "pid": None,
                 "process_name": "browser",
-                "error": f"Failed to open website '{url}': {str(e)}"
+                "error": f"I couldn't open {site}: {e}",
             }
 
+    # Browsers HARIKA can target by name: display name and executable.
+    BROWSERS = {
+        "chrome": ("Chrome", "chrome.exe", "Google Chrome"),
+        "google chrome": ("Chrome", "chrome.exe", "Google Chrome"),
+        "edge": ("Edge", "msedge.exe", "Microsoft Edge"),
+        "microsoft edge": ("Edge", "msedge.exe", "Microsoft Edge"),
+        "firefox": ("Firefox", "firefox.exe", "Firefox"),
+        "brave": ("Brave", "brave.exe", "Brave Browser"),
+        "opera": ("Opera", "opera.exe", "Opera"),
+        "safari": ("Safari", "", "Safari"),
+    }
+
+    def _find_browser(self, name: str) -> Optional[Tuple[str, list]]:
+        """(display name, command prefix) for an installed browser, or None for the default browser."""
+        entry = self.BROWSERS.get(" ".join(name.lower().split()))
+        if entry is None:
+            return None
+        display, exe, mac_app = entry
+        system = platform.system()
+        if system == "Darwin":
+            return (display, ["open", "-a", mac_app]) if Path(f"/Applications/{mac_app}.app").exists() else None
+        if system != "Windows" or not exe:
+            return None
+        import winreg
+        # Windows registers each installed program's full path under "App Paths".
+        for hive in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
+            try:
+                with winreg.OpenKey(hive, rf"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{exe}") as key:
+                    path = winreg.QueryValue(key, None)
+                if path and Path(path.strip('"')).exists():
+                    return display, [path.strip('"')]
+            except OSError:
+                continue
+        return None
 
 
 open_website_tool = OpenWebsiteTool()
