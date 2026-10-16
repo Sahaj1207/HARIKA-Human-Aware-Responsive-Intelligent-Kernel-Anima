@@ -252,7 +252,9 @@ class SafeExecutionTests(unittest.TestCase):
         self.assertEqual(open_website_tool.match_target("blorptastic", "open")[0], None)
 
     def test_open_result_without_search_fails_honestly(self):
+        from app.tools import recent_results
         from app.tools.web.web_search import WebSearchTool
+        recent_results.remember("test", [])
         result = asyncio.run(WebSearchTool().execute({"operation": "open", "target": "1"}))
         self.assertFalse(result["success"])
         self.assertIn("search", result["error"])

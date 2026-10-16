@@ -82,7 +82,10 @@ class CognitiveCore:
         if not graph.nodes or len(graph.nodes) > 1 or confidence < _CONFIDENT:
             return True
         return any(
-            node.intent is IntentType.UNKNOWN_INTENT or not capability_resolver.is_resolved(node)
+            node.intent is IntentType.UNKNOWN_INTENT
+            or not capability_resolver.is_resolved(node)
+            # A free-text fallback ("open <anything>" as a file search) is a guess, not understanding.
+            or node.arguments.get("resolution_confidence", 1.0) < _CONFIDENT
             for node in graph.nodes
         )
 

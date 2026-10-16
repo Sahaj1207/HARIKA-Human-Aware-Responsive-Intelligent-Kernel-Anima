@@ -116,7 +116,7 @@ class CapabilityResolver:
         node.action = _LEGACY_NODE_ACTIONS.get(resolution.capability, resolution.capability)
         arguments = dict(extra or {})
         arguments.update(resolution.arguments)
-        arguments.update({"query": query, "operation": operation})
+        arguments.update({"query": query, "operation": operation, "resolution_confidence": resolution.confidence})
         node.arguments = arguments
         return node
 

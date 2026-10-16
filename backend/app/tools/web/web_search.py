@@ -2,10 +2,12 @@ import html
 import re
 import urllib.parse
 import webbrowser
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
+from app.tools import recent_results
 from app.tools.base_tool import BaseTool
 from app.tools.registry import tool_registry
 from app.tools.schemas import PermissionLevel, ToolHealth, ToolManifest
@@ -17,7 +19,7 @@ class WebSearchTool(BaseTool):
     manifest = ToolManifest(
         name="web_search",
         display_name="Web Search",
-        description="Searches the web for a query and can open one of the results.",
+        description="Searches the web for a query, and opens an item from the most recent list of web or file results.",
         version="1.0.0",
         author="HARIKA OS Core",
         category="web",
@@ -63,6 +65,7 @@ class WebSearchTool(BaseTool):
 
         results = await self._fetch_results(query)
         self.last_query, self.last_results = query, results
+        recent_results.remember("web", results[:10])
         opened = webbrowser.open(search_url)
         top = "; ".join(f"{i}. {r['title']}" for i, r in enumerate(results[:3], 1))
         summary = f"I searched the web for {query}."
@@ -80,24 +83,28 @@ class WebSearchTool(BaseTool):
         }
 
     def _open_result(self, position: str, dry_run: bool) -> Dict[str, Any]:
+        """Open an item from whatever HARIKA listed last (web results or files)."""
         index = int(position) - 1 if position.isdigit() else 0
-        if not self.last_results:
+        if recent_results.count() == 0:
             return {
                 "action": "open_search_result",
                 "success": False,
                 "verified": False,
-                "error": "there are no recent search results to open, so try searching first",
+                "error": "there are no recent results to open, so try searching first",
             }
-        if index >= len(self.last_results):
+        result = recent_results.get(index)
+        if result is None:
             return {
                 "action": "open_search_result",
                 "success": False,
                 "verified": False,
-                "error": f"the last search only returned {len(self.last_results)} results",
+                "error": f"the last list only had {recent_results.count()} results",
             }
-        result = self.last_results[index]
         if dry_run:
-            return {"dry_run": True, "action": "open_search_result", "url": result["url"]}
+            return {"dry_run": True, "action": "open_search_result", "item": result}
+        if "path" in result:
+            from app.tools.system.files import files_tool
+            return files_tool.open_path(Path(result["path"]), f"Opened {result['title']}.")
         opened = webbrowser.open(result["url"])
         return {
             "action": "open_search_result",

@@ -35,8 +35,6 @@ class BaseTool(ABC):
         query = " ".join((requested or "").lower().strip().strip(".,!?/").split())
         if not query:
             return None, 0.0
-        if operation is not None and operation in self.manifest.free_text_operations:
-            return requested.strip(), 0.6
         best: Tuple[Optional[str], float] = (None, 0.0)
         for canonical, aliases in self.manifest.target_aliases.items():
             for alias in dict.fromkeys([canonical, *aliases]):
@@ -53,6 +51,8 @@ class BaseTool(ABC):
                     score = 0.7 + 0.2 * similarity if similarity >= 0.8 else 0.0
                 if score > best[1]:
                     best = (canonical, score)
+        if best[0] is None and operation is not None and operation in self.manifest.free_text_operations:
+            return requested.strip(), 0.6
         return best
 
     def permission_for(self, args: Dict[str, Any]) -> PermissionLevel:

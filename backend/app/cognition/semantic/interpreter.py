@@ -53,6 +53,8 @@ Examples:
 "I need to use calci" -> {{"actions": [{{"operation": "open", "target": "calculator", "parameters": {{}}}}]}}
 "play something relaxing on spotify" -> {{"actions": [{{"operation": "play", "target": "relaxing music", "parameters": {{"platform": "spotify"}}}}]}}
 "open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome", "parameters": {{}}}}, {{"operation": "search", "target": "F1 news", "parameters": {{}}}}, {{"operation": "open", "target": "first result", "parameters": {{}}}}]}}
+"open my resume" -> {{"actions": [{{"operation": "open", "target": "resume", "parameters": {{}}}}]}}
+"where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf", "parameters": {{}}}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""
