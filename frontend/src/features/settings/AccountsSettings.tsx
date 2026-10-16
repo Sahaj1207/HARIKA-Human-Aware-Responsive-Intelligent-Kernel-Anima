@@ -83,6 +83,7 @@ export const AccountsSettings: React.FC = () => {
   const [loadError, setLoadError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [showOwnClient, setShowOwnClient] = useState(false);
 
   const refresh = useCallback(async () => {
     try {
@@ -151,8 +152,13 @@ export const AccountsSettings: React.FC = () => {
             : 'Calendar and Gmail. HARIKA only acts when you ask, and never sends an email without your yes.'
         }
       >
-        {!google.configured ? (
-          <GoogleClientForm onSaved={setGoogle} />
+        {!google.configured || showOwnClient ? (
+          <GoogleClientForm
+            onSaved={(status) => {
+              setShowOwnClient(false);
+              setGoogle(status);
+            }}
+          />
         ) : google.connected ? (
           <>
             <Row title="Signed in" value={google.email} />
@@ -171,13 +177,22 @@ export const AccountsSettings: React.FC = () => {
           </div>
         )}
       </GroupedSection>
-      {google.configured && !google.connected && (
-        <GroupedSection footer="Use this if you created a new OAuth client in Google Cloud Console.">
-          <Row
-            title="Change Google client"
-            chevron
-            onClick={() => setGoogle({ ...google, configured: false })}
-          />
+      {google.configured && !google.connected && !showOwnClient && (
+        <GroupedSection
+          title="Advanced"
+          footer={
+            google.own_client
+              ? 'HARIKA is using your own Google OAuth client.'
+              : "For developers: sign in through your own Google Cloud OAuth client instead of HARIKA's."
+          }
+        >
+          <Row title={google.own_client ? 'Change your Google client' : 'Use your own Google client'} chevron onClick={() => setShowOwnClient(true)} />
+          {google.own_client && google.built_in_client && (
+            <Row
+              title="Use HARIKA's built-in client"
+              onClick={busy ? undefined : () => void accountsService.useBuiltInGoogleClient().then(setGoogle)}
+            />
+          )}
         </GroupedSection>
       )}
     </div>

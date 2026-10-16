@@ -18,6 +18,7 @@ from app.tools.productivity.email_tool import Draft, EmailTool, parse_draft, pos
 from app.tools.schemas import ToolStatusCode
 
 TOMORROW = date.today() + timedelta(days=1)
+REAL_BUNDLED_CLIENT = account_module.bundled_client  # tests below replace it per test
 
 
 def at(day: date, hour: int, minute: int = 0) -> datetime:
@@ -259,7 +260,9 @@ class GoogleAccountTests(unittest.TestCase):
             patch.object(account_module.secrets, "get_secret", side_effect=self.store.get),
             patch.object(account_module.secrets, "set_secret", side_effect=self.store.__setitem__),
             patch.object(account_module.secrets, "delete_secret", side_effect=lambda k: self.store.pop(k, None)),
+            patch.object(account_module, "bundled_client", side_effect=lambda: self.built_in),
         ]
+        self.built_in = None
         for p in self.patches:
             p.start()
         self.account = GoogleAccount(Path(self.folder.name) / "google.json")
@@ -283,6 +286,32 @@ class GoogleAccountTests(unittest.TestCase):
         self.assertEqual((query["code_challenge_method"], query["access_type"]), (["S256"], ["offline"]))
         self.assertIn("https://www.googleapis.com/auth/gmail.send", query["scope"][0])
         self.assertNotIn("GOCSPX", self.account.path.read_text())  # the secret stays in the keychain
+
+    def test_built_in_client_needs_only_sign_in(self):
+        self.built_in = ("999-built.apps.googleusercontent.com", "GOCSPX-builtin")
+        status = self.account.status()
+        self.assertTrue(status["configured"] and status["built_in_client"])
+        self.assertFalse(status["own_client"])
+        query = parse_qs(urlparse(self.account.start_sign_in("http://127.0.0.1:47801/cb")).query)
+        self.assertEqual(query["client_id"], ["999-built.apps.googleusercontent.com"])
+
+    def test_own_client_overrides_and_switching_forgets_the_sign_in(self):
+        self.built_in = ("999-built.apps.googleusercontent.com", "GOCSPX-builtin")
+        self.store["google:refresh_token"] = "old-token"
+        self.account.set_client("123-mine.apps.googleusercontent.com", "GOCSPX-minesecret")
+        self.assertNotIn("google:refresh_token", self.store)  # tokens belong to the client they came from
+        query = parse_qs(urlparse(self.account.start_sign_in("http://127.0.0.1:47801/cb")).query)
+        self.assertEqual(query["client_id"], ["123-mine.apps.googleusercontent.com"])
+        self.account.clear_client()
+        self.assertEqual(self.account._client()[0], "999-built.apps.googleusercontent.com")
+
+    def test_downloaded_client_json_is_understood(self):
+        path = Path(self.folder.name) / "google-client.json"
+        path.write_text('{"installed": {"client_id": "1-x.apps.googleusercontent.com", "client_secret": "GOCSPX-x"}}')
+        with patch.object(account_module, "_bundled_client_files", return_value=[Path(self.folder.name) / "missing.json", path]):
+            self.assertEqual(REAL_BUNDLED_CLIENT(), ("1-x.apps.googleusercontent.com", "GOCSPX-x"))
+        with patch.object(account_module, "_bundled_client_files", return_value=[]):
+            self.assertIsNone(REAL_BUNDLED_CLIENT())
 
     def test_unknown_state_is_rejected(self):
         with self.assertRaises(ValueError):

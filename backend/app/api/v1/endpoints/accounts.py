@@ -35,6 +35,13 @@ async def set_google_client(client: GoogleClient) -> dict:
     return {"google": google_account.status()}
 
 
+@router.delete("/google/client")
+async def use_built_in_google_client() -> dict:
+    google_account.clear_client()
+    live_events.publish("accounts_changed", service="google")
+    return {"google": google_account.status()}
+
+
 @router.post("/google/sign-in")
 async def start_google_sign_in(request: Request, open_browser: bool = True) -> dict:
     try:

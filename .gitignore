@@ -44,3 +44,6 @@ backend/data/
 
 # Bundled backend build output (PyInstaller)
 backend/build/
+
+# Developer credentials (e.g. the Google OAuth client built into the installer)
+secrets/

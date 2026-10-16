@@ -3,7 +3,7 @@
 // Usage: npm run backend:bundle   (requires backend/.venv with requirements + pyinstaller)
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { delimiter, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const backend = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'backend');
@@ -30,6 +30,16 @@ const args = [
   '--collect-all', 'sherpa_onnx',
   '--collect-all', 'sounddevice',
 ];
+
+// HARIKA's Google sign-in client (downloaded from Google Cloud Console, never committed).
+// When present it's built in, so people only need to press "Sign in with Google".
+const googleClient = join(backend, '..', 'secrets', 'google-client.json');
+if (existsSync(googleClient)) {
+  args.push('--add-data', `${googleClient}${delimiter}.`);
+  console.log('Including the Google sign-in client from secrets/google-client.json');
+} else {
+  console.log('No secrets/google-client.json: people will need their own Google client (Settings > Accounts > Advanced).');
+}
 
 const result = spawnSync(python, args, { cwd: backend, stdio: 'inherit' });
 process.exit(result.status ?? 1);

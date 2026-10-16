@@ -1,20 +1,25 @@
 """Signing in to Google (OAuth 2.0 for installed apps, with PKCE) and calling its APIs.
 
-The user's own Google Cloud "Desktop app" OAuth client is used. Google sends the
-sign-in back to HARIKA on this computer (127.0.0.1). The refresh token and client
-secret live in the OS credential store; only the client ID and the account's
-email address are kept in HARIKA's settings file.
+HARIKA's own Google Cloud "Desktop app" OAuth client is built into the installer
+(secrets/google-client.json at build time), so each person only signs in with their
+own account. Advanced users can use their own client instead. Google sends the
+sign-in back to HARIKA on this computer (127.0.0.1). Refresh tokens and a
+user-supplied client secret live in the OS credential store; only the client ID and
+the account's email address are kept in HARIKA's settings file. (Google treats an
+installed app's client secret as non-confidential; PKCE protects each sign-in.)
 """
 import asyncio
 import base64
 import hashlib
 import json
 import logging
+import os
 import secrets as pysecrets
+import sys
 import threading
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
@@ -37,6 +42,29 @@ _IDENTITY = ["openid", "email"]
 _SECRET = "google:client_secret"
 _REFRESH = "google:refresh_token"
 _SIGN_IN_TTL = 600
+
+
+def _bundled_client_files() -> List[Path]:
+    files = []
+    if os.environ.get("HARIKA_GOOGLE_CLIENT_FILE"):
+        files.append(Path(os.environ["HARIKA_GOOGLE_CLIENT_FILE"]))
+    if getattr(sys, "frozen", False):
+        files.append(Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent)) / "google-client.json")
+    files.append(Path(__file__).resolve().parents[4] / "secrets" / "google-client.json")  # development
+    return files
+
+
+def bundled_client() -> Optional[Tuple[str, str]]:
+    """HARIKA's built-in OAuth client, from the JSON file Google Cloud Console downloads."""
+    for path in _bundled_client_files():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        info = data.get("installed") or data.get("web") or data
+        if info.get("client_id") and info.get("client_secret"):
+            return info["client_id"], info["client_secret"]
+    return None
 
 
 class NotConnected(RuntimeError):
@@ -71,12 +99,21 @@ class GoogleAccount:
             self.path.parent.mkdir(parents=True, exist_ok=True)
             self.path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
+    def _client(self) -> Optional[Tuple[str, str]]:
+        """The user's own client if they added one, else HARIKA's built-in client."""
+        own_id, own_secret = self._load().get("client_id"), secrets.get_secret(_SECRET)
+        if own_id and own_secret:
+            return own_id, own_secret
+        return bundled_client()
+
     def status(self) -> Dict[str, Any]:
         data = self._load()
         granted = set(data.get("scopes", []))
         connected = bool(data.get("email")) and bool(secrets.get_secret(_REFRESH))
         return {
-            "configured": bool(data.get("client_id")) and bool(secrets.get_secret(_SECRET)),
+            "configured": self._client() is not None,
+            "own_client": bool(data.get("client_id")),
+            "built_in_client": bundled_client() is not None,
             "connected": connected,
             "email": data.get("email", "") if connected else "",
             "calendar": connected and SCOPES["calendar"] in granted,
@@ -91,14 +128,27 @@ class GoogleAccount:
         if len(client_secret) < 10:
             raise ValueError("Paste the client secret from the same OAuth client.")
         secrets.set_secret(_SECRET, client_secret)
+        self._forget_sign_in()  # a sign-in belongs to the client it was made with
         self._save(client_id=client_id)
+
+    def clear_client(self) -> None:
+        """Go back to HARIKA's built-in client."""
+        secrets.delete_secret(_SECRET)
+        self._forget_sign_in()
+        self._save(client_id="")
+
+    def _forget_sign_in(self) -> None:
+        secrets.delete_secret(_REFRESH)
+        self._access_token, self._expires = None, 0.0
+        self._save(email="", scopes=[])
 
     # ------------------------------------------------------------- sign-in
 
     def start_sign_in(self, redirect_uri: str) -> str:
-        client_id = self._load().get("client_id")
-        if not client_id or not secrets.get_secret(_SECRET):
-            raise NotConnected("Add your Google OAuth client first.")
+        client = self._client()
+        if client is None:
+            raise NotConnected("This copy of HARIKA has no Google client. Add one under Advanced.")
+        client_id = client[0]
         verifier = base64.urlsafe_b64encode(pysecrets.token_bytes(48)).rstrip(b"=").decode()
         challenge = base64.urlsafe_b64encode(hashlib.sha256(verifier.encode()).digest()).rstrip(b"=").decode()
         state = pysecrets.token_urlsafe(24)
@@ -122,12 +172,12 @@ class GoogleAccount:
         pending = self._pending.pop(state, None)
         if pending is None or time.time() - pending["created"] > _SIGN_IN_TTL:
             raise ValueError("This sign-in link has expired or was already used. Start again from Settings.")
-        data = self._load()
+        client_id, client_secret = self._client() or ("", "")
         async with httpx.AsyncClient(timeout=20.0) as client:
             reply = await client.post(TOKEN_URL, data={
                 "code": code,
-                "client_id": data.get("client_id", ""),
-                "client_secret": secrets.get_secret(_SECRET) or "",
+                "client_id": client_id,
+                "client_secret": client_secret,
                 "redirect_uri": pending["redirect_uri"],
                 "grant_type": "authorization_code",
                 "code_verifier": pending["verifier"],
@@ -173,8 +223,8 @@ class GoogleAccount:
                 raise NotConnected("Google isn't connected yet. Sign in under Settings > Accounts")
             async with httpx.AsyncClient(timeout=15.0) as client:
                 reply = await client.post(TOKEN_URL, data={
-                    "client_id": self._load().get("client_id", ""),
-                    "client_secret": secrets.get_secret(_SECRET) or "",
+                    "client_id": (self._client() or ("", ""))[0],
+                    "client_secret": (self._client() or ("", ""))[1],
                     "refresh_token": refresh,
                     "grant_type": "refresh_token",
                 })

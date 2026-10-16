@@ -1,8 +1,12 @@
 import { apiClient } from './client';
 
 export interface GoogleStatus {
-  /** The user's own Google OAuth client has been added. */
+  /** A Google OAuth client is available (built into HARIKA, or the user's own). */
   configured: boolean;
+  /** The user added their own client (Advanced). */
+  own_client: boolean;
+  /** This copy of HARIKA ships with a client, so people only need to sign in. */
+  built_in_client: boolean;
   connected: boolean;
   email: string;
   calendar: boolean;
@@ -18,6 +22,10 @@ export const accountsService = {
     return (await apiClient.put<{ google: GoogleStatus }>('/accounts/google/client', { client_id, client_secret })).data.google;
   },
   /** Opens Google's sign-in page in the browser; the result arrives as an "accounts_changed" event. */
+  /** Stop using your own client and go back to HARIKA's built-in one. */
+  async useBuiltInGoogleClient(): Promise<GoogleStatus> {
+    return (await apiClient.delete<{ google: GoogleStatus }>('/accounts/google/client')).data.google;
+  },
   async signInWithGoogle(): Promise<void> {
     await apiClient.post('/accounts/google/sign-in');
   },

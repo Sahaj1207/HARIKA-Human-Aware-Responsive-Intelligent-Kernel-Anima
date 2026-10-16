@@ -75,8 +75,15 @@ also includes today's events and new email.
 - To find "Priya", HARIKA looks for her address in your past email. If it
   finds several, or none, it asks.
 
-**One-time setup.** Google only lets registered apps read Gmail, so each
-installation uses your own free Google OAuth client:
+**For people using HARIKA:** open **Settings > Accounts** and press **Sign in
+with Google**. Each person connects their own account; on a shared computer,
+every Windows user has separate HARIKA settings and keychain.
+
+**For the developer, once:** Google only lets registered apps read Gmail.
+Register HARIKA, download its OAuth client JSON to `secrets/google-client.json`
+(git-ignored), and `npm run desktop:build` builds it into the installer. Without
+that file, people can add their own client under **Settings > Accounts >
+Advanced**. The registration steps:
 
 1. In [Google Cloud Console](https://console.cloud.google.com/), create a
    project (any name, like HARIKA).
@@ -85,12 +92,16 @@ installation uses your own free Google OAuth client:
 3. Under **Google Auth Platform**, set up the app: audience **External**, name
    HARIKA, your email as support contact, and add the Gmail address that will
    sign in as a **test user**.
-4. Under **Clients**, create a client of type **Desktop app**. Paste its Client
-   ID and Client secret into **Settings > Accounts** in HARIKA.
-5. Under **Audience**, choose **Publish app**. In "Testing", Google signs
-   HARIKA out every 7 days. Because the app isn't verified by Google, sign-in
-   shows a warning: choose **Advanced**, then **Go to HARIKA**. (Unverified
-   apps work for up to 100 people, which is plenty for personal use.)
+4. Under **Clients**, create a client of type **Desktop app** and download its
+   JSON right away (save it as `secrets/google-client.json`, or paste the ID
+   and secret under Advanced).
+5. While the app is in **Testing**, only the test users listed under
+   **Audience** can sign in, and Google signs them out every 7 days. To open it
+   to anyone, complete **Branding** (home page and privacy policy links) and
+   choose **Publish app**. Unverified, it works for up to 100 people, who see a
+   "Google hasn't verified this app" warning once (**Advanced > Go to
+   HARIKA**). More than that needs Google's verification; reading Gmail also
+   needs Google's paid security assessment.
 
 Then press **Sign in with Google** and allow calendar and Gmail access. HARIKA
 asks for: your calendar's events, reading Gmail, and sending Gmail. The sign-in
