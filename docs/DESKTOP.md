@@ -39,6 +39,25 @@ screen readers use), so it needs no screenshots. The visible text goes to the
 conversation model chosen in Settings > Brain. Apps that hide their text from
 accessibility tools can't be read yet.
 
+### Live answers, weather and your day
+
+- Ask about anything current ("what's the latest F1 news?", "who won the
+  match yesterday?"): HARIKA searches the web and news, reads the top pages,
+  and answers in a few sentences with its sources. "Open the first one" opens a
+  source.
+- "How's the weather?", "will it rain in Mumbai tomorrow?": forecasts for the
+  next 7 days from Open-Meteo.
+- "Brief me": the weather, today's reminders and the top headlines. Turn on
+  **Morning briefing** in **Settings > General > Your day** to get it once a day
+  at a time you choose (shown, and spoken if voice is on).
+
+Set **Home city** there too; otherwise "here" is the computer's approximate
+location from its internet address (ipwho.is), which can be a nearby town.
+With the local model, an answer takes about 20 to 40 seconds on a laptop CPU
+because the model has to read the sources; a cloud model in Settings > Brain
+answers in a few seconds. Web pages are treated as material to read, never as
+instructions.
+
 ### Voice ("Hey HARIKA")
 
 Open **Settings > Voice** and download HARIKA's voice once (about 180 MB:

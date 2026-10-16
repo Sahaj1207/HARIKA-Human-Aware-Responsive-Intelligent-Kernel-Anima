@@ -17,7 +17,7 @@ interface ReminderEvent {
 
 /**
  * Subscribes to the backend's live event stream (/events):
- * step progress while HARIKA acts, and reminders when they fall due.
+ * step progress while HARIKA acts, reminders when they fall due, and the morning briefing.
  * EventSource reconnects on its own if the backend restarts.
  * Only one window should announce reminders, so other windows pass false.
  */
@@ -51,6 +51,14 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
         addMessage({ role: 'user', content: event.text, metadata: { provider: 'voice' } });
         if (event.reply) addMessage({ role: 'assistant', content: event.reply, metadata: { provider: 'voice' } });
       }
+    });
+
+    // The morning briefing (Settings > General > Your day).
+    source.addEventListener('briefing', (raw) => {
+      if (!announceReminders) return;
+      const { text } = JSON.parse((raw as MessageEvent).data) as { text: string };
+      notificationService.show('info', 'Your day', text.split('\n\n')[0], 8000);
+      addMessage({ role: 'assistant', content: text, metadata: { provider: 'briefing' } });
     });
 
     source.addEventListener('reminder', (raw) => {

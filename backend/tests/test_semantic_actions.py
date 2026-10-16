@@ -167,6 +167,25 @@ class SemanticPlanTests(unittest.TestCase):
         self.assertEqual(decision.action_graph.nodes[0].intent, IntentType.CHAT)
         self.assertFalse(decision.clarification_needed)
 
+    def test_word_hint_memory_question_is_confirmed_by_interpreter(self):
+        class MemoryGuess:
+            def classify_request(self, context):
+                graph = ActionGraph()
+                graph.add_node(ActionNode(intent=IntentType.MEMORY_QUERY, engine="MemoryManager",
+                                          action="query_memory", arguments={"query": context.message}))
+                return graph, 0.92
+
+        # The interpreter sees an action, so the keyword guess is dropped...
+        interpreter = make_interpreter({"actions": [{"operation": "search", "target": "weather on Sunday"}]})
+        core = CognitiveCore(StubContextBuilder(), MemoryGuess(), semantic_interpreter_instance=interpreter)
+        nodes = core.cognize("what's the weather like on Sunday", user_id="u", session_id="s").action_graph.nodes
+        self.assertEqual([n.action for n in nodes], ["web_search"])
+
+        # ...and a real memory question still goes to memory.
+        core = CognitiveCore(StubContextBuilder(), MemoryGuess(), semantic_interpreter_instance=make_interpreter({"actions": []}))
+        nodes = core.cognize("what's my favourite colour?", user_id="u", session_id="s").action_graph.nodes
+        self.assertEqual([n.action for n in nodes], ["query_memory"])
+
     def test_unsupported_step_gets_specific_explanation(self):
         core, _ = make_core({"actions": [{"operation": "open", "target": "blorptastic", "parameters": {}}]})
         decision = core.cognize("open blorptastic", user_id="u", session_id="s")

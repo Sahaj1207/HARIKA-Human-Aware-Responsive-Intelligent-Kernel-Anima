@@ -1,16 +1,13 @@
-import html
-import re
 import urllib.parse
 import webbrowser
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-import httpx
-
 from app.tools import recent_results
 from app.tools.base_tool import BaseTool
 from app.tools.registry import tool_registry
 from app.tools.schemas import PermissionLevel, ToolHealth, ToolManifest
+from app.tools.web import sources
 
 
 class WebSearchTool(BaseTool):
@@ -39,8 +36,6 @@ class WebSearchTool(BaseTool):
         target_description="for search: the search query; for open: which result (e.g. 'first result')",
     )
     timeout_seconds = 15.0
-
-    _RESULT = re.compile(r'<a[^>]+class="result__a"[^>]+href="([^"]+)"[^>]*>(.*?)</a>', re.S)
 
     def __init__(self):
         self.last_query: Optional[str] = None
@@ -118,24 +113,11 @@ class WebSearchTool(BaseTool):
         }
 
     async def _fetch_results(self, query: str) -> List[Dict[str, str]]:
-        try:
-            async with httpx.AsyncClient(timeout=8.0, headers={"User-Agent": "Mozilla/5.0"}) as client:
-                page = await client.post("https://html.duckduckgo.com/html/", data={"q": query})
-        except Exception:
-            return []
-        results = []
-        for href, title in self._RESULT.findall(page.text):
-            url = self._real_url(html.unescape(href))
-            if url.startswith(("http://", "https://")):
-                results.append({"url": url, "title": html.unescape(re.sub(r"<[^>]+>", "", title)).strip()})
-        return results
+        return await sources.search(query, limit=10)
 
     @staticmethod
     def _real_url(href: str) -> str:
-        # DuckDuckGo wraps results as //duckduckgo.com/l/?uddg=<encoded target>
-        parsed = urllib.parse.urlparse(href if "://" in href else f"https:{href}")
-        target = urllib.parse.parse_qs(parsed.query).get("uddg")
-        return target[0] if target else href
+        return sources._real_url(href)
 
 
 web_search_tool = WebSearchTool()

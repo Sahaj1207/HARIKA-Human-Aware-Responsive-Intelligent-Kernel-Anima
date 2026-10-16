@@ -97,6 +97,11 @@ class RoleProvider(BaseLLMProvider):
         choice = self.store.load()[self.role]
         return build_provider(choice["service"], choice["model"])
 
+    def is_local(self) -> bool:
+        """Whether this role runs on the computer (slow to read long prompts on a CPU)."""
+        service = get_service(self.store.load()[self.role]["service"])
+        return service is None or service.kind == "ollama"
+
     async def generate_response(self, messages, system_prompt, json_mode: bool = False) -> Dict[str, Any]:
         provider = self.current()
         try:

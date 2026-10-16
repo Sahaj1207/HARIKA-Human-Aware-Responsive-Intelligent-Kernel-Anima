@@ -30,7 +30,7 @@ export const chatService = {
     };
 
     const response = await apiClient.post<ChatApiResponse>('/chat', payload, {
-      timeout: 60000, // Explicit 60s timeout for LLM response generation
+      timeout: 150000, // live web answers on a local CPU model can take most of a minute or two
     });
 
     return response.data;

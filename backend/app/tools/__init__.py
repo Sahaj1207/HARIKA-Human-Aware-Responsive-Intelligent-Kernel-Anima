@@ -2,6 +2,7 @@
 import app.tools.utilities.calculator
 import app.tools.utilities.datetime
 import app.tools.utilities.visual_reader
+import app.tools.utilities.briefing
 
 import app.tools.system.open_website
 import app.tools.system.open_application
@@ -15,6 +16,8 @@ import app.tools.system.screen_assist
 
 import app.tools.web.media_playback
 import app.tools.web.web_search
+import app.tools.web.web_answer
+import app.tools.web.weather
 
 import app.tools.developer.github
 

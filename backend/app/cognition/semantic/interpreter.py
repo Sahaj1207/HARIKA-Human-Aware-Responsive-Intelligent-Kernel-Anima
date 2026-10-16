@@ -48,7 +48,8 @@ Rules:
 - "target" is what the user means in plain words, normalized: fix abbreviations and typos ("calci" -> "calculator").
 - "it", "that" or "the app" mean the most recent matching thing in the recent context below; output its name, never "it".
 - Times: use "in_seconds"/"in_minutes"/"in_hours" for relative times; for clock times use "at" as 24-hour "HH:MM" today, or "YYYY-MM-DDTHH:MM" for another day (use the current local time below).
-- If the message is conversation, a question, a request to remember or recall something, planning, or anything not covered by the operations above, reply {{"actions": []}}.
+- Questions whose answer depends on recent or live information (news, scores, results, prices, releases, what someone did lately, anything that may have changed since your training) use "answer"; the weather and forecasts use "weather". "search", "google" or "look up" in a browser stays "search".
+- If the message is conversation, a timeless knowledge question, a request to remember or recall something, planning, or anything not covered by the operations above, reply {{"actions": []}}.
 - Never output shell commands, code, file paths, or any keys other than operation, target and parameters.
 
 Examples:
@@ -64,6 +65,11 @@ Examples:
 "reply that I'll be 10 minutes late" -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "say I'll be 10 minutes late"}}}}]}}
 "make it more casual" (after a draft) -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "make it more casual"}}}}]}}
 "what's on my screen?" -> {{"actions": [{{"operation": "read", "target": "screen"}}]}}
+"what's the latest F1 news?" -> {{"actions": [{{"operation": "answer", "target": "latest Formula 1 news"}}]}}
+"who won the match yesterday" -> {{"actions": [{{"operation": "answer", "target": "who won yesterday's match"}}]}}
+"how's the weather" -> {{"actions": [{{"operation": "weather", "target": "here"}}]}}
+"will it rain in Mumbai tomorrow?" -> {{"actions": [{{"operation": "weather", "target": "Mumbai", "parameters": {{"day": "tomorrow"}}}}]}}
+"brief me" / "what does my day look like?" -> {{"actions": [{{"operation": "brief", "target": "today"}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""

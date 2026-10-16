@@ -4,6 +4,7 @@ import { GroupedSection, IconTile, Row, Segmented } from '@/components/apple/con
 import { HarikaOrb } from '@/components/apple/HarikaOrb';
 import { BrainSettings } from './BrainSettings';
 import { VoiceSettings } from './VoiceSettings';
+import { DailySection } from './DailySettings';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
@@ -60,6 +61,8 @@ const GeneralPage: React.FC = () => {
           }
         />
       </GroupedSection>
+
+      <DailySection />
 
       <GroupedSection title="Appearance" footer="Automatic follows your computer's light and dark mode.">
         <Row

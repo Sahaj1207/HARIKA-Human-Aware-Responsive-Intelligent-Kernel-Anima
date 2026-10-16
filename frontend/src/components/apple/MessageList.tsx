@@ -6,7 +6,7 @@ import { HarikaOrb } from './HarikaOrb';
 import type { Message } from '@/types';
 
 /** Things HARIKA can really do today, offered when the conversation is empty. */
-const SUGGESTIONS = ['Play lofi on YouTube', 'Remind me to stretch in 20 minutes', 'Open my downloads', 'Search for F1 news'];
+const SUGGESTIONS = ['Brief me on my day', "What's the latest F1 news?", 'Play lofi on YouTube', 'Remind me to stretch in 20 minutes'];
 
 const LEGACY_SYSTEM_GREETINGS = new Set(['welcome-1']);
 

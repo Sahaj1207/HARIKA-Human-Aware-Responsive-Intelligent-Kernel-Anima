@@ -75,6 +75,8 @@ def split_wake_phrase(text: str) -> Optional[str]:
 
 
 def split_sentences(text: str) -> List[str]:
+    # A trailing "Sources: ..." line is for reading, not for saying out loud.
+    text = re.sub(r"(?:^|\n)\s*Sources:[^\n]*\s*$", "", text or "")
     parts = re.split(r"(?<=[.!?])\s+", " ".join(text.split()))
     return [p for p in parts if p]
 

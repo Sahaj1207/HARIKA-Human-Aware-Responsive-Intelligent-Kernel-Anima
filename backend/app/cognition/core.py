@@ -83,6 +83,9 @@ class CognitiveCore:
             return True
         return any(
             node.intent is IntentType.UNKNOWN_INTENT
+            # Memory questions are spotted from loose word hints ("what's ... like"),
+            # so the interpreter confirms them ("what's the weather like" is weather).
+            or node.intent is IntentType.MEMORY_QUERY
             or not capability_resolver.is_resolved(node)
             # A free-text fallback ("open <anything>" as a file search) is a guess, not understanding.
             or node.arguments.get("resolution_confidence", 1.0) < _CONFIDENT
@@ -273,7 +276,8 @@ class CognitiveCore:
             # Preserve confident fast-path intents the interpreter does not model
             # ("calculate ... and remember it"): memory, planning, calculator, etc.
             for node in graph.nodes:
-                if node.intent in (IntentType.UNKNOWN_INTENT, IntentType.CHAT) or not capability_resolver.is_resolved(node):
+                if node.intent in (IntentType.UNKNOWN_INTENT, IntentType.CHAT, IntentType.MEMORY_QUERY) \
+                        or not capability_resolver.is_resolved(node):
                     continue
                 if node.engine == "ToolManager" and capability_resolver.is_semantic_capability(node.action):
                     continue
