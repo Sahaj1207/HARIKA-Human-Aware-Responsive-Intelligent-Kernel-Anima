@@ -38,3 +38,6 @@ htmlcov/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Runtime state (histories, memories, goals) is generated per machine
+backend/data/

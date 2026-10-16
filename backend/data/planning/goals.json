@@ -5428,5 +5428,195 @@
     "progress": 100.0,
     "created_at": "2026-08-12T17:14:01.707564+00:00",
     "updated_at": "2026-08-12T17:14:01.728604+00:00"
+  },
+  {
+    "id": "goal-394d9db5",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-21T06:47:53.481245+00:00",
+    "updated_at": "2026-08-21T06:47:53.499196+00:00"
+  },
+  {
+    "id": "goal-9015e0d6",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-08-21T08:10:27.229722+00:00",
+    "updated_at": "2026-08-21T08:10:27.240441+00:00"
+  },
+  {
+    "id": "goal-5eaa8731",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-10-16T06:21:53.243798+00:00",
+    "updated_at": "2026-10-16T06:21:53.262085+00:00"
+  },
+  {
+    "id": "goal-f1d74b8a",
+    "title": "Stale Completed Goal",
+    "description": "Old goal",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-10-16T06:21:56.164032+00:00",
+    "updated_at": "2026-10-16T06:21:56.173068+00:00"
+  },
+  {
+    "id": "goal-c1c4b1c8",
+    "title": "Active Current Project",
+    "description": "New active goal",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:21:56.179179+00:00",
+    "updated_at": "2026-10-16T06:21:56.179189+00:00"
+  },
+  {
+    "id": "goal-0cf6165a",
+    "title": "Goal for 'Plan for Sunday'",
+    "description": "Plan for Sunday",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:21:56.197423+00:00",
+    "updated_at": "2026-10-16T06:21:56.197428+00:00"
+  },
+  {
+    "id": "goal-ecb27929",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-10-16T06:22:27.858250+00:00",
+    "updated_at": "2026-10-16T06:22:27.871216+00:00"
+  },
+  {
+    "id": "goal-7bff9bfb",
+    "title": "Stale Completed Goal",
+    "description": "Old goal",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-10-16T06:22:30.123651+00:00",
+    "updated_at": "2026-10-16T06:22:30.128728+00:00"
+  },
+  {
+    "id": "goal-aa008dd0",
+    "title": "Active Current Project",
+    "description": "New active goal",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:22:30.133245+00:00",
+    "updated_at": "2026-10-16T06:22:30.133252+00:00"
+  },
+  {
+    "id": "goal-7513f3f6",
+    "title": "Goal for 'Plan for Sunday'",
+    "description": "Plan for Sunday",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:22:30.147521+00:00",
+    "updated_at": "2026-10-16T06:22:30.147523+00:00"
+  },
+  {
+    "id": "goal-554b66b4",
+    "title": "Goal for 'Create an agent to test math'",
+    "description": "Create an agent to test math",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-10-16T06:25:45.810815+00:00",
+    "updated_at": "2026-10-16T06:25:45.820093+00:00"
+  },
+  {
+    "id": "goal-f4b88ecf",
+    "title": "Stale Completed Goal",
+    "description": "Old goal",
+    "priority": "NORMAL",
+    "status": "COMPLETED",
+    "progress": 100.0,
+    "created_at": "2026-10-16T06:25:48.408957+00:00",
+    "updated_at": "2026-10-16T06:25:48.414261+00:00"
+  },
+  {
+    "id": "goal-60cf07a2",
+    "title": "Active Current Project",
+    "description": "New active goal",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:25:48.419395+00:00",
+    "updated_at": "2026-10-16T06:25:48.419405+00:00"
+  },
+  {
+    "id": "goal-3a7759e9",
+    "title": "Goal for 'Plan for Sunday'",
+    "description": "Plan for Sunday",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:25:48.445411+00:00",
+    "updated_at": "2026-10-16T06:25:48.445414+00:00"
+  },
+  {
+    "id": "goal-741a7590",
+    "title": "Goal for 'Test plan'",
+    "description": "Test plan",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:25:51.140739+00:00",
+    "updated_at": "2026-10-16T06:25:51.140758+00:00"
+  },
+  {
+    "id": "goal-058de0aa",
+    "title": "Goal for 'Build app'",
+    "description": "Build app",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:25:51.149524+00:00",
+    "updated_at": "2026-10-16T06:25:51.149528+00:00"
+  },
+  {
+    "id": "goal-469b2e61",
+    "title": "Goal for 'Cancel target'",
+    "description": "Cancel target",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:25:51.157222+00:00",
+    "updated_at": "2026-10-16T06:25:51.157225+00:00"
+  },
+  {
+    "id": "goal-692ed4ba",
+    "title": "Goal for 'Initial plan'",
+    "description": "Initial plan",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:25:51.162380+00:00",
+    "updated_at": "2026-10-16T06:25:51.162398+00:00"
+  },
+  {
+    "id": "goal-5c070da6",
+    "title": "Goal for 'Deploy pipeline'",
+    "description": "Deploy pipeline",
+    "priority": "NORMAL",
+    "status": "ACTIVE",
+    "progress": 0.0,
+    "created_at": "2026-10-16T06:25:51.171875+00:00",
+    "updated_at": "2026-10-16T06:25:51.171884+00:00"
   }
 ]

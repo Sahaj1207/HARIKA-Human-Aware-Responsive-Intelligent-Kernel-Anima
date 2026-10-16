@@ -1,638 +1,5 @@
 [
   {
-    "execution_id": "exec-446e0dd4",
-    "success": true,
-    "verified": true,
-    "pid": 36880,
-    "process_name": "CalculatorApp.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 442.33,
-    "output": {
-      "app_name": "calculator",
-      "command": "calc.exe",
-      "launched": true,
-      "success": true,
-      "verified": true,
-      "pid": 36880,
-      "process_name": "CalculatorApp.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:22.535074+00:00"
-  },
-  {
-    "execution_id": "exec-886625c5",
-    "success": true,
-    "verified": true,
-    "pid": 25236,
-    "process_name": "Notepad.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 476.96,
-    "output": {
-      "app_name": "notepad",
-      "command": "notepad.exe",
-      "launched": true,
-      "success": true,
-      "verified": true,
-      "pid": 25236,
-      "process_name": "Notepad.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:23.031468+00:00"
-  },
-  {
-    "execution_id": "exec-bb766502",
-    "success": true,
-    "verified": true,
-    "pid": 43240,
-    "process_name": "Notepad.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 485.44,
-    "output": {
-      "app_name": "notepad",
-      "command": "notepad.exe",
-      "launched": true,
-      "success": true,
-      "verified": true,
-      "pid": 43240,
-      "process_name": "Notepad.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:23.532592+00:00"
-  },
-  {
-    "execution_id": "exec-2ab7b019",
-    "success": true,
-    "verified": true,
-    "pid": 43240,
-    "process_name": "Notepad.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 493.55,
-    "output": {
-      "app_name": "notepad",
-      "command": "notepad.exe",
-      "launched": true,
-      "success": true,
-      "verified": true,
-      "pid": 43240,
-      "process_name": "Notepad.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:24.043314+00:00"
-  },
-  {
-    "execution_id": "exec-5cf7f91d",
-    "success": true,
-    "verified": true,
-    "pid": 32928,
-    "process_name": "chrome.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 766.23,
-    "output": {
-      "app_name": "chrome",
-      "command": "start chrome",
-      "launched": true,
-      "success": true,
-      "verified": true,
-      "pid": 32928,
-      "process_name": "chrome.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:24.824781+00:00"
-  },
-  {
-    "execution_id": "exec-866508ef",
-    "success": true,
-    "verified": true,
-    "pid": 32928,
-    "process_name": "chrome.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 716.94,
-    "output": {
-      "app_name": "chrome",
-      "command": "start chrome",
-      "launched": true,
-      "success": true,
-      "verified": true,
-      "pid": 32928,
-      "process_name": "chrome.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:25.579952+00:00"
-  },
-  {
-    "execution_id": "exec-7fe19c34",
-    "success": true,
-    "verified": true,
-    "pid": 32928,
-    "process_name": "chrome.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 703.45,
-    "output": {
-      "app_name": "chrome",
-      "command": "start chrome",
-      "launched": true,
-      "success": true,
-      "verified": true,
-      "pid": 32928,
-      "process_name": "chrome.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:26.328478+00:00"
-  },
-  {
-    "execution_id": "exec-a2345eea",
-    "success": true,
-    "verified": true,
-    "pid": 36880,
-    "process_name": "CalculatorApp.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 1358.25,
-    "output": {
-      "action": "close",
-      "app_name": "calculator",
-      "closed": true,
-      "success": true,
-      "verified": true,
-      "pid": 36880,
-      "process_name": "CalculatorApp.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:27.725123+00:00"
-  },
-  {
-    "execution_id": "exec-093956ad",
-    "success": true,
-    "verified": true,
-    "pid": 43240,
-    "process_name": "Notepad.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 1355.03,
-    "output": {
-      "action": "close",
-      "app_name": "notepad",
-      "closed": true,
-      "success": true,
-      "verified": true,
-      "pid": 43240,
-      "process_name": "Notepad.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:29.121410+00:00"
-  },
-  {
-    "execution_id": "exec-b3dee43c",
-    "success": true,
-    "verified": true,
-    "pid": 32928,
-    "process_name": "chrome.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 1330.0,
-    "output": {
-      "action": "close",
-      "app_name": "chrome",
-      "closed": true,
-      "success": true,
-      "verified": true,
-      "pid": 32928,
-      "process_name": "chrome.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:30.490043+00:00"
-  },
-  {
-    "execution_id": "exec-61c436a2",
-    "success": true,
-    "verified": true,
-    "pid": 37572,
-    "process_name": "CalculatorApp.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 1209.25,
-    "output": {
-      "action": "close",
-      "app_name": "calculator",
-      "closed": true,
-      "success": true,
-      "verified": true,
-      "pid": 37572,
-      "process_name": "CalculatorApp.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:31.737338+00:00"
-  },
-  {
-    "execution_id": "exec-5d597b23",
-    "success": false,
-    "verified": false,
-    "pid": null,
-    "process_name": "notepad.exe",
-    "status_code": "EXECUTION_FAILED",
-    "tool_name": "open_application",
-    "execution_time_ms": 286.04,
-    "output": {
-      "action": "close",
-      "app_name": "notepad",
-      "closed": false,
-      "success": false,
-      "verified": false,
-      "pid": null,
-      "process_name": "notepad.exe",
-      "error": "Process 'notepad.exe' was not found in active OS task list."
-    },
-    "error": "Process 'notepad.exe' was not found in active OS task list.",
-    "message": "Tool 'open_application' execution could not be verified.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.061550+00:00"
-  },
-  {
-    "execution_id": "exec-0135dfb3",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "datetime",
-    "execution_time_ms": 0.29,
-    "output": {
-      "date": "2026-08-12",
-      "local_time": "22:22:32",
-      "utc_time": "2026-08-12 16:52:32 UTC",
-      "day_of_week": "Wednesday",
-      "timezone": "India Standard Time"
-    },
-    "error": null,
-    "message": "Tool 'datetime' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.096372+00:00"
-  },
-  {
-    "execution_id": "exec-66b881d4",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "datetime",
-    "execution_time_ms": 0.26,
-    "output": {
-      "date": "2026-08-12",
-      "local_time": "22:22:32",
-      "utc_time": "2026-08-12 16:52:32 UTC",
-      "day_of_week": "Wednesday",
-      "timezone": "India Standard Time"
-    },
-    "error": null,
-    "message": "Tool 'datetime' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.131361+00:00"
-  },
-  {
-    "execution_id": "exec-51ee5215",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "datetime",
-    "execution_time_ms": 0.32,
-    "output": {
-      "date": "2026-08-12",
-      "local_time": "22:22:32",
-      "utc_time": "2026-08-12 16:52:32 UTC",
-      "day_of_week": "Wednesday",
-      "timezone": "India Standard Time"
-    },
-    "error": null,
-    "message": "Tool 'datetime' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.219498+00:00"
-  },
-  {
-    "execution_id": "exec-7b01108f",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.33,
-    "output": {
-      "expression": "125 * 48",
-      "result": 6000
-    },
-    "error": null,
-    "message": "Tool 'calculator' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.256936+00:00"
-  },
-  {
-    "execution_id": "exec-620aba57",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.34,
-    "output": {
-      "expression": "500 / 25",
-      "result": 20.0
-    },
-    "error": null,
-    "message": "Tool 'calculator' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.297827+00:00"
-  },
-  {
-    "execution_id": "exec-a709814a",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.62,
-    "output": {
-      "expression": "15 + 35",
-      "result": 50
-    },
-    "error": null,
-    "message": "Tool 'calculator' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.336832+00:00"
-  },
-  {
-    "execution_id": "exec-93b9bd5d",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.23,
-    "output": {
-      "expression": "100 - 45",
-      "result": 55
-    },
-    "error": null,
-    "message": "Tool 'calculator' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.374870+00:00"
-  },
-  {
-    "execution_id": "exec-81367c8c",
-    "success": true,
-    "verified": true,
-    "pid": null,
-    "process_name": null,
-    "status_code": "SUCCESS",
-    "tool_name": "calculator",
-    "execution_time_ms": 0.38,
-    "output": {
-      "expression": "12 * 12",
-      "result": 144
-    },
-    "error": null,
-    "message": "Tool 'calculator' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:32.412230+00:00"
-  },
-  {
-    "execution_id": "exec-ad128344",
-    "success": false,
-    "verified": false,
-    "pid": 25836,
-    "process_name": "command prompt.exe",
-    "status_code": "EXECUTION_FAILED",
-    "tool_name": "open_application",
-    "execution_time_ms": 944.16,
-    "output": {
-      "app_name": "command prompt",
-      "command": "command prompt",
-      "launched": false,
-      "success": false,
-      "verified": false,
-      "pid": 25836,
-      "process_name": "command prompt.exe",
-      "error": "Process 'command prompt.exe' was not found in active OS task list."
-    },
-    "error": "Process 'command prompt.exe' was not found in active OS task list.",
-    "message": "Tool 'open_application' execution could not be verified.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:33.446088+00:00"
-  },
-  {
-    "execution_id": "exec-be6c7979",
-    "success": false,
-    "verified": false,
-    "pid": 31512,
-    "process_name": "terminal.exe",
-    "status_code": "EXECUTION_FAILED",
-    "tool_name": "open_application",
-    "execution_time_ms": 941.42,
-    "output": {
-      "app_name": "terminal",
-      "command": "terminal",
-      "launched": false,
-      "success": false,
-      "verified": false,
-      "pid": 31512,
-      "process_name": "terminal.exe",
-      "error": "Process 'terminal.exe' was not found in active OS task list."
-    },
-    "error": "Process 'terminal.exe' was not found in active OS task list.",
-    "message": "Tool 'open_application' execution could not be verified.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:34.431671+00:00"
-  },
-  {
-    "execution_id": "exec-4b70be73",
-    "success": true,
-    "verified": true,
-    "pid": 33884,
-    "process_name": "cmd.exe",
-    "status_code": "SUCCESS",
-    "tool_name": "open_application",
-    "execution_time_ms": 1186.98,
-    "output": {
-      "action": "close",
-      "app_name": "terminal",
-      "closed": true,
-      "success": true,
-      "verified": true,
-      "pid": 33884,
-      "process_name": "cmd.exe",
-      "error": null
-    },
-    "error": null,
-    "message": "Tool 'open_application' executed and verified successfully.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:35.656565+00:00"
-  },
-  {
-    "execution_id": "exec-e3b69725",
-    "success": false,
-    "verified": false,
-    "pid": null,
-    "process_name": "cmd.exe",
-    "status_code": "EXECUTION_FAILED",
-    "tool_name": "open_application",
-    "execution_time_ms": 306.99,
-    "output": {
-      "action": "close",
-      "app_name": "command prompt",
-      "closed": false,
-      "success": false,
-      "verified": false,
-      "pid": null,
-      "process_name": "cmd.exe",
-      "error": "Process 'cmd.exe' was not found in active OS task list."
-    },
-    "error": "Process 'cmd.exe' was not found in active OS task list.",
-    "message": "Tool 'open_application' execution could not be verified.",
-    "metadata": {
-      "dry_run": false
-    },
-    "tool_version": "1.0.0",
-    "api_version": "v0.4",
-    "timestamp": "2026-08-12T16:52:36.001511+00:00"
-  },
-  {
     "execution_id": "exec-e2067435",
     "success": true,
     "verified": true,
@@ -2654,5 +2021,614 @@
     "tool_version": "1.0.0",
     "api_version": "v0.4",
     "timestamp": "2026-08-12T17:14:03.287560+00:00"
+  },
+  {
+    "execution_id": "exec-c03de9f2",
+    "success": true,
+    "verified": true,
+    "pid": 2628,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1335.43,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 2628,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:23:44.578511+00:00"
+  },
+  {
+    "execution_id": "exec-ad52b178",
+    "success": true,
+    "verified": true,
+    "pid": 34464,
+    "process_name": "CalculatorApp.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 523.03,
+    "output": {
+      "app_name": "calculator",
+      "command": "calc.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 34464,
+      "process_name": "CalculatorApp.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:24:22.048420+00:00"
+  },
+  {
+    "execution_id": "exec-78046be1",
+    "success": true,
+    "verified": true,
+    "pid": 34464,
+    "process_name": "CalculatorApp.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 1403.18,
+    "output": {
+      "action": "close",
+      "app_name": "calculator",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "pid": 34464,
+      "process_name": "CalculatorApp.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:24:32.841446+00:00"
+  },
+  {
+    "execution_id": "exec-daafcadc",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.33,
+    "output": {
+      "expression": "25*18",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:47:53.560470+00:00"
+  },
+  {
+    "execution_id": "exec-aacfad5e",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.36,
+    "output": {
+      "expression": "18*25",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:47:53.831264+00:00"
+  },
+  {
+    "execution_id": "exec-529b545f",
+    "success": true,
+    "verified": true,
+    "pid": 2628,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1538.89,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 2628,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:47:55.386725+00:00"
+  },
+  {
+    "execution_id": "exec-1389dcf7",
+    "success": true,
+    "verified": true,
+    "pid": 17064,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 712.09,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 17064,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:47:59.240484+00:00"
+  },
+  {
+    "execution_id": "exec-f0ddede1",
+    "success": true,
+    "verified": true,
+    "pid": 27940,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 734.55,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 27940,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T06:48:00.138893+00:00"
+  },
+  {
+    "execution_id": "exec-a05dc27f",
+    "success": true,
+    "verified": true,
+    "pid": 27940,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 612.89,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 27940,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T08:07:24.646628+00:00"
+  },
+  {
+    "execution_id": "exec-6f2904df",
+    "success": true,
+    "verified": true,
+    "pid": 27940,
+    "process_name": "Notepad.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 556.68,
+    "output": {
+      "app_name": "notepad",
+      "command": "notepad.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 27940,
+      "process_name": "Notepad.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T08:07:25.228371+00:00"
+  },
+  {
+    "execution_id": "exec-29aa4cf4",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.19,
+    "output": {
+      "expression": "25*18",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T08:10:27.257921+00:00"
+  },
+  {
+    "execution_id": "exec-a1c65df3",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.2,
+    "output": {
+      "expression": "18*25",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T08:10:27.336000+00:00"
+  },
+  {
+    "execution_id": "exec-9c6909ae",
+    "success": true,
+    "verified": true,
+    "pid": 2628,
+    "process_name": "chrome.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_website",
+    "execution_time_ms": 1161.32,
+    "output": {
+      "target": "github",
+      "url": "https://github.com",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 2628,
+      "process_name": "chrome.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_website' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T08:10:28.509135+00:00"
+  },
+  {
+    "execution_id": "exec-29a2a7bf",
+    "success": true,
+    "verified": true,
+    "pid": 27632,
+    "process_name": "CalculatorApp.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 614.73,
+    "output": {
+      "app_name": "calculator",
+      "command": "calc.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 27632,
+      "process_name": "CalculatorApp.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T16:08:52.595448+00:00"
+  },
+  {
+    "execution_id": "exec-8670ce6a",
+    "success": true,
+    "verified": true,
+    "pid": 27632,
+    "process_name": "CalculatorApp.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 734.4,
+    "output": {
+      "action": "close",
+      "app_name": "calculator",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "pid": 27632,
+      "process_name": "CalculatorApp.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-08-21T16:08:53.336193+00:00"
+  },
+  {
+    "execution_id": "exec-cb6b0851",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.07,
+    "output": {
+      "expression": "25*18",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:21:53.084487+00:00"
+  },
+  {
+    "execution_id": "exec-e9074a94",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.1,
+    "output": {
+      "expression": "25*18",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:22:27.778474+00:00"
+  },
+  {
+    "execution_id": "exec-b10eef46",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.11,
+    "output": {
+      "expression": "18*25",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:22:29.014641+00:00"
+  },
+  {
+    "execution_id": "exec-4aab8b61",
+    "success": true,
+    "verified": true,
+    "pid": 14536,
+    "process_name": "CalculatorApp.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 538.45,
+    "output": {
+      "app_name": "calculator",
+      "command": "calc.exe",
+      "launched": true,
+      "success": true,
+      "verified": true,
+      "pid": 14536,
+      "process_name": "CalculatorApp.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:23:50.762197+00:00"
+  },
+  {
+    "execution_id": "exec-692130c5",
+    "success": true,
+    "verified": true,
+    "pid": 14536,
+    "process_name": "CalculatorApp.exe",
+    "status_code": "SUCCESS",
+    "tool_name": "open_application",
+    "execution_time_ms": 1120.34,
+    "output": {
+      "action": "close",
+      "app_name": "calculator",
+      "closed": true,
+      "success": true,
+      "verified": true,
+      "pid": 14536,
+      "process_name": "CalculatorApp.exe",
+      "error": null
+    },
+    "error": null,
+    "message": "Tool 'open_application' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:23:55.154046+00:00"
+  },
+  {
+    "execution_id": "exec-1afa9a6a",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.08,
+    "output": {
+      "expression": "25*18",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:25:45.740033+00:00"
+  },
+  {
+    "execution_id": "exec-20fb0858",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.12,
+    "output": {
+      "expression": "18*25",
+      "result": 450
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:25:47.307083+00:00"
+  },
+  {
+    "execution_id": "exec-c24a6e00",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "datetime",
+    "execution_time_ms": 0.1,
+    "output": {
+      "date": "2026-10-16",
+      "local_time": "11:55:50",
+      "utc_time": "2026-10-16 06:25:50 UTC",
+      "day_of_week": "Friday",
+      "timezone": "India Standard Time"
+    },
+    "error": null,
+    "message": "Tool 'datetime' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:25:50.737414+00:00"
+  },
+  {
+    "execution_id": "exec-96193258",
+    "success": true,
+    "verified": true,
+    "pid": null,
+    "process_name": null,
+    "status_code": "SUCCESS",
+    "tool_name": "calculator",
+    "execution_time_ms": 0.12,
+    "output": {
+      "expression": "125*48",
+      "result": 6000
+    },
+    "error": null,
+    "message": "Tool 'calculator' executed and verified successfully.",
+    "metadata": {
+      "dry_run": false
+    },
+    "tool_version": "1.0.0",
+    "api_version": "v0.4",
+    "timestamp": "2026-10-16T06:25:50.761979+00:00"
   }
 ]
