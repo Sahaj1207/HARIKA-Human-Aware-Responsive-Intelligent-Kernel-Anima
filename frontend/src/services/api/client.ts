@@ -12,7 +12,11 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     const fullUrl = `${config.baseURL?.replace(/\/$/, '')}/${config.url?.replace(/^\//, '')}`;
-    console.log(`[HARIKA API Request] Sending ${config.method?.toUpperCase()} to ${fullUrl}`, config.data);
+    // Never echo credentials into the console.
+    const data = config.data && typeof config.data === 'object' && 'api_key' in config.data
+      ? { ...config.data, api_key: '[redacted]' }
+      : config.data;
+    console.log(`[HARIKA API Request] Sending ${config.method?.toUpperCase()} to ${fullUrl}`, data);
     return config;
   },
   (error) => {

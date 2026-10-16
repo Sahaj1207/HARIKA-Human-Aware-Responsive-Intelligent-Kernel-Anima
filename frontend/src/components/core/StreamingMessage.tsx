@@ -25,7 +25,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
   }, [completeGeneration, onComplete]);
 
   const { displayedText, isStreaming, stop } = useStreamingText(content, {
-    delayMs: 25,
+    delayMs: 18,
     onComplete: handleStreamComplete,
   });
 
@@ -46,11 +46,9 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
   }, [handleStop, setIsStreaming, setStopStreamingHandler]);
 
   return (
-    <div className="relative font-sans text-sm text-slate-100 leading-relaxed">
-      <span>{displayedText}</span>
-      {isStreaming && (
-        <span className="inline-block ml-0.5 w-2 h-4 bg-cyan-400 animate-pulse align-middle" />
-      )}
-    </div>
+    <span>
+      {displayedText}
+      {isStreaming && <span className="inline-block ml-0.5 w-[2px] h-[1.05em] align-[-0.15em] bg-current opacity-50 animate-pulse" />}
+    </span>
   );
 };

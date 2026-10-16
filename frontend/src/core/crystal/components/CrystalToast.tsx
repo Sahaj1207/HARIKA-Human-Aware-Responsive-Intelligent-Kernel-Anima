@@ -1,5 +1,6 @@
 import React from 'react';
-import { CheckCircle, AlertTriangle, AlertCircle, Info, X } from 'lucide-react';
+import { X } from 'lucide-react';
+import { HarikaOrb } from '@/components/apple/HarikaOrb';
 
 export interface ToastItem {
   id: string;
@@ -13,36 +14,24 @@ export interface CrystalToastProps {
   onDismiss: (id: string) => void;
 }
 
-export const CrystalToast: React.FC<CrystalToastProps> = ({ toast, onDismiss }) => {
-  const icons = {
-    success: <CheckCircle className="w-4 h-4 text-emerald-400" />,
-    warning: <AlertTriangle className="w-4 h-4 text-amber-400" />,
-    error: <AlertCircle className="w-4 h-4 text-rose-400" />,
-    info: <Info className="w-4 h-4 text-cyan-400" />,
-  };
-
-  const borders = {
-    success: 'border-emerald-500/40 bg-emerald-950/80 text-emerald-200',
-    warning: 'border-amber-500/40 bg-amber-950/80 text-amber-200',
-    error: 'border-rose-500/40 bg-rose-950/80 text-rose-200',
-    info: 'border-cyan-500/40 bg-cyan-950/80 text-cyan-200',
-  };
-
-  return (
-    <div className={`flex items-start justify-between space-x-3 p-3.5 rounded-xl border backdrop-blur-md shadow-2xl animate-in slide-in-from-bottom duration-200 ${borders[toast.type]}`}>
-      <div className="flex items-start space-x-2.5">
-        <span className="mt-0.5 shrink-0">{icons[toast.type]}</span>
-        <div>
-          <h4 className="text-xs font-mono font-bold uppercase tracking-wider">{toast.title}</h4>
-          {toast.message && <p className="text-[11px] font-mono text-slate-300 mt-0.5">{toast.message}</p>}
-        </div>
-      </div>
-      <button
-        onClick={() => onDismiss(toast.id)}
-        className="p-0.5 rounded text-slate-400 hover:text-white transition-colors"
-      >
-        <X className="w-3.5 h-3.5" />
-      </button>
+/** A notification banner in the style of macOS / iOS notifications. */
+export const CrystalToast: React.FC<CrystalToastProps> = ({ toast, onDismiss }) => (
+  <div
+    role={toast.type === 'error' ? 'alert' : 'status'}
+    className="group relative glass rounded-[18px] p-3 pr-9 flex items-start gap-3 bubble-enter"
+  >
+    <HarikaOrb size={34} state={toast.type === 'error' ? 'error' : 'idle'} />
+    <div className="min-w-0">
+      <p className="t-callout font-semibold text-label">{toast.title}</p>
+      {toast.message && <p className="t-footnote text-label-2 mt-0.5">{toast.message}</p>}
     </div>
-  );
-};
+    <button
+      type="button"
+      onClick={() => onDismiss(toast.id)}
+      aria-label="Dismiss"
+      className="absolute top-2 right-2 w-6 h-6 grid place-items-center rounded-full bg-fill text-label-2 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+    >
+      <X className="w-3 h-3" />
+    </button>
+  </div>
+);

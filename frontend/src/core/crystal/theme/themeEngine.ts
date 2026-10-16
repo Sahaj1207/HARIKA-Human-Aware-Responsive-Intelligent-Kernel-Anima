@@ -12,7 +12,7 @@ export interface ThemeConfig {
 const STORAGE_KEY = 'harika_crystal_theme_config';
 
 const defaultThemeConfig: ThemeConfig = {
-  mode: 'dark',
+  mode: 'system',
   highContrast: false,
   reducedMotion: false,
   fontSizeMultiplier: 1.0,
@@ -24,6 +24,10 @@ export class ThemeEngine {
   constructor() {
     this.config = this.loadConfig();
     this.applyTheme(this.config.mode);
+    // "Automatic" follows the OS appearance live, like an Apple device at sunset.
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (this.config.mode === 'system') this.applyTheme('system');
+    });
   }
 
   public getConfig(): ThemeConfig {

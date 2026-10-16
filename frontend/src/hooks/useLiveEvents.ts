@@ -31,11 +31,14 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
       const step: StepEvent = JSON.parse((raw as MessageEvent).data);
       clearTimeout(clearTimer);
       const prefix = step.total > 1 ? `Step ${step.index}/${step.total}: ` : '';
+      // Plain conversation is already shown as "Thinking…"; only real actions get a label.
+      if (step.label === 'thinking' && step.total === 1) return;
+      const label = step.label.charAt(0).toUpperCase() + step.label.slice(1);
       if (step.status === 'started') {
-        setActivity(`${prefix}${step.label}…`);
+        setActivity(`${prefix}${label}…`);
       } else if (step.index === step.total || step.status !== 'completed') {
         // Leave the last outcome visible briefly, then clear.
-        setActivity(step.status === 'completed' ? null : `${prefix}${step.label} (${step.status})`);
+        setActivity(step.status === 'completed' ? null : `${prefix}${label} (${step.status})`);
         clearTimer = setTimeout(() => setActivity(null), 3000);
       }
     });

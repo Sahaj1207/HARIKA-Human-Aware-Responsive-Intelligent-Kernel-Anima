@@ -3,6 +3,7 @@ import { Greeting } from './Greeting';
 import { NameInput } from './NameInput';
 import { userStorage, UserProfile } from './storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
+import { HarikaOrb } from '@/components/apple/HarikaOrb';
 
 interface OnboardingScreenProps {
   onComplete: () => void;
@@ -20,7 +21,6 @@ type OnboardingStep =
 export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }) => {
   const setCoreState = useHARIKAStore((s) => s.setCoreState);
   const setIsBooted = useHARIKAStore((s) => s.setIsBooted);
-  const addMessage = useHARIKAStore((s) => s.addMessage);
 
   const [step, setStep] = useState<OnboardingStep>('detecting');
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -51,7 +51,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
       const t2 = setTimeout(() => {
         setStep('step-ask-name');
         setCoreState('idle');
-      }, 2800);
+      }, 3600);
 
       return () => {
         clearTimeout(t1);
@@ -65,13 +65,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     const newProfile = { name };
     userStorage.saveProfile(newProfile);
     setProfile(newProfile);
-
-    addMessage({
-      role: 'assistant',
-      content: `Welcome to HARIKA OS, ${name}. All neural subsystems are online.`,
-      status: 'completed',
-      metadata: { provider: 'system', model: 'onboarding' },
-    });
 
     setStep('step-welcome-user');
     setCoreState('speaking');
@@ -87,27 +80,29 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
   if (step === 'finished') return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050608] transition-opacity duration-1000">
-      <div className="flex flex-col items-center justify-center space-y-8 max-w-md w-full px-6">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-canvas">
+      <div className="flex flex-col items-center justify-center gap-8 max-w-2xl w-full px-6">
+        <HarikaOrb size={step === 'step-ask-name' ? 96 : 128} state={step === 'step-welcome-user' ? 'speaking' : 'idle'} />
+
         {step === 'returning-greeting' && profile && (
-          <Greeting text={`Hello, ${profile.name}.`} subtext="HARIKA OS Ready" />
+          <Greeting text={`Hello, ${profile.name}.`} subtext="Welcome back." />
         )}
 
         {step === 'step-hello' && <Greeting text="Hello." />}
 
         {step === 'step-identity' && (
-          <Greeting text="I'm HARIKA." subtext="AI Operating System" />
+          <Greeting text="I'm HARIKA." subtext="I can open your apps, find your files, set reminders and answer questions." />
         )}
 
         {step === 'step-ask-name' && (
-          <div className="space-y-6 w-full text-center">
+          <div className="space-y-8 w-full text-center">
             <Greeting text="What should I call you?" />
             <NameInput onSubmit={handleNameSubmit} />
           </div>
         )}
 
         {step === 'step-welcome-user' && profile && (
-          <Greeting text={`Nice to meet you, ${profile.name}.`} subtext="Initializing Workspace" />
+          <Greeting text={`Nice to meet you, ${profile.name}.`} subtext="Ask me anything, from here or from any app." />
         )}
       </div>
     </div>

@@ -1,66 +1,279 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-heading: 'Outfit', system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
-  }
+/* Dark mode follows the class the theme engine puts on <html> (Automatic/Light/Dark). */
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* ------------------------------------------------------------------ tokens
+   Apple system colors (iOS / macOS), light and dark. Components only use
+   these names, so both appearances stay consistent. */
+:root {
+  --canvas: #ffffff;
+  --grouped: #f2f2f7;
+  --surface: #ffffff;
+  --surface-2: #f2f2f7;
+  --label: #000000;
+  --label-2: rgba(60, 60, 67, 0.6);
+  --label-3: rgba(60, 60, 67, 0.3);
+  --separator: rgba(60, 60, 67, 0.18);
+  --fill: rgba(120, 120, 128, 0.12);
+  --fill-2: rgba(120, 120, 128, 0.2);
+  --bubble-in: #e9e9eb;
+
+  --blue: #007aff;
+  --green: #34c759;
+  --red: #ff3b30;
+  --orange: #ff9500;
+  --purple: #af52de;
+  --pink: #ff2d55;
+  --indigo: #5856d6;
+  --teal: #30b0c7;
+  --gray: #8e8e93;
+
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-edge: rgba(255, 255, 255, 0.75);
+  --glass-shine: rgba(255, 255, 255, 0.9);
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.dark {
+  --canvas: #000000;
+  --grouped: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #2c2c2e;
+  --label: #ffffff;
+  --label-2: rgba(235, 235, 245, 0.6);
+  --label-3: rgba(235, 235, 245, 0.3);
+  --separator: rgba(84, 84, 88, 0.65);
+  --fill: rgba(118, 118, 128, 0.24);
+  --fill-2: rgba(118, 118, 128, 0.36);
+  --bubble-in: #26252a;
+
+  --blue: #0a84ff;
+  --green: #30d158;
+  --red: #ff453a;
+  --orange: #ff9f0a;
+  --purple: #bf5af2;
+  --pink: #ff375f;
+  --indigo: #5e5ce6;
+  --teal: #40c8e0;
+
+  --glass: rgba(36, 36, 38, 0.62);
+  --glass-edge: rgba(255, 255, 255, 0.1);
+  --glass-shine: rgba(255, 255, 255, 0.14);
+  --shadow-float: 0 12px 40px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+@theme inline {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI Variable Text", system-ui, sans-serif;
+  --font-heading: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI Variable Display", system-ui, sans-serif;
+
+  --color-canvas: var(--canvas);
+  --color-grouped: var(--grouped);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-label: var(--label);
+  --color-label-2: var(--label-2);
+  --color-label-3: var(--label-3);
+  --color-separator: var(--separator);
+  --color-fill: var(--fill);
+  --color-fill-2: var(--fill-2);
+  --color-bubble-in: var(--bubble-in);
+  --color-accent: var(--blue);
+  --color-ok: var(--green);
+  --color-danger: var(--red);
+  --color-warn: var(--orange);
+  --color-tile-blue: var(--blue);
+  --color-tile-purple: var(--purple);
+  --color-tile-pink: var(--pink);
+  --color-tile-indigo: var(--indigo);
+  --color-tile-gray: var(--gray);
+  --color-tile-green: var(--green);
+  --color-tile-orange: var(--orange);
+}
+
+@layer base {
+  html,
   body {
+    background: var(--canvas);
+    color: var(--label);
     font-family: var(--font-sans);
-    background-color: #050608;
-    color: #e2e8f0;
+    font-size: 15px;
+    line-height: 1.4;
     margin: 0;
-    padding: 0;
     min-height: 100vh;
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv05", "ss03"; /* Inter: closer to SF's shapes */
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4 {
     font-family: var(--font-heading);
   }
+
+  :focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--blue) 55%, transparent);
+    outline-offset: 2px;
+    border-radius: 10px;
+  }
 }
 
-/* Custom Translucent Surface Utilities */
+/* --------------------------------------------------------------- type scale
+   iOS Human Interface Guidelines text styles. */
+.t-large-title { font: 700 34px/41px var(--font-heading); letter-spacing: -0.012em; }
+.t-title1 { font: 700 28px/34px var(--font-heading); letter-spacing: -0.012em; }
+.t-title2 { font: 600 22px/28px var(--font-heading); letter-spacing: -0.008em; }
+.t-headline { font: 600 17px/22px var(--font-sans); letter-spacing: -0.024em; }
+.t-body { font: 400 16px/22px var(--font-sans); letter-spacing: -0.02em; }
+.t-callout { font: 400 15px/20px var(--font-sans); letter-spacing: -0.016em; }
+.t-footnote { font: 400 13px/18px var(--font-sans); letter-spacing: -0.006em; }
+.t-caption { font: 400 12px/16px var(--font-sans); }
+
+/* ------------------------------------------------------------ Liquid Glass
+   Floating controls: translucent, saturated blur with a bright top edge. */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 0.5px solid var(--glass-edge);
+  box-shadow: inset 0 1px 0 var(--glass-shine), var(--shadow-float);
+}
+
+/* ------------------------------------------------- signature: the HARIKA glow
+   One iridescent gradient in Apple Intelligence colors, used by the orb and
+   by the edge glow while HARIKA is thinking or listening. */
+@property --glow-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Put this on a wrapper around a .glass-strong surface: the soft halo sits
+   behind the surface and a crisp gradient ring traces its edge. */
+.harika-glow-edge {
+  position: relative;
+  isolation: isolate;
+}
+.harika-glow-edge::before,
+.harika-glow-edge::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(from var(--glow-angle), var(--blue), var(--purple), var(--pink), var(--orange), var(--blue));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: glow-spin 4s linear infinite;
+  pointer-events: none;
+}
+.harika-glow-edge::before {
+  inset: -4px;
+  filter: blur(14px);
+}
+.harika-glow-edge::after {
+  inset: -1.5px;
+  padding: 1.5px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.harika-glow-edge[data-active="true"]::before { opacity: 0.55; }
+.harika-glow-edge[data-active="true"]::after { opacity: 1; }
+
+/* Glass that stays readable over a glow or busy content. */
+.glass-strong {
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+}
+
+@keyframes glow-spin {
+  to { --glow-angle: 360deg; }
+}
+
+/* The orb: drifting color fields inside a glassy sphere. */
+.harika-orb {
+  position: relative;
+  border-radius: 9999px;
+  overflow: hidden;
+  /* A deep base so the screen-blended color fields glow in light mode too. */
+  background: radial-gradient(circle at 50% 65%, #1b1650 0%, #07061a 75%);
+  box-shadow:
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.35),
+    0 0 40px color-mix(in srgb, var(--purple) 25%, transparent);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease;
+}
+.harika-orb > span {
+  position: absolute;
+  inset: -25%;
+  border-radius: 45%;
+  mix-blend-mode: screen;
+  filter: blur(14px);
+  animation: orb-drift var(--orb-speed, 14s) linear infinite;
+}
+.harika-orb > span:nth-child(1) { background: radial-gradient(circle at 30% 35%, var(--blue), transparent 55%); }
+.harika-orb > span:nth-child(2) { background: radial-gradient(circle at 70% 40%, var(--purple), transparent 55%); animation-duration: calc(var(--orb-speed, 14s) * 1.3); animation-direction: reverse; }
+.harika-orb > span:nth-child(3) { background: radial-gradient(circle at 45% 75%, var(--pink), transparent 50%); animation-duration: calc(var(--orb-speed, 14s) * 0.8); }
+.harika-orb > span:nth-child(4) { background: radial-gradient(circle at 65% 70%, var(--orange), transparent 45%); animation-duration: calc(var(--orb-speed, 14s) * 1.6); animation-direction: reverse; }
+.harika-orb > i {
+  /* specular highlight */
+  position: absolute;
+  inset: 8% 22% 55% 22%;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.55), transparent 70%);
+}
+.harika-orb[data-state="idle"] { --orb-speed: 18s; }
+.harika-orb[data-state="thinking"] { --orb-speed: 3.5s; transform: scale(1.06); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4), 0 0 60px color-mix(in srgb, var(--pink) 40%, transparent); }
+.harika-orb[data-state="listening"] { --orb-speed: 5s; transform: scale(1.1); }
+.harika-orb[data-state="speaking"] { --orb-speed: 7s; animation: orb-breathe 1.6s ease-in-out infinite; }
+.harika-orb[data-state="error"] > span { filter: blur(14px) grayscale(0.7); }
+
+@keyframes orb-drift {
+  to { transform: rotate(360deg); }
+}
+@keyframes orb-breathe {
+  50% { transform: scale(1.04); }
+}
+
+/* Gentle entrance for new messages: the one motion that answers the user. */
+@keyframes bubble-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+}
+.bubble-enter { animation: bubble-in 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
+@keyframes typing-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .harika-orb > span,
+  .harika-orb,
+  .harika-glow-edge::before,
+  .bubble-enter {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.reduced-motion .harika-orb > span,
+.reduced-motion .harika-glow-edge::before,
+.reduced-motion .bubble-enter {
+  animation: none !important;
+}
+
+/* Thin, unobtrusive scrollbars like macOS overlay scrollbars. */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--fill-2); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+
+/* ---------------------------------------------------- developer surfaces
+   The telemetry panel and command palette keep a dark console look. */
 .surface-translucent {
-  background: rgba(14, 17, 23, 0.65);
+  background: rgba(20, 20, 22, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e5e5ea;
 }
-
 .surface-translucent-subtle {
-  background: rgba(10, 13, 18, 0.45);
+  background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-/* Ambient Radial Glow Background */
-.ambient-bg-glow {
-  background: radial-gradient(
-    circle at 50% 45%,
-    rgba(14, 165, 233, 0.04) 0%,
-    rgba(99, 102, 241, 0.03) 30%,
-    rgba(5, 6, 8, 0) 70%
-  );
-}
-
-/* Custom Scrollbar for Conversation Canvas */
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }

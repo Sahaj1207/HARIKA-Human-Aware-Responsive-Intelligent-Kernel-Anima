@@ -49,16 +49,8 @@ interface HARIKAStore {
   completeGeneration: () => void;
 }
 
-const defaultWelcomeMessage: Message = {
-  id: 'welcome-1',
-  role: 'assistant',
-  content: 'HARIKA AI Operating System online. Systems initialized.',
-  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-  status: 'completed',
-  metadata: { provider: 'system', model: 'harika-v0.2' },
-};
-
-const initialMessages = persistenceService.getMessages() || [defaultWelcomeMessage];
+// A new conversation starts empty; the empty state greets the user.
+const initialMessages = persistenceService.getMessages() || [];
 
 export const useHARIKAStore = create<HARIKAStore>((set, get) => ({
   coreState: 'booting',
@@ -103,7 +95,7 @@ export const useHARIKAStore = create<HARIKAStore>((set, get) => ({
     const newMsg: Message = {
       ...msg,
       id: newId,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      timestamp: new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
       role: resolvedRole,
       status: msg.status || 'completed',
       metadata: msg.metadata || {},

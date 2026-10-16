@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HARIKACore } from '../core/HARIKACore';
-import { ConversationCanvas } from '../core/ConversationCanvas';
+import { MessageList } from '../apple/MessageList';
 import { CommandBar } from '../core/CommandBar';
 import { StatusBar } from '../core/StatusBar';
 import { QuickPanel } from '../core/QuickPanel';
@@ -10,7 +9,7 @@ import { useHARIKAStore } from '@/store/useHARIKAStore';
 // Crystal Core Imports
 import { ErrorBoundary } from '@/core/crystal/accessibility/ErrorBoundary';
 import { CommandPalette } from '@/core/crystal/shortcuts/CommandPalette';
-import { SettingsCenter } from '@/core/crystal/settings/SettingsCenter';
+import { SettingsWindow } from '@/features/settings/SettingsWindow';
 import { DebugOverlay } from '@/core/crystal/developer/DebugOverlay';
 import { NotificationToastContainer } from '@/core/crystal/notifications/NotificationToastContainer';
 import { useKeyboardShortcuts } from '@/core/crystal/shortcuts/useKeyboardShortcuts';
@@ -19,7 +18,7 @@ import { useLiveEvents } from '@/hooks/useLiveEvents';
 import '@/core/crystal/motion/animations.css';
 
 export const MainLayout: React.FC = () => {
-  const { coreState, isBooted } = useHARIKAStore();
+  const isBooted = useHARIKAStore((s) => s.isBooted);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isDebugOverlayVisible, setIsDebugOverlayVisible] = useState(false);
@@ -45,37 +44,26 @@ export const MainLayout: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="relative w-screen h-screen bg-[#050608] ambient-bg-glow flex flex-col justify-between overflow-hidden select-none">
-        {/* Startup sequence overlay */}
+      <div className="relative w-screen h-screen bg-canvas text-label flex flex-col overflow-hidden">
         {!isBooted && <StartupSequence />}
 
-        {/* Top Subtle Status Bar Overlay */}
-        <StatusBar />
+        <StatusBar onOpenSettings={() => setIsSettingsOpen(true)} />
 
-        {/* Center Viewport Focus: Decoupled AI Core Engine */}
-        <main className="flex-1 flex flex-col items-center justify-between py-4 relative z-10 overflow-hidden">
-          {/* Core Centerpiece Visual */}
-          <div className="my-auto py-6 flex flex-col items-center justify-center transition-all duration-700">
-            <HARIKACore state={coreState} size={240} intensity={1.0} />
+        <main className="relative flex-1 min-h-0 flex flex-col">
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <MessageList />
           </div>
-
-          {/* Spatial Conversation Canvas */}
-          <ConversationCanvas />
-
-          {/* Floating OS Command Bar */}
           <CommandBar />
         </main>
 
-        {/* Hidden Quick Controls Slide-Over Panel */}
+        {/* Developer telemetry, opened from Settings > Developer */}
         <QuickPanel />
 
-        {/* Crystal Core Universal Overlays & Notifications */}
         <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} />
-        <SettingsCenter isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+        <SettingsWindow isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
         <DebugOverlay visible={isDebugOverlayVisible} />
         <NotificationToastContainer />
       </div>
     </ErrorBoundary>
   );
 };
-

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mic, MicOff, Loader2 } from 'lucide-react';
+import { Mic, Loader2 } from 'lucide-react';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { speechService } from '@/services/voice/speechRecognition';
 import { chatService } from '@/services/api/chat';
@@ -66,7 +66,7 @@ export const VoiceButton: React.FC = () => {
         const profile = userStorage.getProfile();
         const userName = profile?.name || 'User';
 
-        const historyPayload = messages.map((m) => ({
+        const historyPayload = messages.slice(-12).map((m) => ({
           sender: m.role,
           role: m.role,
           content: m.content,
@@ -88,7 +88,7 @@ export const VoiceButton: React.FC = () => {
         } catch {
           addMessage({
             role: 'assistant',
-            content: `Received voice input "${voiceText}", but the backend engine is currently offline or unreachable.`,
+            content: "I heard you, but I can't reach my engine right now. Give it a few seconds and try again.",
             status: 'completed',
             metadata: { provider: 'offline', model: 'fallback' },
           });
@@ -103,12 +103,12 @@ export const VoiceButton: React.FC = () => {
         if (error.type === 'permission-denied') {
           addMessage({
             role: 'system',
-            content: 'Microphone permission was denied. Please allow microphone access in browser settings.',
+            content: 'HARIKA needs microphone access. Allow it in your system privacy settings, then try again.',
           });
         } else if (error.type === 'unsupported') {
           addMessage({
             role: 'system',
-            content: 'Web Speech API is unsupported in this browser.',
+            content: "Voice input isn't available here yet.",
           });
         } else if (error.type !== 'no-speech' && error.type !== 'aborted') {
           addMessage({
@@ -132,26 +132,14 @@ export const VoiceButton: React.FC = () => {
       type="button"
       onClick={handleVoiceToggle}
       disabled={isProcessing}
-      className={`p-2.5 rounded-full transition-all duration-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 ${
-        isListening
-          ? 'text-cyan-300 bg-cyan-500/20 border border-cyan-400/40 shadow-[0_0_16px_rgba(56,189,248,0.5)] animate-pulse'
-          : 'text-slate-400 hover:text-slate-100 hover:bg-white/5 border border-transparent'
+      aria-pressed={isListening}
+      aria-label={isListening ? 'Stop dictation' : 'Dictate'}
+      title={isListening ? 'Stop dictation' : 'Dictate'}
+      className={`w-8 h-8 grid place-items-center rounded-full shrink-0 transition-colors disabled:opacity-40 ${
+        isListening ? 'bg-danger text-white' : 'text-label-2 hover:text-label hover:bg-fill'
       }`}
-      title={
-        isProcessing
-          ? 'HARIKA is processing...'
-          : isListening
-          ? 'Stop Voice Input'
-          : 'Activate Push-to-Talk Voice Input'
-      }
     >
-      {isProcessing ? (
-        <Loader2 className="w-4 h-4 animate-spin text-indigo-400" />
-      ) : isListening ? (
-        <Mic className="w-4 h-4" />
-      ) : (
-        <MicOff className="w-4 h-4" />
-      )}
+      {isProcessing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mic className="w-[18px] h-[18px]" strokeWidth={2.2} />}
     </button>
   );
 };
