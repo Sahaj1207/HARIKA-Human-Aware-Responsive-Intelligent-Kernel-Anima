@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Hand, Settings as Gear, Sparkles, SquareTerminal, X } from 'lucide-react';
+import { Hand, Mic, Settings as Gear, Sparkles, SquareTerminal, X } from 'lucide-react';
 import { GroupedSection, IconTile, Row, Segmented } from '@/components/apple/controls';
 import { HarikaOrb } from '@/components/apple/HarikaOrb';
 import { BrainSettings } from './BrainSettings';
+import { VoiceSettings } from './VoiceSettings';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 
-type PageId = 'general' | 'brain' | 'privacy' | 'developer';
+type PageId = 'general' | 'brain' | 'voice' | 'privacy' | 'developer';
 
 const PAGES: { id: PageId; label: string; color: string; icon: React.ReactNode }[] = [
   { id: 'general', label: 'General', color: 'var(--gray)', icon: <Gear className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'brain', label: 'Brain', color: 'var(--purple)', icon: <Sparkles className="w-4 h-4" strokeWidth={2.25} /> },
+  { id: 'voice', label: 'Voice', color: 'var(--pink)', icon: <Mic className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'privacy', label: 'Privacy', color: 'var(--blue)', icon: <Hand className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'developer', label: 'Developer', color: 'var(--indigo)', icon: <SquareTerminal className="w-4 h-4" strokeWidth={2.25} /> },
 ];
@@ -191,6 +193,7 @@ export const SettingsWindow: React.FC<{ isOpen: boolean; onClose: () => void; in
           <h2 className="t-title2 mb-6">{current.label}</h2>
           {page === 'general' && <GeneralPage />}
           {page === 'brain' && <BrainSettings />}
+          {page === 'voice' && <VoiceSettings />}
           {page === 'privacy' && <PrivacyPage />}
           {page === 'developer' && (
             <DeveloperPage

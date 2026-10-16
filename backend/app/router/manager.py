@@ -75,7 +75,8 @@ class RouterManager:
         message: str,
         user_id: str = "default",
         session_id: str = "default",
-        conversation_history: Optional[List[Dict[str, Any]]] = None
+        conversation_history: Optional[List[Dict[str, Any]]] = None,
+        spoken: bool = False,
     ) -> Dict[str, Any]:
         t_start = time.time()
         decision_id = f"dec-{uuid.uuid4().hex[:8]}"
@@ -104,11 +105,13 @@ class RouterManager:
             # Anything else is a new request; the unanswered action is dropped.
 
         # Stage 1-2: Cognitive Core perceives context and classifies once.
+        understand_kwargs = {"spoken": True} if spoken else {}
         cognitive_decision = await self.cognitive_core.cognize_async(
             message=message,
             user_id=user_id,
             session_id=session_id,
             conversation_history=conversation_history,
+            **understand_kwargs,
         )
         ctx = cognitive_decision.context
         graph = cognitive_decision.action_graph

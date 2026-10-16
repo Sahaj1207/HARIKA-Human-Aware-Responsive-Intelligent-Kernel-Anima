@@ -6,6 +6,7 @@ import { chatService } from '@/services/api/chat';
 import { visionService } from '@/services/api/vision';
 import { userStorage } from '@/features/onboarding/storage';
 import { coreStateManager } from '@/services/coreState/coreStateManager';
+import { speakReplyIfWanted } from '@/services/api/speech';
 
 /** Recent turns sent as context; the full history would slow every request and overflow the model. */
 const HISTORY_TURNS = 12;
@@ -85,7 +86,7 @@ export const CommandBar: React.FC = () => {
     }
   };
 
-  const sendText = async (userQuery: string) => {
+  const sendText = async (userQuery: string, spoken = false) => {
     addMessage({ role: 'user', content: userQuery, status: 'delivered' });
     setInput('');
     coreStateManager.transitionTo('thinking');
@@ -99,7 +100,7 @@ export const CommandBar: React.FC = () => {
       .map((m) => ({ sender: m.role, role: m.role, content: m.content }));
 
     try {
-      const data = await chatService.sendMessage(userQuery, userName, historyPayload);
+      const data = await chatService.sendMessage(userQuery, userName, historyPayload, spoken);
       setThinkingStage('idle');
       coreStateManager.transitionTo('speaking');
       addMessage({
@@ -108,6 +109,7 @@ export const CommandBar: React.FC = () => {
         status: 'streaming',
         metadata: { provider: data.provider, model: data.model, latency_ms: data.latency_ms },
       });
+      void speakReplyIfWanted(data.response, spoken);
     } catch {
       addMessage({
         role: 'assistant',
@@ -136,8 +138,8 @@ export const CommandBar: React.FC = () => {
   // Suggestions and other parts of the UI can ask on the user's behalf.
   useEffect(() => {
     const onAsk = (event: Event) => {
-      const text = (event as CustomEvent<string>).detail;
-      if (text && !isGenerating) void sendText(text);
+      const { text, spoken } = (event as CustomEvent<{ text: string; spoken?: boolean }>).detail;
+      if (text && !isGenerating) void sendText(text, Boolean(spoken));
     };
     window.addEventListener('harika:ask', onAsk);
     return () => window.removeEventListener('harika:ask', onAsk);

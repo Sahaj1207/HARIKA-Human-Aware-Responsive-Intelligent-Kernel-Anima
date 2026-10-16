@@ -4,6 +4,8 @@ export interface ChatApiRequest {
   message: string;
   user_name?: string;
   conversation_history?: Array<{ sender?: string; role?: string; content: string }>;
+  /** The message came from speech recognition (words may be misheard). */
+  spoken?: boolean;
 }
 
 export interface ChatApiResponse {
@@ -17,12 +19,14 @@ export const chatService = {
   async sendMessage(
     message: string,
     userName?: string,
-    history?: Array<{ sender?: string; role?: string; content: string }>
+    history?: Array<{ sender?: string; role?: string; content: string }>,
+    spoken = false
   ): Promise<ChatApiResponse> {
     const payload: ChatApiRequest = {
       message,
       user_name: userName || 'User',
       conversation_history: history || [],
+      spoken,
     };
 
     const response = await apiClient.post<ChatApiResponse>('/chat', payload, {

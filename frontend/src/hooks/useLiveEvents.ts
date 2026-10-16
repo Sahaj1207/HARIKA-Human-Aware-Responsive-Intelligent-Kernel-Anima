@@ -43,6 +43,16 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
       }
     });
 
+    // Conversations started with "Hey HARIKA" join the main window's history.
+    source.addEventListener('voice', (raw) => {
+      if (!announceReminders) return;
+      const event = JSON.parse((raw as MessageEvent).data);
+      if (event.stage === 'answered' && event.text) {
+        addMessage({ role: 'user', content: event.text, metadata: { provider: 'voice' } });
+        if (event.reply) addMessage({ role: 'assistant', content: event.reply, metadata: { provider: 'voice' } });
+      }
+    });
+
     source.addEventListener('reminder', (raw) => {
       if (!announceReminders) return;
       const reminder: ReminderEvent = JSON.parse((raw as MessageEvent).data);

@@ -95,13 +95,13 @@ class CognitiveCore:
             self.semantic_interpreter = default_semantic_interpreter()
         return self.semantic_interpreter
 
-    def _hints(self, user_id: str, session_id: str) -> Dict[str, Any]:
-        return {"recent_actions": list(self._session_actions.get((user_id, session_id), []))}
+    def _hints(self, user_id: str, session_id: str, spoken: bool = False) -> Dict[str, Any]:
+        return {"recent_actions": list(self._session_actions.get((user_id, session_id), [])), "spoken": spoken}
 
-    async def _interpret_async(self, context: "RequestContext", user_id: str, session_id: str):
+    async def _interpret_async(self, context: "RequestContext", user_id: str, session_id: str, spoken: bool = False):
         interpreter = self._interpreter()
         if hasattr(interpreter, "interpret"):
-            return await interpreter.interpret(context.message, context, hints=self._hints(user_id, session_id))
+            return await interpreter.interpret(context.message, context, hints=self._hints(user_id, session_id, spoken))
         return interpreter.interpret_sync(context.message, context)
 
     def _interpret_sync(self, context: "RequestContext", user_id: str, session_id: str):
@@ -156,15 +156,19 @@ class CognitiveCore:
         user_id: str = "default",
         session_id: str = "default",
         conversation_history: Optional[List[Dict[str, Any]]] = None,
+        spoken: bool = False,
     ) -> CognitiveDecision:
-        """Preferred entry point for async callers; never blocks the event loop on the LLM."""
+        """Preferred entry point for async callers; never blocks the event loop on the LLM.
+
+        spoken: the message came from speech recognition and may contain misheard words.
+        """
         context = self.perceive(message, user_id, session_id, conversation_history)
         graph, confidence = self.understand(context)
         semantic_request = None
         semantic_failure = None
         if self.needs_deliberation(graph, confidence):
             try:
-                semantic_request = await self._interpret_async(context, user_id, session_id)
+                semantic_request = await self._interpret_async(context, user_id, session_id, spoken)
             except Exception as exc:
                 # Malformed/unavailable interpretation keeps the fast-path result, never executes.
                 logger.warning(f"[CognitiveCore] Semantic interpretation unavailable: {exc}")

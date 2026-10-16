@@ -18,11 +18,25 @@ async def lifespan(app: FastAPI):
     reminders = asyncio.create_task(run_reminder_scheduler(reminders_tool))
     from app.tools.system.screen_reader import foreground_tracker
     foreground_tracker.start()  # remembers the app you were in before talking to HARIKA
+    from app.voice.engine import voice_engine
+    voice_engine.on_request = _voice_request
+    voice_engine.start(asyncio.get_running_loop())  # only if "Hey HARIKA" is turned on
     yield
     warm_up.cancel()
     reminders.cancel()
     foreground_tracker.stop()
+    await asyncio.to_thread(voice_engine.stop)
     logger.info(f"Shutting down {settings.APP_NAME} service gracefully...")
+
+
+async def _voice_request(text: str) -> str:
+    """A spoken request goes through the same router (and conversation) as typing."""
+    from app.router.manager import router_manager
+    from app.voice.engine import voice_engine
+
+    user = voice_engine.settings.load()["user_name"] or "default"
+    result = await router_manager.route_request(text, user_id=user, spoken=True)
+    return result.get("response", "")
 
 
 async def _warm_up():

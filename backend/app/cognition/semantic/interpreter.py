@@ -178,6 +178,11 @@ class SemanticInterpreter:
             lines.append(f"The last thing HARIKA did: {recent[-1]}")
             if len(recent) > 1:
                 lines.append("Before that: " + "; ".join(reversed(recent[:-1])))
+        if (hints or {}).get("spoken"):
+            lines.append(
+                "This message came from speech recognition, so some words may be misheard "
+                "(for example \"note bed\" for \"notepad\"). Use the most likely intended words."
+            )
         # Kept last so the long, stable part of the prompt stays in the model's cache.
         lines.append(f"Current local time: {datetime.now():%A %Y-%m-%d %H:%M}")
         context_block = "\nRecent context:\n" + "\n".join(lines) + "\n"

@@ -6,6 +6,7 @@ class ChatRequest(BaseModel):
     message: str = Field(..., example="Hello HARIKA")
     user_name: Optional[str] = Field(default="User", example="Sahaj")
     conversation_history: Optional[List[Dict[str, str]]] = Field(default_factory=list)
+    spoken: bool = Field(default=False, description="The message came from speech recognition")
 
 
 class ChatResponse(BaseModel):

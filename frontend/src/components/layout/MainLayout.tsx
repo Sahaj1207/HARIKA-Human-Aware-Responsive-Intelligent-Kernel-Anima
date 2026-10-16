@@ -15,6 +15,8 @@ import { NotificationToastContainer } from '@/core/crystal/notifications/Notific
 import { useKeyboardShortcuts } from '@/core/crystal/shortcuts/useKeyboardShortcuts';
 import { initializeCrystalCore } from '@/core/crystal/crystalInit';
 import { useLiveEvents } from '@/hooks/useLiveEvents';
+import { speechService } from '@/services/api/speech';
+import { userStorage } from '@/features/onboarding/storage';
 import '@/core/crystal/motion/animations.css';
 
 export const MainLayout: React.FC = () => {
@@ -25,6 +27,13 @@ export const MainLayout: React.FC = () => {
   const [settingsPage, setSettingsPage] = useState<SettingsPageId>('general');
 
   useLiveEvents();
+
+  // Spoken requests use the same name (and so the same memories) as typed ones.
+  useEffect(() => {
+    if (!isBooted) return;
+    const name = userStorage.getProfile()?.name;
+    if (name) void speechService.update({ user_name: name }).catch(() => undefined);
+  }, [isBooted]);
 
   // Other parts of the app (e.g. onboarding) can open Settings on a given page.
   useEffect(() => {

@@ -1,11 +1,12 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import health, chat, events, llm_settings, memory, tools, planning, vision, agents, voice, router as router_ep, presence as presence_ep
+from app.api.v1.endpoints import health, chat, events, llm_settings, speech, memory, tools, planning, vision, agents, voice, router as router_ep, presence as presence_ep
 
 api_router = APIRouter()
 api_router.include_router(health.router, tags=["Health"])
 api_router.include_router(chat.router, tags=["Cognition Chat"])
 api_router.include_router(events.router, tags=["Live Events"])
 api_router.include_router(llm_settings.router, prefix="/settings/llm", tags=["Settings: Brain"])
+api_router.include_router(speech.router, prefix="/speech", tags=["Voice"])
 api_router.include_router(memory.router, prefix="/memory", tags=["Cognitive Memory"])
 api_router.include_router(tools.router, prefix="/tools", tags=["Action Engine Tools"])
 api_router.include_router(planning.router, prefix="/planning", tags=["Reflection & Planning Engine"])

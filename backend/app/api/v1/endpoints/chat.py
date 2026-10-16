@@ -17,7 +17,8 @@ async def process_chat_message(request: ChatRequest):
     result = await router_manager.route_request(
         message=request.message.strip(),
         user_id=request.user_name or "default",
-        conversation_history=request.conversation_history
+        conversation_history=request.conversation_history,
+        spoken=request.spoken,
     )
 
     return ChatResponse(

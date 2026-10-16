@@ -104,6 +104,16 @@ class FilesTool(BaseTool):
                     "success": True, "verified": True,
                     "summary": f"I found {len(matches)} matching file{'s' if len(matches) != 1 else ''}: {listing}.", "error": None}
 
+        # Opening needs every word to match: a misheard or partial name
+        # ("note bed" vs "Notes.zip") must never open the wrong file.
+        complete = [m for m in matches if self._covers(m.name, target)]
+        if not complete:
+            recent_results.remember("files", [{"title": m.name, "path": str(m)} for m in matches[:5]])
+            closest = "; ".join(f"{i}. {m.name}" for i, m in enumerate(matches[:3], 1))
+            return {"action": "open_file", "query": target, "success": False, "verified": False,
+                    "error": f"I couldn't find a file called '{target}'. The closest are: {closest}. "
+                             "Say \"open the first one\" if one of those is right"}
+        matches = complete
         best = matches[0]
         if dry_run:
             return {"dry_run": True, "action": "open_file", "path": str(best)}
@@ -156,6 +166,11 @@ class FilesTool(BaseTool):
         # Best word match, then documents before media/other, then most recently changed.
         scored.sort(key=lambda item: (item[0], item[1], item[2]), reverse=True)
         return list(dict.fromkeys(item[3] for item in scored))
+
+    def _covers(self, name: str, query: str) -> bool:
+        """Every word of the request appears in the file name (whole word or its start)."""
+        tokens = self._tokens(name)
+        return all(any(t.startswith(w) for t in tokens) for w in self._tokens(query))
 
     @staticmethod
     def _kind_rank(suffix: str) -> int:

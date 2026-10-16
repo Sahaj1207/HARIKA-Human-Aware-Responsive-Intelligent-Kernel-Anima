@@ -138,6 +138,20 @@ fn toggle_orb(app: &AppHandle) {
         let _ = orb.hide();
         return;
     }
+    show_orb(app);
+}
+
+/// Called by the orb page when "Hey HARIKA" is heard: place and show it.
+#[tauri::command]
+fn summon_orb(app: AppHandle) {
+    show_orb(&app);
+}
+
+fn show_orb(app: &AppHandle) {
+    let Some(orb) = app.get_webview_window("orb") else { return };
+    if orb.is_visible().unwrap_or(false) {
+        return;
+    }
     let monitor = orb
         .current_monitor()
         .ok()
@@ -232,6 +246,7 @@ pub fn run() {
                 .build(),
         )
         .manage(Backend(Mutex::new(None)))
+        .invoke_handler(tauri::generate_handler![summon_orb])
         .setup(|app| {
             let handle = app.handle();
             let child = start_backend(handle);

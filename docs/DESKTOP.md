@@ -39,6 +39,24 @@ screen readers use), so it needs no screenshots. The visible text goes to the
 conversation model chosen in Settings > Brain. Apps that hide their text from
 accessibility tools can't be read yet.
 
+### Voice ("Hey HARIKA")
+
+Open **Settings > Voice** and download HARIKA's voice once (about 180 MB:
+speech detection, speech recognition and one speaking voice). Then:
+
+- Turn on **Listen for "Hey HARIKA"** and say "Hey HARIKA, open Spotify" (or
+  "Hey HARIKA", wait for the chime, then speak). The orb appears, shows what
+  it heard, answers and hides again.
+- Or tap the microphone in the orb or the main window (push to talk).
+- **Speak replies**: when you talk (default), always, or never. Eight voices
+  (American and British), each downloaded when chosen.
+
+Everything runs offline on the CPU (sherpa-onnx: Silero VAD, Moonshine speech
+recognition, Piper voices). With listening on, speech near the microphone is
+transcribed in memory and discarded unless it starts with "Hey HARIKA";
+nothing is recorded. Windows must allow desktop apps to use the microphone
+(Settings > Privacy & security > Microphone).
+
 ### Where things are stored
 
 | What | Where |
@@ -47,6 +65,7 @@ accessibility tools can't be read yet.
 | Memories, reminders, settings | `%APPDATA%\com.harika.desktop` |
 | Logs | `%LOCALAPPDATA%\com.harika.desktop\logs` |
 | API keys | Windows Credential Manager (service "HARIKA") |
+| Voice models | `%APPDATA%\com.harika.desktop\models` |
 
 Uninstall from **Settings > Apps** like any other app.
 

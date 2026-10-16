@@ -10,8 +10,13 @@ const SUGGESTIONS = ['Play lofi on YouTube', 'Remind me to stretch in 20 minutes
 
 const LEGACY_SYSTEM_GREETINGS = new Set(['welcome-1']);
 
-export function askHarika(text: string): void {
-  window.dispatchEvent(new CustomEvent('harika:ask', { detail: text }));
+export interface AskOptions {
+  /** The request was spoken, so the reply may be spoken back. */
+  spoken?: boolean;
+}
+
+export function askHarika(text: string, options: AskOptions = {}): void {
+  window.dispatchEvent(new CustomEvent('harika:ask', { detail: { text, ...options } }));
 }
 
 function greeting(): string {

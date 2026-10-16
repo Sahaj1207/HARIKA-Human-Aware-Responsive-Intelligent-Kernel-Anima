@@ -26,6 +26,9 @@ const args = [
   '--collect-submodules', 'uvicorn',
   '--collect-submodules', 'keyring',
   ...(process.platform === 'win32' ? ['--collect-all', 'pycaw', '--collect-submodules', 'comtypes', '--collect-all', 'uiautomation'] : []),
+  // Offline voice: native speech libraries and the PortAudio audio driver.
+  '--collect-all', 'sherpa_onnx',
+  '--collect-all', 'sounddevice',
 ];
 
 const result = spawnSync(python, args, { cwd: backend, stdio: 'inherit' });

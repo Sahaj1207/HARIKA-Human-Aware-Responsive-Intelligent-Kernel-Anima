@@ -67,6 +67,16 @@ class FilesToolTests(unittest.TestCase):
         self.assertEqual(self.tool.match_target("my downloads", "open")[0], "downloads")
         self.assertEqual(self.tool.match_target("quarterly report", "open"), ("quarterly report", 0.6))
 
+    def test_partial_match_is_offered_not_opened(self):
+        # "note bed" (misheard "notepad") must not open a file that merely contains "note".
+        (Path(self.dir.name) / "Python_Notes.zip").write_bytes(b"x")
+        with patch.object(FilesTool, "_launch") as launch:
+            result = asyncio.run(self.tool.execute({"operation": "open", "target": "note bed"}))
+        launch.assert_not_called()
+        self.assertFalse(result["success"])
+        self.assertIn("Python_Notes.zip", result["error"])
+        self.assertEqual(recent_results.get(0)["title"], "Python_Notes.zip")  # "open the first one" works
+
     def test_missing_file_fails_honestly(self):
         result = asyncio.run(self.tool.execute({"operation": "open", "target": "blorptastic"}))
         self.assertFalse(result["success"])
