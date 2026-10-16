@@ -147,7 +147,8 @@ class ScreenAssistTool(BaseTool):
             "action": "reply_in_app", "app": window.app_name, "draft": draft,
             "success": True, "verified": True, "summary": question, "error": None,
             # Asks the router to hold a send step until the user approves this draft.
-            "confirmation": {"capability": "send_reply", "operation": "send", "target": "this chat", "question": question},
+            "confirmation": {"capability": "send_reply", "operation": "send", "target": "this chat", "question": question,
+                             "revise": {"capability": "reply_in_app", "operation": "reply", "target": "this chat"}},
         }
 
     async def _send(self, dry_run: bool) -> Dict[str, Any]:

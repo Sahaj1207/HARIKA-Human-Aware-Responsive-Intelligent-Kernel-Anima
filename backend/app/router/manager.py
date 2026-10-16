@@ -37,6 +37,8 @@ class _PendingPlan:
     policy: Any
     question: str
     created_at: float
+    # How the tool that proposed this can redo it with a change ("make it shorter").
+    revise: Optional[Dict[str, Any]] = None
 
 
 class RouterManager:
@@ -102,6 +104,11 @@ class RouterManager:
                     "confidence": pending.confidence,
                     "latency_ms": round((time.time() - t_start) * 1000, 2)
                 }
+            if verdict == "revise" and pending.revise:
+                return await self._execute_graph(
+                    self._revision_graph(pending.revise, message), pending.context, message, user_id, session_id,
+                    pending.intent, pending.confidence, pending.policy, decision_id, t_start,
+                )
             # Anything else is a new request; the unanswered action is dropped.
 
         # Stage 1-2: Cognitive Core perceives context and classifies once.
@@ -313,10 +320,31 @@ class RouterManager:
                 "query": message,
             },
         ))
+        revise = follow_up.get("revise")
         self._pending[(user_id, session_id)] = _PendingPlan(
             graph=graph, context=ctx, intent=intent, confidence=confidence, policy=policy,
             question=str(follow_up.get("question") or "Should I go ahead?"), created_at=time.time(),
+            revise=revise if isinstance(revise, dict) and revise.get("capability") else None,
         )
+
+    @staticmethod
+    def _revision_graph(revise: Dict[str, Any], message: str):
+        """Send "make it shorter" back to the tool that made the draft, as an ordinary step."""
+        from app.router.action_graph import ActionGraph, ActionNode
+
+        graph = ActionGraph()
+        graph.add_node(ActionNode(
+            intent=IntentType.TOOL_EXECUTION,
+            engine="ToolManager",
+            action=str(revise["capability"]),
+            arguments={
+                "target": revise.get("target"),
+                "operation": revise.get("operation"),
+                "query": message,
+                "parameters": {"instruction": message},
+            },
+        ))
+        return graph
 
     @staticmethod
     def _step_label(node) -> str:

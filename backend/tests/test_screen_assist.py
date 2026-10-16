@@ -117,6 +117,8 @@ class ConfirmationCertaintyTests(unittest.TestCase):
         self.assertEqual(self.interpret({"decision": "confirm", "certain": False}), "other")
         self.assertEqual(self.interpret({"decision": "confirm"}), "other")
         self.assertEqual(self.interpret({"decision": "confirm", "certain": True}), "confirm")
+        self.assertEqual(self.interpret({"decision": "revise"}), "revise")
+        self.assertEqual(self.interpret({"decision": "delete everything"}), "other")
         self.assertEqual(self.interpret({"decision": "decline", "certain": False}), "decline")
 
 
@@ -124,6 +126,7 @@ class RouterFollowUpTests(unittest.TestCase):
     """A tool's proposed follow-up waits for the user's yes, like any risky action."""
 
     def make_router(self, verdict):
+        verdicts = list(verdict) if isinstance(verdict, list) else [verdict] * 10
         graph = ActionGraph()
         graph.add_node(ActionNode(intent=IntentType.TOOL_EXECUTION, engine="ToolManager", action="reply_in_app"))
 
@@ -136,17 +139,24 @@ class RouterFollowUpTests(unittest.TestCase):
                 )
 
             async def interpret_confirmation(self, reply, question):
-                return verdict
+                return verdicts.pop(0) if verdicts else "other"
 
         executed = []
 
+        test = self
+
         class Resolver:
+            instructions = test.instructions = []
+
             async def execute_node(self, node, user_id="default"):
                 executed.append((node.action, node.confirmed))
+                test.instructions.append((node.arguments.get("parameters") or {}).get("instruction"))
                 result = {"summary": "Here's a reply. Should I send it?"}
                 if node.action == "reply_in_app":
                     result["confirmation"] = {"capability": "send_reply", "operation": "send",
-                                              "target": "this chat", "question": "Should I send it?"}
+                                              "target": "this chat", "question": "Should I send it?",
+                                              "revise": {"capability": "reply_in_app", "operation": "reply",
+                                                         "target": "this chat"}}
                 return {"status": "success", "success": True, "verified": True, "tool": "screen_assist", "result": result}
 
         class NoHistory:
@@ -167,6 +177,17 @@ class RouterFollowUpTests(unittest.TestCase):
             asyncio.run(router.route_request("continue this chat"))
             asyncio.run(router.route_request("make it shorter"))
             self.assertNotIn(("send_reply", True), executed)
+
+
+    def test_revision_goes_back_to_the_drafting_tool_and_still_waits(self):
+        # "make it shorter" redrafts with the same tool (never a fresh guess), then a yes sends.
+        router, executed = self.make_router(["revise", "confirm"])
+        asyncio.run(router.route_request("continue this chat"))
+        asyncio.run(router.route_request("make it shorter"))
+        self.assertEqual(executed, [("reply_in_app", False), ("reply_in_app", False)])
+        self.assertEqual(self.instructions[-1], "make it shorter")
+        asyncio.run(router.route_request("send it"))
+        self.assertEqual(executed[-1], ("send_reply", True))
 
 
 if __name__ == "__main__":

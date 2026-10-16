@@ -74,7 +74,8 @@ Examples:
 "add dentist on Friday at 5pm" -> {{"actions": [{{"operation": "schedule", "target": "Dentist", "parameters": {{"at": "<that Friday as YYYY-MM-DD>T17:00"}}}}]}}
 "move my dentist appointment to 6" -> {{"actions": [{{"operation": "reschedule", "target": "dentist", "parameters": {{"at": "18:00"}}}}]}}
 "any new emails?" -> {{"actions": [{{"operation": "check_email", "target": "inbox"}}]}}
-"read the second one" (after listing emails) -> {{"actions": [{{"operation": "read_email", "target": "2"}}]}}
+"did Priya email me about the trip?" -> {{"actions": [{{"operation": "check_email", "target": "Priya trip"}}]}}
+"read the second one" (after listing emails) ->{{"actions": [{{"operation": "read_email", "target": "2"}}]}}
 "email Priya that I'll be late tonight" -> {{"actions": [{{"operation": "email", "target": "Priya", "parameters": {{"instruction": "say I'll be late tonight"}}}}]}}
 "reply saying thanks, I'll be there" (after reading an email) -> {{"actions": [{{"operation": "reply_email", "target": "it", "parameters": {{"instruction": "say thanks, I'll be there"}}}}]}}
 "make it shorter" (after an email draft) -> {{"actions": [{{"operation": "email", "target": "it", "parameters": {{"instruction": "make it shorter"}}}}]}}
@@ -122,23 +123,25 @@ class SemanticInterpreter:
         return self._normalize_payload(raw_text, payload)
 
     async def interpret_confirmation(self, reply: str, question: str) -> str:
-        """Classify a reply to a yes/no question as 'confirm', 'decline' or 'other'.
+        """Classify a reply to a yes/no question as 'confirm', 'decline', 'revise' or 'other'.
 
         Approval must be explicit and unconditional: anything that asks for a
-        change, adds a condition, or is about something else is 'other', and the
-        model must also state it is certain before 'confirm' counts.
+        change is 'revise', anything else that isn't a plain yes or no is 'other',
+        and the model must also state it is certain before 'confirm' counts.
         """
         prompt = (
             "HARIKA asked the user this question before doing something on their computer:\n"
             f"\"{question}\"\n\n"
             "Classify the user's reply. Reply with STRICT JSON only, in this shape:\n"
-            '{"decision": "confirm" | "decline" | "other", "certain": true | false}\n\n'
+            '{"decision": "confirm" | "decline" | "revise" | "other", "certain": true | false}\n\n'
             "- confirm: plain, unconditional approval to do exactly what was asked. "
             "Examples: yes; send it; go ahead; sure; do it; yes please; ok send.\n"
             "- decline: refusal. Examples: no; don't; cancel; stop; never mind; don't send it.\n"
-            "- other: anything else, including any request to change, shorten, rewrite or add something, "
-            "a condition, a question, or a new topic. Examples: make it shorter; change the time to 8; "
-            "add a smiley; yes but make it friendlier; what time is it; send it to Mom instead.\n"
+            "- revise: asks to change what HARIKA proposed (its wording, length, tone or details) instead of approving it. "
+            "Examples: make it shorter; more casual; add a smiley; yes but make it friendlier; mention the deadline; "
+            "say it more politely.\n"
+            "- other: anything else: a question, a new topic, or a different action. "
+            "Examples: what time is it; open Spotify; send it to Mom instead; change the time to 8.\n"
             "Set certain to true only if the reply clearly belongs to that category."
         )
         kwargs = {}
@@ -152,7 +155,7 @@ class SemanticInterpreter:
         decision = str(payload.get("decision", "other")).lower()
         if decision == "confirm" and payload.get("certain") is not True:
             return "other"  # an uncertain "yes" never runs a risky action
-        return decision if decision in {"confirm", "decline"} else "other"
+        return decision if decision in {"confirm", "decline", "revise"} else "other"
 
     def interpret_sync(self, raw_text: str, context: Optional[Any] = None, hints: Optional[Dict[str, Any]] = None) -> SemanticRequest:
         """Bridge for synchronous callers; async callers should await interpret()."""

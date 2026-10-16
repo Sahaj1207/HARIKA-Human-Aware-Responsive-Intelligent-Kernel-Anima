@@ -8,6 +8,8 @@ from unittest.mock import AsyncMock, patch
 
 from app.core.daily_settings import DailySettings
 from app.core.dates import day_offset
+from app.integrations.google.calendar import Event
+from app.integrations.google.gmail import Mail
 from app.tools import recent_results
 from app.tools.utilities import briefing
 from app.tools.web import sources, weather
@@ -121,6 +123,10 @@ class WeatherTests(unittest.TestCase):
         self.assertEqual(day_offset("sunday", today), 2)
         self.assertEqual(day_offset("2026-10-20", today), 4)
         self.assertEqual(day_offset(None, today), 0)
+        self.assertEqual(day_offset("next Monday", today), 3)
+        self.assertEqual(day_offset("next friday", today), 7)  # a week away, not today
+        self.assertEqual(day_offset("on Sunday", today), 2)
+        self.assertIsNone(day_offset("someday", today))
 
     def test_unknown_place_is_reported(self):
         with patch.object(weather.locator, "resolve", AsyncMock(side_effect=weather.PlaceNotFound("Atlantis"))):
@@ -135,8 +141,25 @@ class WeatherTests(unittest.TestCase):
         resolve.assert_not_called()
 
 
+NO_GOOGLE = {"connected": False, "calendar": False, "email_read": False, "email_send": False}  # never a real account
+
+
 class BriefingTests(unittest.TestCase):
     NOW = datetime(2026, 10, 16, 8, 5)
+
+    def test_connected_google_adds_calendar_and_email(self):
+        connected = {**NO_GOOGLE, "connected": True, "calendar": True, "email_read": True}
+        events = [Event("e1", "Standup", self.NOW.replace(hour=9, minute=30), self.NOW.replace(hour=10))]
+        mails = [Mail("m1", "t1", "Priya <p@example.com>", "Hi"), Mail("m2", "t2", "Amazon <a@example.com>", "Order")]
+        with patch.object(weather.locator, "resolve", AsyncMock(side_effect=OSError("offline"))),              patch.object(sources, "news", AsyncMock(side_effect=OSError("offline"))),              patch("app.tools.system.reminders.reminders_tool.store.pending", return_value=[]),              patch("app.integrations.google.account.google_account.status", return_value=connected),              patch("app.integrations.google.calendar.google_calendar.day", AsyncMock(return_value=events)),              patch("app.integrations.google.gmail.gmail.unread", AsyncMock(return_value=mails)):
+            text = asyncio.run(briefing.build_briefing("", self.NOW))["text"]
+        self.assertIn("Today you have one event: Standup at 9:30 AM.", text)
+        self.assertIn("You have 2 new emails, from Priya and Amazon.", text)
+
+    def test_greeting_follows_the_clock(self):
+        self.assertTrue(briefing._greeting(self.NOW.replace(hour=0, minute=55), "").startswith("Good evening."))
+        self.assertTrue(briefing._greeting(self.NOW.replace(hour=13), "").startswith("Good afternoon."))
+        self.assertTrue(briefing._greeting(self.NOW, "").startswith("Good morning."))
 
     def test_reminders_today_only(self):
         pending = [
@@ -159,7 +182,8 @@ class BriefingTests(unittest.TestCase):
     def test_offline_briefing_invents_nothing(self):
         with patch.object(weather.locator, "resolve", AsyncMock(side_effect=OSError("offline"))), \
              patch.object(sources, "news", AsyncMock(side_effect=OSError("offline"))), \
-             patch("app.tools.system.reminders.reminders_tool.store.pending", return_value=[]):
+             patch("app.tools.system.reminders.reminders_tool.store.pending", return_value=[]), \
+             patch("app.integrations.google.account.google_account.status", return_value=NO_GOOGLE):
             result = asyncio.run(briefing.build_briefing("Harika", self.NOW))
         self.assertEqual(result["text"].split("\n\n"), [
             "Good morning, Harika. It's Friday, 16 October.",

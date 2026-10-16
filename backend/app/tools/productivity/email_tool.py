@@ -237,7 +237,10 @@ class EmailTool(BaseTool):
         return {"action": "reply_email" if draft.reply_to else "compose_email", "draft": draft.body,
                 "success": True, "verified": True, "summary": question, "error": None,
                 "confirmation": {"capability": "send_email", "operation": "send_email",
-                                 "target": draft.to, "question": question}}
+                                 "target": draft.to, "question": question,
+                                 "revise": {"capability": "reply_email" if draft.reply_to else "compose_email",
+                                            "operation": "reply_email" if draft.reply_to else "email",
+                                            "target": "it"}}}
 
     async def _send(self) -> Dict[str, Any]:
         draft = self._fresh_draft()
@@ -269,6 +272,7 @@ class EmailTool(BaseTool):
             "- Match the tone of the conversation; otherwise friendly and natural, not stiff.\n"
             "- Keep it short unless asked otherwise.\n"
             + (f"- Sign off with the name {name}.\n" if name else "- Don't add a name or placeholder in the sign-off.\n")
+            + "- You write as the user, never as HARIKA or an assistant: don't mention or sign as HARIKA.\n"
             + "- No placeholders like [Name] and no markdown."
         )
 

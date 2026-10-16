@@ -146,7 +146,7 @@ class CalendarTool(BaseTool):
         today = date.today()
         offset = day_offset(args.get("target") or args.get("day"), today)
         if offset is None:
-            return self._fail("Which day? For example today, tomorrow or Friday")
+            return self._fail("I didn't catch which day you mean, for example today, tomorrow or Friday")
         day = today + timedelta(days=offset)
         events = await self.calendar.day(day)
         label = "today" if offset == 0 else "tomorrow" if offset == 1 else f"on {day:%A} {day.day} {day:%B}"

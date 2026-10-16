@@ -20,7 +20,7 @@ _MISSED_WINDOW = timedelta(hours=3)  # a briefing missed while the computer was 
 
 
 def _greeting(now: datetime, name: str) -> str:
-    part = "morning" if 4 <= now.hour < 12 else "afternoon" if now.hour < 17 else "evening"
+    part = "morning" if 4 <= now.hour < 12 else "afternoon" if 12 <= now.hour < 17 else "evening"
     return f"Good {part}{', ' + name if name else ''}. It's {now:%A}, {now.day} {now:%B}."
 
 
@@ -77,7 +77,7 @@ async def build_briefing(name: str = "", now: Optional[datetime] = None) -> Dict
         if not mails:
             return "No new email."
         senders = list(dict.fromkeys(m.sender_name for m in mails))
-        count = "one new email" if len(mails) == 1 else f"{len(mails)}{'+' if len(mails) == 5 else ''} new emails"
+        count = "one new email" if len(mails) == 1 else f"{'at least ' if len(mails) == 5 else ''}{len(mails)} new emails"
         return f"You have {count}, from {_join(senders[:3])}."
 
     from app.integrations.google.account import google_account
