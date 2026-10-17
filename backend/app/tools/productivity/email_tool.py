@@ -190,10 +190,16 @@ class EmailTool(BaseTool):
         if draft and instruction and (target.lower() in _CURRENT or target.lower() in draft.to.lower()):
             return await self._redraft(draft, instruction)
 
+        from app.tools.productivity.people_tool import people_store
+        known = people_store.find(target) if "@" not in target else []
         if "@" in target:
             to = target
+        elif len(known) == 1 and known[0].get("email"):
+            to = formataddr((known[0].get("full_name") or known[0]["name"], known[0]["email"]))
         else:
-            people = await self.mail.find_addresses(target)
+            # Someone the user told HARIKA about is searched for by their full name ("Mom" -> "Sunita Sharma").
+            lookup = (known[0].get("full_name") or target) if len(known) == 1 else target
+            people = await self.mail.find_addresses(lookup)
             if not people:
                 return self._fail(f"I couldn't find an email address for {target} in your mail. Tell me their address")
             if len({address for _, address in people}) > 1 and len(people) > 1:

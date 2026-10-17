@@ -86,6 +86,9 @@ class CognitiveCore:
             # Memory questions are spotted from loose word hints ("what's ... like"),
             # so the interpreter confirms them ("what's the weather like" is weather).
             or node.intent is IntentType.MEMORY_QUERY
+            # "remember ..." may be about a person ("remember Mom's number is ..."), which belongs
+            # with the people the user knows rather than in free-text memory.
+            or node.intent is IntentType.MEMORY_STORE
             # Likewise small talk found inside a longer message ("delete the good night routine").
             or (node.intent is IntentType.SOCIAL_CONVERSATION and node.arguments.get("whole_message") is False)
             or not capability_resolver.is_resolved(node)
@@ -101,9 +104,10 @@ class CognitiveCore:
         return self.semantic_interpreter
 
     def _hints(self, user_id: str, session_id: str, spoken: bool = False) -> Dict[str, Any]:
+        from app.tools.productivity.people_tool import people_store
         from app.tools.productivity.routine_tool import routine_store
         return {"recent_actions": list(self._session_actions.get((user_id, session_id), [])), "spoken": spoken,
-                "routines": routine_store.names()}
+                "routines": routine_store.names(), "people": people_store.labels()}
 
     def _routine_trigger(self, message: str) -> Optional[Any]:
         """The user said a saved routine's own name: run it without asking the model what it means."""
@@ -306,6 +310,8 @@ class CognitiveCore:
                     continue
                 if node.engine == "ToolManager" and capability_resolver.is_semantic_capability(node.action):
                     continue
+                if node.intent is IntentType.MEMORY_STORE and any(n.action == "save_person" for n in semantic_graph.nodes):
+                    continue  # facts about a person are kept by the people tool instead
                 semantic_graph.add_node(node)
             return semantic_graph, semantic_request.confidence
 

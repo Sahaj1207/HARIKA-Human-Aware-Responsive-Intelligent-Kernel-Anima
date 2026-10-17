@@ -41,6 +41,7 @@ class TestRouterAllE2E(unittest.TestCase):
         self.assertEqual(res["intent"], "TOOL_EXECUTION")
         self.assertTrue(any(k in res["response"].lower() for k in ["github", "done", "completed"]))
 
+    @unittest.skipUnless(LIVE, REASON)  # "remember ..." is confirmed by the real local model
     def test_e2e_memory_store_and_retrieval(self):
         loop = asyncio.new_event_loop()
         store_res = loop.run_until_complete(self.router.route_request("Remember my favourite food is dosa", user_id="e2e_user"))

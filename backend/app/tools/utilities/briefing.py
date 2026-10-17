@@ -41,6 +41,20 @@ def reminders_today(pending: List[Dict[str, Any]], now: datetime) -> str:
     return f"You have {count} today: {_join(items)}."
 
 
+def birthdays_text(now: datetime) -> str:
+    from app.tools.productivity.people_tool import people_store
+
+    upcoming = people_store.birthdays(now.date(), within_days=7)
+    today = [p["name"] for p, when, _ in upcoming if when == now.date()]
+    later = [f"{p['name']}'s birthday on {when:%A}" for p, when, _ in upcoming if when != now.date()]
+    sentences = []
+    if today:
+        sentences.append(f"It's {_join(today)}'s birthday today.")
+    if later:
+        sentences.append(f"Coming up: {_join(later)}.")
+    return " ".join(sentences)
+
+
 async def _skip() -> str:
     return ""
 
@@ -94,6 +108,9 @@ async def build_briefing(name: str = "", now: Optional[datetime] = None) -> Dict
     if isinstance(events, str) and events:
         parts.append(events)
     parts.append(reminders_today(reminders_tool.store.pending(), now))
+    birthdays = birthdays_text(now)
+    if birthdays:
+        parts.append(birthdays)
     if isinstance(emails, str) and emails:
         parts.append(emails)
     news_items = headlines if isinstance(headlines, list) else []

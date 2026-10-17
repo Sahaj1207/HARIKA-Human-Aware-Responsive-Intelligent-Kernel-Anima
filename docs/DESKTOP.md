@@ -77,6 +77,25 @@ A routine is a phrase of your own that runs several actions:
 Routines are stored on this computer in `routines\routines.json` inside
 HARIKA's data folder.
 
+### People
+
+Tell HARIKA about the people in your life and it remembers them on this
+computer: "Mom's number is +91 98765 43210", "Priya is my best friend, her
+birthday is 12 March", "Mom's email is ...". Then:
+
+- "What's Mom's number?", "When is Priya's birthday?", "Who do you know?"
+- "Text Mom that I'm on my way": HARIKA shows the exact message and number and
+  waits for your "yes". It then opens that person's chat in the WhatsApp app
+  with the message filled in, and presses send only if WhatsApp shows exactly
+  that message ready in that chat (so a wrong or unknown number sends
+  nothing). "Make it warmer" (or any change) rewrites it first.
+- "Email Mom ..." uses her saved address.
+- The briefing mentions birthdays today and in the coming week.
+- "Forget Priya" removes someone (after a yes).
+
+Numbers saved without a country code use this computer's country. WhatsApp
+messages need the WhatsApp app from the Microsoft Store, signed in.
+
 ### Calendar and email (Google)
 
 Ask "what's on my calendar tomorrow?", "add dentist on Friday at 5pm", "move

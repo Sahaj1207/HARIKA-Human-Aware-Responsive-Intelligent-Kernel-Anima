@@ -308,3 +308,68 @@ def text_visible(info: WindowInfo, text: str) -> bool:
     except Exception:
         return False
     return any(probe in line.lower() for line in lines[-25:])
+
+
+def find_app_window(process_hint: str) -> Optional[WindowInfo]:
+    """A visible top-level window whose process name contains `process_hint` (e.g. "whatsapp")."""
+    if not IS_WINDOWS:
+        return None
+    import uiautomation as auto
+
+    with auto.UIAutomationInitializerInThread():
+        for window in auto.GetRootControl().GetChildren():
+            try:
+                info = _window_info(window.NativeWindowHandle)
+            except Exception:
+                continue
+            if info and process_hint in info.process and info.title and not window.IsOffscreen:
+                return info
+    return None
+
+
+def _box_text(box) -> str:
+    for read in (lambda: box.GetValuePattern().Value, lambda: box.GetTextPattern().DocumentRange.GetText(-1)):
+        try:
+            value = read()
+            if value:
+                return str(value)
+        except Exception:
+            continue
+    return ""
+
+
+def send_prefilled(info: WindowInfo, text: str) -> Optional[str]:
+    """Press Enter in the message box only if it holds exactly `text` (put there by the app itself).
+
+    Apps such as WhatsApp prefill a message only in the chat a link opened, so a
+    matching box proves the right chat is showing; anything else sends nothing.
+    """
+    import uiautomation as auto
+
+    if not window_exists(info):
+        return f"{info.app_name} is no longer open"
+    wanted = " ".join(text.split())
+    with auto.UIAutomationInitializerInThread():
+        root = auto.ControlFromHandle(info.hwnd)
+        if root is None:
+            return f"I couldn't reach {info.app_name}'s window"
+        try:
+            root.SetActive()
+        except Exception:
+            pass
+        time.sleep(0.3)
+        box = _find_input(root)
+        if box is None:
+            return f"I couldn't find the message box in {info.app_name}"
+        if " ".join(_box_text(box).split()) != wanted:
+            return f"{info.app_name} didn't open the chat with the message ready, so I didn't send anything"
+        try:
+            box.SetFocus()
+        except Exception:
+            box.Click(simulateMove=False)
+        time.sleep(0.2)
+        foreground = _window_info(_user32.GetForegroundWindow())
+        if foreground is None or foreground.pid != info.pid:
+            return f"{info.app_name} didn't come to the front, so I didn't send anything"
+        auto.SendKey(auto.Keys.VK_RETURN)
+    return None

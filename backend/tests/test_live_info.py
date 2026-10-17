@@ -147,6 +147,13 @@ NO_GOOGLE = {"connected": False, "calendar": False, "email_read": False, "email_
 class BriefingTests(unittest.TestCase):
     NOW = datetime(2026, 10, 16, 8, 5)
 
+    def setUp(self):  # never the real people the user has told HARIKA about
+        self.no_people = patch("app.tools.productivity.people_tool.people_store.birthdays", return_value=[])
+        self.no_people.start()
+
+    def tearDown(self):
+        self.no_people.stop()
+
     def test_connected_google_adds_calendar_and_email(self):
         connected = {**NO_GOOGLE, "connected": True, "calendar": True, "email_read": True}
         events = [Event("e1", "Standup", self.NOW.replace(hour=9, minute=30), self.NOW.replace(hour=10))]

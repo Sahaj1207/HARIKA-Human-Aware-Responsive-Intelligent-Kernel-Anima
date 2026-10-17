@@ -82,6 +82,12 @@ Examples:
 "when I say good night, mute and close chrome" -> {{"actions": [{{"operation": "create_routine", "target": "good night", "parameters": {{"steps": "mute the volume and close chrome"}}}}]}}
 "every weekday at 9 open slack and play lofi" -> {{"actions": [{{"operation": "create_routine", "target": "weekday morning", "parameters": {{"steps": "open slack and play lofi", "at": "09:00", "days": "weekdays"}}}}]}}
 "start my work routine" -> {{"actions": [{{"operation": "run_routine", "target": "work"}}]}}
+"Mom's number is +91 98765 43210" -> {{"actions": [{{"operation": "remember_person", "target": "Mom", "parameters": {{"phone": "+91 98765 43210"}}}}]}}
+"Priya is my best friend, her birthday is 12 March" -> {{"actions": [{{"operation": "remember_person", "target": "Priya", "parameters": {{"relation": "best friend", "birthday": "--03-12"}}}}]}}
+"remember my favourite food is dosa" -> {{"actions": []}} (the user's own likes are memories, not people)
+"when is Priya's birthday?" -> {{"actions": [{{"operation": "person_info", "target": "Priya", "parameters": {{"field": "birthday"}}}}]}}
+"text Mom that I'm on my way" -> {{"actions": [{{"operation": "message", "target": "Mom", "parameters": {{"text": "I'm on my way"}}}}]}}
+"tell Priya I'll call her after class" -> {{"actions": [{{"operation": "message", "target": "Priya", "parameters": {{"text": "I'll call you after class"}}}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""
@@ -198,6 +204,9 @@ class SemanticInterpreter:
             lines.append(f"The last thing HARIKA did: {recent[-1]}")
             if len(recent) > 1:
                 lines.append("Before that: " + "; ".join(reversed(recent[:-1])))
+        people = list((hints or {}).get("people") or [])
+        if people:
+            lines.append("People the user has told HARIKA about: " + "; ".join(people) + ". Use these names as targets.")
         routines = list((hints or {}).get("routines") or [])
         if routines:
             lines.append(
