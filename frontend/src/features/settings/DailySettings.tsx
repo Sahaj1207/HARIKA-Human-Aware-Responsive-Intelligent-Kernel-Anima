@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GroupedSection, Row, Toggle } from '@/components/apple/controls';
 import { dailyService, type DailySettings } from '@/services/api/daily';
+import { proactiveService, type ProactiveSettings } from '@/services/api/proactive';
 
 /** Settings > General: where "the weather" means, and the morning briefing. */
 export const DailySection: React.FC = () => {
@@ -89,6 +90,59 @@ export const DailySection: React.FC = () => {
           }
         />
       )}
+    </GroupedSection>
+  );
+};
+
+/** Settings > General: what HARIKA may tell you about on its own. */
+export const HeadsUpSection: React.FC = () => {
+  const [settings, setSettings] = useState<ProactiveSettings | null>(null);
+
+  useEffect(() => {
+    proactiveService.get().then(setSettings).catch(() => setSettings(null));
+  }, []);
+
+  if (!settings) return null;
+  const save = async (changes: Partial<ProactiveSettings>) => setSettings(await proactiveService.update(changes));
+
+  return (
+    <GroupedSection
+      title="Heads-up"
+      footer="HARIKA tells you about these on its own: in this window, as a notification, and out loud if you use “Hey HARIKA”."
+    >
+      <Row
+        title="Upcoming meetings"
+        subtitle="From your Google Calendar (Settings > Accounts)."
+        accessory={
+          <div className="flex items-center gap-3">
+            {settings.meetings && (
+              <select
+                value={settings.meeting_minutes}
+                onChange={(e) => void save({ meeting_minutes: Number(e.target.value) })}
+                aria-label="Minutes before a meeting"
+                className="bg-transparent t-callout text-label-2 outline-none"
+              >
+                {[5, 10, 15, 30].map((m) => (
+                  <option key={m} value={m}>
+                    {m} min before
+                  </option>
+                ))}
+              </select>
+            )}
+            <Toggle label="Upcoming meetings" checked={settings.meetings} onChange={(on) => void save({ meetings: on })} />
+          </div>
+        }
+      />
+      <Row
+        title="Birthdays"
+        subtitle="People you've told HARIKA about, on the morning of their birthday."
+        accessory={<Toggle label="Birthdays" checked={settings.birthdays} onChange={(on) => void save({ birthdays: on })} />}
+      />
+      <Row
+        title="Low battery"
+        subtitle={`When the battery drops to ${settings.battery_percent}% and isn't charging.`}
+        accessory={<Toggle label="Low battery" checked={settings.battery} onChange={(on) => void save({ battery: on })} />}
+      />
     </GroupedSection>
   );
 };

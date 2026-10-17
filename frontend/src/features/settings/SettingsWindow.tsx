@@ -5,7 +5,7 @@ import { HarikaOrb } from '@/components/apple/HarikaOrb';
 import { BrainSettings } from './BrainSettings';
 import { VoiceSettings } from './VoiceSettings';
 import { AccountsSettings } from './AccountsSettings';
-import { DailySection } from './DailySettings';
+import { DailySection, HeadsUpSection } from './DailySettings';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
@@ -65,6 +65,8 @@ const GeneralPage: React.FC = () => {
       </GroupedSection>
 
       <DailySection />
+
+      <HeadsUpSection />
 
       <GroupedSection title="Appearance" footer="Automatic follows your computer's light and dark mode.">
         <Row

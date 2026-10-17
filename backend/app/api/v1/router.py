@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import health, chat, events, llm_settings, speech, daily, accounts, memory, tools, planning, vision, agents, voice, router as router_ep, presence as presence_ep
+from app.api.v1.endpoints import health, chat, events, llm_settings, speech, daily, accounts, proactive, memory, tools, planning, vision, agents, voice, router as router_ep, presence as presence_ep
 
 api_router = APIRouter()
 api_router.include_router(health.router, tags=["Health"])
@@ -9,6 +9,7 @@ api_router.include_router(llm_settings.router, prefix="/settings/llm", tags=["Se
 api_router.include_router(speech.router, prefix="/speech", tags=["Voice"])
 api_router.include_router(daily.router, prefix="/settings/daily", tags=["Settings: Daily"])
 api_router.include_router(accounts.router, prefix="/accounts", tags=["Settings: Accounts"])
+api_router.include_router(proactive.router, prefix="/settings/proactive", tags=["Settings: Heads-up"])
 api_router.include_router(memory.router, prefix="/memory", tags=["Cognitive Memory"])
 api_router.include_router(tools.router, prefix="/tools", tags=["Action Engine Tools"])
 api_router.include_router(planning.router, prefix="/planning", tags=["Reflection & Planning Engine"])

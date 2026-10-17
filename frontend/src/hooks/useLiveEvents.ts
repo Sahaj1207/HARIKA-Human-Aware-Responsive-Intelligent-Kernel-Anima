@@ -53,6 +53,14 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
       }
     });
 
+    // Heads-ups HARIKA gives on its own (meetings, birthdays, battery).
+    source.addEventListener('heads_up', (raw) => {
+      if (!announceReminders) return;
+      const { text } = JSON.parse((raw as MessageEvent).data) as { text: string };
+      notificationService.show('info', 'Heads up', text, 10000);
+      addMessage({ role: 'assistant', content: text, metadata: { provider: 'heads-up' } });
+    });
+
     // A routine that ran on its schedule ("every weekday at 9").
     source.addEventListener('routine', (raw) => {
       if (!announceReminders) return;
