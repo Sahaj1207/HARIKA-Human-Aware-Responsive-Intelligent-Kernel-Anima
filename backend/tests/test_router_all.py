@@ -73,6 +73,7 @@ class TestRouterAllE2E(unittest.TestCase):
 
         self.assertEqual(graph.nodes[0].intent, IntentType.AGENT_CONTINUE)
 
+    @unittest.skipUnless(LIVE, REASON)  # two-part requests are confirmed by the real local model
     def test_e2e_multi_intent_execution(self):
         loop = asyncio.new_event_loop()
         res = loop.run_until_complete(self.router.route_request("Calculate 18*25 and remember the answer"))
