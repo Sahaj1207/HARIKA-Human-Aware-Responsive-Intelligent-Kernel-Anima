@@ -77,6 +77,41 @@ A routine is a phrase of your own that runs several actions:
 Routines are stored on this computer in `routines\routines.json` inside
 HARIKA's data folder.
 
+### Bigger tasks
+
+"Research laptops under 60k for coding and compare the best three", "plan a
+weekend trip to Goa", "find a free hour next week for the dentist and add it".
+HARIKA works step by step (searching and reading the web, checking your
+calendar, email or lists), shows what it's doing ("Searching: ..."), and can be
+stopped with **Stop**. It answers in a few sentences and saves the full result
+to `Documents\HARIKA`; "open it" opens it. Anything it would change (adding an
+event, a reminder, a list item) is asked first. Once a task has read your
+calendar, email or notes, it stops using the web for the rest of that task.
+Tasks take under a minute with a cloud brain and several minutes on a laptop
+CPU.
+
+### Seeing the screen
+
+"What does this chart show?", "what's this error?", "summarize this page":
+HARIKA reads the app you were using. When the app hides its text, or the
+question is about how something looks, it captures just that window (only when
+you ask; nothing is saved), reads it with Windows' built-in OCR, and asks a
+vision model: Google Gemini if connected (recommended), then other connected
+services, then a local vision model if one is installed in Ollama. Switch it
+off under **Settings > Privacy**.
+
+### Brain, voice and personality
+
+- **Backups:** if the chosen service (e.g. Groq) is offline or busy, HARIKA
+  quietly uses your other connected services (e.g. Gemini), then the model on
+  this computer. **Settings > Brain > Use backups automatically**.
+- **Personality:** warm, natural and brief; she notices how you feel and
+  responds to that first.
+- **Expressive voice:** connect Azure AI Speech in **Settings > Voice** (a free
+  F0 Speech resource's Key 1 and Region). Each reply is spoken in a matching
+  style (cheerful, empathetic, excited, calm). The offline voice is used when
+  Azure is unreachable, with a pace that follows the mood.
+
 ### Heads-ups
 
 HARIKA speaks up on its own about a few things, each with its own switch in

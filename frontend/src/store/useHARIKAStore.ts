@@ -34,6 +34,9 @@ interface HARIKAStore {
   // Live step progress pushed by the backend ("Step 2/3: search F1 news")
   activity: string | null;
   setActivity: (activity: string | null) => void;
+  /** A multi-step task is running and can be stopped. */
+  taskRunning: boolean;
+  setTaskRunning: (running: boolean) => void;
 
   // Panel State
   isQuickPanelOpen: boolean;
@@ -79,6 +82,8 @@ export const useHARIKAStore = create<HARIKAStore>((set, get) => ({
 
   activity: null,
   setActivity: (activity) => set({ activity }),
+  taskRunning: false,
+  setTaskRunning: (taskRunning) => set({ taskRunning }),
 
   isQuickPanelOpen: false,
   toggleQuickPanel: () => set((state) => ({ isQuickPanelOpen: !state.isQuickPanelOpen })),

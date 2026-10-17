@@ -97,6 +97,9 @@ Examples:
 "how much battery is left?" -> {{"actions": [{{"operation": "battery", "target": "battery"}}]}}
 "turn off bluetooth" -> {{"actions": [{{"operation": "turn_off", "target": "bluetooth"}}]}}
 "switch to chrome" -> {{"actions": [{{"operation": "switch_to", "target": "chrome"}}]}}
+"research laptops under 60k for coding and compare the best three" -> {{"actions": [{{"operation": "task", "target": "compare the best three laptops under 60000 rupees for coding"}}]}}
+"plan a weekend trip to Goa" -> {{"actions": [{{"operation": "task", "target": "plan a weekend trip to Goa"}}]}}
+"find a free hour next week for the dentist and add it" -> {{"actions": [{{"operation": "task", "target": "find a free hour next week for a dentist appointment and add it to my calendar"}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""

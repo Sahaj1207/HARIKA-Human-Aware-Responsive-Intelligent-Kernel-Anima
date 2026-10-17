@@ -53,6 +53,14 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
       }
     });
 
+    // Progress of a multi-step task ("Searching: laptops under 60k").
+    source.addEventListener('activity', (raw) => {
+      const { text, stoppable } = JSON.parse((raw as MessageEvent).data) as { text: string; stoppable?: boolean };
+      clearTimeout(clearTimer);
+      setActivity(text ? `${text}…` : null);
+      useHARIKAStore.getState().setTaskRunning(Boolean(text && stoppable));
+    });
+
     // Heads-ups HARIKA gives on its own (meetings, birthdays, battery).
     source.addEventListener('heads_up', (raw) => {
       if (!announceReminders) return;

@@ -5,6 +5,13 @@ from app.router.manager import router_manager
 router = APIRouter()
 
 
+@router.post("/tasks/stop")
+async def stop_task():
+    """Stops a multi-step task between steps (the Stop button while HARIKA works)."""
+    from app.tools.productivity.task_tool import task_tool
+    return {"stopping": task_tool.stop()}
+
+
 @router.post("/chat", response_model=ChatResponse)
 async def process_chat_message(request: ChatRequest):
     """

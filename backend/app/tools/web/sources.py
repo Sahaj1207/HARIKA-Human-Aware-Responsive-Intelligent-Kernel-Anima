@@ -170,8 +170,17 @@ async def pages_text(urls: List[str], max_chars: int = 1500) -> List[str]:
     return list(await asyncio.gather(*(page_text(url, max_chars) for url in urls)))
 
 
+def _stem(word: str) -> str:
+    """Light plural folding so "laptops" matches "laptop" and "prices" matches "price"."""
+    if len(word) > 4 and word.endswith("ies"):
+        return word[:-3] + "y"
+    if len(word) > 3 and word.endswith("s") and not word.endswith("ss"):
+        return word[:-1]
+    return word
+
+
 def _terms(text: str) -> set:
-    return {w for w in re.findall(r"[a-z0-9]+", text.lower()) if len(w) > 2}
+    return {_stem(w) for w in re.findall(r"[a-z0-9]+", text.lower()) if len(w) > 2}
 
 
 def relevant_passages(text: str, question: str, max_chars: int = 500) -> str:

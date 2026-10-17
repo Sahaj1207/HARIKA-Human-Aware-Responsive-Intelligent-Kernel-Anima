@@ -326,6 +326,8 @@ class RouterManager:
                 "target": follow_up.get("target"),
                 "operation": follow_up.get("operation"),
                 "query": message,
+                # Details of a proposed action (e.g. the event's time) travel with it.
+                **({"parameters": dict(follow_up["parameters"])} if isinstance(follow_up.get("parameters"), dict) else {}),
             },
         ))
         revise = follow_up.get("revise")

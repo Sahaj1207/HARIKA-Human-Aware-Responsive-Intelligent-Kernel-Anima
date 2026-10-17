@@ -4,6 +4,7 @@ import { userStorage } from '@/features/onboarding/storage';
 import { StreamingMessage } from '@/components/core/StreamingMessage';
 import { HarikaOrb } from './HarikaOrb';
 import type { Message } from '@/types';
+import { stopTask } from '@/services/api/chat';
 
 /** Things HARIKA can really do today, offered when the conversation is empty. */
 const SUGGESTIONS = ['Brief me on my day', "What's the latest F1 news?", 'Play lofi on YouTube', 'Remind me to stretch in 20 minutes'];
@@ -67,7 +68,7 @@ const EmptyState: React.FC = () => {
   );
 };
 
-const TypingBubble: React.FC<{ activity: string | null }> = ({ activity }) => (
+const TypingBubble: React.FC<{ activity: string | null; stoppable: boolean }> = ({ activity, stoppable }) => (
   <div className="flex flex-col items-start gap-1 bubble-enter" aria-live="polite">
     <div className="bg-bubble-in rounded-[20px] rounded-bl-[6px] px-4 py-3 flex gap-1" aria-label="HARIKA is typing">
       {[0, 1, 2].map((i) => (
@@ -78,7 +79,16 @@ const TypingBubble: React.FC<{ activity: string | null }> = ({ activity }) => (
         />
       ))}
     </div>
-    {activity && <span className="t-caption text-label-2 px-2">{activity}</span>}
+    {activity && (
+      <span className="t-caption text-label-2 px-2 flex items-center gap-2">
+        {activity}
+        {stoppable && (
+          <button type="button" onClick={() => void stopTask()} className="text-accent hover:opacity-80">
+            Stop
+          </button>
+        )}
+      </span>
+    )}
   </div>
 );
 
@@ -87,6 +97,7 @@ export const MessageList: React.FC = () => {
   const interimTranscript = useHARIKAStore((s) => s.interimTranscript);
   const coreState = useHARIKAStore((s) => s.coreState);
   const activity = useHARIKAStore((s) => s.activity);
+  const taskRunning = useHARIKAStore((s) => s.taskRunning);
   const endRef = useRef<HTMLDivElement>(null);
 
   const messages = useMemo(() => allMessages.filter((m) => !LEGACY_SYSTEM_GREETINGS.has(m.id)), [allMessages]);
@@ -151,7 +162,7 @@ export const MessageList: React.FC = () => {
 
       {isThinking && (
         <div className="mt-3">
-          <TypingBubble activity={activity} />
+          <TypingBubble activity={activity} stoppable={taskRunning} />
         </div>
       )}
       <div ref={endRef} className="h-2" />

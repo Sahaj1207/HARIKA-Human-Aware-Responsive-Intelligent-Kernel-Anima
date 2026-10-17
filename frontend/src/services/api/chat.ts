@@ -17,6 +17,11 @@ export interface ChatApiResponse {
   tone?: string;
 }
 
+/** Stops a running multi-step task between steps. */
+export async function stopTask(): Promise<void> {
+  await apiClient.post('/tasks/stop');
+}
+
 export const chatService = {
   async sendMessage(
     message: string,
@@ -32,7 +37,7 @@ export const chatService = {
     };
 
     const response = await apiClient.post<ChatApiResponse>('/chat', payload, {
-      timeout: 150000, // live web answers on a local CPU model can take most of a minute or two
+      timeout: 600000, // multi-step tasks on a local CPU model can take several minutes
     });
 
     return response.data;
