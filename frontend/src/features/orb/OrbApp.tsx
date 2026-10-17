@@ -120,7 +120,7 @@ export const OrbApp: React.FC = () => {
       history.current.push({ role: 'user', content: message }, { role: 'assistant', content: data.response });
       setReply(data.response);
       setState('speaking');
-      void speakReplyIfWanted(data.response, spoken);
+      void speakReplyIfWanted(data.response, spoken, data.tone);
     } catch {
       setReply("I can't reach my engine right now. If HARIKA just started, try again in a few seconds.");
       setState('error');

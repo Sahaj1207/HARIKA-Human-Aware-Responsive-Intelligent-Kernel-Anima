@@ -52,12 +52,28 @@ class LLMSettings:
                     logger.warning("[LLM] Settings unreadable; using defaults.")
             return data
 
+    def _raw(self) -> Dict[str, Any]:
+        try:
+            return json.loads(self.path.read_text(encoding="utf-8")) if self.path.exists() else {}
+        except (OSError, json.JSONDecodeError):
+            return {}
+
+    def backups_enabled(self) -> bool:
+        """Whether other connected services (and the local model) stand in when the chosen one fails."""
+        return self._raw().get("use_backups", True) is not False
+
+    def set_backups(self, enabled: bool) -> None:
+        data = {**self._raw(), **self.load(), "use_backups": bool(enabled)}
+        with self._lock:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            self.path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
     def set_role(self, role: str, service_id: str, model: str) -> None:
         if role not in ROLES:
             raise ValueError(f"Unknown role '{role}'.")
         if get_service(service_id) is None:
             raise ValueError(f"Unknown service '{service_id}'.")
-        data = self.load()
+        data = {**self._raw(), **self.load()}
         data[role] = {"service": service_id, "model": model}
         with self._lock:
             self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -86,8 +102,19 @@ def build_provider(service_id: str, model: str) -> BaseLLMProvider:
     return OpenAICompatibleProvider(model, key, service.base_url, service.name)
 
 
+# Cloud services tried as backups, fastest first, when the user has connected them.
+_BACKUP_ORDER = ("groq", "gemini", "openrouter", "openai", "anthropic")
+_COOLDOWN_SECONDS = 60  # a service that just failed is skipped for a minute
+_failed_at: Dict[str, float] = {}
+
+
 class RoleProvider(BaseLLMProvider):
-    """Provider for a role that follows the user's current choice on every call."""
+    """Provider for a role that follows the user's current choice on every call.
+
+    If the chosen service fails (offline, rate-limited, key rejected), the request
+    quietly goes to the next connected service and finally to the model on this
+    computer, so HARIKA keeps working. Turned off in Settings > Brain.
+    """
 
     def __init__(self, role: str, store: LLMSettings = llm_settings):
         self.role = role
@@ -97,17 +124,46 @@ class RoleProvider(BaseLLMProvider):
         choice = self.store.load()[self.role]
         return build_provider(choice["service"], choice["model"])
 
+    def chain(self) -> List[Dict[str, str]]:
+        """[{service, model}] in the order they are tried."""
+        choice = self.store.load()[self.role]
+        chain = [choice]
+        if not self.store.backups_enabled():
+            return chain
+        for service_id in _BACKUP_ORDER:
+            service = get_service(service_id)
+            model = service.suggested.get(self.role, "") if service else ""
+            if service_id != choice["service"] and model and is_connected(service):
+                chain.append({"service": service_id, "model": model})
+        if choice["service"] != "ollama":
+            from app.core.config import settings
+            chain.append({"service": "ollama", "model": settings.OLLAMA_MODEL})
+        return chain
+
     def is_local(self) -> bool:
         """Whether this role runs on the computer (slow to read long prompts on a CPU)."""
         service = get_service(self.store.load()[self.role]["service"])
         return service is None or service.kind == "ollama"
 
     async def generate_response(self, messages, system_prompt, json_mode: bool = False) -> Dict[str, Any]:
-        provider = self.current()
-        try:
-            return await provider.generate_response(messages, system_prompt, json_mode=json_mode)
-        except TypeError:
-            return await provider.generate_response(messages, system_prompt)
+        chain = self.chain()
+        usable = [c for c in chain if time.time() - _failed_at.get(c["service"], 0) > _COOLDOWN_SECONDS] or chain[-1:]
+        result: Dict[str, Any] = {}
+        for index, choice in enumerate(usable):
+            provider = build_provider(choice["service"], choice["model"])
+            try:
+                result = await provider.generate_response(messages, system_prompt, json_mode=json_mode)
+            except TypeError:
+                result = await provider.generate_response(messages, system_prompt)
+            if not result.get("error"):
+                if index:
+                    result["fallback_from"] = usable[0]["service"]
+                    logger.info(f"[LLM] {self.role}: used {choice['service']} because {usable[0]['service']} failed.")
+                _failed_at.pop(choice["service"], None)
+                return result
+            _failed_at[choice["service"]] = time.time()
+            logger.warning(f"[LLM] {self.role}: {choice['service']} failed: {result.get('response', '')[:160]}")
+        return result
 
 
 async def list_models(service_id: str, api_key: Optional[str] = None) -> List[str]:
@@ -248,6 +304,7 @@ def describe() -> Dict[str, Any]:
     """Everything the Settings screen needs; never includes keys."""
     choices = llm_settings.load()
     return {
+        "use_backups": llm_settings.backups_enabled(),
         "roles": {
             role: {**choice, "on_device": bool(get_service(choice["service"]) and get_service(choice["service"]).on_device)}
             for role, choice in choices.items()

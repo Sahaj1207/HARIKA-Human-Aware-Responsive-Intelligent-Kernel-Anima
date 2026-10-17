@@ -100,6 +100,7 @@ class RouterManager:
                 return {
                     "decision_id": decision_id,
                     "response": "Okay, I won't do that.",
+                    "tone": "neutral",
                     "intent": pending.intent.value,
                     "confidence": pending.confidence,
                     "latency_ms": round((time.time() - t_start) * 1000, 2)
@@ -144,6 +145,7 @@ class RouterManager:
                 "decision_id": decision_id,
                 "response": cognitive_decision.clarification_question or "I'm not completely certain what you'd like me to do. Could you please clarify your request?",
                 "clarification_needed": True,
+                "tone": "neutral",
                 "confidence": confidence,
                 "intent": primary_intent.value,
                 "mode": cognitive_decision.mode.value,
@@ -168,6 +170,7 @@ class RouterManager:
             return {
                 "decision_id": decision_id,
                 "response": pending_question,
+                "tone": "neutral",
                 "confirmation_needed": True,
                 "confidence": confidence,
                 "intent": primary_intent.value,
@@ -251,7 +254,11 @@ class RouterManager:
         if remember_completed is not None:
             remember_completed(graph, user_id, session_id)
 
-        final_text = "\n\n".join(fmt_responses)
+        from app.presence.tone import strip_tags, tone_for
+        final_text, chat_tone = strip_tags("\n\n".join(fmt_responses))
+        asking = any(isinstance(r, dict) and isinstance(r.get("result"), dict) and r["result"].get("confirmation")
+                     for r in node_results)
+        tone = tone_for(node_results, chat_tone, asking=asking)
         elapsed_ms = round((time.time() - t_start) * 1000, 2)
 
 
@@ -278,6 +285,7 @@ class RouterManager:
         return {
             "decision_id": decision_id,
             "response": final_text.strip(),
+            "tone": tone,
             "intent": primary_intent.value,
             "engine": graph.nodes[0].engine if graph.nodes else "CognitionManager",
             "action": graph.nodes[0].action if graph.nodes else "process_chat",

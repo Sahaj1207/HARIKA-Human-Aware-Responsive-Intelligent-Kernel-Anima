@@ -146,7 +146,12 @@ export const VoiceSettings: React.FC = () => {
         />
       </GroupedSection>
 
-      <GroupedSection title="Voice">
+      <AzureSection status={status} onChange={setStatus} />
+
+      <GroupedSection
+        title={settings.engine === 'azure' && status.azure.connected ? 'Offline voice' : 'Voice'}
+        footer={settings.engine === 'azure' && status.azure.connected ? 'Used when Azure is unreachable.' : undefined}
+      >
         {status.voices.map((voice) => (
           <Row
             key={voice.id}
@@ -174,5 +179,90 @@ export const VoiceSettings: React.FC = () => {
         ))}
       </GroupedSection>
     </div>
+  );
+};
+
+const fieldClass = 'w-full rounded-lg bg-fill px-3 py-2 t-callout text-label outline-none focus:ring-2 focus:ring-accent/50';
+
+/** Azure AI Speech: neural voices that sound cheerful, gentle or excited to match what HARIKA says. */
+const AzureSection: React.FC<{ status: SpeechStatus; onChange: (status: SpeechStatus) => void }> = ({ status, onChange }) => {
+  const [key, setKey] = useState('');
+  const [region, setRegion] = useState(status.azure.region || '');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { settings, azure } = status;
+
+  const connect = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      onChange(await speechService.connectAzure(key, region));
+      setKey('');
+      setError(null);
+    } catch (err) {
+      setError(errorDetail(err, "Couldn't connect to Azure."));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  if (!azure.connected) {
+    return (
+      <GroupedSection
+        title="Expressive voice"
+        footer="Azure AI Speech voices sound cheerful, gentle or excited to match what HARIKA says. Create a free Speech resource at portal.azure.com, then paste its Key 1 and Region (for example centralindia)."
+      >
+        <form className="px-4 py-3 space-y-2" onSubmit={connect}>
+          <input value={key} onChange={(e) => setKey(e.target.value)} type="password" autoComplete="off"
+            placeholder="Key" aria-label="Azure Speech key" className={fieldClass} />
+          <div className="flex gap-2">
+            <input value={region} onChange={(e) => setRegion(e.target.value)} autoComplete="off"
+              placeholder="Region, e.g. centralindia" aria-label="Azure region" className={fieldClass} />
+            <Button type="submit" disabled={!key.trim() || !region.trim() || busy}>{busy ? 'Checking…' : 'Connect'}</Button>
+          </div>
+          {error && <p className="t-footnote text-danger">{error}</p>}
+        </form>
+      </GroupedSection>
+    );
+  }
+
+  return (
+    <GroupedSection
+      title="Expressive voice"
+      footer={`Connected to Azure (${azure.region}). The key is kept in your system's secure keychain.`}
+    >
+      <Row
+        title="Use expressive voice"
+        accessory={
+          <Toggle
+            label="Use expressive voice"
+            checked={settings.engine === 'azure'}
+            onChange={async (on) => onChange(await speechService.update({ engine: on ? 'azure' : 'piper' }))}
+          />
+        }
+      />
+      {settings.engine === 'azure' &&
+        azure.voices.map((voice) => (
+          <Row
+            key={voice.id}
+            title={voice.name}
+            subtitle={voice.accent}
+            accessory={
+              <span className="flex items-center gap-2">
+                <button type="button" aria-label={`Preview ${voice.name}`} onClick={() => void speechService.preview(voice.id)}
+                  className="w-7 h-7 grid place-items-center rounded-full bg-fill text-accent">
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                </button>
+                {settings.azure_voice === voice.id ? (
+                  <span className="t-callout text-accent w-12 text-center" aria-label="Current voice">✓</span>
+                ) : (
+                  <Button kind="plain" className="w-12" onClick={async () => onChange(await speechService.update({ azure_voice: voice.id }))}>Use</Button>
+                )}
+              </span>
+            }
+          />
+        ))}
+      <Row title="Disconnect Azure" destructive onClick={async () => onChange(await speechService.disconnectAzure())} />
+    </GroupedSection>
   );
 };

@@ -61,6 +61,17 @@ async def choose_model(role: str, choice: RoleChoice):
     return describe()
 
 
+class BackupsChoice(BaseModel):
+    enabled: bool
+
+
+@router.put("/backups")
+async def choose_backups(choice: BackupsChoice):
+    llm_settings.set_backups(choice.enabled)
+    live_events.publish("llm_settings_changed", role="backups")
+    return describe()
+
+
 @router.get("/services/{service_id}/models")
 async def get_models(service_id: str):
     service = _service_or_404(service_id)

@@ -38,14 +38,14 @@ async def lifespan(app: FastAPI):
     logger.info(f"Shutting down {settings.APP_NAME} service gracefully...")
 
 
-async def _voice_request(text: str) -> str:
+async def _voice_request(text: str) -> dict:
     """A spoken request goes through the same router (and conversation) as typing."""
     from app.router.manager import router_manager
     from app.voice.engine import voice_engine
 
     user = voice_engine.settings.load()["user_name"] or "default"
     result = await router_manager.route_request(text, user_id=user, spoken=True)
-    return result.get("response", "")
+    return {"text": result.get("response", ""), "tone": result.get("tone") or "warm"}
 
 
 async def _warm_up():

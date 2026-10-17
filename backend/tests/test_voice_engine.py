@@ -44,7 +44,7 @@ class EngineRequestTests(unittest.TestCase):
         self.publish = patch.object(VoiceEngine, "_publish", side_effect=lambda event, **p: self.events.append((event, p)))
         self.publish.start()
         self.spoken = []
-        self.engine.speak = lambda text, voice_id=None: self.spoken.append(text)
+        self.engine.speak = lambda text, voice_id=None, tone=None: self.spoken.append(text)
         self.engine._chime = lambda: None
 
     def tearDown(self):

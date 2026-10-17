@@ -123,7 +123,7 @@ class HeadsUps:
             told.add(key)
             when = "now" if lead < 1 else f"in {round(lead)} minute{'s' if round(lead) != 1 else ''}"
             where = f" at {event.location}" if event.location else ""
-            out.append({"kind": "meeting", "text": f"Heads up: {event.title} starts {when}{where}."})
+            out.append({"kind": "meeting", "tone": "warm", "text": f"Heads up: {event.title} starts {when}{where}."})
         if out:
             self._remember(meetings_told=sorted(told)[-50:])
         return out
@@ -137,7 +137,7 @@ class HeadsUps:
         out = []
         for person in today:
             suggestion = " Want me to send a message?" if person.get("phone") else ""
-            out.append({"kind": "birthday", "text": f"It's {person['name']}'s birthday today.{suggestion}"})
+            out.append({"kind": "birthday", "tone": "excited", "text": f"It's {person['name']}'s birthday today.{suggestion}"})
         return out
 
     def battery(self, threshold: int) -> List[Dict[str, str]]:
@@ -152,7 +152,7 @@ class HeadsUps:
             return []
         self._battery_warned = True
         left = f", about {_duration(status.minutes_left)} left" if status.minutes_left else ""
-        return [{"kind": "battery", "text": f"Your battery is at {status.percent}%{left}. Plug in soon."}]
+        return [{"kind": "battery", "tone": "calm", "text": f"Your battery is at {status.percent}%{left}. Plug in soon."}]
 
 
 def _duration(minutes: int) -> str:
@@ -164,12 +164,12 @@ def _duration(minutes: int) -> str:
 heads_ups = HeadsUps()
 
 
-def _speak_if_listening(text: str) -> None:
+def _speak_if_listening(text: str, tone: str = "warm") -> None:
     """Speak heads-ups to people who use HARIKA by voice; never when replies are muted."""
     from app.voice.engine import voice_engine
     voice = voice_engine.settings.load()
-    if voice_engine.ready() and voice["speak_replies"] != "never" and (voice["wake_word"] or voice["speak_replies"] == "always"):
-        voice_engine.speak(text)
+    if voice_engine.can_speak() and voice["speak_replies"] != "never" and (voice["wake_word"] or voice["speak_replies"] == "always"):
+        voice_engine.speak(text, tone=tone)
 
 
 async def run_proactive_loop(interval_seconds: float = 30.0) -> None:
@@ -180,9 +180,9 @@ async def run_proactive_loop(interval_seconds: float = 30.0) -> None:
         await asyncio.sleep(interval_seconds)
         try:
             for item in await heads_ups.check(datetime.now()):
-                live_events.publish("heads_up", kind=item["kind"], text=item["text"])
+                live_events.publish("heads_up", kind=item["kind"], text=item["text"], tone=item.get("tone", "warm"))
                 await asyncio.to_thread(show_os_notification, "HARIKA", item["text"])
-                await asyncio.to_thread(_speak_if_listening, item["text"])
+                await asyncio.to_thread(_speak_if_listening, item["text"], item.get("tone", "warm"))
                 logger.info(f"[Proactive] {item['kind']}: {item['text']}")
         except asyncio.CancelledError:
             raise

@@ -44,7 +44,14 @@ DEFAULT_SETTINGS = {
     "voice": DEFAULT_VOICE,
     "speed": 1.0,
     "user_name": "User",
+    "engine": "piper",           # "piper" (offline) or "azure" (expressive, needs a key)
+    "azure_region": "",
+    "azure_voice": "en-US-AriaNeural",
 }
+
+# Offline voice pace per tone (Piper has no emotional styles, so pace carries the mood).
+_TONE_PACE = {"excited": 1.06, "playful": 1.04, "cheerful": 1.03, "empathetic": 0.93,
+              "calm": 0.95, "apologetic": 0.95, "serious": 0.97}
 
 
 def split_wake_phrase(text: str) -> Optional[str]:
@@ -107,6 +114,12 @@ class VoiceSettings:
             raise ValueError("speak_replies must be voice, always or never.")
         if "speed" in changes:
             changes["speed"] = min(1.5, max(0.7, float(changes["speed"])))
+        if "engine" in changes and changes["engine"] not in ("piper", "azure"):
+            raise ValueError("engine must be piper or azure.")
+        if "azure_voice" in changes:
+            from app.voice.azure_tts import VOICES as AZURE_VOICES
+            if changes["azure_voice"] not in AZURE_VOICES:
+                raise ValueError(f"Unknown Azure voice '{changes['azure_voice']}'.")
         data.update({k: v for k, v in changes.items() if k in DEFAULT_SETTINGS and v is not None})
         with self._lock:
             self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -140,7 +153,17 @@ class VoiceEngine:
     # ------------------------------------------------------------- models
 
     def ready(self) -> bool:
+        """The offline models (listening and the offline voice) are downloaded."""
         return not models.missing(self.settings.load()["voice"])
+
+    def can_speak(self) -> bool:
+        """There is a voice to speak with: the offline one, or Azure when it's chosen and connected."""
+        prefs = self.settings.load()
+        if prefs["engine"] == "azure":
+            from app.voice import azure_tts
+            if prefs["azure_region"] and azure_tts.has_key():
+                return True
+        return self.ready()
 
     def _new_vad(self, min_silence: float = 0.6):
         import sherpa_onnx
@@ -194,15 +217,22 @@ class VoiceEngine:
         asr.decode_stream(stream)
         return " ".join(stream.result.text.split())
 
-    def synthesize(self, text: str, voice_id: Optional[str] = None):
+    def synthesize(self, text: str, voice_id: Optional[str] = None, tone: Optional[str] = None):
         prefs = self.settings.load()
+        if voice_id is None and prefs["engine"] == "azure":
+            from app.voice.azure_tts import azure_speech
+            if azure_speech.available(prefs["azure_region"]):
+                try:
+                    return azure_speech.synthesize(text, prefs["azure_voice"], prefs["azure_region"], tone, float(prefs["speed"]))
+                except Exception as exc:
+                    logger.warning(f"[Voice] Azure speech failed, using the offline voice: {exc}")
         voice_id = voice_id or prefs["voice"]
         tts = self._load_tts(voice_id)
         # Piper's speed is a length scale: higher speed setting = shorter audio.
-        audio = tts.generate(text, sid=0, speed=float(prefs["speed"]))
+        audio = tts.generate(text, sid=0, speed=float(prefs["speed"]) * _TONE_PACE.get(tone or "", 1.0))
         return np.asarray(audio.samples, dtype=np.float32), audio.sample_rate
 
-    def speak(self, text: str, voice_id: Optional[str] = None) -> None:
+    def speak(self, text: str, voice_id: Optional[str] = None, tone: Optional[str] = None) -> None:
         """Say text (blocking), generating the next sentence while the current one plays."""
         import sounddevice as sd
 
@@ -216,7 +246,7 @@ class VoiceEngine:
                 for sentence in sentences:
                     if self._interrupt.is_set():
                         break
-                    clips.put(self.synthesize(sentence, voice_id))
+                    clips.put(self.synthesize(sentence, voice_id, tone))
             finally:
                 clips.put(None)
 
@@ -359,17 +389,19 @@ class VoiceEngine:
             return
         self._publish("voice", stage="heard", text=request)
         self._set_state("thinking")
-        reply = ""
+        reply, tone = "", None
         if self.on_request and self._loop:
             future = asyncio.run_coroutine_threadsafe(self.on_request(request), self._loop)
             try:
                 reply = future.result(timeout=120)
+                if isinstance(reply, dict):  # {"text", "tone"} from the router
+                    reply, tone = reply.get("text", ""), reply.get("tone")
             except Exception as exc:
                 reply = "Sorry, something went wrong while I was working on that."
                 logger.error(f"[Voice] Request failed: {exc}")
         self._publish("voice", stage="answered", text=request, reply=reply)
         if reply and self.settings.load()["speak_replies"] != "never":
-            self.speak(reply)
+            self.speak(reply, tone=tone)
 
     def _chime(self) -> None:
         """A short two-note chime so the user knows HARIKA is listening."""

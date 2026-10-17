@@ -25,7 +25,8 @@ async def process_chat_message(request: ChatRequest):
         response=result["response"],
         provider=result.get("provider", "router-v1.0"),
         model=result.get("model", "cognitive-router"),
-        latency_ms=int(round(result["latency_ms"]))
+        latency_ms=int(round(result["latency_ms"])),
+        tone=result.get("tone") or "warm",
     )
 
 

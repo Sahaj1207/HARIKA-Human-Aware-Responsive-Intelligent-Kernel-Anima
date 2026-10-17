@@ -14,3 +14,4 @@ class ChatResponse(BaseModel):
     provider: str = Field(..., example="ollama")
     model: str = Field(..., example="qwen3:latest")
     latency_ms: int = Field(..., example=1200)
+    tone: str = Field(default="warm", description="How the reply should sound: warm, cheerful, empathetic, ...")

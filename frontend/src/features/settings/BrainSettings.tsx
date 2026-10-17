@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Check, ExternalLink } from 'lucide-react';
 import { env } from '@/config/env';
-import { Button, GroupedSection, Row } from '@/components/apple/controls';
+import { Button, GroupedSection, Row, Toggle } from '@/components/apple/controls';
 import {
   errorDetail, llmSettingsService, LLMService, LLMSettings, Role,
 } from '@/services/api/llmSettings';
@@ -255,6 +255,19 @@ export const BrainSettings: React.FC = () => {
             </div>
           );
         })}
+      </GroupedSection>
+
+      <GroupedSection footer="If the chosen service is offline or busy, HARIKA quietly asks your other connected services, then the model on this computer.">
+        <Row
+          title="Use backups automatically"
+          accessory={
+            <Toggle
+              label="Use backups automatically"
+              checked={settings.use_backups}
+              onChange={(on) => void llmSettingsService.setBackups(on).then(setSettings)}
+            />
+          }
+        />
       </GroupedSection>
 
       <GroupedSection title="Services" footer="Connect a service to choose its models above. ChatGPT Plus and Claude Pro subscriptions can't be used by other apps, so cloud services need their own API key or sign-in.">

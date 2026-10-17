@@ -20,6 +20,8 @@ export interface LLMService {
 }
 
 export interface LLMSettings {
+  /** Other connected services, then this computer, answer when the chosen one fails. */
+  use_backups: boolean;
   roles: Record<Role, RoleChoice>;
   services: LLMService[];
 }
@@ -58,6 +60,9 @@ export const llmSettingsService = {
   },
   async choose(role: Role, service: string, model: string): Promise<LLMSettings> {
     return (await apiClient.put<LLMSettings>(`/settings/llm/roles/${role}`, { service, model })).data;
+  },
+  async setBackups(enabled: boolean): Promise<LLMSettings> {
+    return (await apiClient.put<LLMSettings>('/settings/llm/backups', { enabled })).data;
   },
   async test(role: Role): Promise<{ ok: boolean; reply: string; model: string; latency_ms: number }> {
     return (await apiClient.post(`/settings/llm/roles/${role}/test`)).data;

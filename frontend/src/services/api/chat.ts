@@ -13,6 +13,8 @@ export interface ChatApiResponse {
   provider: string;
   model: string;
   latency_ms: number;
+  /** How the reply should sound: warm, cheerful, empathetic, ... */
+  tone?: string;
 }
 
 export const chatService = {

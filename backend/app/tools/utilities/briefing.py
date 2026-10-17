@@ -156,7 +156,7 @@ class BriefingTool(BaseTool):
         briefing = await build_briefing(_user_name())
         from app.tools import recent_results
         recent_results.remember("web", [{"url": h["url"], "title": h["title"]} for h in briefing["headlines"]])
-        return {"action": "daily_briefing", "success": True, "verified": True,
+        return {"action": "daily_briefing", "tone": "cheerful", "success": True, "verified": True,
                 "summary": briefing["text"], "error": None}
 
 
@@ -203,8 +203,8 @@ async def run_briefing_scheduler(interval_seconds: float = 30.0) -> None:
 def _speak(text: str) -> None:
     from app.voice.engine import voice_engine
 
-    if voice_engine.ready() and voice_engine.settings.load()["speak_replies"] != "never":
-        voice_engine.speak(text)
+    if voice_engine.can_speak() and voice_engine.settings.load()["speak_replies"] != "never":
+        voice_engine.speak(text, tone="cheerful")
 
 
 briefing_tool = BriefingTool()

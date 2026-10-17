@@ -12,6 +12,7 @@ from app.api.v1.endpoints.llm_settings import local_only
 from app.core.live_events import live_events
 from app.voice import models
 from app.voice.engine import voice_engine
+from app.voice import azure_tts
 from app.voice.models import VOICES
 
 router = APIRouter(dependencies=[Depends(local_only)])
@@ -25,10 +26,18 @@ class SpeechSettingsUpdate(BaseModel):
     voice: str | None = None
     speed: float | None = None
     user_name: str | None = None
+    engine: str | None = None
+    azure_voice: str | None = None
+
+
+class AzureConnect(BaseModel):
+    key: str
+    region: str
 
 
 class SpeakRequest(BaseModel):
     text: str
+    tone: str | None = None
 
 
 class PreviewRequest(BaseModel):
@@ -43,6 +52,12 @@ def _status() -> dict:
         "missing_mb": models.total_missing_mb(settings["voice"]),
         "downloading": models.voice_model_download.running,
         "settings": settings,
+        "can_speak": voice_engine.can_speak(),
+        "azure": {
+            "connected": bool(settings["azure_region"]) and azure_tts.has_key(),
+            "region": settings["azure_region"],
+            "voices": [{"id": key, "name": info["name"], "accent": info["accent"]} for key, info in azure_tts.VOICES.items()],
+        },
         "voices": [
             {"id": key, "name": info["name"], "accent": info["accent"], "size_mb": info["size_mb"],
              "downloaded": models.voice_path(key).exists()}
@@ -61,8 +76,8 @@ def _start_download(loop: asyncio.AbstractEventLoop, voice_id: str) -> bool:
     return models.voice_model_download.start(progress, voice_id)
 
 
-def _speak_in_background(text: str) -> None:
-    threading.Thread(target=voice_engine.speak, args=(text,), name="harika-speak", daemon=True).start()
+def _speak_in_background(text: str, tone: str | None = None) -> None:
+    threading.Thread(target=voice_engine.speak, args=(text,), kwargs={"tone": tone}, name="harika-speak", daemon=True).start()
 
 
 @router.get("")
@@ -107,16 +122,49 @@ async def listen():
     return {"text": text}
 
 
+@router.put("/azure")
+async def connect_azure(body: AzureConnect):
+    region = body.region.strip().lower().replace(" ", "")
+    try:
+        await asyncio.to_thread(azure_tts.verify, body.key.strip(), region)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail="I couldn't reach Azure. Check your internet connection.") from exc
+    azure_tts.save_key(body.key.strip())
+    voice_engine.settings.update(azure_region=region, engine="azure")
+    return _status()
+
+
+@router.delete("/azure")
+async def disconnect_azure():
+    azure_tts.delete_key()
+    voice_engine.settings.update(azure_region="", engine="piper")
+    return _status()
+
+
 @router.post("/speak", status_code=202)
 async def speak(body: SpeakRequest):
-    if not voice_engine.ready():
+    if not voice_engine.can_speak():
         raise HTTPException(status_code=409, detail="Download HARIKA's voice in Settings first.")
-    _speak_in_background(body.text)
+    _speak_in_background(body.text, body.tone)
     return {"speaking": True}
 
 
 @router.post("/preview", status_code=202)
 async def preview_voice(body: PreviewRequest):
+    if body.voice in azure_tts.VOICES:
+        settings = voice_engine.settings.load()
+        if not (settings["azure_region"] and azure_tts.has_key()):
+            raise HTTPException(status_code=409, detail="Connect Azure first.")
+
+        def say() -> None:
+            audio = azure_tts.azure_speech.synthesize(PREVIEW_TEXT, body.voice, settings["azure_region"], "cheerful")
+            import sounddevice as sd
+            sd.play(*audio)
+            sd.wait()
+        threading.Thread(target=say, name="harika-preview", daemon=True).start()
+        return {"previewing": body.voice}
     if body.voice not in VOICES:
         raise HTTPException(status_code=400, detail="Unknown voice.")
     if not models.voice_path(body.voice).exists():

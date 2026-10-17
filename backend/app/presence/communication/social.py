@@ -1,9 +1,14 @@
+import random
 from typing import Any
 
 
 class SocialFormatter:
     def __init__(self):
         self._social_counter = 0
+
+    def _pick(self, *options: str) -> str:
+        """A little variety, so small talk doesn't sound recorded."""
+        return random.choice(options)
 
     def format_social_response(self, engine_output: Any = None, raw_message: str = "") -> str:
         self._social_counter += 1
@@ -17,31 +22,36 @@ class SocialFormatter:
             return "I am HARIKA, your AI assistant created by Sahaj."
 
         if "how are you" in msg or "how's it going" in msg or "how is it going" in msg:
-            return "I'm doing well, thank you for asking! How can I help today?"
+            return self._pick("[cheerful] I'm good, thanks for asking! How's your day going?",
+                              "[warm] Doing well! Better now that you're here. What's up?")
         if "what's up" in msg or "what is up" in msg:
-            return "Not much! Ready to assist you with your tasks."
+            return self._pick("[playful] Not much, just waiting for you. What are we doing today?",
+                              "[warm] All quiet here. What's on your mind?")
         if "are you ready" in msg:
-            return "All systems are ready for your directives."
+            return "[cheerful] Always. What do you need?"
         if "nice to meet you" in msg:
-            return "Nice to meet you as well! Ready to help."
+            return "[warm] Nice to meet you too! I'm really glad you're here."
         if "can you help me" in msg or "can you assist me" in msg:
-            return "Absolutely! I can assist with memory, desktop tools, web tools, and planning."
+            return "[warm] Of course. Tell me what you need and we'll sort it out."
         if "are you okay" in msg:
-            return "I'm functioning smoothly and ready to help!"
+            return "[warm] I'm good, thank you for checking on me. Are you okay?"
         if "tell me a joke" in msg:
-            return "Why did the developer go broke? Because they used up all their cache."
+            return self._pick("[playful] Why did the developer go broke? Because they used up all their cache.",
+                              "[playful] I'd tell you a UDP joke, but you might not get it.",
+                              "[playful] Why do programmers prefer dark mode? Because light attracts bugs.")
 
         if any(k in msg for k in ["stressed", "overwhelmed", "anxious", "feeling down", "exhausted", "bad day", "burnt out", "demotivated", "sad", "low", "tired", "worried", "frustrated", "hopeless", "upset", "nervous", "lonely"]):
-            return "I'm really sorry to hear you're feeling that way. Take a deep breath and take things one step at a time. I'm right here if you need support or assistance."
+            return self._pick("[empathetic] That sounds really hard. I'm here. Want to tell me what's going on, or should I take something off your plate?",
+                              "[empathetic] I'm sorry you're feeling this way. Let's take it one small step at a time. What would help most right now?")
 
         if "thanks" in msg or "thank you" in msg:
-            return "You're welcome!"
+            return self._pick("[warm] Anytime!", "[warm] Happy to help.", "[cheerful] You got it!")
 
         if "good night" in msg:
-            return "Good night! Rest well."
+            return self._pick("[calm] Good night. Sleep well.", "[calm] Good night! Rest well, talk tomorrow.")
         if "bye" in msg or "see you" in msg or "see ya" in msg:
-            return "See you later."
-        return "I'm here and ready to help!"
+            return self._pick("[warm] See you soon!", "[warm] Bye for now. I'll be right here.")
+        return "[warm] I'm here. What can I do for you?"
 
 
 

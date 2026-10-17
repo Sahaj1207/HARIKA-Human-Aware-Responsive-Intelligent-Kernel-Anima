@@ -109,7 +109,7 @@ export const CommandBar: React.FC = () => {
         status: 'streaming',
         metadata: { provider: data.provider, model: data.model, latency_ms: data.latency_ms },
       });
-      void speakReplyIfWanted(data.response, spoken);
+      void speakReplyIfWanted(data.response, spoken, data.tone);
     } catch {
       addMessage({
         role: 'assistant',

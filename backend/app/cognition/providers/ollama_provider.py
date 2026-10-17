@@ -81,6 +81,7 @@ class OllamaProvider(BaseLLMProvider):
             )
             return {
                 "response": "HARIKA Offline Mode: Unable to connect to local Ollama instance at " + self.base_url,
+                "error": True,
                 "provider": self.provider_name,
                 "model": self.model,
                 "latency_ms": latency_ms
@@ -93,6 +94,7 @@ class OllamaProvider(BaseLLMProvider):
             )
             return {
                 "response": "HARIKA Cognition Timeout: Local model inference exceeded the 120-second limit.",
+                "error": True,
                 "provider": self.provider_name,
                 "model": self.model,
                 "latency_ms": latency_ms
@@ -105,6 +107,7 @@ class OllamaProvider(BaseLLMProvider):
             )
             return {
                 "response": f"HARIKA Cognition Notice: {str(e)}",
+                "error": True,
                 "provider": self.provider_name,
                 "model": self.model,
                 "latency_ms": latency_ms
