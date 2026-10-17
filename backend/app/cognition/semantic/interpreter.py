@@ -65,6 +65,7 @@ Examples:
 "reply that I'll be 10 minutes late" -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "say I'll be 10 minutes late"}}}}]}}
 "make it more casual" (after a chat draft) -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "make it more casual"}}}}]}}
 "what's on my screen?" -> {{"actions": [{{"operation": "read", "target": "screen"}}]}}
+"what does this chart show?" -> {{"actions": [{{"operation": "read", "target": "screen", "parameters": {{"look": true}}}}]}}
 "what's the latest F1 news?" -> {{"actions": [{{"operation": "answer", "target": "latest Formula 1 news"}}]}}
 "who won the match yesterday" -> {{"actions": [{{"operation": "answer", "target": "who won yesterday's match"}}]}}
 "how's the weather" -> {{"actions": [{{"operation": "weather", "target": "here"}}]}}

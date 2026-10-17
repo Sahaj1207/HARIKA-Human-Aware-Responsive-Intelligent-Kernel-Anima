@@ -4,6 +4,7 @@ Every provider returns {"response", "provider", "model", "latency_ms"} and, on
 failure, a plain-language explanation as the response plus "error": True, so
 chat shows something actionable and the interpreter falls back safely.
 """
+import base64
 import time
 from typing import Any, Dict, List, Optional
 
@@ -14,14 +15,17 @@ from app.cognition.base_provider import BaseLLMProvider
 _TIMEOUT = httpx.Timeout(60.0, connect=10.0)
 
 
-def _roles(messages: List[Dict[str, str]]) -> List[Dict[str, str]]:
-    """HARIKA history uses role or sender; providers want user/assistant."""
+def _roles(messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """HARIKA history uses role or sender; providers want user/assistant. "images" (PNG bytes) are kept."""
     out = []
     for msg in messages:
         role = "user" if msg.get("sender") == "user" or msg.get("role") == "user" else "assistant"
         content = str(msg.get("content", ""))
-        if content:
-            out.append({"role": role, "content": content})
+        if content or msg.get("images"):
+            item: Dict[str, Any] = {"role": role, "content": content}
+            if msg.get("images"):
+                item["images"] = [base64.b64encode(image).decode("ascii") for image in msg["images"]]
+            out.append(item)
     return out
 
 
@@ -78,9 +82,16 @@ class OpenAICompatibleProvider(_HTTPProvider):
         super().__init__(model, api_key, base_url)
 
     async def _complete(self, messages, system_prompt, json_mode) -> str:
+        def message(m: Dict[str, Any]) -> Dict[str, Any]:
+            if not m.get("images"):
+                return {"role": m["role"], "content": m["content"]}
+            parts: List[Dict[str, Any]] = [{"type": "text", "text": m["content"]}]
+            parts += [{"type": "image_url", "image_url": {"url": f"data:image/png;base64,{data}"}} for data in m["images"]]
+            return {"role": m["role"], "content": parts}
+
         body: Dict[str, Any] = {
             "model": self.model,
-            "messages": [{"role": "system", "content": system_prompt}, *messages],
+            "messages": [{"role": "system", "content": system_prompt}, *(message(m) for m in messages)],
         }
         if json_mode:
             body["response_format"] = {"type": "json_object"}
@@ -97,13 +108,22 @@ class OpenAICompatibleProvider(_HTTPProvider):
 class AnthropicProvider(_HTTPProvider):
     service_name = "Anthropic"
 
+    @staticmethod
+    def _message(m: Dict[str, Any]) -> Dict[str, Any]:
+        if not m.get("images"):
+            return {"role": m["role"], "content": m["content"]}
+        blocks: List[Dict[str, Any]] = [{"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": data}}
+                                        for data in m["images"]]
+        return {"role": m["role"], "content": blocks + [{"type": "text", "text": m["content"]}]}
+
     async def _complete(self, messages, system_prompt, json_mode) -> str:
         body: Dict[str, Any] = {
             "model": self.model,
             "max_tokens": 1024,
             "system": system_prompt,
             # The Messages API needs the conversation to start with a user turn.
-            "messages": messages if messages and messages[0]["role"] == "user" else [{"role": "user", "content": "Hello"}, *messages],
+            "messages": [self._message(m) for m in
+                         (messages if messages and messages[0]["role"] == "user" else [{"role": "user", "content": "Hello"}, *messages])],
         }
         if json_mode:
             body["temperature"] = 0
@@ -121,7 +141,9 @@ class GeminiProvider(_HTTPProvider):
         body: Dict[str, Any] = {
             "systemInstruction": {"parts": [{"text": system_prompt}]},
             "contents": [
-                {"role": "user" if m["role"] == "user" else "model", "parts": [{"text": m["content"]}]}
+                {"role": "user" if m["role"] == "user" else "model",
+                 "parts": [{"text": m["content"]}] + [{"inline_data": {"mime_type": "image/png", "data": data}}
+                                                       for data in m.get("images", [])]}
                 for m in messages
             ],
         }

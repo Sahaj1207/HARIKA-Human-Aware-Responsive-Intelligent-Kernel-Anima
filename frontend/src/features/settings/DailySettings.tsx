@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GroupedSection, Row, Toggle } from '@/components/apple/controls';
 import { dailyService, type DailySettings } from '@/services/api/daily';
 import { proactiveService, type ProactiveSettings } from '@/services/api/proactive';
+import { privacyService, type PrivacySettings } from '@/services/api/privacy';
 
 /** Settings > General: where "the weather" means, and the morning briefing. */
 export const DailySection: React.FC = () => {
@@ -142,6 +143,38 @@ export const HeadsUpSection: React.FC = () => {
         title="Low battery"
         subtitle={`When the battery drops to ${settings.battery_percent}% and isn't charging.`}
         accessory={<Toggle label="Low battery" checked={settings.battery} onChange={(on) => void save({ battery: on })} />}
+      />
+    </GroupedSection>
+  );
+};
+
+/** Settings > Privacy: whether HARIKA may capture the app you're using when you ask about it. */
+export const ScreenLookSection: React.FC = () => {
+  const [privacy, setPrivacy] = useState<PrivacySettings | null>(null);
+
+  useEffect(() => {
+    privacyService.get().then(setPrivacy).catch(() => setPrivacy(null));
+  }, []);
+
+  if (!privacy) return null;
+  const where = privacy.vision_services.length
+    ? `The picture goes to ${privacy.vision_services[0] === 'ollama' ? 'the vision model on this computer' : privacy.vision_services[0].replace(/^./, (c) => c.toUpperCase())} to answer, and is never saved.`
+    : 'With no vision service connected, HARIKA only reads the words in it. Nothing is saved.';
+
+  return (
+    <GroupedSection
+      title="Looking at your screen"
+      footer={`Only when you ask about the app you were using, like “what does this chart show?”. ${where}`}
+    >
+      <Row
+        title="Let HARIKA look at your screen when you ask"
+        accessory={
+          <Toggle
+            label="Let HARIKA look at your screen when you ask"
+            checked={privacy.screen_images}
+            onChange={async (on) => setPrivacy(await privacyService.update({ screen_images: on }))}
+          />
+        }
       />
     </GroupedSection>
   );

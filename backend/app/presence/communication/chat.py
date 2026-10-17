@@ -1,3 +1,4 @@
+import random
 import re
 from typing import Any, Optional
 from app.presence.schemas import ExperienceDecision
@@ -21,21 +22,23 @@ def format_chat_response(intent: str, engine_output: Any, experience: Optional[E
         return "We can explore a few options together. Tell me what kind of time, energy, or outcome you have in mind."
     if message:
         if "good morning" in message:
-            return "Good morning! How can I help today?"
+            return random.choice(["[cheerful] Good morning! What's first today?", "[warm] Morning! How can I help?"])
         if "good afternoon" in message:
-            return "Good afternoon! How can I help today?"
+            return random.choice(["[warm] Good afternoon! What can I do for you?", "[cheerful] Afternoon! What's up?"])
         if "good evening" in message:
-            return "Good evening! How can I help today?"
+            return random.choice(["[warm] Good evening! How was your day?", "[calm] Evening! What can I do for you?"])
         if message.startswith("hi") or message.startswith("hey"):
-            return "Hi! How can I help today?"
+            return random.choice(["[cheerful] Hey! What's up?", "[warm] Hi! What can I do for you?", "[cheerful] Hey there!"])
         if message.startswith("hello") or message.startswith("greetings"):
-            return "Hello! How can I help today?"
+            return random.choice(["[warm] Hello! What can I do for you?", "[cheerful] Hi there! What's up?"])
         if "how are you" in message or "how's it going" in message or "how is it going" in message:
-            return "I'm doing well, thank you for asking! How can I help today?"
+            return random.choice(["[cheerful] I'm good, thanks for asking! How's your day going?",
+                                  "[warm] Doing well! Better now that you're here. What's up?"])
         if "what's up" in message or "what is up" in message:
-            return "Not much! Ready to help with your tasks—what would you like to work on?"
+            return random.choice(["[playful] Not much, just waiting for you. What are we doing today?",
+                                  "[warm] All quiet here. What's on your mind?"])
         if "what can you help me with" in message or "can you help me" in message or "can you assist me" in message:
-            return "I can assist with memory, desktop tools, web tools, planning, and everyday questions."
+            return "[warm] Lots of things! Your apps, music, reminders, calendar, email, messages, notes, the web. What do you need?"
 
     if experience and experience.decision == "offer_diagnostics":
         return "I noticed repeated build failures. Shall I inspect the logs to help diagnose the issue?"

@@ -50,7 +50,8 @@ class ScreenAssistTool(BaseTool):
         operation_permissions={"send": PermissionLevel.HIGH},
         ability="read what's on your screen and help you reply in chats",
         target_description=(
-            "for read: what to look at ('screen', 'this page'); "
+            "for read: what to look at ('screen', 'this page'), with parameters.look true when the question is about "
+            "how something looks (a picture, chart, colours, layout, an error dialog) rather than its words; "
             "for reply: 'this chat', with parameters.instruction for what the reply should say "
             "or how to change the last draft (e.g. 'say I'll be late', 'make it shorter')"
         ),
@@ -88,7 +89,12 @@ class ScreenAssistTool(BaseTool):
         try:
             content = await asyncio.to_thread(screen_reader.read_window, window)
         except screen_reader.ScreenBusy as busy:
-            return self._fail(f"{busy}. Try again in a moment")
+            if operation != "read":
+                return self._fail(f"{busy}. Try again in a moment")
+            content = None
+        if operation == "read" and (args.get("look") or content is None or not content.lines):
+            # About how it looks, or the app hides its text: look at the picture instead.
+            return await self._look(window, args, content.lines if content else [])
         if not content.lines:
             return self._fail(f"I couldn't read anything in {window.app_name}. Some apps hide their text from other programs")
 
@@ -108,6 +114,34 @@ class ScreenAssistTool(BaseTool):
         )
         return {"action": "read_screen", "app": window.app_name, "success": True, "verified": True,
                 "summary": reply, "error": None}
+
+    async def _look(self, window: WindowInfo, args, text_lines) -> Dict[str, Any]:
+        """Capture the window, read it with OCR and ask a vision model; nothing is saved."""
+        from app.core.privacy import privacy_settings
+        from app.vision import screen
+
+        question = str(args.get("question") or args.get("request") or "What's on the screen?")
+        if not privacy_settings.load()["screen_images"]:
+            if text_lines:
+                return await self._answer_about(window, type("Text", (), {"lines": text_lines})(), args)
+            return self._fail("Looking at your screen is turned off in Settings > Privacy")
+        pixels = await asyncio.to_thread(screen.capture_window, window.hwnd)
+        if pixels is None:
+            return self._fail(f"I couldn't capture {window.app_name}. If it's minimized, bring it back and ask again")
+        full = screen.png(pixels)
+        ocr_lines = await asyncio.to_thread(screen.ocr, full)
+        text = "\n".join((text_lines or ocr_lines)[-80:])
+        context = f"The window is {window.app_name} (\"{window.title}\")."
+        if text:
+            context += f" Text read from it:\n<window>\n{text}\n</window>"
+        answer, service = await screen.ask_about_image(screen.png(screen.shrink(pixels)), question, context)
+        if answer:
+            return {"action": "read_screen", "app": window.app_name, "success": True, "verified": True,
+                    "summary": answer, "seen_by": service, "error": None}
+        if text:  # no vision model: answer from the words on screen
+            return await self._answer_about(window, type("Text", (), {"lines": text.splitlines()})(), args)
+        return self._fail(f"I couldn't make out anything in {window.app_name}. Connect Google Gemini in Settings > Brain "
+                          "so I can understand images")
 
     async def _draft_reply(self, window: WindowInfo, content, args) -> Dict[str, Any]:
         if not content.has_input:

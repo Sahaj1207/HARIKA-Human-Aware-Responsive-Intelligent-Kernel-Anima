@@ -5,7 +5,7 @@ import { HarikaOrb } from '@/components/apple/HarikaOrb';
 import { BrainSettings } from './BrainSettings';
 import { VoiceSettings } from './VoiceSettings';
 import { AccountsSettings } from './AccountsSettings';
-import { DailySection, HeadsUpSection } from './DailySettings';
+import { DailySection, HeadsUpSection, ScreenLookSection } from './DailySettings';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
@@ -108,6 +108,7 @@ const PrivacyPage: React.FC = () => {
           subtitle="Only when you ask, like &ldquo;continue this chat&rdquo;. The visible text goes to your conversation model, and nothing is sent in a chat until you say yes."
         />
       </GroupedSection>
+      <ScreenLookSection />
       <GroupedSection footer="Removes the messages shown in this window. HARIKA's memories are kept.">
         <Row
           title={cleared ? 'Conversation cleared' : confirming ? 'Tap again to clear' : 'Clear conversation'}

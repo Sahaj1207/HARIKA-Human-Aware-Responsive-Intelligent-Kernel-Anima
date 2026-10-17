@@ -32,7 +32,11 @@ class OllamaProvider(BaseLLMProvider):
         formatted_messages = [{"role": "system", "content": system_prompt}]
         for msg in messages:
             role = "user" if msg.get("sender") == "user" or msg.get("role") == "user" else "assistant"
-            formatted_messages.append({"role": role, "content": msg.get("content", "")})
+            item = {"role": role, "content": msg.get("content", "")}
+            if msg.get("images"):  # PNG bytes -> base64, as Ollama's vision models expect
+                import base64
+                item["images"] = [base64.b64encode(image).decode("ascii") for image in msg["images"]]
+            formatted_messages.append(item)
 
         payload = {
             "model": self.model,
