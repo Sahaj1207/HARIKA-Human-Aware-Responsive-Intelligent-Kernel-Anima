@@ -43,6 +43,10 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
         if is_close_result:
             return f"I attempted to close {app_name or 'the application'}, but couldn't verify that it terminated because {reason}."
         if action not in (None, "open_application", "open_website"):
+            # Tools that explain the problem in a full sentence ("I couldn't find milk on your
+            # shopping list") are quoted as they are; short reasons follow "because".
+            if reason[:1].isupper():
+                return f"{reason}."
             return f"I couldn't complete that because {reason}."
         target_name = (tool_data.get("app_name") or (engine_output.get("process_name") if is_dict else None) or (engine_output.get("tool") if is_dict else None))
         if not target_name and raw_message:

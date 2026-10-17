@@ -77,6 +77,27 @@ A routine is a phrase of your own that runs several actions:
 Routines are stored on this computer in `routines\routines.json` inside
 HARIKA's data folder.
 
+### Heads-ups
+
+HARIKA speaks up on its own about a few things, each with its own switch in
+**Settings > General > Heads-up**: a meeting on your Google Calendar is about to
+start (5 to 30 minutes before), someone you told it about has a birthday today
+(in the morning, offering to message them), and the battery is low while not
+charging. Each heads-up appears in HARIKA and as a notification, and is spoken
+if you use "Hey HARIKA".
+
+### Notes and lists
+
+"Take a note: the wifi password is on the fridge", "add milk and eggs to my
+shopping list", "what's on my to-do list?", "I bought the milk" (ticks it
+off), "clear my shopping list" (asks first). Any list name works.
+
+### Device
+
+"How much battery is left?", "turn off Bluetooth", "turn on Wi-Fi", "dark
+mode on", "show my desktop", "switch to Chrome". Each change is read back from
+Windows to confirm it happened.
+
 ### People
 
 Tell HARIKA about the people in your life and it remembers them on this

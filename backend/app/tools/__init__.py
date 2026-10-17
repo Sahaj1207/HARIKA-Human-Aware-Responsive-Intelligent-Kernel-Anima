@@ -13,6 +13,7 @@ import app.tools.system.system_control
 import app.tools.system.files
 import app.tools.system.reminders
 import app.tools.system.screen_assist
+import app.tools.system.device
 
 import app.tools.web.media_playback
 import app.tools.web.web_search
@@ -23,6 +24,7 @@ import app.tools.productivity.calendar_tool
 import app.tools.productivity.email_tool
 import app.tools.productivity.routine_tool
 import app.tools.productivity.people_tool
+import app.tools.productivity.notes_tool
 
 import app.tools.developer.github
 

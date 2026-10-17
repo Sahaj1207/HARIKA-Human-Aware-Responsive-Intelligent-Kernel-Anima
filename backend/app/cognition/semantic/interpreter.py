@@ -88,6 +88,14 @@ Examples:
 "when is Priya's birthday?" -> {{"actions": [{{"operation": "person_info", "target": "Priya", "parameters": {{"field": "birthday"}}}}]}}
 "text Mom that I'm on my way" -> {{"actions": [{{"operation": "message", "target": "Mom", "parameters": {{"text": "I'm on my way"}}}}]}}
 "tell Priya I'll call her after class" -> {{"actions": [{{"operation": "message", "target": "Priya", "parameters": {{"text": "I'll call you after class"}}}}]}}
+"take a note: the wifi password is on the fridge" -> {{"actions": [{{"operation": "note", "target": "the wifi password is on the fridge"}}]}}
+"add milk and eggs to my shopping list" -> {{"actions": [{{"operation": "add_to_list", "target": "milk", "parameters": {{"list": "shopping", "items": ["milk", "eggs"]}}}}]}}
+"what's on my to-do list?" -> {{"actions": [{{"operation": "show_list", "target": "to-do"}}]}}
+"clear my notes" -> {{"actions": [{{"operation": "clear_list", "target": "notes"}}]}}
+"I bought the milk" (after a shopping list) -> {{"actions": [{{"operation": "check_off", "target": "milk", "parameters": {{"list": "shopping"}}}}]}}
+"how much battery is left?" -> {{"actions": [{{"operation": "battery", "target": "battery"}}]}}
+"turn off bluetooth" -> {{"actions": [{{"operation": "turn_off", "target": "bluetooth"}}]}}
+"switch to chrome" -> {{"actions": [{{"operation": "switch_to", "target": "chrome"}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""
