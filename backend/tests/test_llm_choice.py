@@ -201,7 +201,8 @@ class SettingsApiTests(unittest.TestCase):
         with fake_http(lambda request: httpx.Response(200, json=models)):
             good = self.local.put("/api/v1/settings/llm/services/groq/key", json={"api_key": "gsk-ok"})
         self.assertEqual(good.status_code, 200)
-        self.assertEqual(good.json()["suggested"]["understanding"], "llama-3.1-8b-instant")
+        # The suggested model isn't offered, so the newest offered alternative is chosen.
+        self.assertEqual(good.json()["suggested"]["understanding"], "llama-3.3-70b-versatile")
         self.assertTrue(secrets.has_key("groq"))
 
     def test_openrouter_bad_key_rejected_even_though_model_list_is_public(self):

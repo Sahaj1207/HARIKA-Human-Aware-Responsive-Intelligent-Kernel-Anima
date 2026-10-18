@@ -9,11 +9,12 @@ import base64
 import hashlib
 import json
 import logging
+import re
 import secrets as pysecrets
 import threading
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import httpx
 
@@ -150,6 +151,8 @@ class RoleProvider(BaseLLMProvider):
         usable = [c for c in chain if time.time() - _failed_at.get(c["service"], 0) > _COOLDOWN_SECONDS] or chain[-1:]
         result: Dict[str, Any] = {}
         for index, choice in enumerate(usable):
+            if index:  # a backup uses a model its service still offers
+                choice = {**choice, "model": await usable_model(choice["service"], self.role) or choice["model"]}
             provider = build_provider(choice["service"], choice["model"])
             try:
                 result = await provider.generate_response(messages, system_prompt, json_mode=json_mode)
@@ -209,8 +212,12 @@ async def verify_key(service_id: str, api_key: str) -> List[str]:
     return await list_models(service_id, api_key=api_key)
 
 
+# Models a service lists that can't hold a conversation (speech, safety filters, images, embeddings).
+_NOT_CHAT = ("whisper", "tts", "orpheus", "guard", "safeguard", "embed", "image", "transcribe", "computer-use", "allam")
+
+
 def pick_default(service: LLMService, role: str, available: List[str]) -> str:
-    """The suggested model if this account has it, else a sensible available one."""
+    """The suggested model if this account has it, else the best available alternative."""
     suggested = service.suggested.get(role, "")
     if suggested and (not available or suggested in available):
         return suggested
@@ -218,7 +225,34 @@ def pick_default(service: LLMService, role: str, available: List[str]) -> str:
         from app.core.config import settings
         if settings.OLLAMA_MODEL in available:
             return settings.OLLAMA_MODEL
-    return available[0] if available else suggested
+    chat = [m for m in available if not any(word in m.lower() for word in _NOT_CHAT)]
+    def newest_first(name: str):
+        return [int(n) for n in re.findall(r"\d+", name)]
+
+    for hint in service.fallbacks.get(role, []):
+        matches = sorted((m for m in chat if hint in m.lower() and "preview" not in m.lower()), key=newest_first, reverse=True)
+        if matches:
+            return matches[0]
+    if role == "vision":
+        return ""  # never guess that a model can see
+    return chat[0] if chat else (available[0] if available else suggested)
+
+
+_MODEL_LISTS: Dict[str, Tuple[float, List[str]]] = {}
+
+
+async def usable_model(service_id: str, role: str) -> str:
+    """A model of this service that exists today (lists are cached for six hours)."""
+    service = get_service(service_id)
+    if service is None:
+        return ""
+    cached = _MODEL_LISTS.get(service_id)
+    if cached is None or time.time() - cached[0] > 6 * 3600:
+        try:
+            _MODEL_LISTS[service_id] = (time.time(), await list_models(service_id))
+        except Exception:
+            _MODEL_LISTS[service_id] = (time.time(), [])  # unknown: trust the suggestion
+    return pick_default(service, role, _MODEL_LISTS[service_id][1])
 
 
 async def check_role(role: str) -> Dict[str, Any]:

@@ -17,6 +17,8 @@ class LLMService(BaseModel):
     blurb: str = ""
     # Suggested models when the service can't list its own (or before connecting).
     suggested: Dict[str, str] = {}
+    # If a suggested model has been retired, the first available model containing one of these.
+    fallbacks: Dict[str, List[str]] = {}
 
 
 SERVICES: List[LLMService] = [
@@ -56,14 +58,17 @@ SERVICES: List[LLMService] = [
         base_url="https://generativelanguage.googleapis.com/v1beta",
         key_url="https://aistudio.google.com/app/apikey",
         blurb="Gemini models. Google AI Studio offers a free tier.",
-        suggested={"understanding": "gemini-2.5-flash", "conversation": "gemini-2.5-flash", "vision": "gemini-2.5-flash"},
+        suggested={"understanding": "gemini-3.8-flash", "conversation": "gemini-3.8-flash", "vision": "gemini-3.8-flash"},
+        fallbacks={role: ["flash", "pro"] for role in ("understanding", "conversation", "vision")},
     ),
     LLMService(
         id="groq", name="Groq", kind="openai_compatible", base_url="https://api.groq.com/openai/v1",
         key_url="https://console.groq.com/keys",
         blurb="Very fast open models. Has a free tier.",
-        suggested={"understanding": "llama-3.1-8b-instant", "conversation": "llama-3.3-70b-versatile",
-                   "vision": "meta-llama/llama-4-scout-17b-16e-instruct"},
+        suggested={"understanding": "openai/gpt-oss-20b", "conversation": "openai/gpt-oss-120b"},
+        fallbacks={"understanding": ["gpt-oss-20b", "qwen", "gpt-oss", "llama"],
+                   "conversation": ["gpt-oss-120b", "qwen", "gpt-oss", "llama"],
+                   "vision": ["vision", "scout", "maverick"]},
     ),
 ]
 

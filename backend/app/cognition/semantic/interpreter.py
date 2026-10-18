@@ -105,6 +105,37 @@ Examples:
 {context}"""
 
 
+_ALWAYS = ('"what is the capital of France?"', '"remember that I like cricket"')  # teach "this is conversation"
+_COMPACT_EXAMPLES = 8
+
+
+def _words(text: str) -> set:
+    return {w[:-1] if len(w) > 3 and w.endswith("s") else w for w in re.findall(r"[a-z0-9]+", text.lower()) if len(w) > 2}
+
+
+def compact_prompt(operations: str, context_block: str, message: str) -> str:
+    """The same instructions, cut down for one message: the most relevant examples, full details
+    only for the operations those examples use, and one line for every other operation."""
+    head, _, rest = _PROMPT_TEMPLATE.partition("Examples:\n")
+    examples = [line for line in rest.splitlines() if line.startswith('"')]
+    wanted = _words(message)
+    ranked = sorted(examples, key=lambda line: -len(wanted & _words(line.split(" -> ")[0])))
+    chosen = [line for line in ranked[:_COMPACT_EXAMPLES] if wanted & _words(line.split(" -> ")[0])]
+    chosen += [line for line in examples if line.startswith(_ALWAYS) and line not in chosen]
+    relevant = set(re.findall(r'"operation": "([a-z_]+)"', "\n".join(chosen)))
+
+    lines = []
+    for line in operations.splitlines():
+        names = set(re.findall(r'"([a-z_]+)"', line.split(":", 1)[0]))
+        if names & relevant:
+            lines.append(line)
+        else:
+            summary = line.split(":", 1)[1].split(" Target:")[0].strip() if ":" in line else line
+            lines.append(f"{line.split(':', 1)[0]}: {summary[:110]}")
+    template = head + "Examples:\n" + "\n".join(chosen) + "\n{context}"
+    return template.format(operations="\n".join(lines), context=context_block)
+
+
 class SemanticInterpreter:
     """Interprets language only; it cannot execute or invoke capabilities."""
 
@@ -120,7 +151,11 @@ class SemanticInterpreter:
         hints: Optional[Dict[str, Any]] = None,
         timeout: Optional[float] = None,
     ) -> SemanticRequest:
-        prompt = self._build_prompt(context, hints)
+        # Cloud models get a shorter prompt (free tiers count every token); a local model keeps
+        # the full, unchanging prompt so it can reuse what it has already read.
+        is_local = getattr(self.provider, "is_local", None)
+        compact = callable(is_local) and not is_local()
+        prompt = self._build_prompt(context, hints, message=raw_text if compact else "")
         limit = timeout or self.timeout_seconds
         kwargs = {}
         if "json_mode" in inspect.signature(self.provider.generate_response).parameters:
@@ -201,7 +236,7 @@ class SemanticInterpreter:
             raise error["value"]
         return result["value"]
 
-    def _build_prompt(self, context: Optional[Any], hints: Optional[Dict[str, Any]] = None) -> str:
+    def _build_prompt(self, context: Optional[Any], hints: Optional[Dict[str, Any]] = None, message: str = "") -> str:
         operations = self.catalog.describe_operations() or "- (no actions are currently available)"
         lines: List[str] = []
         history = list(getattr(context, "conversation_history", None) or [])[-4:]
@@ -233,6 +268,8 @@ class SemanticInterpreter:
         # Kept last so the long, stable part of the prompt stays in the model's cache.
         lines.append(f"Current local time: {datetime.now():%A %Y-%m-%d %H:%M}")
         context_block = "\nRecent context:\n" + "\n".join(lines) + "\n"
+        if message:
+            return compact_prompt(operations, context_block, message)
         return _PROMPT_TEMPLATE.format(operations=operations, context=context_block)
 
     def _normalize_payload(self, raw_text: str, payload: Dict[str, Any]) -> SemanticRequest:

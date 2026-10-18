@@ -23,6 +23,10 @@ class FakeProvider:
 calls = []
 
 
+async def _model(service):
+    return f"{service}-model"
+
+
 class BackupChainTests(unittest.TestCase):
     def setUp(self):
         calls.clear()
@@ -31,8 +35,12 @@ class BackupChainTests(unittest.TestCase):
         self.store = LLMSettings(Path(self.folder.name) / "llm.json")
         self.connected = patch.object(manager, "is_connected", side_effect=lambda s: s.id in ("groq", "gemini", "ollama"))
         self.connected.start()
+        # Backups check their service's live model list; never ask real services from a test.
+        self.models = patch.object(manager, "usable_model", side_effect=lambda service, role: _model(service))
+        self.models.start()
 
     def tearDown(self):
+        self.models.stop()
         self.connected.stop()
         self.folder.cleanup()
 

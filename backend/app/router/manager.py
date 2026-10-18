@@ -259,6 +259,14 @@ class RouterManager:
         asking = any(isinstance(r, dict) and isinstance(r.get("result"), dict) and r["result"].get("confirmation")
                      for r in node_results)
         tone = tone_for(node_results, chat_tone, asking=asking)
+        # A single successful action's result, said in HARIKA's own voice (facts kept exactly).
+        if (not asking and chat_tone is None and halted_reason is None and len(graph.nodes) == 1
+                and graph.nodes[0].engine == "ToolManager" and tone not in ("apologetic", "neutral")):
+            from app.presence.composer import compose
+            try:
+                final_text = await compose(final_text, message, tone) or final_text
+            except Exception as exc:
+                logger.warning(f"Rewording skipped: {exc}")
         elapsed_ms = round((time.time() - t_start) * 1000, 2)
 
 

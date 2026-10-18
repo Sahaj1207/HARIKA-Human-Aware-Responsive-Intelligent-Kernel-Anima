@@ -18,7 +18,7 @@ from app.cognition.llm.manager import RoleProvider
 from app.cognition.semantic.interpreter import default_semantic_interpreter
 
 
-async def main(limit: int) -> None:
+async def main(limit: int, pace: float = 0.0) -> None:
     cases = json.loads((Path(__file__).parent / "intents.json").read_text(encoding="utf-8"))[:limit]
     interpreter = default_semantic_interpreter()
     choice = RoleProvider("understanding").chain()[0]
@@ -26,6 +26,7 @@ async def main(limit: int) -> None:
     await interpreter.interpret("hello", timeout=300)  # warm the model so the first case isn't a cold start
     passed, times = 0, []
     for message, operation, word in cases:
+        await asyncio.sleep(pace)  # stay inside a free tier's per-minute limit
         start = time.perf_counter()
         try:
             request = await interpreter.interpret(message, timeout=120)
@@ -46,4 +47,5 @@ async def main(limit: int) -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main(int(sys.argv[1]) if len(sys.argv) > 1 else 10_000))
+    # Usage: run_intents.py [limit] [seconds between cases]
+    asyncio.run(main(int(sys.argv[1]) if len(sys.argv) > 1 else 10_000, float(sys.argv[2]) if len(sys.argv) > 2 else 0.0))
