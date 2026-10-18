@@ -5,6 +5,8 @@ failure, a plain-language explanation as the response plus "error": True, so
 chat shows something actionable and the interpreter falls back safely.
 """
 import base64
+import json
+import re
 import time
 from typing import Any, Dict, List, Optional
 
@@ -27,6 +29,37 @@ def _roles(messages: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
                 item["images"] = [base64.b64encode(image).decode("ascii") for image in msg["images"]]
             out.append(item)
     return out
+
+
+def _answer_in_reasoning(reasoning: Optional[str]) -> str:
+    """Some reasoning models (gpt-oss) occasionally put their JSON answer at the end of the
+    reasoning instead of the answer. Only a complete JSON object is taken from there; free-form
+    thinking is never shown as an answer."""
+    text = (reasoning or "").rstrip()
+    if not text.endswith("}"):
+        return ""
+    start = text.find("{")
+    while start != -1:
+        try:
+            json.loads(text[start:])
+            return text[start:]
+        except ValueError:
+            start = text.find("{", start + 1)
+    return ""
+
+
+def retry_after(exc: Exception) -> Optional[float]:
+    """Seconds a rate-limited service asks us to wait ("Retry-After", or "retry in 6h33m17s")."""
+    if not isinstance(exc, httpx.HTTPStatusError) or exc.response.status_code != 429:
+        return None
+    header = exc.response.headers.get("retry-after", "")
+    if header.replace(".", "", 1).isdigit():
+        return float(header)
+    match = re.search(r"retry in\s+(?:(\d+)h)?\s*(?:(\d+)m)?\s*(?:([\d.]+)s)?", exc.response.text or "", re.I)
+    if match and any(match.groups()):
+        hours, minutes, seconds = (float(g) if g else 0.0 for g in match.groups())
+        return hours * 3600 + minutes * 60 + seconds
+    return None
 
 
 def _explain(service: str, exc: Exception) -> str:
@@ -57,17 +90,19 @@ class _HTTPProvider(BaseLLMProvider):
 
     async def generate_response(self, messages, system_prompt, json_mode: bool = False) -> Dict[str, Any]:
         start = time.perf_counter()
+        wait = None
         try:
             text = await self._complete(_roles(messages), system_prompt, json_mode)
             error = False
         except Exception as exc:
-            text, error = _explain(self.service_name, exc), True
+            text, error, wait = _explain(self.service_name, exc), True, retry_after(exc)
         return {
             "response": (text or "").strip(),
             "provider": self.provider_name,
             "model": self.model,
             "latency_ms": int((time.perf_counter() - start) * 1000),
             **({"error": True} if error else {}),
+            **({"retry_after": wait} if wait else {}),
         }
 
     async def _complete(self, messages, system_prompt, json_mode) -> str:  # pragma: no cover - abstract
@@ -93,6 +128,8 @@ class OpenAICompatibleProvider(_HTTPProvider):
             "model": self.model,
             "messages": [{"role": "system", "content": system_prompt}, *(message(m) for m in messages)],
         }
+        if "gpt-oss" in self.model:
+            body["reasoning_effort"] = "low"  # quicker answers; fewer empty replies after long reasoning
         if json_mode:
             body["response_format"] = {"type": "json_object"}
             body["temperature"] = 0
@@ -102,7 +139,8 @@ class OpenAICompatibleProvider(_HTTPProvider):
         async with httpx.AsyncClient(timeout=_TIMEOUT) as client:
             reply = await client.post(f"{self.base_url}/chat/completions", json=body, headers=headers)
             reply.raise_for_status()
-        return reply.json()["choices"][0]["message"]["content"]
+        message = reply.json()["choices"][0]["message"]
+        return message.get("content") or _answer_in_reasoning(message.get("reasoning"))
 
 
 class AnthropicProvider(_HTTPProvider):

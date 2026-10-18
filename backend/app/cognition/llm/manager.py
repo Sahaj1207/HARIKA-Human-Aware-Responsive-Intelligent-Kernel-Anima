@@ -5,6 +5,7 @@ HARIKA has two model roles:
 - conversation: answers questions and chats (quality matters)
 Each role points at a service + model. Changes apply to the next request.
 """
+import asyncio
 import base64
 import hashlib
 import json
@@ -103,10 +104,37 @@ def build_provider(service_id: str, model: str) -> BaseLLMProvider:
     return OpenAICompatibleProvider(model, key, service.base_url, service.name)
 
 
-# Cloud services tried as backups, fastest first, when the user has connected them.
-_BACKUP_ORDER = ("groq", "gemini", "openrouter", "openai", "anthropic")
-_COOLDOWN_SECONDS = 60  # a service that just failed is skipped for a minute
+# Cloud services tried as backups, fastest first. Gemini comes last: its free tier is small
+# (about 20 requests a day per model), so it's kept for looking at the screen.
+_BACKUP_ORDER = ("groq", "openrouter", "openai", "anthropic", "gemini")
+_COOLDOWN_SECONDS = 60  # a service that just failed is skipped for a minute (longer if it says so)
 _failed_at: Dict[str, float] = {}
+_rest_until: Dict[str, float] = {}
+_SHORT_WAIT_SECONDS = 20  # a service asking to wait this long or less is waited for, not skipped
+
+
+_failures_in_a_row: Dict[str, int] = {}
+
+
+def resting(service_id: str) -> bool:
+    """Skipped for now: it asked us to wait (rate limit), or failed twice in a row within a minute.
+    One blip doesn't count; the backups are often much slower."""
+    if time.time() < _rest_until.get(service_id, 0):
+        return True
+    recent = time.time() - _failed_at.get(service_id, 0) < _COOLDOWN_SECONDS
+    return recent and _failures_in_a_row.get(service_id, 0) >= 2
+
+
+def note_failure(service_id: str, retry_after: Optional[float] = None) -> None:
+    _failed_at[service_id] = time.time()
+    _failures_in_a_row[service_id] = _failures_in_a_row.get(service_id, 0) + 1
+    if retry_after:
+        _rest_until[service_id] = time.time() + retry_after
+
+
+def note_success(service_id: str) -> None:
+    for record in (_failed_at, _rest_until, _failures_in_a_row):
+        record.pop(service_id, None)
 
 
 class RoleProvider(BaseLLMProvider):
@@ -124,6 +152,13 @@ class RoleProvider(BaseLLMProvider):
     def current(self) -> BaseLLMProvider:
         choice = self.store.load()[self.role]
         return build_provider(choice["service"], choice["model"])
+
+    @staticmethod
+    async def _ask(provider, messages, system_prompt, json_mode):
+        try:
+            return await provider.generate_response(messages, system_prompt, json_mode=json_mode)
+        except TypeError:
+            return await provider.generate_response(messages, system_prompt)
 
     def chain(self) -> List[Dict[str, str]]:
         """[{service, model}] in the order they are tried."""
@@ -148,23 +183,29 @@ class RoleProvider(BaseLLMProvider):
 
     async def generate_response(self, messages, system_prompt, json_mode: bool = False) -> Dict[str, Any]:
         chain = self.chain()
-        usable = [c for c in chain if time.time() - _failed_at.get(c["service"], 0) > _COOLDOWN_SECONDS] or chain[-1:]
+        usable = [c for c in chain if not resting(c["service"])] or chain[-1:]
         result: Dict[str, Any] = {}
         for index, choice in enumerate(usable):
             if index:  # a backup uses a model its service still offers
                 choice = {**choice, "model": await usable_model(choice["service"], self.role) or choice["model"]}
             provider = build_provider(choice["service"], choice["model"])
-            try:
-                result = await provider.generate_response(messages, system_prompt, json_mode=json_mode)
-            except TypeError:
-                result = await provider.generate_response(messages, system_prompt)
+            result = await self._ask(provider, messages, system_prompt, json_mode)
+            wait = result.get("retry_after") if result.get("error") else None
+            if wait and wait <= _SHORT_WAIT_SECONDS:
+                # "Try again in a few seconds" (a per-minute limit): waiting beats a much slower backup.
+                await asyncio.sleep(wait + 0.5)
+                result = await self._ask(provider, messages, system_prompt, json_mode)
+            elif not result.get("error") and not str(result.get("response", "")).strip():
+                result = await self._ask(provider, messages, system_prompt, json_mode)  # an empty reply: ask once more
+            if not result.get("error") and not str(result.get("response", "")).strip():
+                result = {**result, "error": True, "response": f"{choice['service']} returned an empty reply."}
             if not result.get("error"):
                 if index:
                     result["fallback_from"] = usable[0]["service"]
                     logger.info(f"[LLM] {self.role}: used {choice['service']} because {usable[0]['service']} failed.")
-                _failed_at.pop(choice["service"], None)
+                note_success(choice["service"])
                 return result
-            _failed_at[choice["service"]] = time.time()
+            note_failure(choice["service"], result.get("retry_after"))
             logger.warning(f"[LLM] {self.role}: {choice['service']} failed: {result.get('response', '')[:160]}")
         return result
 

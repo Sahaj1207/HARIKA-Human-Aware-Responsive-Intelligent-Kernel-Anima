@@ -40,3 +40,11 @@ class ModelPickingTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ReasoningLeakTests(unittest.TestCase):
+    def test_json_answer_left_in_reasoning_is_recovered_but_thinking_is_not(self):
+        from app.cognition.llm.providers import _answer_in_reasoning
+        self.assertEqual(_answer_in_reasoning('Need to search.{"step": {"skill": "search_web"}}'), '{"step": {"skill": "search_web"}}')
+        self.assertEqual(_answer_in_reasoning("The user seems sad; I should be gentle."), "")
+        self.assertEqual(_answer_in_reasoning(None), "")

@@ -93,13 +93,16 @@ class TaskAgent:
 
     async def _decide(self, goal: str, observations: List[str], last_chance: bool) -> Dict[str, Any]:
         system = _SYSTEM.format(today=date.today().strftime("%A %d %B %Y"), skills=SKILLS_DOC)
-        budget = 1500 if self.compact else 4000
+        budget = 1500 if self.compact else 2500  # cloud free tiers count tokens per minute
         material = "\n\n".join(o[:budget] for o in observations) or "(nothing yet)"
         note = "\nThis is the last step: reply with done now." if last_chance else ""
         message = f"Goal: {goal}\n\nObservations so far:\n{material}{note}"
         if self.tainted:
             message += "\n(Web skills are now off because this task has read private data.)"
         reply = await self._model(system, message)
+        if not reply.strip():  # a cloud model occasionally answers with nothing; ask once more
+            await asyncio.sleep(2)
+            reply = await self._model(system, message)
         return parse_decision(reply)
 
     async def _model(self, system: str, message: str) -> str:
