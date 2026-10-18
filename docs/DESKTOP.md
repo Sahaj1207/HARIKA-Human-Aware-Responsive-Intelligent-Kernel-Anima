@@ -90,6 +90,15 @@ calendar, email or notes, it stops using the web for the rest of that task.
 Tasks take under a minute with a cloud brain and several minutes on a laptop
 CPU.
 
+### Watching an app
+
+"Tell me when Claude finishes", "let me know when Brave finishes loading",
+"tell me when Chrome says download complete". HARIKA reads the app every few
+seconds on this computer (nothing is sent anywhere) and gives you a heads-up
+when it has stopped changing for about half a minute, or when the words you
+named appear. It also tells you if the app is closed, if nothing changed at all
+(it may already be done), or if three hours pass. "Stop watching" ends it.
+
 ### Seeing the screen
 
 "What does this chart show?", "what's this error?", "summarize this page":

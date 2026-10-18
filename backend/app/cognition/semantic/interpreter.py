@@ -100,6 +100,9 @@ Examples:
 "research laptops under 60k for coding and compare the best three" -> {{"actions": [{{"operation": "task", "target": "compare the best three laptops under 60000 rupees for coding"}}]}}
 "plan a weekend trip to Goa" -> {{"actions": [{{"operation": "task", "target": "plan a weekend trip to Goa"}}]}}
 "find a free hour next week for the dentist and add it" -> {{"actions": [{{"operation": "task", "target": "find a free hour next week for a dentist appointment and add it to my calendar"}}]}}
+"can you see the screen and notify me when Claude finishes the work?" -> {{"actions": [{{"operation": "watch", "target": "claude"}}]}} ("can you see" only leads into the request)
+"tell me when chrome says download complete" -> {{"actions": [{{"operation": "watch", "target": "chrome", "parameters": {{"text": "download complete"}}}}]}}
+"stop watching" -> {{"actions": [{{"operation": "stop_watching", "target": "all"}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""

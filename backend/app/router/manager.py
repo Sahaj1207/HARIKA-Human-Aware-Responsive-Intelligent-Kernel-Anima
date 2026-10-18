@@ -218,7 +218,7 @@ class RouterManager:
                 if len(graph.nodes) == 1:
                     raise
                 node.status = "failed"
-                halted_reason = f"The '{node.action}' step failed ({exc})"
+                halted_reason = f"Something went wrong while I tried to {self._step_label(node)}"
                 router_event_bus.emit(RouterEventType.ENGINE_COMPLETED, {"engine": node.engine, "status": "failed"})
                 live_events.publish("step", index=index, total=total, status="failed", label=self._step_label(node))
                 continue
@@ -240,15 +240,16 @@ class RouterManager:
                 fmt_responses.append(fmt_text.strip())
             node_results.append(res)
             if step_failed and len(graph.nodes) > 1:
-                halted_reason = f"The '{node.action}' step did not succeed"
+                halted_reason = ""  # the step's own reply already says what went wrong
             elif not step_failed:
                 self._hold_tool_follow_up(res, ctx, message, user_id, session_id, primary_intent, confidence, policy)
 
         skipped = [n for n in graph.nodes if n.status == "skipped"]
-        if halted_reason and skipped:
-            fmt_responses.append(f"{halted_reason}, so I stopped before the remaining {len(skipped)} step(s).")
-        elif halted_reason:
+        if halted_reason:
             fmt_responses.append(f"{halted_reason}.")
+        if halted_reason is not None and skipped:
+            count = f"the remaining {len(skipped)} step" + ("s" if len(skipped) != 1 else "")
+            fmt_responses.append(f"So I stopped before {count}.")
 
         remember_completed = getattr(self.cognitive_core, "remember_completed", None)
         if remember_completed is not None:

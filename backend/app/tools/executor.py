@@ -114,7 +114,7 @@ class ToolExecutor:
                     success=False,
                     status_code=ToolStatusCode.INVALID_ARGUMENT,
                     tool_name=tool_name,
-                    error=f"Argument validation failed: {val_error}",
+                    error=val_error,  # tools word these as questions for the user ("When should I remind you?")
                     tool_version=tool.manifest.version
                 )
 

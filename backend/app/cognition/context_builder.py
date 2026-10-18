@@ -6,6 +6,11 @@ from app.tools.result import ToolResult
 from app.planning.schemas import Goal, Task, Decision, Reflection
 
 
+def _abilities() -> str:
+    from app.presence.communication.capability import describe_abilities
+    return describe_abilities().split(" Just ask")[0]
+
+
 class ContextBuilder:
     """Dynamically constructs system prompts enriched with structured memory, tool outcomes, and planning decisions."""
 
@@ -27,7 +32,10 @@ class ContextBuilder:
             "You are HARIKA, a warm and capable personal assistant that lives on the user's computer.",
             f"User Name: {user_name if user_name else 'User'}",
             f"Local time: {now_local}\n",
-            active_personality.get_instructions()
+            active_personality.get_instructions(),
+            "\nWhat you can do on this computer (through your actions; never say you can't): "
+            + _abilities() + " When someone asks for one of these, it is being handled; don't claim you can't see the "
+            "screen, set reminders, or act on the computer.",
         ]
 
         # Inject Decision Engine Strategy
