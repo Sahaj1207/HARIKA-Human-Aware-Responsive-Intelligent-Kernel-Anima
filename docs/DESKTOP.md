@@ -284,5 +284,33 @@ This starts Vite and the desktop shell; the shell starts the backend from
 - **Code signing**: unsigned installers trigger SmartScreen on Windows and
   Gatekeeper on macOS. Signing needs a certificate (Windows) or an Apple
   Developer account (macOS).
-- **Automatic updates**: not set up; install a newer setup file over the old one.
+- **Update hosting**: in-app updates are built (see below) but need a public
+  place for the release files; until then, install a newer setup file over the
+  old one.
+
+## Updates
+
+HARIKA checks for a new version a few seconds after it starts and from
+**Settings > General > Updates**. "Install and restart" downloads the update,
+verifies its signature (only updates signed with HARIKA's key are installed),
+stops HARIKA's engine, installs and reopens HARIKA. Settings and data are kept.
+
+**Making a release** (developer):
+
+```bash
+cd frontend
+node scripts/release.mjs 0.2.1 "What's new"
+```
+
+This sets the version, builds the installer, signs it with
+`secrets/updater.key` (password in `secrets/updater-key.password`; keep both
+backed up and private: losing them means existing installs can't verify new
+updates) and writes `release/0.2.1/`: the installer, its `.sig`, and
+`latest.json`. Publish those three files as release `v0.2.1` of the update host
+(by default `github.com/Sahaj1207/harika-releases`, a public repository that
+holds only release files, never code). HARIKA reads
+`https://github.com/Sahaj1207/harika-releases/releases/latest/download/latest.json`.
+The address can be changed per computer in
+`%APPDATA%\com.harika.desktop\settings\updates.json` as `{"url": "https://..."}`;
+release builds only accept https addresses.
 - **Ollama** is a separate install; HARIKA guides the user to it on first run.

@@ -1,6 +1,8 @@
 //! HARIKA desktop shell: tray icon, global hotkey, floating orb window and the
 //! lifecycle of the local Python backend.
 
+mod updates;
+
 use std::fs::File;
 use std::net::TcpStream;
 use std::path::PathBuf;
@@ -106,7 +108,7 @@ fn start_backend(app: &AppHandle) -> Option<Child> {
     }
 }
 
-fn stop_backend(app: &AppHandle) {
+pub(crate) fn stop_backend(app: &AppHandle) {
     if let Some(mut child) = app.state::<Backend>().0.lock().unwrap().take() {
         // A Windows virtualenv python.exe is a launcher that starts the real
         // interpreter as a child, so the whole process tree must be ended.
@@ -229,6 +231,8 @@ pub fn run() {
     let app = tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| show_main(app)))
         .plugin(tauri_plugin_autostart::Builder::new().build())
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init())
         .plugin(
             tauri_plugin_global_shortcut::Builder::new()
                 .with_handler(|app, shortcut, event| {
@@ -246,7 +250,7 @@ pub fn run() {
                 .build(),
         )
         .manage(Backend(Mutex::new(None)))
-        .invoke_handler(tauri::generate_handler![summon_orb])
+        .invoke_handler(tauri::generate_handler![summon_orb, updates::check_update, updates::install_update])
         .setup(|app| {
             let handle = app.handle();
             let child = start_backend(handle);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { UpdateBanner } from './UpdateBanner';
 import { MessageList } from '../apple/MessageList';
 import { CommandBar } from '../core/CommandBar';
 import { StatusBar } from '../core/StatusBar';
@@ -68,6 +69,7 @@ export const MainLayout: React.FC = () => {
         {!isBooted && <StartupSequence />}
 
         <StatusBar onOpenSettings={() => setIsSettingsOpen(true)} />
+        <UpdateBanner />
 
         <main className="relative flex-1 min-h-0 flex flex-col">
           <div className="flex-1 min-h-0 overflow-y-auto">

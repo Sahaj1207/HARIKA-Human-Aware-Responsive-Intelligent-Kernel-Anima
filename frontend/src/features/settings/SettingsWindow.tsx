@@ -6,6 +6,7 @@ import { BrainSettings } from './BrainSettings';
 import { VoiceSettings } from './VoiceSettings';
 import { AccountsSettings } from './AccountsSettings';
 import { DailySection, HeadsUpSection, ScreenLookSection } from './DailySettings';
+import { UpdatesSection } from './UpdatesSection';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
@@ -85,6 +86,8 @@ const GeneralPage: React.FC = () => {
           }
         />
       </GroupedSection>
+
+      <UpdatesSection />
 
       <GroupedSection title="Desktop" footer="Start at login is in the HARIKA menu in your system tray.">
         <Row title="Ask HARIKA from anywhere" value={SHORTCUT} />

@@ -47,3 +47,6 @@ backend/build/
 
 # Developer credentials (e.g. the Google OAuth client built into the installer)
 secrets/
+
+# Built releases (installers and update files)
+release/
