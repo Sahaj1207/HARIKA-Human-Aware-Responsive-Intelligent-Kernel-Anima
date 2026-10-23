@@ -39,6 +39,7 @@ class _PendingPlan:
     created_at: float
     # How the tool that proposed this can redo it with a change ("make it shorter").
     revise: Optional[Dict[str, Any]] = None
+    ttl: float = CONFIRMATION_TTL_SECONDS  # seconds the question stays open
 
 
 class RouterManager:
@@ -268,6 +269,9 @@ class RouterManager:
                 final_text = await compose(final_text, message, tone) or final_text
             except Exception as exc:
                 logger.warning(f"Rewording skipped: {exc}")
+        final_text = self._with_mention_reminders(final_text, message, graph, t_start)
+        if not asking:
+            final_text = self._with_reminder_offer(final_text, node_results, user_id, session_id)
         elapsed_ms = round((time.time() - t_start) * 1000, 2)
 
 
@@ -310,6 +314,34 @@ class RouterManager:
         }
 
 
+    def _with_reminder_offer(self, reply: str, node_results, user_id: str, session_id: str) -> str:
+        """Ask "Want me to remind you Monday at 9 AM?" when the user mentioned a plan of theirs."""
+        from app.cognition.follow_through import as_follow_up
+
+        offer = next((r["offer_reminder"] for r in node_results if isinstance(r, dict) and r.get("offer_reminder")), None)
+        if not offer:
+            return reply
+        question, follow_up = as_follow_up(offer)
+        self.offer(follow_up, user_id=user_id, session_id=session_id)
+        return f"{reply.rstrip()} {question}"
+
+    @staticmethod
+    def _with_mention_reminders(reply: str, message: str, graph, t_start: float) -> str:
+        """"Remind me to ask Priya about the tickets when I talk to her": said when Priya comes up."""
+        from app.tools.system.reminders import moment_store
+
+        targets = [n.arguments.get("target") for n in graph.nodes
+                   if n.engine == "ToolManager" and isinstance(n.arguments.get("target"), str)]
+        try:
+            due = moment_store.take_mentions([message, *targets], before=t_start)
+        except OSError as exc:
+            logger.warning(f"Reminders by person unavailable: {exc}")
+            return reply
+        if not due:
+            return reply
+        items = "; ".join(r["text"] for r in due)
+        return f"{reply.rstrip()}\n\nBy the way, you asked me to remind you: {items}."
+
     def _journal(self, message: str, reply: str, graph, user_id: str) -> None:
         """Keep the exchange in the conversation journal (Settings > Memory can switch this off)."""
         from app.memory.journal import journal
@@ -326,7 +358,7 @@ class RouterManager:
 
     def _take_pending(self, user_id: str, session_id: str) -> Optional["_PendingPlan"]:
         pending = self._pending.pop((user_id, session_id), None)
-        if pending is None or time.time() - pending.created_at > CONFIRMATION_TTL_SECONDS:
+        if pending is None or time.time() - pending.created_at > pending.ttl:
             return None
         return pending
 
@@ -341,6 +373,23 @@ class RouterManager:
         follow_up = result.get("confirmation") if isinstance(result, dict) else None
         if not isinstance(follow_up, dict) or not follow_up.get("capability"):
             return
+        self._hold(follow_up, ctx, message, user_id, session_id, intent, confidence, policy)
+
+    def offer(self, follow_up: Dict[str, Any], user_id: str = "default", session_id: str = "default") -> None:
+        """HARIKA offers to do something on her own initiative ("Want me to open the meeting?").
+
+        Held like any approval: the user's next message decides. "Yes" runs it through
+        the normal executor; anything else drops it. Nothing runs without that yes.
+        """
+        if not isinstance(follow_up, dict) or not follow_up.get("capability"):
+            return
+        question = str(follow_up.get("question") or "Should I go ahead?")
+        ctx = RequestContext(message=question, user_id=user_id, session_id=session_id)
+        self._hold(follow_up, ctx, question, user_id, session_id, IntentType.TOOL_EXECUTION, 1.0, PolicyType.TOOL_FIRST)
+        if follow_up.get("ttl"):
+            self._pending[(user_id, session_id)].ttl = float(follow_up["ttl"])
+
+    def _hold(self, follow_up, ctx, message, user_id, session_id, intent, confidence, policy) -> None:
         from app.router.action_graph import ActionGraph, ActionNode
 
         graph = ActionGraph()

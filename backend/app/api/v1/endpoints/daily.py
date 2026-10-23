@@ -12,6 +12,8 @@ class DailySettingsUpdate(BaseModel):
     home: str | None = None
     briefing_enabled: bool | None = None
     briefing_time: str | None = None
+    wrap_up_enabled: bool | None = None
+    wrap_up_time: str | None = None
 
 
 @router.get("")

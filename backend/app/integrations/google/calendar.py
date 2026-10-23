@@ -1,4 +1,5 @@
 """Google Calendar (the user's primary calendar) as plain events in local time."""
+import re
 import urllib.parse
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
@@ -18,6 +19,7 @@ class Event:
     all_day: bool = False
     link: str = ""
     location: str = ""
+    meeting_url: str = ""    # video call link (Meet, Zoom, Teams...), if the event has one
 
     def overlaps(self, start: datetime, end: datetime) -> bool:
         return self.start < end and start < self.end
@@ -34,6 +36,23 @@ def _parse_time(value: Dict[str, str]) -> datetime:
     return datetime.combine(date.fromisoformat(value["date"]), datetime.min.time())
 
 
+_URL = re.compile(r"https://[^\s<>\"')]+")
+
+
+def meeting_url(item: Dict[str, Any]) -> str:
+    """The event's video call: Google's conference link, else the first web link in its location or notes."""
+    if item.get("hangoutLink"):
+        return item["hangoutLink"]
+    for entry in (item.get("conferenceData") or {}).get("entryPoints", []):
+        if entry.get("entryPointType") == "video" and str(entry.get("uri", "")).startswith("https://"):
+            return entry["uri"]
+    for text in (item.get("location", ""), item.get("description", "")):
+        match = _URL.search(text or "")
+        if match:
+            return match.group(0).rstrip(".,;")
+    return ""
+
+
 def to_event(item: Dict[str, Any]) -> Event:
     return Event(
         id=item["id"],
@@ -43,6 +62,7 @@ def to_event(item: Dict[str, Any]) -> Event:
         all_day="date" in item["start"],
         link=item.get("htmlLink", ""),
         location=item.get("location", ""),
+        meeting_url=meeting_url(item),
     )
 
 

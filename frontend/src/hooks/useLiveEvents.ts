@@ -82,8 +82,8 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
     // The morning briefing (Settings > General > Your day).
     source.addEventListener('briefing', (raw) => {
       if (!announceReminders) return;
-      const { text } = JSON.parse((raw as MessageEvent).data) as { text: string };
-      notificationService.show('info', 'Your day', text.split('\n\n')[0], 8000);
+      const { text, title } = JSON.parse((raw as MessageEvent).data) as { text: string; title?: string };
+      notificationService.show('info', title || 'Your day', text.split('\n\n')[0], 8000);
       addMessage({ role: 'assistant', content: text, metadata: { provider: 'briefing' } });
     });
 

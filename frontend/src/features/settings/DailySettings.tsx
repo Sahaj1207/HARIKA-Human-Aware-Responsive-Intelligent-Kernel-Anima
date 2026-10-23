@@ -42,7 +42,7 @@ export const DailySection: React.FC = () => {
       title="Your day"
       footer={
         error ??
-        'Ask "brief me" any time for the weather, today\'s reminders and the headlines. Leave the city empty to use your approximate location.'
+        'Ask "brief me" any time for the weather, today\'s reminders and the headlines, or "how was my day?" for the wrap-up. Leave the city empty to use your approximate location.'
       }
     >
       <Row
@@ -91,6 +91,31 @@ export const DailySection: React.FC = () => {
           }
         />
       )}
+      <Row
+        title="Evening wrap-up"
+        subtitle="What you did today, what's still open, and how tomorrow starts."
+        accessory={
+          <Toggle
+            label="Evening wrap-up"
+            checked={settings.wrap_up_enabled}
+            onChange={(checked) => void save({ wrap_up_enabled: checked })}
+          />
+        }
+      />
+      {settings.wrap_up_enabled && (
+        <Row
+          title="Time"
+          accessory={
+            <input
+              type="time"
+              value={settings.wrap_up_time}
+              onChange={(e) => e.target.value && void save({ wrap_up_time: e.target.value })}
+              aria-label="Wrap-up time"
+              className="bg-transparent t-callout text-label-2 outline-none focus:text-label"
+            />
+          }
+        />
+      )}
     </GroupedSection>
   );
 };
@@ -109,7 +134,7 @@ export const HeadsUpSection: React.FC = () => {
   return (
     <GroupedSection
       title="Heads-up"
-      footer="HARIKA tells you about these on its own: in this window, as a notification, and out loud if you use “Hey HARIKA”."
+      footer="HARIKA tells you about these on its own: in this window, as a notification, and out loud if you use “Hey HARIKA”. When a meeting has a video link she offers to open it; nothing opens unless you say yes."
     >
       <Row
         title="Upcoming meetings"
@@ -143,6 +168,53 @@ export const HeadsUpSection: React.FC = () => {
         title="Low battery"
         subtitle={`When the battery drops to ${settings.battery_percent}% and isn't charging.`}
         accessory={<Toggle label="Low battery" checked={settings.battery} onChange={(on) => void save({ battery: on })} />}
+      />
+      <Row
+        title="Habit suggestions"
+        subtitle="Things you usually ask for at about this time (Settings > Memory)."
+        accessory={
+          <select
+            value={settings.suggestions_per_day}
+            onChange={(e) => void save({ suggestions_per_day: Number(e.target.value) })}
+            aria-label="Habit suggestions per day"
+            className="bg-transparent t-callout text-label-2 outline-none"
+          >
+            <option value={0}>Off</option>
+            {[1, 2, 3, 5].map((n) => (
+              <option key={n} value={n}>
+                Up to {n} a day
+              </option>
+            ))}
+          </select>
+        }
+      />
+      <Row
+        title="Quiet hours"
+        subtitle="No heads-ups at these times, except a low battery."
+        accessory={
+          <div className="flex items-center gap-2">
+            {settings.quiet_hours && (
+              <>
+                <input
+                  type="time"
+                  value={settings.quiet_start}
+                  onChange={(e) => e.target.value && void save({ quiet_start: e.target.value })}
+                  aria-label="Quiet hours start"
+                  className="bg-transparent t-callout text-label-2 outline-none focus:text-label"
+                />
+                <span className="t-callout text-label-2">to</span>
+                <input
+                  type="time"
+                  value={settings.quiet_end}
+                  onChange={(e) => e.target.value && void save({ quiet_end: e.target.value })}
+                  aria-label="Quiet hours end"
+                  className="bg-transparent t-callout text-label-2 outline-none focus:text-label"
+                />
+              </>
+            )}
+            <Toggle label="Quiet hours" checked={settings.quiet_hours} onChange={(on) => void save({ quiet_hours: on })} />
+          </div>
+        }
       />
     </GroupedSection>
   );

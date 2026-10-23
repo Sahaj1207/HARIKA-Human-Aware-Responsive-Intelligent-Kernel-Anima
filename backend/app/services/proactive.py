@@ -4,6 +4,11 @@
 - someone they told HARIKA about has a birthday today
 - the battery is running low
 - something the user habitually asks for is usually done about now (Settings > Memory)
+- reminders set for "when I'm back" once the user returns to the computer
+
+A meeting with a video link comes with an offer to open it; the offer waits for the
+user's yes like any other approval. Quiet hours silence everything but a low battery,
+and suggestions (habits) are limited per day.
 
 Each heads-up is shown in HARIKA's windows, sent as a notification, and spoken when
 the user talks to HARIKA by voice. Each one happens once (per event, per day, per
@@ -12,6 +17,7 @@ discharge), and every kind has its own switch in Settings > General.
 import asyncio
 import json
 import logging
+import re
 import threading
 import time
 from datetime import date, datetime, timedelta
@@ -28,7 +34,12 @@ DEFAULTS: Dict[str, Any] = {
     "birthdays": True,         # on the morning of a birthday
     "battery": True,           # when the battery runs low on battery power
     "battery_percent": 15,
+    "quiet_hours": True,       # no heads-ups (except low battery) between these times
+    "quiet_start": "23:00",
+    "quiet_end": "07:00",
+    "suggestions_per_day": 3,  # habit suggestions at most this often
 }
+_AWAY_SECONDS = 600  # no keyboard or mouse for this long counts as being away
 _BIRTHDAY_HOUR = 9
 _CALENDAR_REFRESH = 300  # seconds between calendar reads
 
@@ -55,6 +66,11 @@ class ProactiveSettings:
             changes["meeting_minutes"] = int(min(60, max(1, int(changes["meeting_minutes"]))))
         if "battery_percent" in changes:
             changes["battery_percent"] = int(min(50, max(5, int(changes["battery_percent"]))))
+        for key in ("quiet_start", "quiet_end"):
+            if key in changes and not re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", str(changes[key])):
+                raise ValueError(f"{key} must be HH:MM (24-hour).")
+        if "suggestions_per_day" in changes:
+            changes["suggestions_per_day"] = int(min(10, max(0, int(changes["suggestions_per_day"]))))
         data = {**self.load(), **changes}
         with self._lock:
             self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -74,6 +90,9 @@ class HeadsUps:
         self._events: List[Any] = []
         self._events_read = 0.0
         self._battery_warned = False
+        self._started = time.time()
+        self._away = False
+        self._checked_return = False
 
     # ------------------------------------------------------------- memory of what was said
 
@@ -90,17 +109,43 @@ class HeadsUps:
 
     # ------------------------------------------------------------- the checks
 
-    async def check(self, now: datetime) -> List[Dict[str, str]]:
+    async def check(self, now: datetime) -> List[Dict[str, Any]]:
         settings = self.settings.load()
-        found: List[Dict[str, str]] = []
+        found: List[Dict[str, Any]] = []
+        if settings["battery"]:
+            found += self.battery(settings["battery_percent"])
+        if quiet(settings, now):
+            return found  # the rest waits (meetings and birthdays are simply skipped at night)
+        found += self.welcome_back(now)
         if settings["meetings"]:
             found += await self.meetings(now, settings["meeting_minutes"])
         if settings["birthdays"]:
             found += self.birthdays(now)
-        if settings["battery"]:
-            found += self.battery(settings["battery_percent"])
-        found += self.habits(now)
+        found += self.habits(now, settings["suggestions_per_day"])
         return found
+
+    def welcome_back(self, now: datetime) -> List[Dict[str, str]]:
+        """Reminders for "when I'm back": after the user was away, or when HARIKA starts again."""
+        from app.core.idle import seconds_idle
+        from app.tools.system.reminders import moment_store
+
+        idle = seconds_idle()
+        first = not self._checked_return
+        self._checked_return = True
+        if idle is not None and idle >= _AWAY_SECONDS:
+            self._away = True
+            return []
+        if first:
+            since = self._started  # anything set before HARIKA started is "while you were away"
+        elif self._away:
+            since, self._away = time.time(), False  # nothing can be set while away, so all of it is due
+        else:
+            return []
+        due = moment_store.take_back(before=since)
+        if not due:
+            return []
+        items = "; ".join(r["text"] for r in due)
+        return [{"kind": "reminder", "tone": "warm", "text": f"Welcome back. You asked me to remind you: {items}."}]
 
     async def meetings(self, now: datetime, minutes: int) -> List[Dict[str, str]]:
         from app.integrations.google.account import google_account
@@ -124,8 +169,15 @@ class HeadsUps:
                 continue
             told.add(key)
             when = "now" if lead < 1 else f"in {round(lead)} minute{'s' if round(lead) != 1 else ''}"
-            where = f" at {event.location}" if event.location else ""
-            out.append({"kind": "meeting", "tone": "warm", "text": f"Heads up: {event.title} starts {when}{where}."})
+            where = f" at {event.location}" if event.location and event.location not in event.meeting_url else ""
+            item: Dict[str, Any] = {"kind": "meeting", "tone": "warm", "text": f"Heads up: {event.title} starts {when}{where}."}
+            if event.meeting_url:
+                item["text"] = f"Heads up: {event.title} starts {when}. Want me to open the meeting?"
+                # Open until a little after the start; "yes" opens the link, nothing happens otherwise.
+                item["offer"] = {"capability": "open_website", "operation": "open", "target": event.meeting_url,
+                                 "question": f"Should I open the {event.title} meeting?",
+                                 "ttl": max(120.0, (event.start - now).total_seconds() + 600)}
+            out.append(item)
         if out:
             self._remember(meetings_told=sorted(told)[-50:])
         return out
@@ -157,7 +209,7 @@ class HeadsUps:
         return [{"kind": "battery", "tone": "calm", "text": f"Your battery is at {status.percent}%{left}. Plug in soon."}]
 
 
-    def habits(self, now: datetime) -> List[Dict[str, str]]:
+    def habits(self, now: datetime, limit: int = 3) -> List[Dict[str, str]]:
         from app.memory.journal import journal
         from app.memory.patterns import habits
         if not journal.settings()["notice_habits"]:
@@ -166,7 +218,7 @@ class HeadsUps:
         told = {k: v for k, v in self._state().get("habits_told", {}).items() if v == today}
         out = []
         for habit in habits.due(now):
-            if habit["id"] in told:
+            if habit["id"] in told or len(told) >= limit:
                 continue
             told[habit["id"]] = today
             out.append({"kind": "habit", "tone": "warm",
@@ -174,6 +226,14 @@ class HeadsUps:
         if out:
             self._remember(habits_told=told)
         return out
+
+
+def quiet(settings: Dict[str, Any], now: datetime) -> bool:
+    """Within quiet hours (which may run past midnight)."""
+    if not settings["quiet_hours"]:
+        return False
+    start, end, current = settings["quiet_start"], settings["quiet_end"], now.strftime("%H:%M")
+    return start <= current < end if start <= end else current >= start or current < end
 
 
 def _duration(minutes: int) -> str:
@@ -201,6 +261,10 @@ async def run_proactive_loop(interval_seconds: float = 30.0) -> None:
         await asyncio.sleep(interval_seconds)
         try:
             for item in await heads_ups.check(datetime.now()):
+                if item.get("offer"):
+                    from app.memory.journal import journal
+                    from app.router.manager import router_manager
+                    router_manager.offer(item["offer"], user_id=journal.owner())
                 live_events.publish("heads_up", kind=item["kind"], text=item["text"], tone=item.get("tone", "warm"))
                 await asyncio.to_thread(show_os_notification, "HARIKA", item["text"])
                 await asyncio.to_thread(_speak_if_listening, item["text"], item.get("tone", "warm"))

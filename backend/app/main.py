@@ -18,6 +18,8 @@ async def lifespan(app: FastAPI):
     reminders = asyncio.create_task(run_reminder_scheduler(reminders_tool))
     from app.tools.utilities.briefing import run_briefing_scheduler
     briefing = asyncio.create_task(run_briefing_scheduler())
+    from app.tools.utilities.wrap_up import run_wrap_up_scheduler
+    wrap_up = asyncio.create_task(run_wrap_up_scheduler())
     from app.tools.productivity.routine_tool import run_routine_scheduler
     routines = asyncio.create_task(run_routine_scheduler())
     from app.services.proactive import run_proactive_loop
@@ -42,6 +44,7 @@ async def lifespan(app: FastAPI):
     warm_up.cancel()
     reminders.cancel()
     briefing.cancel()
+    wrap_up.cancel()
     routines.cancel()
     proactive.cancel()
     digests.cancel()

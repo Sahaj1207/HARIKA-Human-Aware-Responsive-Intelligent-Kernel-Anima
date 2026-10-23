@@ -13,6 +13,7 @@ class PersonalityProfile:
         }
 
     def get_instructions(self) -> str:
+        from app.cognition.follow_through import OFFER_INSTRUCTION
         from app.memory.facts import LEARN_INSTRUCTION
         from app.presence.tone import CHAT_TONE_INSTRUCTION
         return (
@@ -27,7 +28,8 @@ class PersonalityProfile:
             # The chat shows plain text, so formatting characters would appear literally.
             "- Write plain text: no emoji, no Markdown (no **, #, or bullet symbols).\n"
             + CHAT_TONE_INSTRUCTION + "\n"
-            + LEARN_INSTRUCTION
+            + LEARN_INSTRUCTION + "\n"
+            + OFFER_INSTRUCTION
         )
 
 

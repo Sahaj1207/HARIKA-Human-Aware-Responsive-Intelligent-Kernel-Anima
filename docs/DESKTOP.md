@@ -57,6 +57,10 @@ accessibility tools can't be read yet.
 - "Brief me": the weather, today's reminders and the top headlines. Turn on
   **Morning briefing** in **Settings > General > Your day** to get it once a day
   at a time you choose (shown, and spoken if voice is on).
+- "How was my day?": the evening wrap-up. What you did and talked about today,
+  what's still on your to-do list and today's reminders, and how tomorrow starts
+  (first meetings, weather, birthdays). Turn on **Evening wrap-up** in the same
+  place to get it every evening.
 
 Set **Home city** there too; otherwise "here" is the computer's approximate
 location from its internet address (ipwho.is), which can be a nearby town.
@@ -136,6 +140,20 @@ start (5 to 30 minutes before), someone you told it about has a birthday today
 (in the morning, offering to message them), and the battery is low while not
 charging. Each heads-up appears in HARIKA and as a notification, and is spoken
 if you use "Hey HARIKA".
+
+- A meeting with a video link (Google Meet, Zoom, Teams) comes with "Want me to
+  open the meeting?". Say yes (typed or spoken) and it opens; otherwise nothing
+  happens.
+- **Habit suggestions** (Settings > Memory) are limited to a few a day.
+- **Quiet hours** (11 pm to 7 am by default) hold back everything except a low
+  battery.
+
+Reminders can wait for a moment instead of a time: "remind me to ask Priya about
+the tickets when I talk to her" comes up the next time Priya is mentioned or
+messaged through HARIKA, and "remind me to stretch when I'm back" comes when you
+return to the computer after being away for 10 minutes or more (or next open
+HARIKA). When you mention a plan of your own ("I'll call the bank on Monday"),
+HARIKA offers once to remind you; only a yes creates the reminder.
 
 ### Memory
 

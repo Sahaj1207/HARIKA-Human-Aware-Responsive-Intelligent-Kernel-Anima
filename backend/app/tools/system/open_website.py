@@ -42,7 +42,7 @@ class OpenWebsiteTool(BaseTool):
     def match_target(self, requested: str, operation: Optional[str] = None) -> Tuple[Optional[str], float]:
         canonical, score = super().match_target(requested, operation)
         if score < 0.9 and self._DOMAIN.match((requested or "").strip()):
-            return requested.strip().lower(), 0.9
+            return requested.strip(), 0.9  # case kept: paths and tokens can be case-sensitive
         return canonical, score
     timeout_seconds = 10.0
 
@@ -67,9 +67,10 @@ class OpenWebsiteTool(BaseTool):
         return True, None
 
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
-        target = (args.get("target") or args.get("url")).strip().lower()
+        target = (args.get("target") or args.get("url")).strip()
 
-        url = self.URL_MAP.get(target, target)
+        # Only the lookup ignores case: links such as Zoom passwords are case-sensitive.
+        url = self.URL_MAP.get(target.lower(), target)
         if not url.startswith("http://") and not url.startswith("https://"):
             url = f"https://{url}"
 

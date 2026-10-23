@@ -63,6 +63,70 @@ class ReminderStore:
         self.save([r for r in self.load() if r["id"] != reminder_id])
 
 
+class MomentStore:
+    """Reminders tied to a moment instead of a time.
+
+    "person": when the user next talks to or about someone ("when I talk to Priya");
+    "back": when the user is back at the computer after being away (or opens HARIKA again).
+    """
+
+    def __init__(self, path: Optional[Path] = None):
+        self.path = path or data_path("reminders", "moments.json")
+        self._lock = threading.Lock()
+
+    def load(self) -> List[Dict[str, Any]]:
+        with self._lock:
+            try:
+                return json.loads(self.path.read_text(encoding="utf-8")) if self.path.exists() else []
+            except (OSError, json.JSONDecodeError):
+                return []
+
+    def _save(self, items: List[Dict[str, Any]]) -> None:
+        with self._lock:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            self.path.write_text(json.dumps(items, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    def add(self, text: str, kind: str, person: str = "", now: Optional[float] = None) -> Dict[str, Any]:
+        import time
+        item = {"id": uuid.uuid4().hex[:8], "text": text, "kind": kind, "person": person.strip(),
+                "created": now if now is not None else time.time()}
+        self._save(self.load() + [item])
+        return item
+
+    def remove(self, ids: List[str]) -> None:
+        self._save([r for r in self.load() if r["id"] not in ids])
+
+    def take_mentions(self, texts: List[str], before: float) -> List[Dict[str, Any]]:
+        """Person reminders whose person appears in these texts (made before `before`); removes them."""
+        words = " ".join(t for t in texts if t).lower()
+        due = [r for r in self.load() if r["kind"] == "person" and r["created"] < before and r["person"]
+               and re.search(rf"\b{re.escape(r['person'].lower())}\b", words)]
+        self.remove([r["id"] for r in due])
+        return due
+
+    def take_back(self, before: float) -> List[Dict[str, Any]]:
+        due = [r for r in self.load() if r["kind"] == "back" and r["created"] < before]
+        self.remove([r["id"] for r in due])
+        return due
+
+
+moment_store = MomentStore()
+
+
+def _moment(parameters: Dict[str, Any]) -> Optional[Tuple[str, str]]:
+    """("person", name) or ("back", "") when the reminder is for a moment rather than a time."""
+    person = str(parameters.get("person") or "").strip()
+    if person:
+        return "person", person
+    if str(parameters.get("when") or "").strip().lower() == "back":
+        return "back", ""
+    return None
+
+
+def _moment_phrase(kind: str, person: str) -> str:
+    return f"when you talk to {person}" if kind == "person" else "when you're back at your computer"
+
+
 def parse_due(parameters: Dict[str, Any], now: Optional[datetime] = None) -> Optional[datetime]:
     """Due time from structured parameters: in_seconds/in_minutes/in_hours, or at (clock time / ISO)."""
     now = now or datetime.now()
@@ -133,14 +197,17 @@ class RemindersTool(BaseTool):
         target_aliases={"reminders": ["reminders", "my reminders", "timers", "alarms"]},
         default_targets={"list": "reminders"},
         target_description=(
-            "for remind: what to be reminded about, or 'timer' for a plain timer, with the time in parameters; "
+            "for remind: what to be reminded about, or 'timer' for a plain timer, with the time in parameters, or "
+            "instead of a time parameters.person (remind when the user next talks to or about that person) or "
+            "parameters.when = 'back' (remind when the user is back at the computer); "
             "for list: 'reminders'; for cancel: words from the reminder"
         ),
     )
     timeout_seconds = 5.0
 
-    def __init__(self, store: Optional[ReminderStore] = None):
+    def __init__(self, store: Optional[ReminderStore] = None, moments: Optional[MomentStore] = None):
         self.store = store or ReminderStore()
+        self.moments = moments or moment_store
 
     def health_check(self) -> ToolHealth:
         return ToolHealth(available=True, reason="Reminder store ready", dependencies=[])
@@ -156,13 +223,16 @@ class RemindersTool(BaseTool):
         return canonical, score
 
     def validate(self, args: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
-        if args.get("operation") == "remind" and parse_due(args) is None:
+        if args.get("operation") == "remind" and parse_due(args) is None and _moment(args) is None:
             return False, "When should I remind you? For example 'in 10 minutes' or 'at 6 pm'."
         return True, None
 
     def describe_action(self, args: Dict[str, Any]) -> str:
         operation, text = args.get("operation"), str(args.get("target") or "").strip()
         if operation == "remind":
+            moment = _moment(args)
+            if moment and parse_due(args) is None:
+                return f"remind you to {text} {_moment_phrase(*moment)}"
             due = parse_due(args)
             when = f" {_spoken_time(due)}" if due else ""
             return f"set a timer{when}" if text.lower() == "timer" else f"remind you to {text}{when}"
@@ -174,6 +244,14 @@ class RemindersTool(BaseTool):
 
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
         operation = args.get("operation")
+        if operation == "remind" and parse_due(args) is None and _moment(args):
+            kind, person = _moment(args)
+            text = str(args.get("target") or "your reminder").strip()
+            if dry_run:
+                return {"dry_run": True, "action": "create_reminder", "text": text, "moment": kind}
+            item = self.moments.add(text, kind, person)
+            return {"action": "create_reminder", "reminder": item, "success": True, "verified": True,
+                    "summary": f"I'll remind you to {text} {_moment_phrase(kind, person)}.", "error": None}
         if operation == "remind":
             due = parse_due(args)
             text = str(args.get("target") or "your reminder").strip()
@@ -185,21 +263,28 @@ class RemindersTool(BaseTool):
                     "summary": f"{label} {_spoken_time(due)}.", "error": None}
 
         pending = self.store.pending()
+        moments = self.moments.load()
         if operation == "list":
-            if not pending:
+            if not pending and not moments:
                 return {"action": "list_reminders", "success": True, "verified": True,
                         "summary": "You have no upcoming reminders.", "error": None}
-            listing = "; ".join(f"{r['text']} {_spoken_time(datetime.fromisoformat(r['due']))}" for r in pending[:5])
+            listing = "; ".join(
+                [f"{r['text']} {_spoken_time(datetime.fromisoformat(r['due']))}" for r in pending[:5]]
+                + [f"{r['text']} {_moment_phrase(r['kind'], r['person'])}" for r in moments[:5]])
             return {"action": "list_reminders", "reminders": pending, "success": True, "verified": True,
                     "summary": f"Upcoming: {listing}.", "error": None}
 
         words = set(re.findall(r"[a-z0-9]+", str(args.get("target") or "").lower())) - {"reminder", "reminders", "my", "the", "timer"}
-        matches = [r for r in pending if words & set(re.findall(r"[a-z0-9]+", r["text"].lower()))] if words else pending[-1:]
+        candidates = pending + moments
+        matches = [r for r in candidates if words & set(re.findall(r"[a-z0-9]+", r["text"].lower()))] if words else pending[-1:]
         if len(matches) != 1:
             reason = "I couldn't find a matching upcoming reminder" if not matches else f"{len(matches)} reminders match, so tell me which one"
             return {"action": "cancel_reminder", "success": False, "verified": False, "error": reason}
         if not dry_run:
-            self.store.cancel(matches[0]["id"])
+            if "kind" in matches[0]:
+                self.moments.remove([matches[0]["id"]])
+            else:
+                self.store.cancel(matches[0]["id"])
         return {"action": "cancel_reminder", "success": True, "verified": True,
                 "summary": f"Cancelled the reminder to {matches[0]['text']}.", "error": None}
 

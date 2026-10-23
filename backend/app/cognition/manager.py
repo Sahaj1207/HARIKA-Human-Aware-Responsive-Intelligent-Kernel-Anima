@@ -92,6 +92,11 @@ class CognitionManager:
         # 9. Lasting facts the model noticed in the user's message become memories.
         from app.memory.facts import remember_learned, split_learned
         assistant_text, learned = split_learned(result.get("response", ""), message)
+        # A plan the user mentioned ("I'll call the bank on Monday") may become an offered reminder.
+        from app.cognition.follow_through import split_offer
+        assistant_text, offer = split_offer(assistant_text)
+        if offer:
+            result["offer_reminder"] = offer
         if "response" in result:
             result["response"] = assistant_text
         if learned:

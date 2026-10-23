@@ -49,6 +49,7 @@ Rules:
 - "it", "that" or "the app" mean the most recent matching thing in the recent context below; output its name, never "it".
 - Times: use "in_seconds"/"in_minutes"/"in_hours" for relative times; for clock times use "at" as 24-hour "HH:MM" today, or "YYYY-MM-DDTHH:MM" for another day (use the current local time below).
 - Questions whose answer depends on recent or live information (news, scores, results, prices, releases, what someone did lately, anything that may have changed since your training) use "answer"; the weather and forecasts use "weather". "search", "google" or "look up" in a browser stays "search".
+- The user telling you about their own plans or deadlines ("I'll call the bank on Monday", "I need to submit the form by Friday") is conversation: set reminders or calendar events only when they ask for one.
 - Questions about earlier conversations with HARIKA (what we talked about, what the user said, did or decided on a past day or about a topic) use "recall".
 - If the message is conversation, a timeless knowledge question, a request to remember something, a question about the user's own facts ("what's my favourite food?"), planning, or anything not covered by the operations above, reply {{"actions": []}}.
 - Never output shell commands, code, file paths, or any keys other than operation, target and parameters.
@@ -72,6 +73,7 @@ Examples:
 "how's the weather" -> {{"actions": [{{"operation": "weather", "target": "here"}}]}}
 "will it rain in Mumbai tomorrow?" -> {{"actions": [{{"operation": "weather", "target": "Mumbai", "parameters": {{"day": "tomorrow"}}}}]}}
 "brief me" / "what does my day look like?" -> {{"actions": [{{"operation": "brief", "target": "today"}}]}}
+"how was my day?" / "wrap up my day" -> {{"actions": [{{"operation": "wrap_up", "target": "today"}}]}}
 "what's on my calendar tomorrow?" -> {{"actions": [{{"operation": "agenda", "target": "tomorrow"}}]}}
 "add dentist on Friday at 5pm" -> {{"actions": [{{"operation": "schedule", "target": "Dentist", "parameters": {{"at": "<that Friday as YYYY-MM-DD>T17:00"}}}}]}}
 "move my dentist appointment to 6" -> {{"actions": [{{"operation": "reschedule", "target": "dentist", "parameters": {{"at": "18:00"}}}}]}}
@@ -90,6 +92,9 @@ Examples:
 "when is Priya's birthday?" -> {{"actions": [{{"operation": "person_info", "target": "Priya", "parameters": {{"field": "birthday"}}}}]}}
 "text Mom that I'm on my way" -> {{"actions": [{{"operation": "message", "target": "Mom", "parameters": {{"text": "I'm on my way"}}}}]}}
 "tell Priya I'll call her after class" -> {{"actions": [{{"operation": "message", "target": "Priya", "parameters": {{"text": "I'll call you after class"}}}}]}}
+"remind me to ask Priya about the tickets when I talk to her" -> {{"actions": [{{"operation": "remind", "target": "ask Priya about the tickets", "parameters": {{"person": "Priya"}}}}]}}
+"I'll call the bank on Monday" -> {{"actions": []}}
+"remind me to drink water when I'm back" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"when": "back"}}}}]}}
 "take a note: the wifi password is on the fridge" -> {{"actions": [{{"operation": "note", "target": "the wifi password is on the fridge"}}]}}
 "add milk and eggs to my shopping list" -> {{"actions": [{{"operation": "add_to_list", "target": "milk", "parameters": {{"list": "shopping", "items": ["milk", "eggs"]}}}}]}}
 "what's on my to-do list?" -> {{"actions": [{{"operation": "show_list", "target": "to-do"}}]}}

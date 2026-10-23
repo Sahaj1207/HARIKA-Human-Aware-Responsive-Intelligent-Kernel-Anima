@@ -1,4 +1,4 @@
-"""Settings > General > Daily: home city for weather, and the morning briefing."""
+"""Settings > General > Daily: home city for weather, the morning briefing and the evening wrap-up."""
 import json
 import logging
 import re
@@ -15,6 +15,9 @@ DEFAULTS: Dict[str, Any] = {
     "briefing_enabled": False,  # say good morning with the day's briefing
     "briefing_time": "08:00",   # 24-hour local time
     "last_briefing": "",        # date of the last scheduled briefing, so it happens once a day
+    "wrap_up_enabled": False,   # an evening wrap-up of the day
+    "wrap_up_time": "21:00",
+    "last_wrap_up": "",
 }
 
 
@@ -36,8 +39,9 @@ class DailySettings:
 
     def update(self, **changes: Any) -> Dict[str, Any]:
         changes = {k: v for k, v in changes.items() if k in DEFAULTS and v is not None}
-        if "briefing_time" in changes and not re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", str(changes["briefing_time"])):
-            raise ValueError("briefing_time must be HH:MM (24-hour).")
+        for key in ("briefing_time", "wrap_up_time"):
+            if key in changes and not re.fullmatch(r"([01]\d|2[0-3]):[0-5]\d", str(changes[key])):
+                raise ValueError(f"{key} must be HH:MM (24-hour).")
         if "home" in changes:
             changes["home"] = str(changes["home"]).strip()[:80]
         data = self.load()

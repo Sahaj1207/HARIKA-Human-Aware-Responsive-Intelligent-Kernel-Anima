@@ -6,6 +6,10 @@ export interface DailySettings {
   briefing_enabled: boolean;
   /** 24-hour "HH:MM". */
   briefing_time: string;
+  /** An evening wrap-up of the day. */
+  wrap_up_enabled: boolean;
+  /** 24-hour "HH:MM". */
+  wrap_up_time: string;
 }
 
 export const dailyService = {
