@@ -16,7 +16,7 @@ const frontend = join(dirname(fileURLToPath(import.meta.url)), '..');
 const root = join(frontend, '..');
 const [version, notes = ''] = process.argv.slice(2);
 const downloadBase = process.env.HARIKA_RELEASE_BASE_URL
-  ?? `https://github.com/Sahaj1207/harika-releases/releases/download/v${version}`;
+  ?? `https://github.com/Sahaj1207/app-releases/releases/download/v${version}`;
 
 if (!/^\d+\.\d+\.\d+$/.test(version ?? '')) {
   console.error('Give a version like 0.2.0');
