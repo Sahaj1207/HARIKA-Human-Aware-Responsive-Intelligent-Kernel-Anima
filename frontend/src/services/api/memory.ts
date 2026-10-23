@@ -36,6 +36,30 @@ export interface CreateMemoryPayload {
   tags?: string[];
 }
 
+export interface MemorySettings {
+  /** Keep a journal of conversations on this computer (for recall, day summaries and habits). */
+  remember_conversations: boolean;
+  /** Mention things you usually ask for at about this time. */
+  notice_habits: boolean;
+}
+
+export interface Habit {
+  id: string;
+  description: string;
+  times: number;
+}
+
+/** Everything shown in Settings > Memory. */
+export interface MemoryOverview {
+  settings: MemorySettings;
+  retention_days: number;
+  journal_days: number;
+  journal_since: string | null;
+  facts: MemoryItemApi[];
+  days: MemoryItemApi[];
+  habits: Habit[];
+}
+
 export const memoryService = {
   async getMemories(query?: string, category?: string): Promise<MemoryItemApi[]> {
     const params: Record<string, string> = {};
@@ -62,5 +86,26 @@ export const memoryService = {
 
   async clearAll(): Promise<void> {
     await apiClient.delete('/memory');
+  },
+
+  async overview(): Promise<MemoryOverview> {
+    return (await apiClient.get<MemoryOverview>('/memory/overview')).data;
+  },
+
+  async update(changes: Partial<MemorySettings>): Promise<MemoryOverview> {
+    return (await apiClient.put<MemoryOverview>('/memory/settings', changes)).data;
+  },
+
+  /** Removes a memory for good (deleteMemory only hides it). */
+  async forget(id: string): Promise<MemoryOverview> {
+    return (await apiClient.delete<MemoryOverview>(`/memory/item/${encodeURIComponent(id)}`)).data;
+  },
+
+  async dismissHabit(id: string): Promise<MemoryOverview> {
+    return (await apiClient.delete<MemoryOverview>(`/memory/habits/${encodeURIComponent(id)}`)).data;
+  },
+
+  async forgetEverything(): Promise<MemoryOverview> {
+    return (await apiClient.post<MemoryOverview>('/memory/forget-everything')).data;
   },
 };

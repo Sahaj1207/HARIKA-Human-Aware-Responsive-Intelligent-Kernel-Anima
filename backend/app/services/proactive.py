@@ -3,6 +3,7 @@
 - a meeting on their Google Calendar is about to start
 - someone they told HARIKA about has a birthday today
 - the battery is running low
+- something the user habitually asks for is usually done about now (Settings > Memory)
 
 Each heads-up is shown in HARIKA's windows, sent as a notification, and spoken when
 the user talks to HARIKA by voice. Each one happens once (per event, per day, per
@@ -98,6 +99,7 @@ class HeadsUps:
             found += self.birthdays(now)
         if settings["battery"]:
             found += self.battery(settings["battery_percent"])
+        found += self.habits(now)
         return found
 
     async def meetings(self, now: datetime, minutes: int) -> List[Dict[str, str]]:
@@ -153,6 +155,25 @@ class HeadsUps:
         self._battery_warned = True
         left = f", about {_duration(status.minutes_left)} left" if status.minutes_left else ""
         return [{"kind": "battery", "tone": "calm", "text": f"Your battery is at {status.percent}%{left}. Plug in soon."}]
+
+
+    def habits(self, now: datetime) -> List[Dict[str, str]]:
+        from app.memory.journal import journal
+        from app.memory.patterns import habits
+        if not journal.settings()["notice_habits"]:
+            return []
+        today = now.date().isoformat()
+        told = {k: v for k, v in self._state().get("habits_told", {}).items() if v == today}
+        out = []
+        for habit in habits.due(now):
+            if habit["id"] in told:
+                continue
+            told[habit["id"]] = today
+            out.append({"kind": "habit", "tone": "warm",
+                        "text": f"You usually {habit['label']} around this time. Just say the word if you'd like that now."})
+        if out:
+            self._remember(habits_told=told)
+        return out
 
 
 def _duration(minutes: int) -> str:

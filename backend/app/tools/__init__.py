@@ -26,6 +26,7 @@ import app.tools.productivity.email_tool
 import app.tools.productivity.routine_tool
 import app.tools.productivity.people_tool
 import app.tools.productivity.notes_tool
+import app.tools.productivity.recall_tool
 import app.tools.productivity.task_tool
 
 import app.tools.developer.github

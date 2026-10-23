@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AtSign, Hand, Mic, Settings as Gear, Sparkles, SquareTerminal, X } from 'lucide-react';
+import { AtSign, Brain, Hand, Mic, Settings as Gear, Sparkles, SquareTerminal, X } from 'lucide-react';
 import { GroupedSection, IconTile, Row, Segmented } from '@/components/apple/controls';
 import { HarikaOrb } from '@/components/apple/HarikaOrb';
 import { BrainSettings } from './BrainSettings';
@@ -7,17 +7,19 @@ import { VoiceSettings } from './VoiceSettings';
 import { AccountsSettings } from './AccountsSettings';
 import { DailySection, HeadsUpSection, ScreenLookSection } from './DailySettings';
 import { UpdatesSection } from './UpdatesSection';
+import { MemorySettings } from './MemorySettings';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 
-type PageId = 'general' | 'brain' | 'voice' | 'accounts' | 'privacy' | 'developer';
+type PageId = 'general' | 'brain' | 'voice' | 'accounts' | 'memory' | 'privacy' | 'developer';
 
 const PAGES: { id: PageId; label: string; color: string; icon: React.ReactNode }[] = [
   { id: 'general', label: 'General', color: 'var(--gray)', icon: <Gear className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'brain', label: 'Brain', color: 'var(--purple)', icon: <Sparkles className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'voice', label: 'Voice', color: 'var(--pink)', icon: <Mic className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'accounts', label: 'Accounts', color: 'var(--orange)', icon: <AtSign className="w-4 h-4" strokeWidth={2.25} /> },
+  { id: 'memory', label: 'Memory', color: 'var(--teal)', icon: <Brain className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'privacy', label: 'Privacy', color: 'var(--blue)', icon: <Hand className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'developer', label: 'Developer', color: 'var(--indigo)', icon: <SquareTerminal className="w-4 h-4" strokeWidth={2.25} /> },
 ];
@@ -107,7 +109,7 @@ const PrivacyPage: React.FC = () => {
   return (
     <div className="space-y-7">
       <GroupedSection title="Where your information lives">
-        <Row title="Conversations, memories and reminders" subtitle="Stored on this computer." />
+        <Row title="Conversations, memories and reminders" subtitle="Stored on this computer. See and erase memories in Memory." />
         <Row title="API keys" subtitle={isMac ? 'Kept in your Keychain.' : 'Kept in Windows Credential Manager.'} />
         <Row title="Cloud models" subtitle="Only see the messages HARIKA sends them, and only when you choose one in Brain." />
         <Row
@@ -210,6 +212,7 @@ export const SettingsWindow: React.FC<{ isOpen: boolean; onClose: () => void; in
           {page === 'brain' && <BrainSettings />}
           {page === 'voice' && <VoiceSettings />}
           {page === 'accounts' && <AccountsSettings />}
+          {page === 'memory' && <MemorySettings />}
           {page === 'privacy' && <PrivacyPage />}
           {page === 'developer' && (
             <DeveloperPage

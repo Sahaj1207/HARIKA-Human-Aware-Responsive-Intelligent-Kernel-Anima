@@ -137,6 +137,22 @@ start (5 to 30 minutes before), someone you told it about has a birthday today
 charging. Each heads-up appears in HARIKA and as a notification, and is spoken
 if you use "Hey HARIKA".
 
+### Memory
+
+HARIKA keeps a journal of your conversations on this computer for 90 days, so
+you can ask "what did we talk about yesterday?" or "what did I decide about the
+trip?". Once a day is over, the conversation model reads it once and writes a
+short summary of the day plus any lasting facts you mentioned (plans,
+preferences, people, decisions); those facts are used in later replies.
+
+If you ask for the same thing at about the same time on five or more days (or
+on the same weekday three weeks running), HARIKA notices the habit and mentions
+it a few minutes before the usual time. It never does it on its own.
+
+**Settings > Memory** shows what HARIKA knows, your day summaries and habits.
+You can remove any of them, switch off remembering conversations or noticing
+habits, or **Forget everything** (people, notes, routines and reminders are kept).
+
 ### Notes and lists
 
 "Take a note: the wifi password is on the fridge", "add milk and eggs to my
@@ -249,6 +265,7 @@ nothing is recorded. Windows must allow desktop apps to use the microphone
 |---|---|
 | App | `%LOCALAPPDATA%\HARIKA` |
 | Memories, reminders, settings | `%APPDATA%\com.harika.desktop` |
+| Conversation journal (90 days) | `%APPDATA%\com.harika.desktop\memory\journal` |
 | Logs | `%LOCALAPPDATA%\com.harika.desktop\logs` |
 | API keys | Windows Credential Manager (service "HARIKA") |
 | Voice models | `%APPDATA%\com.harika.desktop\models` |

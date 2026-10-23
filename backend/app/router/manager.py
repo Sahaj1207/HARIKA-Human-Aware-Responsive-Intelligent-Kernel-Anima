@@ -290,6 +290,7 @@ class RouterManager:
             action_graph_nodes=len(graph.nodes)
         )
         self.history.record_decision(decision)
+        self._journal(message, final_text, graph, user_id)
 
         return {
             "decision_id": decision_id,
@@ -306,6 +307,20 @@ class RouterManager:
             "model": "cognitive-router"
         }
 
+
+    def _journal(self, message: str, reply: str, graph, user_id: str) -> None:
+        """Keep the exchange in the conversation journal (Settings > Memory can switch this off)."""
+        from app.memory.journal import journal
+
+        actions = [{"capability": node.action, "operation": node.arguments.get("operation"),
+                    "label": self._step_label(node),
+                    "target": node.arguments.get("target") if isinstance(node.arguments.get("target"), str) else None,
+                    "ok": node.status == "completed"}
+                   for node in graph.nodes if node.engine == "ToolManager"]
+        try:
+            journal.record(user_id, message, reply, actions)
+        except OSError as exc:
+            logger.warning(f"Journal not written: {exc}")
 
     def _take_pending(self, user_id: str, session_id: str) -> Optional["_PendingPlan"]:
         pending = self._pending.pop((user_id, session_id), None)

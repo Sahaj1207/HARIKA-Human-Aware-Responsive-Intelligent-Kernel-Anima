@@ -69,3 +69,72 @@ async def clear_memories():
     """Clears all stored memory categories for default user."""
     memory_manager.clear_all_memories(user_id="default")
     return {"status": "success", "message": "Cleared all stored memories."}
+
+
+# ------------------------------------------------------------- Settings > Memory
+
+class MemorySettingsPayload(BaseModel):
+    remember_conversations: Optional[bool] = None
+    notice_habits: Optional[bool] = None
+
+
+def _overview() -> dict:
+    from app.memory.journal import journal, RETENTION_DAYS
+    from app.memory.patterns import habits
+
+    items = memory_manager.get_memories(user_id=journal.owner())
+    days = journal.days()
+    return {
+        "settings": journal.settings(),
+        "retention_days": RETENTION_DAYS,
+        "journal_days": len(days),
+        "journal_since": days[0].isoformat() if days else None,
+        "facts": [m.model_dump() for m in items if m.category != MemoryCategory.EPISODES],
+        "days": sorted((m.model_dump() for m in items if m.category == MemoryCategory.EPISODES),
+                       key=lambda m: m["id"], reverse=True),
+        "habits": habits.visible(),
+    }
+
+
+@router.get("/overview")
+async def memory_overview():
+    """Everything HARIKA remembers, for Settings > Memory."""
+    return _overview()
+
+
+@router.put("/settings")
+async def update_memory_settings(payload: MemorySettingsPayload):
+    from app.memory.journal import journal
+    journal.update_settings(**payload.model_dump())
+    return _overview()
+
+
+@router.delete("/item/{memory_id}")
+async def forget_memory(memory_id: str):
+    """Removes one memory for good."""
+    from app.memory.journal import journal
+    if not memory_manager.forget_memory(memory_id, user_id=journal.owner()):
+        raise HTTPException(status_code=404, detail="Memory item not found.")
+    return _overview()
+
+
+@router.delete("/habits/{habit_id:path}")
+async def dismiss_habit(habit_id: str):
+    from app.memory.patterns import habits
+    habits.dismiss(habit_id)
+    return _overview()
+
+
+@router.post("/forget-everything")
+async def forget_everything():
+    """Erases the journal, day summaries, learned facts and habits. Settings stay as they are."""
+    from app.memory.digest import digester
+    from app.memory.journal import journal
+    from app.memory.patterns import habits
+
+    for user in {journal.owner(), "default"}:
+        memory_manager.clear_all_memories(user_id=user)
+    journal.wipe()
+    digester.state_path.unlink(missing_ok=True)
+    habits.forget()
+    return _overview()

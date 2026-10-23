@@ -22,6 +22,8 @@ async def lifespan(app: FastAPI):
     routines = asyncio.create_task(run_routine_scheduler())
     from app.services.proactive import run_proactive_loop
     proactive = asyncio.create_task(run_proactive_loop())
+    from app.memory.digest import run_digest_loop
+    digests = asyncio.create_task(run_digest_loop())
     from app.tools.system.screen_reader import foreground_tracker
     foreground_tracker.start()  # remembers the app you were in before talking to HARIKA
     from app.voice.engine import voice_engine
@@ -33,6 +35,7 @@ async def lifespan(app: FastAPI):
     briefing.cancel()
     routines.cancel()
     proactive.cancel()
+    digests.cancel()
     foreground_tracker.stop()
     await asyncio.to_thread(voice_engine.stop)
     logger.info(f"Shutting down {settings.APP_NAME} service gracefully...")

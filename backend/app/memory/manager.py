@@ -93,6 +93,16 @@ class MemoryManager:
     def soft_delete_memory(self, memory_id: str, user_id: str = "default") -> bool:
         return self.long_term.soft_delete(memory_id, user_id)
 
+    def forget_memory(self, memory_id: str, user_id: str = "default") -> bool:
+        """Removes a memory for good (Settings > Memory), unlike soft_delete_memory."""
+        for cat in MemoryCategory:
+            items = self.storage.load_category(cat, user_id)
+            kept = [item for item in items if item.id != memory_id]
+            if len(kept) != len(items):
+                self.storage.save_category(cat, kept, user_id)
+                return True
+        return False
+
     def clear_all_memories(self, user_id: str = "default") -> bool:
         for cat in MemoryCategory:
             self.storage.save_category(cat, [], user_id)

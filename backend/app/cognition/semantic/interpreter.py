@@ -49,7 +49,8 @@ Rules:
 - "it", "that" or "the app" mean the most recent matching thing in the recent context below; output its name, never "it".
 - Times: use "in_seconds"/"in_minutes"/"in_hours" for relative times; for clock times use "at" as 24-hour "HH:MM" today, or "YYYY-MM-DDTHH:MM" for another day (use the current local time below).
 - Questions whose answer depends on recent or live information (news, scores, results, prices, releases, what someone did lately, anything that may have changed since your training) use "answer"; the weather and forecasts use "weather". "search", "google" or "look up" in a browser stays "search".
-- If the message is conversation, a timeless knowledge question, a request to remember or recall something, planning, or anything not covered by the operations above, reply {{"actions": []}}.
+- Questions about earlier conversations with HARIKA (what we talked about, what the user said, did or decided on a past day or about a topic) use "recall".
+- If the message is conversation, a timeless knowledge question, a request to remember something, a question about the user's own facts ("what's my favourite food?"), planning, or anything not covered by the operations above, reply {{"actions": []}}.
 - Never output shell commands, code, file paths, or any keys other than operation, target and parameters.
 
 Examples:
@@ -103,6 +104,9 @@ Examples:
 "can you see the screen and notify me when Claude finishes the work?" -> {{"actions": [{{"operation": "watch", "target": "claude"}}]}} ("can you see" only leads into the request)
 "tell me when chrome says download complete" -> {{"actions": [{{"operation": "watch", "target": "chrome", "parameters": {{"text": "download complete"}}}}]}}
 "stop watching" -> {{"actions": [{{"operation": "stop_watching", "target": "all"}}]}}
+"what did we talk about yesterday?" -> {{"actions": [{{"operation": "recall", "target": "everything", "parameters": {{"day": "yesterday"}}}}]}}
+"what did I decide about the trip?" -> {{"actions": [{{"operation": "recall", "target": "the trip"}}]}}
+"what was that laptop we looked at last week?" -> {{"actions": [{{"operation": "recall", "target": "laptop"}}]}}
 "what is the capital of France?" -> {{"actions": []}}
 "remember that I like cricket" -> {{"actions": []}}
 {context}"""
