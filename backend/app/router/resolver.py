@@ -153,6 +153,15 @@ class SubsystemResolver:
 
         # 6. Conversational & Wrapper Intents
         msg = node.arguments.get("message", node.arguments.get("query", ""))
+        if node.arguments.get("conversation_type") in ("greeting", "casual"):
+            # "hi", "good morning", "how are you?": answered in the moment, not from a script.
+            from app.presence.greeting import greeter
+            return {
+                "status": "conversational",
+                "message": msg,
+                "response": await greeter.reply(msg, user_id=user_id),
+                "small_talk": True,
+            }
         if node.arguments.get("conversation_type") or node.intent in [IntentType.GREETING, IntentType.SOCIAL_CONVERSATION, IntentType.CAPABILITY_QUERY, IntentType.UNKNOWN_INTENT] or node.action in ["greeting", "social_chat", "capability_inquiry"]:
             return {
                 "status": "conversational",

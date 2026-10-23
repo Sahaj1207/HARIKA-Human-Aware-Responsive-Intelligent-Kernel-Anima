@@ -138,6 +138,16 @@ off under **Settings > Privacy**.
   screenshot ability without sharing a word with it. When nothing fits clearly,
   the model first picks from a one-line menu of everything HARIKA can do.
 
+### Greetings and small talk
+
+"Hi", "good morning", "how are you?" are answered by the conversation model in the
+moment: it knows the time of day, her name, how long since you last talked, what's
+coming up today (her reminders, calendar, birthdays) and sometimes one thing it
+remembers about her, and it sees its own last few greetings so it doesn't repeat
+itself. It mentions at most one of those, never invents anything, and keeps it to a
+sentence or two. With a local model, or if the answer takes over 4 seconds, a quick
+greeting for the time of day is used instead.
+
 ### Heads-ups
 
 HARIKA speaks up on its own about a few things, each with its own switch in

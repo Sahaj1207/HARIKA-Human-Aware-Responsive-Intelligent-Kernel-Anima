@@ -23,6 +23,8 @@ _BARE_SMALL_TALK = re.compile(
 
 def format_chat_response(intent: str, engine_output: Any, experience: Optional[ExperienceDecision] = None) -> str:
     message = engine_output.get("message", "").lower() if isinstance(engine_output, dict) else ""
+    if isinstance(engine_output, dict) and engine_output.get("small_talk") and engine_output.get("response"):
+        return plain_text(engine_output["response"])  # written for this moment (see presence/greeting.py)
     if isinstance(engine_output, dict) and isinstance(engine_output.get("response"), str) and engine_output["response"].strip() \
             and not _BARE_SMALL_TALK.fullmatch(message.strip()):
         message = ""  # more than small talk ("hi, I love dosa"): the generated reply answers all of it
