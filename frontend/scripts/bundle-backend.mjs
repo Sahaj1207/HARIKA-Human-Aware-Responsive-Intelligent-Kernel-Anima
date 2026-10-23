@@ -29,6 +29,9 @@ const args = [
   // Offline voice: native speech libraries and the PortAudio audio driver.
   '--collect-all', 'sherpa_onnx',
   '--collect-all', 'sounddevice',
+  // Matching requests to abilities by meaning (the small model itself downloads on first start).
+  '--collect-all', 'onnxruntime',
+  '--collect-all', 'tokenizers',
 ];
 
 // HARIKA's Google sign-in client (downloaded from Google Cloud Console, never committed).

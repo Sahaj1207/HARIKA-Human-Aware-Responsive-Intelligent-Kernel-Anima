@@ -74,9 +74,16 @@ async def _warm_up():
         first = RoleProvider("conversation").chain()[0]
         await usable_model(first["service"], "conversation")
 
+    def prepare_meaning_model():
+        # Fetched once (about 23 MB); until then requests are matched to abilities by their words.
+        from app.cognition.semantic.embedder import embedder
+        if embedder.download():
+            embedder.embed(["hello"])  # load it now rather than on the first request
+
     # Side by side: the first request shouldn't wait for app indexing to finish.
     results = await asyncio.gather(asyncio.to_thread(installed_app_index.apps), cognitive_core.warm_up(),
-                                   check_conversation_model(), return_exceptions=True)
+                                   check_conversation_model(), asyncio.to_thread(prepare_meaning_model),
+                                   return_exceptions=True)
     for result in results:
         if isinstance(result, Exception) and not isinstance(result, asyncio.CancelledError):
             logger.warning(f"Background warm-up step skipped: {result}")

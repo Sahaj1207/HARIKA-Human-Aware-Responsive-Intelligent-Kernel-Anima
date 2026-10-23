@@ -1,6 +1,7 @@
 import asyncio
 import inspect
 import json
+import logging
 import re
 import threading
 from datetime import datetime
@@ -16,6 +17,7 @@ from app.cognition.semantic.contract import (
     SemanticRequest,
 )
 
+logger = logging.getLogger("harika.semantic.interpreter")
 
 class SemanticInterpretationError(ValueError):
     """The provider response cannot safely become a semantic request."""
@@ -57,12 +59,20 @@ Rules:
 Examples:
 "bring up the calculator" -> {{"actions": [{{"operation": "open", "target": "calculator"}}]}}
 "I need to use calci" -> {{"actions": [{{"operation": "open", "target": "calculator"}}]}}
+"quit chrome" -> {{"actions": [{{"operation": "close", "target": "chrome"}}]}}
+"google cheap flights to Delhi" -> {{"actions": [{{"operation": "search", "target": "cheap flights to Delhi"}}]}}
+"grab a screenshot of this" -> {{"actions": [{{"operation": "screenshot"}}]}}
+"make it louder" -> {{"actions": [{{"operation": "increase", "target": "volume"}}]}}
+"skip this track" -> {{"actions": [{{"operation": "next", "target": "music"}}]}}
+"put the computer to sleep" -> {{"actions": [{{"operation": "sleep"}}]}}
 "play something relaxing on spotify" -> {{"actions": [{{"operation": "play", "target": "relaxing music", "parameters": {{"platform": "spotify"}}}}]}}
 "open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome"}}, {{"operation": "search", "target": "F1 news"}}, {{"operation": "open", "target": "first result"}}]}}
 "open instagram in chrome" -> {{"actions": [{{"operation": "open", "target": "instagram.com", "parameters": {{"browser": "chrome"}}}}]}}
 "open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}
 "where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf"}}]}}
 "remind me to drink water at 4:15 pm" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"at": "16:15"}}}}]}}
+"start a 10 minute timer" -> {{"actions": [{{"operation": "remind", "target": "timer", "parameters": {{"in_minutes": 10}}}}]}}
+"do I have any timers running?" -> {{"actions": [{{"operation": "list", "target": "reminders"}}]}}
 "continue this chat" -> {{"actions": [{{"operation": "reply", "target": "this chat"}}]}}
 "reply that I'll be 10 minutes late" -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "say I'll be 10 minutes late"}}}}]}}
 "make it more casual" (after a chat draft) -> {{"actions": [{{"operation": "reply", "target": "this chat", "parameters": {{"instruction": "make it more casual"}}}}]}}
@@ -118,33 +128,32 @@ Examples:
 
 
 _ALWAYS = ('"what is the capital of France?"', '"remember that I like cricket"')  # teach "this is conversation"
-_COMPACT_EXAMPLES = 8
 
 
-def _words(text: str) -> set:
-    return {w[:-1] if len(w) > 3 and w.endswith("s") else w for w in re.findall(r"[a-z0-9]+", text.lower()) if len(w) > 2}
+def prompt_examples() -> List[str]:
+    return [line for line in _PROMPT_TEMPLATE.partition("Examples:\n")[2].splitlines() if line.startswith('"')]
 
 
-def compact_prompt(operations: str, context_block: str, message: str) -> str:
-    """The same instructions, cut down for one message: the most relevant examples, full details
-    only for the operations those examples use, and one line for every other operation."""
-    head, _, rest = _PROMPT_TEMPLATE.partition("Examples:\n")
-    examples = [line for line in rest.splitlines() if line.startswith('"')]
-    wanted = _words(message)
-    ranked = sorted(examples, key=lambda line: -len(wanted & _words(line.split(" -> ")[0])))
-    chosen = [line for line in ranked[:_COMPACT_EXAMPLES] if wanted & _words(line.split(" -> ")[0])]
-    chosen += [line for line in examples if line.startswith(_ALWAYS) and line not in chosen]
-    relevant = set(re.findall(r'"operation": "([a-z_]+)"', "\n".join(chosen)))
+def select_abilities(operations: str, message: str) -> "Selection":
+    from app.cognition.semantic.embedder import embedder
+    from app.cognition.semantic.selection import AbilitySelector
+    return AbilitySelector(embedder).select(message, operations, prompt_examples(), _ALWAYS)
 
+
+def compact_prompt(operations: str, context_block: str, message: str, selection: Optional["Selection"] = None) -> str:
+    """The same instructions, cut down for one message: full details and examples for the abilities
+    that fit it (chosen by meaning, see selection.py) and one line for every other ability."""
+    selection = selection or select_abilities(operations, message)
+    head = _PROMPT_TEMPLATE.partition("Examples:\n")[0]
     lines = []
     for line in operations.splitlines():
         names = set(re.findall(r'"([a-z_]+)"', line.split(":", 1)[0]))
-        if names & relevant:
+        if names & selection.operations:
             lines.append(line)
         else:
             summary = line.split(":", 1)[1].split(" Target:")[0].strip() if ":" in line else line
             lines.append(f"{line.split(':', 1)[0]}: {summary[:110]}")
-    template = head + "Examples:\n" + "\n".join(chosen) + "\n{context}"
+    template = head + "Examples:\n" + "\n".join(selection.examples) + "\n{context}"
     return template.format(operations="\n".join(lines), context=context_block)
 
 
@@ -167,7 +176,8 @@ class SemanticInterpreter:
         # the full, unchanging prompt so it can reuse what it has already read.
         is_local = getattr(self.provider, "is_local", None)
         compact = callable(is_local) and not is_local()
-        prompt = self._build_prompt(context, hints, message=raw_text if compact else "")
+        selection = await self._select(raw_text) if compact else None
+        prompt = self._build_prompt(context, hints, message=raw_text if compact else "", selection=selection)
         limit = timeout or self.timeout_seconds
         kwargs = {}
         if "json_mode" in inspect.signature(self.provider.generate_response).parameters:
@@ -248,7 +258,52 @@ class SemanticInterpreter:
             raise error["value"]
         return result["value"]
 
-    def _build_prompt(self, context: Optional[Any], hints: Optional[Dict[str, Any]] = None, message: str = "") -> str:
+    async def _select(self, message: str):
+        """The abilities to explain for this message. When the choice is unclear, the language
+        model picks from the one-line menu first (one short extra call, only in that case)."""
+        operations = self.catalog.describe_operations() or ""
+        try:
+            selection = await asyncio.to_thread(select_abilities, operations, message)
+        except Exception as exc:
+            logger.warning(f"[SemanticInterpreter] Ability selection failed: {exc}")
+            return None
+        if selection.confident:
+            return selection
+        picked = await self._pick_operations(message, operations)
+        if picked is None:
+            return selection  # the model couldn't say; the closest matches are still shown
+        from app.cognition.semantic.embedder import embedder
+        from app.cognition.semantic.selection import AbilitySelector
+        return AbilitySelector(embedder).with_operations(picked, message, operations, prompt_examples(), _ALWAYS)
+
+    async def _pick_operations(self, message: str, operations: str) -> Optional[set]:
+        known = set(re.findall(r'"([a-z_]+)"', "\n".join(line.split(":", 1)[0] for line in operations.splitlines())))
+        menu = "\n".join(f"{line.split(':', 1)[0]}: {line.split(':', 1)[1].split(' Target:')[0].strip()[:110]}"
+                         for line in operations.splitlines() if ":" in line)
+        prompt = (
+            "You choose which of HARIKA's abilities a user's message needs. Abilities, by operation name:\n"
+            f"{menu}\n\n"
+            'Reply with STRICT JSON only: {"operations": ["<operation>", ...]} listing the operations the message '
+            'asks for, in order, or {"operations": []} if it is conversation, a question to answer from knowledge, '
+            "or anything none of these do."
+        )
+        kwargs = {}
+        if "json_mode" in inspect.signature(self.provider.generate_response).parameters:
+            kwargs["json_mode"] = True
+        try:
+            result = await asyncio.wait_for(self.provider.generate_response(
+                messages=[{"role": "user", "content": message}], system_prompt=prompt, **kwargs), timeout=15.0)
+            payload = self._parse_json(result.get("response") if isinstance(result, dict) else None)
+        except Exception as exc:
+            logger.info(f"[SemanticInterpreter] Ability pick skipped: {exc}")
+            return None
+        names = payload.get("operations") if isinstance(payload, dict) else None
+        if not isinstance(names, list):
+            return None
+        return {str(n) for n in names if str(n) in known}
+
+    def _build_prompt(self, context: Optional[Any], hints: Optional[Dict[str, Any]] = None, message: str = "",
+                      selection: Optional[Any] = None) -> str:
         operations = self.catalog.describe_operations() or "- (no actions are currently available)"
         lines: List[str] = []
         history = list(getattr(context, "conversation_history", None) or [])[-4:]
@@ -281,7 +336,7 @@ class SemanticInterpreter:
         lines.append(f"Current local time: {datetime.now():%A %Y-%m-%d %H:%M}")
         context_block = "\nRecent context:\n" + "\n".join(lines) + "\n"
         if message:
-            return compact_prompt(operations, context_block, message)
+            return compact_prompt(operations, context_block, message, selection)
         return _PROMPT_TEMPLATE.format(operations=operations, context=context_block)
 
     def _normalize_payload(self, raw_text: str, payload: Dict[str, Any]) -> SemanticRequest:

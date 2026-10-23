@@ -131,6 +131,12 @@ off under **Settings > Privacy**.
   F0 Speech resource's Key 1 and Region). Each reply is spoken in a matching
   style (cheerful, empathetic, excited, calm). The offline voice is used when
   Azure is unreachable, with a pace that follows the mood.
+- **Understanding requests:** with a cloud brain, HARIKA shows the model only the
+  abilities that fit your message (to stay within free-tier limits). They are
+  chosen by meaning with a small offline model (all-MiniLM-L6-v2, about 23 MB,
+  downloaded once on first start), so "grab what's on my screen" finds the
+  screenshot ability without sharing a word with it. When nothing fits clearly,
+  the model first picks from a one-line menu of everything HARIKA can do.
 
 ### Heads-ups
 
@@ -297,7 +303,7 @@ nothing is recorded. Windows must allow desktop apps to use the microphone
 | Conversation journal (90 days) | `%APPDATA%\com.harika.desktop\memory\journal` |
 | Logs | `%LOCALAPPDATA%\com.harika.desktop\logs` |
 | API keys | Windows Credential Manager (service "HARIKA") |
-| Voice models | `%APPDATA%\com.harika.desktop\models` |
+| Voice models, meaning model | `%APPDATA%\com.harika.desktop\models` |
 | Google client ID and account email | `%APPDATA%\com.harika.desktop\settings\google.json` |
 | Google client secret and sign-in | Windows Credential Manager (service "HARIKA") |
 
