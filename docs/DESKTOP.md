@@ -306,10 +306,18 @@ This sets the version, builds the installer, signs it with
 `secrets/updater.key` (password in `secrets/updater-key.password`; keep both
 backed up and private: losing them means existing installs can't verify new
 updates) and writes `release/0.2.1/`: the installer, its `.sig`, and
-`latest.json`. Publish those three files as release `v0.2.1` of the update host
-(by default `github.com/Sahaj1207/app-releases`, a public repository that
-holds only release files, never code). HARIKA reads
-`https://github.com/Sahaj1207/app-releases/releases/latest/download/latest.json`.
+`latest.json`. Then publish it:
+
+```bash
+node scripts/publish.mjs 0.2.1
+```
+
+This creates release `v0.2.1` on the update host (`github.com/Sahaj1207/app-releases`,
+a public repository that holds only release files, never code) and commits
+`latest.json` to its main branch. HARIKA first reads
+`https://raw.githubusercontent.com/Sahaj1207/app-releases/main/latest.json`
+(under a second), falling back to the release's own `latest.json` (release
+download links can take 20+ seconds to redirect).
 The address can be changed per computer in
 `%APPDATA%\com.harika.desktop\settings\updates.json` as `{"url": "https://..."}`;
 release builds only accept https addresses.

@@ -47,8 +47,9 @@ const env = {
   TAURI_SIGNING_PRIVATE_KEY: readFileSync(keyFile, 'utf8'),
   TAURI_SIGNING_PRIVATE_KEY_PASSWORD: readFileSync(passwordFile, 'utf8').trim(),
 };
-const build = spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', 'desktop:build'],
-  { cwd: frontend, env, stdio: 'inherit', shell: process.platform === 'win32' });
+const build = process.platform === 'win32'
+  ? spawnSync('cmd.exe', ['/d', '/s', '/c', 'npm run desktop:build'], { cwd: frontend, env, stdio: 'inherit' })
+  : spawnSync('npm', ['run', 'desktop:build'], { cwd: frontend, env, stdio: 'inherit' });
 if (build.status !== 0) process.exit(build.status ?? 1);
 
 // 3. The update package and the file HARIKA reads.

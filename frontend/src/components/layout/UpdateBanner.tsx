@@ -16,7 +16,7 @@ export const UpdateBanner: React.FC = () => {
     if (!isDesktopApp) return;
     const timer = setTimeout(() => {
       checkForUpdate().then(setUpdate).catch(() => undefined); // offline: checked again next start
-    }, 8000);
+    }, 4000);
     return () => clearTimeout(timer);
   }, []);
 
