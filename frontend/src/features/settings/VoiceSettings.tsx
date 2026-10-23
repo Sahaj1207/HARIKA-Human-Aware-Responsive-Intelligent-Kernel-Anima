@@ -112,27 +112,25 @@ export const VoiceSettings: React.FC = () => {
             />
           }
         />
+        <Row
+          title="Keep listening for a follow-up"
+          subtitle="After answering out loud, HARIKA listens for a few seconds so you can just keep talking (also after tapping the mic)."
+          accessory={
+            <Toggle
+              label="Keep listening for a follow-up"
+              checked={settings.follow_up}
+              onChange={(on) => void change({ follow_up: on })}
+            />
+          }
+        />
         {settings.wake_word && (
-          <>
-            <Row
-              title="Keep listening for a follow-up"
-              subtitle="After answering, HARIKA listens for a few seconds so you can just keep talking."
-              accessory={
-                <Toggle
-                  label="Keep listening for a follow-up"
-                  checked={settings.follow_up}
-                  onChange={(on) => void change({ follow_up: on })}
-                />
-              }
-            />
-            <Row
-              title="Let me interrupt"
-              subtitle="Start talking while HARIKA speaks and she stops to listen."
-              accessory={
-                <Toggle label="Let me interrupt" checked={settings.barge_in} onChange={(on) => void change({ barge_in: on })} />
-              }
-            />
-          </>
+          <Row
+            title="Let me interrupt"
+            subtitle="Start talking while HARIKA speaks and she stops to listen."
+            accessory={
+              <Toggle label="Let me interrupt" checked={settings.barge_in} onChange={(on) => void change({ barge_in: on })} />
+            }
+          />
         )}
       </GroupedSection>
 

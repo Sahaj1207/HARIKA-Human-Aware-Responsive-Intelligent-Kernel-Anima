@@ -40,6 +40,8 @@ class AzureConnect(BaseModel):
 class SpeakRequest(BaseModel):
     text: str
     tone: str | None = None
+    # The window a push-to-talk conversation is in ("main", "orb"): listen for a follow-up after speaking.
+    follow_up_for: str | None = None
 
 
 class PreviewRequest(BaseModel):
@@ -149,7 +151,11 @@ async def disconnect_azure():
 async def speak(body: SpeakRequest):
     if not voice_engine.can_speak():
         raise HTTPException(status_code=409, detail="Download HARIKA's voice in Settings first.")
-    _speak_in_background(body.text, body.tone)
+    if body.follow_up_for:
+        threading.Thread(target=voice_engine.speak_and_follow_up, args=(body.text, body.tone, body.follow_up_for),
+                         name="harika-speak", daemon=True).start()
+    else:
+        _speak_in_background(body.text, body.tone)
     return {"speaking": True}
 
 

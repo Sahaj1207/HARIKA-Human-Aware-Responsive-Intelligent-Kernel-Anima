@@ -58,8 +58,9 @@ export const speechService = {
   async listen(): Promise<string> {
     return (await apiClient.post<{ text: string }>('/speech/listen', undefined, { timeout: 40000 })).data.text;
   },
-  async speak(text: string, tone?: string): Promise<void> {
-    await apiClient.post('/speech/speak', { text, tone });
+  /** followUpFor: the window of a push-to-talk conversation ("main", "orb"); HARIKA then listens for a follow-up. */
+  async speak(text: string, tone?: string, followUpFor?: string): Promise<void> {
+    await apiClient.post('/speech/speak', { text, tone, follow_up_for: followUpFor });
   },
   async connectAzure(key: string, region: string): Promise<SpeechStatus> {
     return (await apiClient.put<SpeechStatus>('/speech/azure', { key, region })).data;
@@ -76,12 +77,18 @@ export const speechService = {
 };
 
 /** Speak a reply if the user's "Speak replies" setting calls for it. */
-export async function speakReplyIfWanted(text: string, cameFromVoice: boolean, tone?: string): Promise<void> {
+export async function speakReplyIfWanted(
+  text: string,
+  cameFromVoice: boolean,
+  tone?: string,
+  conversation?: string
+): Promise<void> {
   try {
     const { settings, can_speak } = await speechService.status();
     if (!can_speak || settings.speak_replies === 'never') return;
     if (settings.speak_replies === 'voice' && !cameFromVoice) return;
-    await speechService.speak(text, tone);
+    // A spoken request continues as a conversation: after the reply HARIKA listens for a follow-up.
+    await speechService.speak(text, tone, cameFromVoice ? conversation : undefined);
   } catch {
     // Voice is optional; a failure here never affects the conversation.
   }

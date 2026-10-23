@@ -107,6 +107,21 @@ export const OrbApp: React.FC = () => {
         hideTimer.current = setTimeout(dismiss, AUTO_HIDE_MS);
       }
     });
+    // Push-to-talk follow-ups: after a spoken reply HARIKA listens again for a few seconds.
+    source.addEventListener('voice_follow_up', (raw) => {
+      const event = JSON.parse((raw as MessageEvent).data) as { conversation: string; phase: string; text?: string };
+      if (event.conversation !== 'orb') return;
+      if (event.phase === 'listening') {
+        cancelAutoHide();
+        setState('listening');
+      } else if (event.text) {
+        setInput(event.text);
+        void askRef.current(event.text, true);
+      } else {
+        setState('idle');
+        hideTimer.current = setTimeout(dismiss, AUTO_HIDE_MS);
+      }
+    });
     return () => source.close();
   }, [dismiss]);
 
@@ -121,12 +136,16 @@ export const OrbApp: React.FC = () => {
       setReply(data.response);
       setState('speaking');
       useHARIKAStore.getState().setMood(data.tone ?? 'warm');
-      void speakReplyIfWanted(data.response, spoken, data.tone);
+      void speakReplyIfWanted(data.response, spoken, data.tone, 'orb');
     } catch {
       setReply("I can't reach my engine right now. If HARIKA just started, try again in a few seconds.");
       setState('error');
     }
   };
+
+  // The latest ask, for the live-event listener set up once.
+  const askRef = useRef(ask);
+  askRef.current = ask;
 
   const send = (event: React.FormEvent) => {
     event.preventDefault();

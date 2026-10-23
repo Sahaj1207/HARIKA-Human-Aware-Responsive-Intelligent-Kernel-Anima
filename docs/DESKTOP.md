@@ -253,7 +253,9 @@ speech detection, speech recognition and one speaking voice). Then:
   it heard, answers and hides again.
 - **Keep listening for a follow-up** (on by default): after answering, HARIKA
   listens for a few seconds, so you can carry on ("and tomorrow?", "yes, send
-  it") without saying "Hey HARIKA" again. A pause ends the conversation.
+  it") without saying "Hey HARIKA" again. A pause ends the conversation. The
+  same works after tapping the microphone: once she has answered out loud, the
+  mic reopens for a few seconds, no second tap needed.
 - **Let me interrupt** (on by default): start talking while she speaks and she
   stops and listens. Her own voice coming back through the speakers is
   recognised and ignored.

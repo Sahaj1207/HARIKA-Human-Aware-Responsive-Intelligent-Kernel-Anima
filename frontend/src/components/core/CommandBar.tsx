@@ -7,6 +7,8 @@ import { visionService } from '@/services/api/vision';
 import { userStorage } from '@/features/onboarding/storage';
 import { coreStateManager } from '@/services/coreState/coreStateManager';
 import { speakReplyIfWanted } from '@/services/api/speech';
+import { env } from '@/config/env';
+import { askHarika } from '@/components/apple/MessageList';
 
 /** Recent turns sent as context; the full history would slow every request and overflow the model. */
 const HISTORY_TURNS = 12;
@@ -110,7 +112,7 @@ export const CommandBar: React.FC = () => {
         metadata: { provider: data.provider, model: data.model, latency_ms: data.latency_ms, learned: data.learned },
       });
       useHARIKAStore.getState().setMood(data.tone ?? 'warm');
-      void speakReplyIfWanted(data.response, spoken, data.tone);
+      void speakReplyIfWanted(data.response, spoken, data.tone, 'main');
     } catch {
       addMessage({
         role: 'assistant',
@@ -135,6 +137,25 @@ export const CommandBar: React.FC = () => {
     if (selectedFile) return analyzeFile(selectedFile, userQuery);
     if (userQuery) return sendText(userQuery);
   };
+
+  // Push-to-talk follow-ups: after a spoken reply HARIKA listens again, and what she hears is sent here.
+  useEffect(() => {
+    const source = new EventSource(`${env.API_BASE_URL}/events`);
+    source.addEventListener('voice_follow_up', (raw) => {
+      const event = JSON.parse((raw as MessageEvent).data) as { conversation: string; phase: string; text?: string };
+      if (event.conversation !== 'main') return;
+      const { setInterimTranscript } = useHARIKAStore.getState();
+      if (event.phase === 'listening') {
+        coreStateManager.transitionTo('listening');
+        setInterimTranscript('Listening…');
+        return;
+      }
+      setInterimTranscript(null);
+      if (event.text) askHarika(event.text, { spoken: true });
+      else coreStateManager.transitionTo('idle');
+    });
+    return () => source.close();
+  }, []);
 
   // Suggestions and other parts of the UI can ask on the user's behalf.
   useEffect(() => {

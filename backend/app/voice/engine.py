@@ -169,7 +169,7 @@ class VoiceEngine:
         self._interrupt = threading.Event()
         self._saying = ""  # the reply being spoken, to tell her echo from the user
         self._barged: Optional[str] = None  # what the user said over her, to handle next
-        self._capture_requests: "queue.Queue[queue.Queue]" = queue.Queue()
+        self._capture_requests: "queue.Queue[tuple]" = queue.Queue()  # (reply queue, timeout)
         self._model_lock = threading.Lock()
         self._asr = None
         self._tts: Dict[str, Any] = {}
@@ -293,6 +293,26 @@ class VoiceEngine:
             self._saying = ""
             self._set_state(previous if previous not in ("speaking",) else "idle")
 
+    def speak_and_follow_up(self, text: str, tone: Optional[str], conversation: str) -> None:
+        """Push-to-talk conversations: say the reply, then listen briefly for a follow-up.
+
+        What is heard goes back (as a "voice_follow_up" event) to the window the
+        conversation is in, which sends it like a spoken request. Stopping her, a
+        pause, or the setting being off ends the conversation.
+        """
+        self.speak(text, tone=tone)
+        if self._interrupt.is_set() or self._barged is not None:
+            return  # stopped, or talked over (the "Hey HARIKA" listener takes that request)
+        if not self.settings.load()["follow_up"] or not self.ready():
+            return
+        self._publish("voice_follow_up", conversation=conversation, phase="listening")
+        try:
+            heard = self.listen_once(timeout=_FOLLOW_UP).strip()
+        except Exception as exc:
+            logger.warning(f"[Voice] Follow-up listening failed: {exc}")
+            heard = ""
+        self._publish("voice_follow_up", conversation=conversation, phase="heard", text=heard)
+
     def stop_speaking(self) -> None:
         import sounddevice as sd
 
@@ -305,7 +325,7 @@ class VoiceEngine:
         """Push-to-talk: capture one request from the microphone and transcribe it."""
         if self._thread and self._thread.is_alive():
             reply: "queue.Queue[str]" = queue.Queue()
-            self._capture_requests.put(reply)
+            self._capture_requests.put((reply, timeout))
             return reply.get(timeout=timeout + _MAX_REQUEST + 10)
         import sounddevice as sd
 
@@ -376,11 +396,11 @@ class VoiceEngine:
                 while not self._stop.is_set():
                     # Push-to-talk requests share this microphone stream.
                     try:
-                        reply = self._capture_requests.get_nowait()
+                        reply, wait = self._capture_requests.get_nowait()
                     except queue.Empty:
                         reply = None
                     if reply is not None:
-                        samples = self._capture(read, _LISTEN_TIMEOUT)
+                        samples = self._capture(read, wait)
                         reply.put(self.transcribe(samples) if samples is not None else "")
                         vad = self._new_vad()
                         self._set_state("idle")

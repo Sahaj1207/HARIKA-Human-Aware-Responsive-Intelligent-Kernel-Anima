@@ -109,6 +109,33 @@ class EngineRequestTests(unittest.TestCase):
         handled = self.run_wake("tell me a long story", heard=[])
         self.assertEqual(handled, ["tell me a long story", "actually open chrome"])
 
+    def push_to_talk_reply(self, heard, follow_up=True, stopped=False):
+        self.engine.settings.update(follow_up=follow_up)
+
+        def speak(text, voice_id=None, tone=None):
+            self.spoken.append(text)
+            if stopped:
+                self.engine._interrupt.set()
+        self.engine.speak = speak
+        self.engine._interrupt.clear()
+        with patch.object(self.engine, "ready", return_value=True), \
+             patch.object(self.engine, "listen_once", return_value=heard) as listen:
+            self.engine.speak_and_follow_up("It's sunny.", "cheerful", "main")
+        return listen, [p for e, p in self.events if e == "voice_follow_up"]
+
+    def test_push_to_talk_reply_listens_for_a_follow_up(self):
+        listen, events = self.push_to_talk_reply("and tomorrow?")
+        self.assertEqual(self.spoken, ["It's sunny."])
+        self.assertEqual([(e["phase"], e.get("text")) for e in events], [("listening", None), ("heard", "and tomorrow?")])
+        self.assertTrue(all(e["conversation"] == "main" for e in events))
+
+    def test_no_follow_up_when_stopped_or_switched_off(self):
+        listen, events = self.push_to_talk_reply("and tomorrow?", stopped=True)
+        listen.assert_not_called()
+        self.assertEqual(events, [])
+        listen, events = self.push_to_talk_reply("and tomorrow?", follow_up=False)
+        listen.assert_not_called()
+
     def test_never_speak_setting_is_respected(self):
         self.run_wake("open notepad", speak_replies="never")
         self.assertEqual(self.spoken, [])
