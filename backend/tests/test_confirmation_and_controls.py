@@ -103,6 +103,38 @@ class ConfirmationFlowTests(unittest.TestCase):
         asyncio.run(router.route_request("yes"))
         self.assertNotIn(("power_control", True), resolver.executed)
 
+    def expire(self, router):
+        for pending in router._pending.values():
+            pending.created_at -= pending.ttl + 5
+
+    def test_late_yes_asks_again_instead_of_acting(self):
+        router, core, resolver = make_router("confirm")
+        asyncio.run(router.route_request("shut down the computer"))
+        self.expire(router)
+        late = asyncio.run(router.route_request("yes"))
+        self.assertEqual(resolver.executed, [])  # never acted on a stale approval
+        self.assertIn("haven't done it yet", late["response"])
+        self.assertIn("shut down the computer in 60 seconds", late["response"])
+        self.assertNotIn("yes", core.cognized)  # not passed on as small talk
+        asyncio.run(router.route_request("yes"))  # the fresh yes
+        self.assertEqual(resolver.executed, [("power_control", True)])
+
+    def test_late_no_lets_it_go(self):
+        router, _, resolver = make_router("decline")
+        asyncio.run(router.route_request("shut down the computer"))
+        self.expire(router)
+        self.assertIn("let that go", asyncio.run(router.route_request("no"))["response"])
+        self.assertEqual(resolver.executed, [])
+        self.assertEqual(router._pending, {})
+
+    def test_new_request_after_an_expired_question_is_handled_normally(self):
+        router, core, resolver = make_router("other")
+        asyncio.run(router.route_request("shut down the computer"))
+        self.expire(router)
+        asyncio.run(router.route_request("what's the weather like"))
+        self.assertEqual(core.cognized[-1], "what's the weather like")
+        self.assertEqual(router._expired, {})  # asked about once, then forgotten
+
     def test_bare_yes_no_need_no_model(self):
         core = CognitiveCore()
         self.assertEqual(asyncio.run(core.interpret_confirmation("Yes!", "q")), "confirm")

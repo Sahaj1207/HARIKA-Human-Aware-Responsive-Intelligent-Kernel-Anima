@@ -25,6 +25,9 @@ if TYPE_CHECKING:
 logger = logging.getLogger("harika.router.manager")
 
 CONFIRMATION_TTL_SECONDS = 120.0
+# A question that went unanswered is remembered this long, so a late "yes" is asked again
+# instead of being treated as small talk (or, worse, answered as if it had been done).
+LATE_ANSWER_SECONDS = 1800.0
 
 
 @dataclass
@@ -72,6 +75,7 @@ class RouterManager:
             cognitive_core_instance = default_cognitive_core
         self.cognitive_core = cognitive_core_instance
         self._pending: Dict[tuple, _PendingPlan] = {}
+        self._expired: Dict[tuple, _PendingPlan] = {}
 
     async def route_request(
         self,
@@ -112,6 +116,10 @@ class RouterManager:
                     pending.intent, pending.confidence, pending.policy, decision_id, t_start,
                 )
             # Anything else is a new request; the unanswered action is dropped.
+        else:
+            late = await self._late_answer(message, user_id, session_id, decision_id, t_start)
+            if late is not None:
+                return late
 
         # Stage 1-2: Cognitive Core perceives context and classifies once.
         understand_kwargs = {"spoken": True} if spoken else {}
@@ -358,9 +366,32 @@ class RouterManager:
 
     def _take_pending(self, user_id: str, session_id: str) -> Optional["_PendingPlan"]:
         pending = self._pending.pop((user_id, session_id), None)
-        if pending is None or time.time() - pending.created_at > pending.ttl:
+        if pending is not None and time.time() - pending.created_at > pending.ttl:
+            self._expired[(user_id, session_id)] = pending
             return None
         return pending
+
+    async def _late_answer(self, message: str, user_id: str, session_id: str, decision_id: str, t_start: float):
+        """A yes/no to a question that has already expired: never act on it, ask again."""
+        expired = self._expired.pop((user_id, session_id), None)
+        if expired is None or time.time() - expired.created_at > expired.ttl + LATE_ANSWER_SECONDS:
+            return None
+        if len(message.split()) > 8:
+            return None  # a longer message is a new request, not an answer; skip the extra check
+        verdict = await self.cognitive_core.interpret_confirmation(message, expired.question)
+        if verdict == "decline":
+            text = "Okay, I've let that go."
+        elif verdict == "confirm":
+            expired.created_at = time.time()
+            expired.ttl = CONFIRMATION_TTL_SECONDS
+            self._pending[(user_id, session_id)] = expired  # a fresh yes is needed now
+            text = f"That was a little while ago, so I haven't done it yet. {expired.question}"
+        else:
+            return None  # a new request; the old question is dropped
+        return {
+            "decision_id": decision_id, "response": text, "tone": "neutral", "intent": expired.intent.value,
+            "confidence": expired.confidence, "latency_ms": round((time.time() - t_start) * 1000, 2),
+        }
 
     def _hold_tool_follow_up(self, res, ctx, message, user_id, session_id, intent, confidence, policy) -> None:
         """A tool can propose a follow-up step that needs approval (e.g. sending a draft it just showed).
