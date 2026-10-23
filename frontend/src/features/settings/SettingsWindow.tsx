@@ -117,6 +117,10 @@ const PrivacyPage: React.FC = () => {
           subtitle="Read on this computer only when you ask, like “summarise my resume”. The parts needed to answer go to your conversation model."
         />
         <Row
+          title="Notifications"
+          subtitle="Read from Windows only when you ask, like “any messages on my phone?”. Nothing is saved or sent anywhere."
+        />
+        <Row
           title="Reading your screen"
           subtitle="Only when you ask, like &ldquo;continue this chat&rdquo;. The visible text goes to your conversation model, and nothing is sent in a chat until you say yes."
         />

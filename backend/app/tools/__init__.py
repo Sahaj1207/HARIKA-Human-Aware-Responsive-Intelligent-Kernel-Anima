@@ -29,6 +29,7 @@ import app.tools.productivity.notes_tool
 import app.tools.productivity.recall_tool
 import app.tools.productivity.documents_tool
 import app.tools.system.tidy_tool
+import app.tools.system.notifications_tool
 import app.tools.utilities.wrap_up
 import app.tools.productivity.task_tool
 

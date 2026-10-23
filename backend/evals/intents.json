@@ -51,6 +51,8 @@
   ["switch to chrome", "switch_to", "chrome"],
   ["show my desktop", "show_desktop", ""],
   ["how was my day?", "wrap_up", ""],
+  ["did anyone message me on my phone?", "notifications", "phone"],
+  ["any whatsapp messages?", "notifications", "whatsapp"],
   ["my downloads folder is a mess, can you sort it out?", "tidy", "download"],
   ["delete duplicate files on my desktop", "tidy", "desktop"],
   ["give me the gist of my offer letter", "ask_file", "offer"],

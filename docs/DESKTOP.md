@@ -198,6 +198,16 @@ extracted next to themselves, and files over 200 MB untouched for three months.
 It says how much space that frees and asks; only a yes moves them, to the Recycle
 Bin, where they can be restored.
 
+### Notifications and your phone
+
+"Any new messages on my phone?", "what did Mom text me?", "did I miss any
+notifications?". HARIKA reads the notifications Windows is holding (read-only,
+only when you ask). Link the phone with **Phone Link** (built into Windows) and
+its notifications, such as messages and WhatsApp, show up there too, which is how
+HARIKA sees them. Replying from HARIKA isn't possible this way. If Windows has
+notification access turned off: Windows Settings > Privacy & security >
+Notifications.
+
 ### Notes and lists
 
 "Take a note: the wifi password is on the fridge", "add milk and eggs to my

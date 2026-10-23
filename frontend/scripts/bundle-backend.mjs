@@ -34,6 +34,8 @@ const args = [
   '--collect-all', 'tokenizers',
   // Reading PDFs (its decoders are imported on demand).
   '--collect-all', 'pypdf',
+  // Reading notifications (Windows' own API, through the WinRT bindings).
+  '--collect-all', 'winrt',
 ];
 
 // HARIKA's Google sign-in client (downloaded from Google Cloud Console, never committed).
