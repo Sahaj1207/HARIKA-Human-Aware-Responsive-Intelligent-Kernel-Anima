@@ -223,10 +223,28 @@ class FactTests(unittest.TestCase):
         text, facts = split_learned("[cheerful] Dosa is the best!\n[learned: You love dosa.]")
         self.assertEqual((text, facts), ("[cheerful] Dosa is the best!", ["You love dosa."]))
         self.assertEqual(split_learned("No facts here."), ("No facts here.", []))
+        restated = "[warm] You love dosa.\n[learned: You love dosa.]"
+        self.assertEqual(split_learned(restated, "what do you know about me?")[1], [])
+        self.assertEqual(split_learned(restated, "Hi I love dosa")[1], ["You love dosa."])
         memory_manager.clear_all_memories(user_id="learned-user")
         remember_learned(facts + ["You have a sister called Priya"], "learned-user")
         saved = sorted(m.content for m in memory_manager.get_memories(user_id="learned-user"))
         self.assertEqual(saved, ["You have a sister called Priya.", "You love dosa."])
+
+    def test_old_raw_memories_are_tidied(self):
+        from app.memory.facts import tidy_old_memories
+        from app.memory.models import MemoryItem
+        from app.memory.storage import MemoryStorage
+        storage = MemoryStorage(tempfile.mkdtemp(prefix="harika-mem-"))
+        storage.save_category(MemoryCategory.NOTES, [
+            MemoryItem(id="a", category=MemoryCategory.NOTES, title="User Fact: remember I love dosa", content="remember I love dosa"),
+            MemoryItem(id="b", category=MemoryCategory.NOTES, title="Wifi", content="On the fridge"),
+        ], "Sahaj")
+        self.assertEqual(tidy_old_memories(storage), 1)
+        items = {m.id: m for m in storage.load_category(MemoryCategory.NOTES, "Sahaj")}
+        self.assertEqual((items["a"].title, items["a"].content), ("You love dosa.", "You love dosa."))
+        self.assertEqual(items["b"].content, "On the fridge")
+        self.assertEqual(tidy_old_memories(storage), 0)
 
 
 class GreetingOpenerTests(unittest.TestCase):

@@ -292,10 +292,12 @@ class RouterManager:
         self.history.record_decision(decision)
         self._journal(message, final_text, graph, user_id)
 
+        learned = [fact for r in node_results if isinstance(r, dict) for fact in r.get("learned") or []]
         return {
             "decision_id": decision_id,
             "response": final_text.strip(),
             "tone": tone,
+            "learned": learned,
             "intent": primary_intent.value,
             "engine": graph.nodes[0].engine if graph.nodes else "CognitionManager",
             "action": graph.nodes[0].action if graph.nodes else "process_chat",

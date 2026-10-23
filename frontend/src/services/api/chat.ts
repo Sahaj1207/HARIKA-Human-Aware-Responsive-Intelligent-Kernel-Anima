@@ -15,6 +15,8 @@ export interface ChatApiResponse {
   latency_ms: number;
   /** How the reply should sound: warm, cheerful, empathetic, ... */
   tone?: string;
+  /** Facts about the user HARIKA kept from this message. */
+  learned?: string[];
 }
 
 /** Stops a running multi-step task between steps. */

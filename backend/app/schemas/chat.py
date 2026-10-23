@@ -15,3 +15,4 @@ class ChatResponse(BaseModel):
     model: str = Field(..., example="qwen3:latest")
     latency_ms: int = Field(..., example=1200)
     tone: str = Field(default="warm", description="How the reply should sound: warm, cheerful, empathetic, ...")
+    learned: List[str] = Field(default_factory=list, description="Facts about the user HARIKA kept from this message")

@@ -107,8 +107,9 @@ export const CommandBar: React.FC = () => {
         role: 'assistant',
         content: data.response,
         status: 'streaming',
-        metadata: { provider: data.provider, model: data.model, latency_ms: data.latency_ms },
+        metadata: { provider: data.provider, model: data.model, latency_ms: data.latency_ms, learned: data.learned },
       });
+      useHARIKAStore.getState().setMood(data.tone ?? 'warm');
       void speakReplyIfWanted(data.response, spoken, data.tone);
     } catch {
       addMessage({

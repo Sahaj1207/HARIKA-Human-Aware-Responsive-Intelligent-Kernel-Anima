@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { GroupedSection, Row, Toggle } from '@/components/apple/controls';
+import { env } from '@/config/env';
 import { memoryService, type MemoryItemApi, type MemoryOverview } from '@/services/api/memory';
 
 const KIND: Record<string, string> = {
@@ -38,10 +39,16 @@ export const MemorySettings: React.FC = () => {
   const [showAllDays, setShowAllDays] = useState(false);
 
   useEffect(() => {
-    memoryService
-      .overview()
-      .then(setMemory)
-      .catch(() => setError("HARIKA's engine isn't running, so memories can't be shown."));
+    const load = () =>
+      memoryService
+        .overview()
+        .then(setMemory)
+        .catch(() => setError("HARIKA's engine isn't running, so memories can't be shown."));
+    void load();
+    // Stays current while open: HARIKA may learn something from a chat in another window.
+    const source = new EventSource(`${env.API_BASE_URL}/events`);
+    source.addEventListener('memory', () => void load());
+    return () => source.close();
   }, []);
 
   const run = async (change: () => Promise<MemoryOverview>) => {

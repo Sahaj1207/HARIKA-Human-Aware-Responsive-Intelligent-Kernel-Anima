@@ -90,7 +90,7 @@ class SubsystemResolver:
                     source="router"
                 )
                 res = memory_manager.add_memory(mem_item, user_id=user_id)
-                return res if isinstance(res, dict) else {"status": "stored", "memory": res}
+                return {**res, "learned": [content]} if isinstance(res, dict) else {"status": "stored", "memory": res, "learned": [content]}
             elif node.intent == IntentType.MEMORY_QUERY:
                 q = node.arguments.get("query", "")
                 if any(k in q.lower() for k in ["talking about", "current topic", "working on", "current task", "workspace", "active discussion", "our context", "focus", "current project", "active project"]):

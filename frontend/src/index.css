@@ -196,7 +196,17 @@
 }
 
 /* The orb: drifting color fields inside a glassy sphere. */
+/* The orb's four color fields, registered as colors so a change of mood blends smoothly. */
+@property --orb-c1 { syntax: '<color>'; inherits: true; initial-value: #007aff; }
+@property --orb-c2 { syntax: '<color>'; inherits: true; initial-value: #af52de; }
+@property --orb-c3 { syntax: '<color>'; inherits: true; initial-value: #ff2d55; }
+@property --orb-c4 { syntax: '<color>'; inherits: true; initial-value: #ff9500; }
+
 .harika-orb {
+  --orb-c1: var(--blue);
+  --orb-c2: var(--purple);
+  --orb-c3: var(--pink);
+  --orb-c4: var(--orange);
   position: relative;
   border-radius: 9999px;
   overflow: hidden;
@@ -205,7 +215,8 @@
   box-shadow:
     inset 0 0 0 0.5px rgba(255, 255, 255, 0.35),
     0 0 40px color-mix(in srgb, var(--purple) 25%, transparent);
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.6s ease,
+    --orb-c1 1.6s ease, --orb-c2 1.6s ease, --orb-c3 1.6s ease, --orb-c4 1.6s ease;
 }
 .harika-orb > span {
   position: absolute;
@@ -215,10 +226,10 @@
   filter: blur(14px);
   animation: orb-drift var(--orb-speed, 14s) linear infinite;
 }
-.harika-orb > span:nth-child(1) { background: radial-gradient(circle at 30% 35%, var(--blue), transparent 55%); }
-.harika-orb > span:nth-child(2) { background: radial-gradient(circle at 70% 40%, var(--purple), transparent 55%); animation-duration: calc(var(--orb-speed, 14s) * 1.3); animation-direction: reverse; }
-.harika-orb > span:nth-child(3) { background: radial-gradient(circle at 45% 75%, var(--pink), transparent 50%); animation-duration: calc(var(--orb-speed, 14s) * 0.8); }
-.harika-orb > span:nth-child(4) { background: radial-gradient(circle at 65% 70%, var(--orange), transparent 45%); animation-duration: calc(var(--orb-speed, 14s) * 1.6); animation-direction: reverse; }
+.harika-orb > span:nth-child(1) { background: radial-gradient(circle at 30% 35%, var(--orb-c1), transparent 55%); }
+.harika-orb > span:nth-child(2) { background: radial-gradient(circle at 70% 40%, var(--orb-c2), transparent 55%); animation-duration: calc(var(--orb-speed, 14s) * 1.3); animation-direction: reverse; }
+.harika-orb > span:nth-child(3) { background: radial-gradient(circle at 45% 75%, var(--orb-c3), transparent 50%); animation-duration: calc(var(--orb-speed, 14s) * 0.8); }
+.harika-orb > span:nth-child(4) { background: radial-gradient(circle at 65% 70%, var(--orb-c4), transparent 45%); animation-duration: calc(var(--orb-speed, 14s) * 1.6); animation-direction: reverse; }
 .harika-orb > i {
   /* specular highlight */
   position: absolute;
@@ -227,6 +238,20 @@
   background: radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.55), transparent 70%);
 }
 .harika-orb[data-state="idle"] { --orb-speed: 18s; }
+
+/* Mood: the tone of HARIKA's latest reply tints the orb for a while ("warm" is the default above). */
+.harika-orb[data-mood="cheerful"] { --orb-c1: var(--orange); --orb-c2: var(--pink); --orb-c3: #ffcc00; --orb-c4: var(--teal); }
+.harika-orb[data-mood="excited"] { --orb-c1: var(--pink); --orb-c2: var(--orange); --orb-c3: #ffcc00; --orb-c4: var(--purple); }
+.harika-orb[data-mood="playful"] { --orb-c1: var(--teal); --orb-c2: var(--pink); --orb-c3: var(--purple); --orb-c4: #ffcc00; }
+.harika-orb[data-mood="empathetic"] { --orb-c1: var(--purple); --orb-c2: var(--indigo); --orb-c3: var(--pink); --orb-c4: #7d7aff; }
+.harika-orb[data-mood="calm"] { --orb-c1: var(--teal); --orb-c2: var(--blue); --orb-c3: var(--indigo); --orb-c4: var(--green); }
+.harika-orb[data-mood="apologetic"] { --orb-c1: var(--indigo); --orb-c2: var(--purple); --orb-c3: #5a6c8a; --orb-c4: var(--blue); }
+.harika-orb[data-mood="serious"] { --orb-c1: var(--indigo); --orb-c2: var(--blue); --orb-c3: #5a6c8a; --orb-c4: var(--teal); }
+.harika-orb[data-mood="excited"][data-state="idle"],
+.harika-orb[data-mood="cheerful"][data-state="idle"] { --orb-speed: 11s; }
+.harika-orb[data-mood="calm"][data-state="idle"],
+.harika-orb[data-mood="empathetic"][data-state="idle"],
+.harika-orb[data-mood="apologetic"][data-state="idle"] { --orb-speed: 24s; }
 .harika-orb[data-state="thinking"] { --orb-speed: 3.5s; transform: scale(1.06); box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.4), 0 0 60px color-mix(in srgb, var(--pink) 40%, transparent); }
 .harika-orb[data-state="listening"] { --orb-speed: 5s; transform: scale(1.1); }
 .harika-orb[data-state="speaking"] { --orb-speed: 7s; animation: orb-breathe 1.6s ease-in-out infinite; }

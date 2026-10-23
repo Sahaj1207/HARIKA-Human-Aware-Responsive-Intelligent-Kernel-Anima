@@ -91,10 +91,11 @@ class CognitionManager:
 
         # 9. Lasting facts the model noticed in the user's message become memories.
         from app.memory.facts import remember_learned, split_learned
-        assistant_text, learned = split_learned(result.get("response", ""))
+        assistant_text, learned = split_learned(result.get("response", ""), message)
         if "response" in result:
             result["response"] = assistant_text
         if learned:
+            result["learned"] = learned  # shown under the reply ("Remembered: ...")
             try:
                 remember_learned(learned, scoped_user_id)
             except Exception as e:

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
+import { Brain } from 'lucide-react';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { userStorage } from '@/features/onboarding/storage';
 import { StreamingMessage } from '@/components/core/StreamingMessage';
@@ -147,6 +148,16 @@ export const MessageList: React.FC = () => {
                   )}
                 </div>
               </div>
+            )}
+            {role === 'assistant' && Array.isArray(msg.metadata?.learned) && msg.metadata.learned.length > 0 && (
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('harika:open-settings', { detail: 'memory' }))}
+                className="ml-2 mt-1 flex items-center gap-1 t-caption text-label-2 hover:text-label transition-colors"
+              >
+                <Brain className="w-3 h-3" aria-hidden />
+                Remembered: {msg.metadata.learned.join(' ')}
+              </button>
             )}
           </React.Fragment>
         );

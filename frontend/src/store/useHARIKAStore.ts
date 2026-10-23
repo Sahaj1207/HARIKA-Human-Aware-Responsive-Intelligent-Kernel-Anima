@@ -34,6 +34,10 @@ interface HARIKAStore {
   // Live step progress pushed by the backend ("Step 2/3: search F1 news")
   activity: string | null;
   setActivity: (activity: string | null) => void;
+
+  /** Tone of HARIKA's latest reply ("cheerful", "calm"...); tints the orb, then fades back to warm. */
+  mood: string;
+  setMood: (mood: string) => void;
   /** A multi-step task is running and can be stopped. */
   taskRunning: boolean;
   setTaskRunning: (running: boolean) => void;
@@ -51,6 +55,9 @@ interface HARIKAStore {
   // Single Authoritative Function to reset ALL generation lifecycle state
   completeGeneration: () => void;
 }
+
+const MOOD_SECONDS = 30;
+let moodTimer: ReturnType<typeof setTimeout> | undefined;
 
 // A new conversation starts empty; the empty state greets the user.
 const initialMessages = persistenceService.getMessages() || [];
@@ -82,6 +89,13 @@ export const useHARIKAStore = create<HARIKAStore>((set, get) => ({
 
   activity: null,
   setActivity: (activity) => set({ activity }),
+
+  mood: 'warm',
+  setMood: (mood) => {
+    clearTimeout(moodTimer);
+    set({ mood: mood || 'warm' });
+    moodTimer = setTimeout(() => set({ mood: 'warm' }), MOOD_SECONDS * 1000);
+  },
   taskRunning: false,
   setTaskRunning: (taskRunning) => set({ taskRunning }),
 

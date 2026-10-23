@@ -141,7 +141,9 @@ if you use "Hey HARIKA".
 
 HARIKA keeps a journal of your conversations on this computer for 90 days, so
 you can ask "what did we talk about yesterday?" or "what did I decide about the
-trip?". Once a day is over, the conversation model reads it once and writes a
+trip?". When you mention something lasting about yourself ("I love dosa", "my
+sister Priya is visiting"), HARIKA keeps it right away and shows "Remembered: ..."
+under its reply. Once a day is over, the conversation model reads it once and writes a
 short summary of the day plus any lasting facts you mentioned (plans,
 preferences, people, decisions); those facts are used in later replies.
 

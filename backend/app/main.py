@@ -23,6 +23,15 @@ async def lifespan(app: FastAPI):
     from app.services.proactive import run_proactive_loop
     proactive = asyncio.create_task(run_proactive_loop())
     from app.memory.digest import run_digest_loop
+    from app.memory.events import MemoryEventType, memory_event_bus
+    from app.memory.facts import tidy_old_memories
+    for change in (MemoryEventType.MEMORY_CREATED, MemoryEventType.MEMORY_UPDATED, MemoryEventType.MEMORY_DELETED):
+        # Settings > Memory refreshes itself when HARIKA learns or forgets something.
+        memory_event_bus.subscribe(change, lambda name, payload: live_events.publish("memory", change=name))
+    try:
+        tidy_old_memories()
+    except Exception as exc:
+        logger.warning(f"Old memories left as they were: {exc}")
     digests = asyncio.create_task(run_digest_loop())
     from app.tools.system.screen_reader import foreground_tracker
     foreground_tracker.start()  # remembers the app you were in before talking to HARIKA
@@ -53,15 +62,21 @@ async def _voice_request(text: str) -> dict:
 
 async def _warm_up():
     """Index installed apps and load the local model in the background so first requests are fast."""
-    try:
-        from app.tools.system.installed_apps import installed_app_index
-        await asyncio.to_thread(installed_app_index.apps)
-        from app.cognition.core import cognitive_core
-        await cognitive_core.warm_up()
-    except asyncio.CancelledError:
-        raise
-    except Exception as exc:
-        logger.warning(f"Background warm-up skipped: {exc}")
+    from app.cognition.core import cognitive_core
+    from app.cognition.llm.manager import RoleProvider, usable_model
+    from app.tools.system.installed_apps import installed_app_index
+
+    async def check_conversation_model():
+        # Learns which models the conversation service offers now, so the first reply doesn't wait for it.
+        first = RoleProvider("conversation").chain()[0]
+        await usable_model(first["service"], "conversation")
+
+    # Side by side: the first request shouldn't wait for app indexing to finish.
+    results = await asyncio.gather(asyncio.to_thread(installed_app_index.apps), cognitive_core.warm_up(),
+                                   check_conversation_model(), return_exceptions=True)
+    for result in results:
+        if isinstance(result, Exception) and not isinstance(result, asyncio.CancelledError):
+            logger.warning(f"Background warm-up step skipped: {result}")
 
 
 app = FastAPI(

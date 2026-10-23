@@ -41,9 +41,18 @@ LEARN_INSTRUCTION = (
 _LEARNED = re.compile(r"\[\s*learned\s*:\s*([^\]\n]{3,200})\]", re.I)
 
 
-def split_learned(text: str):
-    """'Lovely!\n[learned: You love dosa.]' -> ('Lovely!', ['You love dosa.'])."""
+def split_learned(text: str, message: str = ""):
+    """'Lovely!\n[learned: You love dosa.]' -> ('Lovely!', ['You love dosa.']).
+
+    With the user's message, a fact is kept only if it shares words with what they said, so
+    a reply that restates what HARIKA already knew ("what do you know about me?") learns nothing.
+    """
+    from app.memory.journal import _words
+
     facts = [m.strip() for m in _LEARNED.findall(text or "")]
+    if message:
+        said = _words(message)
+        facts = [f for f in facts if said & (_words(f) - {"you", "your", "you're", "yours"})]
     return _LEARNED.sub("", text or "").strip(), facts
 
 
@@ -74,3 +83,26 @@ async def answer_about_user(question: str, facts) -> str:
     result = await RoleProvider("conversation").generate_response(
         [{"role": "user", "content": f"<facts>\n{listed}\n</facts>\n\nMy question: {question}"}], _ANSWER_PROMPT)
     return "" if result.get("error") else str(result.get("response", "")).strip()
+
+
+def tidy_old_memories(storage=None) -> int:
+    """Older versions saved "remember I love dosa" as it was typed (titled "User Fact: ...").
+    Rewrites those as the fact itself, once; returns how many changed."""
+    from app.memory.manager import memory_manager
+    from app.memory.models import MemoryCategory
+
+    storage = storage or memory_manager.storage
+    changed = 0
+    for user_dir in [p for p in storage.base_dir.iterdir() if p.is_dir()]:
+        for category in MemoryCategory:
+            items = storage.load_category(category, user_dir.name)
+            touched = False
+            for item in items:
+                if item.title.startswith("User Fact: ") and not item.deleted:
+                    item.content = as_fact(item.content)
+                    item.title = item.content[:120]
+                    touched = True
+                    changed += 1
+            if touched:
+                storage.save_category(category, items, user_dir.name)
+    return changed
