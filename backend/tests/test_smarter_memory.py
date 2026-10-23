@@ -210,5 +210,50 @@ class RecallTests(unittest.TestCase):
         self.assertIn("I don't have anything from", empty_day["summary"])
 
 
+class FactTests(unittest.TestCase):
+    def test_remember_requests_become_the_fact(self):
+        from app.memory.facts import as_fact
+        self.assertEqual(as_fact("remember I love dosa"), "You love dosa.")
+        self.assertEqual(as_fact("Remember that my sister is Priya"), "Your sister is Priya.")
+        self.assertEqual(as_fact("please remember: I was born in Pune"), "You were born in Pune.")
+        self.assertEqual(as_fact("note that it was raining"), "It was raining.")
+
+    def test_learned_notes_are_hidden_and_kept(self):
+        from app.memory.facts import remember_learned, split_learned
+        text, facts = split_learned("[cheerful] Dosa is the best!\n[learned: You love dosa.]")
+        self.assertEqual((text, facts), ("[cheerful] Dosa is the best!", ["You love dosa."]))
+        self.assertEqual(split_learned("No facts here."), ("No facts here.", []))
+        memory_manager.clear_all_memories(user_id="learned-user")
+        remember_learned(facts + ["You have a sister called Priya"], "learned-user")
+        saved = sorted(m.content for m in memory_manager.get_memories(user_id="learned-user"))
+        self.assertEqual(saved, ["You have a sister called Priya.", "You love dosa."])
+
+
+class GreetingOpenerTests(unittest.TestCase):
+    def test_greeting_before_conversation_keeps_the_whole_message(self):
+        from types import SimpleNamespace
+        from app.cognition.core import CognitiveCore
+        from app.router.action_graph import ActionGraph, ActionNode
+        from app.router.schemas import IntentType
+
+        graph = ActionGraph()
+        graph.add_node(ActionNode(intent=IntentType.CHAT, engine="CognitionManager", action="process_chat",
+                                  arguments={"message": "hi", "conversation_type": "greeting"}))
+        graph.add_node(ActionNode(intent=IntentType.UNKNOWN_INTENT, engine="CognitionManager",
+                                  arguments={"message": "I love dosa"}))
+        conversational = SimpleNamespace(is_conversational=True, confidence=0.9)
+        merged, _ = CognitiveCore._merge(CognitiveCore.__new__(CognitiveCore), graph, 0.99, conversational, "Hi I love dosa")
+        self.assertEqual(len(merged.nodes), 1)
+        self.assertEqual(merged.nodes[0].arguments["message"], "Hi I love dosa")
+        self.assertNotIn("conversation_type", merged.nodes[0].arguments)
+
+    def test_templates_only_answer_bare_small_talk(self):
+        from app.presence.communication.chat import format_chat_response
+        reply = format_chat_response("CHAT", {"message": "Hi I love dosa", "response": "Dosa is the best!"})
+        self.assertEqual(reply, "Dosa is the best!")
+        self.assertIn(format_chat_response("CHAT", {"message": "hi", "response": "Hello there, friend."}),
+                      ["[cheerful] Hey! What's up?", "[warm] Hi! What can I do for you?", "[cheerful] Hey there!"])
+
+
 if __name__ == "__main__":
     unittest.main()

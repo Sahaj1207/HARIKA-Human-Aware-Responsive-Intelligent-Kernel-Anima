@@ -14,8 +14,18 @@ def plain_text(text: str) -> str:
     return re.sub(r"[ \t]{2,}", " ", re.sub(r"[ \t]+([.,!?])", r"\1", text)).strip()
 
 
+# Messages that are only a greeting or a how-are-you, which a quick template answers well.
+_BARE_SMALL_TALK = re.compile(
+    r"(?:(?:hi|hey|hello|greetings|good (?:morning|afternoon|evening))(?: there)?(?: harika)?[\s,.!]*)?"
+    r"(?:(?:how are you|how's it going|how is it going|what's up|what is up)(?: harika)?)?[\s,.!?]*"
+)
+
+
 def format_chat_response(intent: str, engine_output: Any, experience: Optional[ExperienceDecision] = None) -> str:
     message = engine_output.get("message", "").lower() if isinstance(engine_output, dict) else ""
+    if isinstance(engine_output, dict) and isinstance(engine_output.get("response"), str) and engine_output["response"].strip() \
+            and not _BARE_SMALL_TALK.fullmatch(message.strip()):
+        message = ""  # more than small talk ("hi, I love dosa"): the generated reply answers all of it
     if isinstance(engine_output, dict) and engine_output.get("cognitive_goal") == "conversation_or_entertainment":
         return "You could listen to something relaxing, watch something interesting, or just chat. What sounds good?"
     if isinstance(engine_output, dict) and engine_output.get("cognitive_goal") == "advice_or_exploration":

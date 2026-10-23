@@ -41,6 +41,12 @@ class CognitionManager:
         # 1. Retrieve top 10 relevant persistent memories
         scoped_user_id = user_id or user_name or "default"
         retrieved_memories = memory_manager.get_memories(query=message, user_id=scoped_user_id)
+        # Word matching misses meaning ("what do you know about me?"), so the most important
+        # other facts about the user come along too.
+        from app.memory.models import MemoryCategory
+        seen = {m.id for m in retrieved_memories}
+        retrieved_memories += [m for m in memory_manager.get_memories(user_id=scoped_user_id)
+                               if m.id not in seen and m.category != MemoryCategory.EPISODES][:max(0, 20 - len(seen))]
 
         # 2. Action Engine: Plan action
         action_plan = tool_manager.plan_action(message)
@@ -83,14 +89,16 @@ class CognitionManager:
             system_prompt=system_prompt
         )
 
-        assistant_text = result.get("response", "")
-
-        # 9. Asynchronous Non-blocking Memory Extraction
-        memory_manager.process_conversation_async(
-            user_message=message,
-            assistant_response=assistant_text,
-            user_id=scoped_user_id
-        )
+        # 9. Lasting facts the model noticed in the user's message become memories.
+        from app.memory.facts import remember_learned, split_learned
+        assistant_text, learned = split_learned(result.get("response", ""))
+        if "response" in result:
+            result["response"] = assistant_text
+        if learned:
+            try:
+                remember_learned(learned, scoped_user_id)
+            except Exception as e:
+                logger.error(f"[CognitionManager] Could not keep a learned fact: {e}")
 
         # 10. Asynchronous Non-blocking Post-Response Reflection Recording
         asyncio.create_task(

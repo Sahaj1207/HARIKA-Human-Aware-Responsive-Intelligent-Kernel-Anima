@@ -70,6 +70,8 @@ class ContextBuilder:
                 "Active Projects": [m for m in memories if m.category == MemoryCategory.PROJECTS],
                 "Current Goals": [m for m in memories if m.category == MemoryCategory.GOALS],
                 "User Preferences": [m for m in memories if m.category == MemoryCategory.PREFERENCES],
+                "People in Their Life": [m for m in memories if m.category == MemoryCategory.RELATIONSHIPS],
+                "Things They Asked You to Remember": [m for m in memories if m.category == MemoryCategory.NOTES],
                 "Recent Episodes": [m for m in memories if m.category == MemoryCategory.EPISODES],
             }
 
@@ -78,7 +80,8 @@ class ContextBuilder:
                 if items:
                     section_lines = [f"### {section_title}:"]
                     for item in items:
-                        section_lines.append(f"- {item.title}: {item.content}")
+                        same = item.title.strip().lower() == item.content.strip().lower()
+                        section_lines.append(f"- {item.content}" if same else f"- {item.title}: {item.content}")
                     memory_sections.append("\n".join(section_lines))
 
             if memory_sections:

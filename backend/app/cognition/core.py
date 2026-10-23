@@ -285,9 +285,17 @@ class CognitiveCore:
         if getattr(semantic_request, "is_conversational", False):
             # The interpreter judged this to be conversation, not a command: keep any
             # confident non-tool understanding (memory, planning...) and answer the rest.
+            # A greeting that opens a longer message ("hi, I love dosa") is part of the
+            # conversation, not a separate reply that would drop the rest.
+            def opener(node) -> bool:
+                return len(graph.nodes) > 1 and (
+                    node.intent in (IntentType.GREETING, IntentType.SOCIAL_CONVERSATION)
+                    or node.arguments.get("conversation_type") == "greeting")
+
             kept = [
                 n for n in graph.nodes
-                if n.intent is not IntentType.UNKNOWN_INTENT and capability_resolver.is_resolved(n)
+                if n.intent is not IntentType.UNKNOWN_INTENT and not opener(n)
+                and capability_resolver.is_resolved(n)
             ]
             graph.nodes = kept or graph.nodes[:1]
             if not kept and graph.nodes:
@@ -324,7 +332,9 @@ class CognitiveCore:
         node.intent = IntentType.CHAT
         node.engine = "CognitionManager"
         node.action = "process_chat"
-        node.arguments.setdefault("message", message)
+        # The whole message is the conversation, not the fragment this node was split from.
+        node.arguments = {**node.arguments, "message": message}
+        node.arguments.pop("conversation_type", None)
 
     @staticmethod
     def _action_graph_from_semantic(request: Any, message: str, catalog: Any):

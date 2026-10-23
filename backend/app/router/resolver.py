@@ -77,11 +77,13 @@ class SubsystemResolver:
             from app.memory.models import MemoryItem, MemoryCategory
             import uuid
             if node.intent == IntentType.MEMORY_STORE:
-                content = node.arguments.get("content", "")
+                from app.memory.facts import as_fact
+                content = as_fact(node.arguments.get("content", ""))
                 mem_item = MemoryItem(
                     id=f"mem-rtr-{uuid.uuid4().hex[:8]}",
                     category=MemoryCategory.NOTES,
-                    title=f"User Fact: {content[:40]}",
+                    # Memories with the same title are merged, so the title is the whole fact.
+                    title=content[:120],
                     content=content,
                     importance=0.8,
                     confidence=0.9,
@@ -109,6 +111,18 @@ class SubsystemResolver:
 
 
 
+                facts = [m.content for m in memory_manager.get_memories(user_id=user_id)
+                         if m.category != MemoryCategory.EPISODES]
+                if facts:
+                    from app.memory.facts import answer_about_user
+                    from app.presence.tone import split_tone
+                    try:
+                        answer = split_tone(await answer_about_user(q, facts))[0]
+                    except Exception as exc:
+                        logger.warning(f"Answering from memory failed: {exc}")
+                        answer = ""
+                    if answer:
+                        return {"status": "answered", "query": q, "summary": answer}
                 mems = memory_manager.get_memories(query=q, user_id=user_id)
                 if not mems:
                     return {"status": "empty", "query": q, "memories": []}

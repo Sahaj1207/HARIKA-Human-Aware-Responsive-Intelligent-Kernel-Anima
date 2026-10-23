@@ -19,6 +19,8 @@ def format_memory_response(intent: str, engine_output: Any, raw_message: str = "
 
 
     if intent in ["MEMORY_QUERY", "MEMORY_UPDATE"] or (isinstance(engine_output, list) and engine_output) or (isinstance(engine_output, dict) and engine_output.get("status") == "context_query"):
+        if isinstance(engine_output, dict) and engine_output.get("status") == "answered":
+            return engine_output.get("summary", "")
         if isinstance(engine_output, dict) and engine_output.get("status") == "context_query":
             return engine_output.get("summary", "We are currently in an active conversation session.")
         if isinstance(engine_output, list) and len(engine_output) > 0:
