@@ -66,6 +66,14 @@ Examples:
 "skip this track" -> {{"actions": [{{"operation": "next", "target": "music"}}]}}
 "put the computer to sleep" -> {{"actions": [{{"operation": "sleep"}}]}}
 "play something relaxing on spotify" -> {{"actions": [{{"operation": "play", "target": "relaxing music", "parameters": {{"platform": "spotify"}}}}]}}
+"play some Arijit Singh on spotify" -> {{"actions": [{{"operation": "play", "target": "Arijit Singh", "parameters": {{"platform": "spotify", "kind": "artist"}}}}]}}
+"play my liked songs" -> {{"actions": [{{"operation": "play_library", "target": "liked songs"}}]}}
+"put on my workout playlist" -> {{"actions": [{{"operation": "play_library", "target": "workout"}}]}}
+"what's this song?" -> {{"actions": [{{"operation": "now_playing", "target": "spotify"}}]}}
+"I love this song, save it" -> {{"actions": [{{"operation": "like_song", "target": "current song"}}]}}
+"add this to my road trip playlist" -> {{"actions": [{{"operation": "add_to_playlist_spotify", "target": "road trip"}}]}}
+"play Believer next" -> {{"actions": [{{"operation": "queue_song", "target": "Believer"}}]}}
+"queue up Levitating by Dua Lipa" -> {{"actions": [{{"operation": "queue_song", "target": "Levitating by Dua Lipa"}}]}}
 "open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome"}}, {{"operation": "search", "target": "F1 news"}}, {{"operation": "open", "target": "first result"}}]}}
 "open instagram in chrome" -> {{"actions": [{{"operation": "open", "target": "instagram.com", "parameters": {{"browser": "chrome"}}}}]}}
 "open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}

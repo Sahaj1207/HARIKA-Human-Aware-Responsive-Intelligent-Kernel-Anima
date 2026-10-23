@@ -27,7 +27,9 @@ class MediaPlaybackTool(BaseTool):
         operations={"play": "play_media"},
         ability="play music and videos on YouTube or Spotify",
         free_text_operations=["play"],
-        target_description="what to play, as a search query (e.g. 'relaxing music', 'believer by imagine dragons'); put the platform in parameters.platform ('youtube' or 'spotify')",
+        target_description=("what to play, as a search query (e.g. 'relaxing music', 'believer by imagine dragons'); put the platform in "
+                            "parameters.platform ('youtube' or 'spotify'); for Spotify, parameters.kind is 'artist', 'album' or 'playlist' "
+                            "when the user asks for one of those rather than a song"),
     )
     timeout_seconds = 15.0
 
@@ -63,6 +65,9 @@ class MediaPlaybackTool(BaseTool):
             return {"dry_run": True, "action": "play_media", "query": query, "platform": platform}
 
         if platform == "spotify":
+            from app.integrations.spotify import spotify_account
+            if spotify_account.status()["connected"]:
+                return await self._play_spotify_connected(query, str(args.get("kind") or "track"))
             return self._play_spotify(query, encoded)
 
         url = f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}"
@@ -92,6 +97,19 @@ class MediaPlaybackTool(BaseTool):
             "summary": summary if opened else None,
             "error": None if opened else "the browser could not be opened",
         }
+
+    async def _play_spotify_connected(self, query: str, kind: str) -> Dict[str, Any]:
+        """Starts playback through Spotify's Web API (the account is connected in Settings)."""
+        from app.integrations.spotify import SpotifyError, SpotifyNotConnected
+        from app.tools.web.spotify_tool import explain, spotify_player
+
+        try:
+            summary = await spotify_player.play_search(query, kind)
+        except (SpotifyNotConnected, SpotifyError) as exc:
+            return {"action": "play_media", "platform": "spotify", "query": query, "success": False,
+                    "verified": False, "error": explain(exc)}
+        return {"action": "play_media", "platform": "spotify", "query": query, "success": True, "verified": True,
+                "summary": summary, "error": None}
 
     def _play_spotify(self, query: str, encoded: str) -> Dict[str, Any]:
         from app.tools.system.installed_apps import installed_app_index

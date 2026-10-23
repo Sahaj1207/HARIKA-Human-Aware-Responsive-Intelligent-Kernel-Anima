@@ -1,4 +1,4 @@
-"""Settings > Accounts: connect Google for Calendar and Gmail.
+"""Settings > Accounts: connect Google for Calendar and Gmail, and Spotify.
 
 Everything here is reachable only from this computer. Google returns the sign-in
 to the callback below, on 127.0.0.1, in the user's own browser.
@@ -12,8 +12,18 @@ from pydantic import BaseModel
 from app.api.v1.endpoints.llm_settings import _callback_page, local_only
 from app.core.live_events import live_events
 from app.integrations.google.account import NotConnected, google_account
+from app.integrations.spotify import SpotifyNotConnected, spotify_account
 
 router = APIRouter(dependencies=[Depends(local_only)])
+
+
+class SpotifyClient(BaseModel):
+    client_id: str
+
+
+def _spotify(request: Request) -> dict:
+    # The address to register on the Spotify app's page; it must match exactly.
+    return {**spotify_account.status(), "redirect_uri": str(request.url_for("finish_spotify_sign_in"))}
 
 
 class GoogleClient(BaseModel):
@@ -22,8 +32,47 @@ class GoogleClient(BaseModel):
 
 
 @router.get("")
-async def accounts() -> dict:
-    return {"google": google_account.status()}
+async def accounts(request: Request) -> dict:
+    return {"google": google_account.status(), "spotify": _spotify(request)}
+
+
+@router.put("/spotify/client")
+async def set_spotify_client(client: SpotifyClient, request: Request) -> dict:
+    try:
+        spotify_account.set_client(client.client_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    return {"spotify": _spotify(request)}
+
+
+@router.post("/spotify/sign-in")
+async def start_spotify_sign_in(request: Request, open_browser: bool = True) -> dict:
+    try:
+        url = spotify_account.start_sign_in(str(request.url_for("finish_spotify_sign_in")))
+    except SpotifyNotConnected as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    if open_browser:
+        webbrowser.open(url)
+    return {"auth_url": url}
+
+
+@router.get("/spotify/callback", response_class=HTMLResponse, name="finish_spotify_sign_in")
+async def finish_spotify_sign_in(code: str = "", state: str = "", error: str = ""):
+    if error or not code:
+        return _callback_page("Sign-in cancelled", "You can close this tab and try again from HARIKA's settings.", ok=False)
+    try:
+        name = await spotify_account.finish_sign_in(code, state)
+    except Exception as exc:
+        return _callback_page("Couldn't connect Spotify", str(exc), ok=False)
+    live_events.publish("accounts_changed", service="spotify")
+    return _callback_page("Spotify is connected", f"HARIKA can now play music for {name}. You can close this tab.", ok=True)
+
+
+@router.delete("/spotify")
+async def disconnect_spotify(request: Request) -> dict:
+    spotify_account.disconnect()
+    live_events.publish("accounts_changed", service="spotify")
+    return {"spotify": _spotify(request)}
 
 
 @router.put("/google/client")
@@ -76,4 +125,11 @@ async def disconnect_google() -> dict:
 async def open_google_setup_page() -> dict:
     """Opens Google Cloud Console, where the user creates their OAuth client (a fixed address)."""
     webbrowser.open("https://console.cloud.google.com/auth/clients")
+    return {"opened": True}
+
+
+@router.post("/spotify/setup-page")
+async def open_spotify_setup_page() -> dict:
+    """Opens Spotify's developer dashboard, where the user creates their app (a fixed address)."""
+    webbrowser.open("https://developer.spotify.com/dashboard")
     return {"opened": True}

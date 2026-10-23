@@ -48,5 +48,12 @@ if (existsSync(googleClient)) {
   console.log('No secrets/google-client.json: people will need their own Google client (Settings > Accounts > Advanced).');
 }
 
+// HARIKA's Spotify app (its Client ID, {"client_id": "..."}), optional in the same way.
+const spotifyClient = join(backend, '..', 'secrets', 'spotify-client.json');
+if (existsSync(spotifyClient)) {
+  args.push('--add-data', `${spotifyClient}${delimiter}.`);
+  console.log('Including the Spotify Client ID from secrets/spotify-client.json');
+}
+
 const result = spawnSync(python, args, { cwd: backend, stdio: 'inherit' });
 process.exit(result.status ?? 1);

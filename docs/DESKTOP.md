@@ -208,6 +208,20 @@ HARIKA sees them. Replying from HARIKA isn't possible this way. If Windows has
 notification access turned off: Windows Settings > Privacy & security >
 Notifications.
 
+### Spotify
+
+Connect it in **Settings > Accounts > Spotify** (register a free app on
+developer.spotify.com once: the page shows the exact Redirect URI to paste, then
+paste the app's Client ID and press Connect). Then "play Believer on Spotify",
+"play some Arijit Singh", "play my liked songs", "put on my workout playlist",
+"what's this song?", "save this song", "add this to my road trip playlist",
+"queue up Levitating". Music plays on the device Spotify is already playing on, or
+this computer's Spotify app (opened if needed). Spotify only lets apps control
+playback on **Premium** accounts. Not connected, "play X on Spotify" still opens a
+Spotify search. A build can include the Client ID (`secrets/spotify-client.json`,
+`{"client_id": "..."}`) so people only press Connect. In Spotify's development mode,
+each account that uses it must be added under the app's User Management.
+
 ### Notes and lists
 
 "Take a note: the wifi password is on the fridge", "add milk and eggs to my

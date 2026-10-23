@@ -4,6 +4,7 @@ import { env } from '@/config/env';
 import { Button, GroupedSection, Row } from '@/components/apple/controls';
 import { accountsService, openGoogleSetupPage, type GoogleStatus } from '@/services/api/accounts';
 import { errorDetail } from '@/services/api/llmSettings';
+import { SpotifySection } from './SpotifySettings';
 
 const fieldClass = 'w-full rounded-lg bg-fill px-3 py-2 t-callout text-label outline-none focus:ring-2 focus:ring-accent/50';
 
@@ -195,6 +196,7 @@ export const AccountsSettings: React.FC = () => {
           )}
         </GroupedSection>
       )}
+      <SpotifySection />
     </div>
   );
 };
