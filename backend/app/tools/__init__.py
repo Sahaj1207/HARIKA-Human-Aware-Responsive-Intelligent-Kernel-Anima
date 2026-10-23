@@ -27,6 +27,7 @@ import app.tools.productivity.routine_tool
 import app.tools.productivity.people_tool
 import app.tools.productivity.notes_tool
 import app.tools.productivity.recall_tool
+import app.tools.productivity.documents_tool
 import app.tools.utilities.wrap_up
 import app.tools.productivity.task_tool
 

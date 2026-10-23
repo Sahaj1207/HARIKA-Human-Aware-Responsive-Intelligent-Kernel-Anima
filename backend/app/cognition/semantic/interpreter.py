@@ -69,6 +69,10 @@ Examples:
 "open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome"}}, {{"operation": "search", "target": "F1 news"}}, {{"operation": "open", "target": "first result"}}]}}
 "open instagram in chrome" -> {{"actions": [{{"operation": "open", "target": "instagram.com", "parameters": {{"browser": "chrome"}}}}]}}
 "open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}
+"summarise my resume" -> {{"actions": [{{"operation": "ask_file", "target": "resume", "parameters": {{"question": "summarise it"}}}}]}}
+"what does the lease say about the deposit?" -> {{"actions": [{{"operation": "ask_file", "target": "lease", "parameters": {{"question": "what does it say about the deposit?"}}}}]}}
+"what's in the file I just downloaded?" -> {{"actions": [{{"operation": "ask_file", "target": "latest download", "parameters": {{"question": "what's in it?"}}}}]}}
+"compare my old resume with the new one" -> {{"actions": [{{"operation": "compare_files", "target": "old resume", "parameters": {{"other": "new resume", "question": "what changed?"}}}}]}}
 "where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf"}}]}}
 "remind me to drink water at 4:15 pm" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"at": "16:15"}}}}]}}
 "start a 10 minute timer" -> {{"actions": [{{"operation": "remind", "target": "timer", "parameters": {{"in_minutes": 10}}}}]}}

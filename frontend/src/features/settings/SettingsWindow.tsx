@@ -113,6 +113,10 @@ const PrivacyPage: React.FC = () => {
         <Row title="API keys" subtitle={isMac ? 'Kept in your Keychain.' : 'Kept in Windows Credential Manager.'} />
         <Row title="Cloud models" subtitle="Only see the messages HARIKA sends them, and only when you choose one in Brain." />
         <Row
+          title="Documents you ask about"
+          subtitle="Read on this computer only when you ask, like “summarise my resume”. The parts needed to answer go to your conversation model."
+        />
+        <Row
           title="Reading your screen"
           subtitle="Only when you ask, like &ldquo;continue this chat&rdquo;. The visible text goes to your conversation model, and nothing is sent in a chat until you say yes."
         />

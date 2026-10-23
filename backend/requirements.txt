@@ -12,3 +12,4 @@ sounddevice>=0.5
 keyring>=25
 onnxruntime>=1.20
 tokenizers>=0.20
+pypdf>=5

@@ -179,6 +179,16 @@ it a few minutes before the usual time. It never does it on its own.
 You can remove any of them, switch off remembering conversations or noticing
 habits, or **Forget everything** (people, notes, routines and reminders are kept).
 
+### Documents
+
+"Summarise my resume", "what does the lease say about the deposit?", "what's in
+the file I just downloaded?", "compare my old and new CV". HARIKA finds the file
+in your personal folders (like "open my resume" does), reads it on this computer
+(PDF, Word, PowerPoint, Excel, text), and answers from it alone, saying which
+page or slide it read. For a long document only the parts that fit the question
+are sent to the conversation model. Scanned PDFs (pictures of text) can't be read
+yet.
+
 ### Notes and lists
 
 "Take a note: the wifi password is on the fridge", "add milk and eggs to my

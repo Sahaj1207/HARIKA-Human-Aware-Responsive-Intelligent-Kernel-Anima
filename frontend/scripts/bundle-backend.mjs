@@ -32,6 +32,8 @@ const args = [
   // Matching requests to abilities by meaning (the small model itself downloads on first start).
   '--collect-all', 'onnxruntime',
   '--collect-all', 'tokenizers',
+  // Reading PDFs (its decoders are imported on demand).
+  '--collect-all', 'pypdf',
 ];
 
 // HARIKA's Google sign-in client (downloaded from Google Cloud Console, never committed).
