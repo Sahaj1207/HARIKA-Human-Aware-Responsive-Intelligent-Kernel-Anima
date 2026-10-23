@@ -101,6 +101,11 @@ class WebAnswerTool(BaseTool):
         """Numbered material: fresh headlines on the topic, then web results with the top pages read."""
         country = await locator.country_code()
         count = _LOCAL_ITEMS if compact else 6
+        if is_general_news(question):
+            # "What's the latest news?" means today's top stories, not pages that contain the word "news".
+            headlines = await sources.news(None, country, 8)
+            return [{"title": h["title"], "url": h["url"], "site": h["source"],
+                     "text": f"Top story ({_age(h['published']) or 'today'}): {h['title']}"} for h in headlines]
         results, headlines = await asyncio.gather(sources.search(question, count), sources.news(question, country, count))
         readable = [r["url"] for r in results if sources.is_public_url(r["url"])][:_PAGES_TO_READ]
         pages = await sources.pages_text(readable, 6000 if compact else _PAGE_CHARS)
@@ -132,6 +137,17 @@ class WebAnswerTool(BaseTool):
         result = await model.generate_response(
             [{"role": "user", "content": f"<sources>\n{quoted}\n</sources>\n\nMy question: {question}"}], system)
         return str(result.get("response", "")).strip()
+
+
+# Words that only say "news, now": a question made only of these has no topic.
+_NEWS_WORDS = {"what", "whats", "what's", "is", "are", "the", "any", "latest", "news", "today", "todays", "today's",
+               "headline", "headlines", "top", "stories", "story", "current", "happening", "going", "on", "new",
+               "tell", "me", "give", "show", "world", "in", "now", "right", "breaking", "some"}
+
+
+def is_general_news(question: str) -> bool:
+    words = re.findall(r"[a-z']+", question.lower())
+    return bool(words) and ("news" in words or "headlines" in words) and all(w in _NEWS_WORDS for w in words)
 
 
 def split_used(reply: str, count: int) -> Tuple[str, List[int]]:

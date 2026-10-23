@@ -211,3 +211,18 @@ class DailySettingsTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class GeneralNewsTests(unittest.TestCase):
+    def test_topic_less_news_questions_use_top_stories(self):
+        from app.tools.web.web_answer import WebAnswerTool, is_general_news
+        self.assertTrue(is_general_news("What's the latest news?"))
+        self.assertFalse(is_general_news("latest F1 news"))
+        stories = [{"title": "Big story", "source": "BBC", "url": "https://bbc.example/1", "published": ""}]
+        with patch.object(weather.locator, "country_code", AsyncMock(return_value="IN")), \
+             patch.object(sources, "news", AsyncMock(return_value=stories)) as news, \
+             patch.object(sources, "search", AsyncMock()) as search:
+            material = asyncio.run(WebAnswerTool().gather("what's the latest news"))
+        news.assert_called_once_with(None, "IN", 8)  # top stories for the user's country
+        search.assert_not_called()
+        self.assertEqual(material[0]["site"], "BBC")
