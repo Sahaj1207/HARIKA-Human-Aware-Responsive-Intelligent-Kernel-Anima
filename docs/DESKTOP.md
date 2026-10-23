@@ -217,8 +217,16 @@ paste the app's Client ID and press Connect). Then "play Believer on Spotify",
 "what's this song?", "save this song", "add this to my road trip playlist",
 "queue up Levitating". Music plays on the device Spotify is already playing on, or
 this computer's Spotify app (opened if needed). Spotify only lets apps control
-playback on **Premium** accounts. Not connected, "play X on Spotify" still opens a
-Spotify search. A build can include the Client ID (`secrets/spotify-client.json`,
+playback on **Premium** accounts.
+
+Not connected (or past Spotify's 5-account limit for new apps), "play X on Spotify"
+still plays it, with no developer app needed: HARIKA finds the song's Spotify page with
+a web search, opens it in the Spotify app, presses its Play button through Windows'
+accessibility interface, and checks the Spotify window title ("Artist - Song") to
+confirm. If the web finds nothing, she types the request into Spotify's own search box
+(only after checking that the box has the keyboard focus) and plays the best match. If
+playback doesn't start, she says so. Only when the Spotify app isn't installed does she
+open a Spotify search on the web instead. A build can include the Client ID (`secrets/spotify-client.json`,
 `{"client_id": "..."}`) so people only press Connect. In Spotify's development mode,
 each account that uses it must be added under the app's User Management.
 

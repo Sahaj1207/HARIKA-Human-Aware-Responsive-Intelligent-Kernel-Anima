@@ -66,8 +66,16 @@ class MediaPlaybackTool(BaseTool):
 
         if platform == "spotify":
             from app.integrations.spotify import spotify_account
+            kind = str(args.get("kind") or "track")
             if spotify_account.status()["connected"]:
-                return await self._play_spotify_connected(query, str(args.get("kind") or "track"))
+                return await self._play_spotify_connected(query, kind)
+            from app.tools.web import spotify_app
+            if spotify_app.installed():
+                # Not connected: HARIKA finds it and presses play in the Spotify app herself.
+                played, message = await spotify_app.play(query, kind)
+                return {"action": "play_media", "platform": "spotify", "query": query, "success": played,
+                        "verified": played, "summary": message if played else None,
+                        "error": None if played else message}
             return self._play_spotify(query, encoded)
 
         url = f"https://www.youtube.com/results?search_query={urllib.parse.quote_plus(query)}"
