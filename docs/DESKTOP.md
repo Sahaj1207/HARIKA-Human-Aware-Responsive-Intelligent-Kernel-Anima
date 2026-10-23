@@ -189,6 +189,15 @@ page or slide it read. For a long document only the parts that fit the question
 are sent to the conversation model. Scanned PDFs (pictures of text) can't be read
 yet.
 
+### Tidying up
+
+"Clean up my downloads", "get rid of old installers on my desktop". HARIKA looks
+only in Downloads or Desktop (two folders deep) for installers older than a week,
+duplicate copies (identical contents; the original is kept), zips already
+extracted next to themselves, and files over 200 MB untouched for three months.
+It says how much space that frees and asks; only a yes moves them, to the Recycle
+Bin, where they can be restored.
+
 ### Notes and lists
 
 "Take a note: the wifi password is on the fridge", "add milk and eggs to my

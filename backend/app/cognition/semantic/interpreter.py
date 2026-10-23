@@ -73,6 +73,8 @@ Examples:
 "what does the lease say about the deposit?" -> {{"actions": [{{"operation": "ask_file", "target": "lease", "parameters": {{"question": "what does it say about the deposit?"}}}}]}}
 "what's in the file I just downloaded?" -> {{"actions": [{{"operation": "ask_file", "target": "latest download", "parameters": {{"question": "what's in it?"}}}}]}}
 "compare my old resume with the new one" -> {{"actions": [{{"operation": "compare_files", "target": "old resume", "parameters": {{"other": "new resume", "question": "what changed?"}}}}]}}
+"clean up my downloads" -> {{"actions": [{{"operation": "tidy", "target": "downloads"}}]}}
+"get rid of old installers on my desktop" -> {{"actions": [{{"operation": "tidy", "target": "desktop", "parameters": {{"kinds": ["installers"]}}}}]}}
 "where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf"}}]}}
 "remind me to drink water at 4:15 pm" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"at": "16:15"}}}}]}}
 "start a 10 minute timer" -> {{"actions": [{{"operation": "remind", "target": "timer", "parameters": {{"in_minutes": 10}}}}]}}
