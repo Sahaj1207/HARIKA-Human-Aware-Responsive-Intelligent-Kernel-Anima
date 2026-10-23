@@ -213,6 +213,12 @@ Advanced**. The registration steps:
    HARIKA**). More than that needs Google's verification; reading Gmail also
    needs Google's paid security assessment.
 
+   HARIKA's own Google app is **In production** (unverified) since 23 October
+   2026, with its homepage at `https://sahaj1207.github.io/app-releases/` and
+   privacy policy at `https://sahaj1207.github.io/app-releases/privacy.html`
+   (both in the `app-releases` repository). Sign-ins made while it was in
+   Testing still expire; signing in again once gives a lasting sign-in.
+
 Then press **Sign in with Google** and allow calendar and Gmail access. HARIKA
 asks for: your calendar's events, reading Gmail, and sending Gmail. The sign-in
 returns to HARIKA on this computer (127.0.0.1). The client secret and Google's
