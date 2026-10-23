@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Check, Cloud, Laptop } from 'lucide-react';
+import { Check, ExternalLink, Laptop, Zap } from 'lucide-react';
 import { env } from '@/config/env';
 import { Button, IconTile } from '@/components/apple/controls';
-import { errorDetail, llmSettingsService, LocalModelStatus } from '@/services/api/llmSettings';
+import { errorDetail, llmSettingsService, LocalModelStatus, type LLMSettings } from '@/services/api/llmSettings';
 
 interface BrainSetupProps {
   onDone: () => void;
-  onUseCloud: () => void;
 }
 
 interface Download {
@@ -15,19 +14,35 @@ interface Download {
   error?: string;
 }
 
+const fieldClass = 'w-full rounded-lg bg-fill px-3 py-2 t-callout text-label outline-none focus:ring-2 focus:ring-accent/50';
+
+/** Which cloud service, if any, already answers for HARIKA. */
+function cloudInUse(settings: LLMSettings | null): string | null {
+  if (!settings) return null;
+  const role = settings.roles.conversation;
+  if (role.on_device) return null;
+  return settings.services.find((s) => s.id === role.service)?.name ?? role.service;
+}
+
 /**
- * First-run choice of where HARIKA thinks. A new computer usually has no
- * model yet: install Ollama and download one sized for this machine, or
- * connect a cloud service instead.
+ * First-run choice of how HARIKA thinks. Groq is recommended: free, and about a
+ * second per answer. Pasting its key here connects it and picks the right models
+ * for understanding and for conversation. A model on this computer is the private,
+ * offline alternative.
  */
-export const BrainSetup: React.FC<BrainSetupProps> = ({ onDone, onUseCloud }) => {
+export const BrainSetup: React.FC<BrainSetupProps> = ({ onDone }) => {
+  const [settings, setSettings] = useState<LLMSettings | null>(null);
   const [local, setLocal] = useState<LocalModelStatus | null>(null);
   const [download, setDownload] = useState<Download | null>(null);
+  const [key, setKey] = useState('');
+  const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     try {
-      setLocal(await llmSettingsService.localStatus());
+      const [loaded, status] = await Promise.all([llmSettingsService.get(), llmSettingsService.localStatus()]);
+      setSettings(loaded);
+      setLocal(status);
     } catch (err) {
       setError(errorDetail(err, "HARIKA's engine is still starting. Try again in a moment."));
     }
@@ -50,6 +65,23 @@ export const BrainSetup: React.FC<BrainSetupProps> = ({ onDone, onUseCloud }) =>
     return () => source.close();
   }, [refresh]);
 
+  const connectGroq = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setConnecting(true);
+    setError(null);
+    try {
+      const models = await llmSettingsService.connect('groq', key.trim());
+      // The fast, accurate pair: a small model to understand requests, a large one to talk.
+      await llmSettingsService.choose('understanding', 'groq', models.suggested.understanding);
+      setSettings(await llmSettingsService.choose('conversation', 'groq', models.suggested.conversation));
+      setKey('');
+    } catch (err) {
+      setError(errorDetail(err, "That key didn't work. Copy it again from Groq and paste it here."));
+    } finally {
+      setConnecting(false);
+    }
+  };
+
   const startDownload = async () => {
     if (!local) return;
     setError(null);
@@ -62,12 +94,14 @@ export const BrainSetup: React.FC<BrainSetupProps> = ({ onDone, onUseCloud }) =>
     }
   };
 
-  const ready = Boolean(local?.running && local.has_recommended);
+  const cloud = cloudInUse(settings);
+  const localReady = Boolean(local?.running && local.has_recommended);
+  const ready = Boolean(cloud) || localReady;
 
   let localAction: React.ReactNode;
   if (!local) {
     localAction = <span className="t-footnote text-label-2">Checking…</span>;
-  } else if (ready) {
+  } else if (localReady) {
     localAction = (
       <span className="flex items-center gap-1 t-footnote text-ok">
         <Check className="w-4 h-4" aria-hidden /> Ready
@@ -85,11 +119,11 @@ export const BrainSetup: React.FC<BrainSetupProps> = ({ onDone, onUseCloud }) =>
       </div>
     );
   } else if (local.running) {
-    localAction = <Button onClick={startDownload}>Download ({local.recommended.size})</Button>;
+    localAction = <Button kind="tinted" onClick={startDownload}>Download ({local.recommended.size})</Button>;
   } else {
     localAction = (
       <div className="flex flex-col items-end gap-1">
-        <Button onClick={() => void llmSettingsService.openSetupPage('ollama')}>Install Ollama</Button>
+        <Button kind="tinted" onClick={() => void llmSettingsService.openSetupPage('ollama')}>Install Ollama</Button>
         <Button kind="plain" className="px-0" onClick={() => void refresh()}>I've installed it</Button>
       </div>
     );
@@ -103,31 +137,55 @@ export const BrainSetup: React.FC<BrainSetupProps> = ({ onDone, onUseCloud }) =>
       </div>
 
       <div className="rounded-2xl bg-surface dark:bg-surface-2 divide-y divide-separator overflow-hidden text-left">
+        <div className="p-4 space-y-3">
+          <div className="flex items-center gap-3">
+            <IconTile color="var(--orange)"><Zap className="w-4 h-4" strokeWidth={2.25} /></IconTile>
+            <div className="flex-1 min-w-0">
+              <p className="t-headline">Groq <span className="t-footnote text-accent ml-1">Recommended</span></p>
+              <p className="t-footnote text-label-2 mt-0.5">Free, and answers in about a second. Your messages are sent to Groq to answer them.</p>
+            </div>
+            {cloud && (
+              <span className="flex items-center gap-1 t-footnote text-ok">
+                <Check className="w-4 h-4" aria-hidden /> {cloud}
+              </span>
+            )}
+          </div>
+          {!cloud && (
+            <>
+              <form className="flex gap-2" onSubmit={connectGroq}>
+                <input
+                  value={key}
+                  onChange={(e) => setKey(e.target.value)}
+                  type="password"
+                  autoComplete="off"
+                  placeholder="Paste your Groq key (gsk_…)"
+                  aria-label="Groq API key"
+                  className={fieldClass}
+                />
+                <Button type="submit" disabled={!key.trim() || connecting}>{connecting ? 'Checking…' : 'Connect'}</Button>
+              </form>
+              <Button kind="plain" className="px-0" onClick={() => void llmSettingsService.openKeyPage('groq')}>
+                Get a free key from Groq <ExternalLink className="w-3.5 h-3.5" aria-hidden />
+              </Button>
+            </>
+          )}
+        </div>
         <div className="flex items-center gap-3 p-4">
           <IconTile color="var(--green)"><Laptop className="w-4 h-4" strokeWidth={2.25} /></IconTile>
           <div className="flex-1 min-w-0">
             <p className="t-headline">On this computer</p>
             <p className="t-footnote text-label-2 mt-0.5">
-              Private and free. {local?.running === false ? 'Needs the free Ollama app. ' : ''}
+              Private and works offline, but slower on most laptops. {local?.running === false ? 'Needs the free Ollama app. ' : ''}
               {local ? `Uses ${local.recommended.model}, which ${local.recommended.reason}.` : ''}
             </p>
             {download?.error && <p className="t-footnote text-danger mt-1">The download stopped: {download.error}</p>}
           </div>
           {localAction}
         </div>
-        <div className="flex items-center gap-3 p-4">
-          <IconTile color="var(--blue)"><Cloud className="w-4 h-4" strokeWidth={2.25} /></IconTile>
-          <div className="flex-1 min-w-0">
-            <p className="t-headline">With a cloud service</p>
-            <p className="t-footnote text-label-2 mt-0.5">
-              Faster on most computers. Sign in with OpenRouter, or use a key from OpenAI, Anthropic, Google or Groq.
-            </p>
-          </div>
-          <Button kind="tinted" onClick={onUseCloud}>Set up</Button>
-        </div>
       </div>
 
       {error && <p className="t-footnote text-danger text-center">{error}</p>}
+      <p className="t-caption text-label-2 text-center">Keys are kept in your system's secure keychain. Other services (OpenAI, Anthropic, Gemini, OpenRouter) are in Settings &gt; Brain.</p>
 
       <div className="flex justify-center">
         {ready ? (

@@ -4,11 +4,14 @@ import { NameInput } from './NameInput';
 import { userStorage, UserProfile } from './storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 import { HarikaOrb } from '@/components/apple/HarikaOrb';
-import { llmSettingsService } from '@/services/api/llmSettings';
 import { BrainSetup } from './BrainSetup';
+import { ExtrasSetup } from './ExtrasSetup';
+import { TryItSetup } from './TryItSetup';
 
 interface OnboardingScreenProps {
   onComplete: () => void;
+  /** "Run setup again" from Settings starts at the brain step for someone HARIKA already knows. */
+  startAt?: 'step-brain';
 }
 
 type OnboardingStep =
@@ -18,18 +21,28 @@ type OnboardingStep =
   | 'step-identity'
   | 'step-ask-name'
   | 'step-brain'
+  | 'step-extras'
+  | 'step-try'
   | 'step-welcome-user'
   | 'finished';
 
-export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }) => {
+export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete, startAt }) => {
   const setCoreState = useHARIKAStore((s) => s.setCoreState);
   const setIsBooted = useHARIKAStore((s) => s.setIsBooted);
 
   const [step, setStep] = useState<OnboardingStep>('detecting');
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [google, setGoogle] = useState(false);
 
   useEffect(() => {
     const existing = userStorage.getProfile();
+
+    if (startAt) {
+      setProfile(existing);
+      setCoreState('idle');
+      setStep(startAt);
+      return;
+    }
 
     if (existing) {
       setProfile(existing);
@@ -64,39 +77,18 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const welcome = () => {
-    setStep('step-welcome-user');
-    setCoreState('speaking');
-
-    setTimeout(() => {
-      setCoreState('idle');
-      setStep('finished');
-      setIsBooted(true);
-      onComplete();
-    }, 2000);
-  };
-
-  const handleNameSubmit = async (name: string) => {
+  const handleNameSubmit = (name: string) => {
     const newProfile = { name };
     userStorage.saveProfile(newProfile);
     setProfile(newProfile);
-
-    // A new computer often has no model yet; only then ask how HARIKA should think.
-    try {
-      const [settings, local] = await Promise.all([llmSettingsService.get(), llmSettingsService.localStatus()]);
-      const usesCloud = Object.values(settings.roles).some((role) => !role.on_device);
-      if (usesCloud || (local.running && local.has_recommended)) return welcome();
-    } catch {
-      // Engine still starting: offer the choice anyway.
-    }
     setStep('step-brain');
   };
 
-  const useCloud = () => {
+  const finish = () => {
+    setCoreState('idle');
     setStep('finished');
     setIsBooted(true);
     onComplete();
-    window.dispatchEvent(new CustomEvent('harika:open-settings', { detail: 'brain' }));
   };
 
   if (step === 'finished') return null;
@@ -104,7 +96,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-canvas">
       <div className="flex flex-col items-center justify-center gap-8 max-w-2xl w-full px-6">
-        {step !== 'step-brain' && <HarikaOrb size={step === 'step-ask-name' ? 96 : 128} state={step === 'step-welcome-user' ? 'speaking' : 'idle'} />}
+        {!['step-brain', 'step-extras', 'step-try'].includes(step) && <HarikaOrb size={step === 'step-ask-name' ? 96 : 128} state={step === 'step-welcome-user' ? 'speaking' : 'idle'} />}
 
         {step === 'returning-greeting' && profile && (
           <Greeting text={`Hello, ${profile.name}.`} subtext="Welcome back." />
@@ -123,7 +115,18 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }
           </div>
         )}
 
-        {step === 'step-brain' && <BrainSetup onDone={welcome} onUseCloud={useCloud} />}
+        {step === 'step-brain' && <BrainSetup onDone={() => setStep('step-extras')} />}
+
+        {step === 'step-extras' && (
+          <ExtrasSetup
+            onDone={(state) => {
+              setGoogle(state.google);
+              setStep('step-try');
+            }}
+          />
+        )}
+
+        {step === 'step-try' && <TryItSetup name={profile?.name ?? ''} google={google} onDone={finish} />}
 
         {step === 'step-welcome-user' && profile && (
           <Greeting text={`Nice to meet you, ${profile.name}.`} subtext="Ask me anything, from here or from any app." />

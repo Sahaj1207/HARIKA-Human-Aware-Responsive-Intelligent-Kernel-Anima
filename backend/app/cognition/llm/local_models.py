@@ -47,7 +47,7 @@ def recommended_model() -> Dict[str, str]:
     memory = total_memory_gb()
     if memory is not None and memory < 8:
         return {"model": SMALL_MODEL, "size": SMALL_MODEL_SIZE, "reason": "fits computers with less memory"}
-    return {"model": settings.OLLAMA_MODEL, "size": DEFAULT_MODEL_SIZE, "reason": "best balance of speed and quality"}
+    return {"model": settings.OLLAMA_MODEL, "size": DEFAULT_MODEL_SIZE, "reason": "has the best balance of speed and quality"}
 
 
 async def ollama_status() -> Dict[str, Any]:

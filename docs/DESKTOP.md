@@ -6,17 +6,24 @@ Python or Node.
 
 ## Install (Windows)
 
-1. Run `HARIKA_0.1.0_x64-setup.exe`. It installs for the current user only, with
-   no administrator prompt, and adds HARIKA to the Start menu.
+1. Run `HARIKA_<version>_x64-setup.exe`. It installs for the current user only,
+   with no administrator prompt, and adds HARIKA to the Start menu.
 2. Windows may show "Windows protected your PC" because the installer isn't
    code-signed yet: choose **More info**, then **Run anyway**.
-3. On first launch, HARIKA asks for your name and how it should think:
-   - **On this computer**: install the free [Ollama](https://ollama.com/download)
-     app, then let HARIKA download a model sized for the computer
-     (about 2.5 GB, or 1 GB on machines with less than 8 GB of memory).
-   - **With a cloud service**: sign in with OpenRouter, or paste a key from
-     OpenAI, Anthropic, Google Gemini or Groq. Keys are stored in Windows
-     Credential Manager.
+3. On first launch, a short setup walks through four steps (all skippable):
+   - **Your name.**
+   - **How HARIKA thinks:** **Groq** (recommended: free, about a second per
+     answer). Choose "Get a free key from Groq", paste the key, and HARIKA
+     connects and picks the right models itself. Or **on this computer**:
+     install the free [Ollama](https://ollama.com/download) app and let HARIKA
+     download a model sized for the computer (private and offline, but slower
+     on most laptops). Other services are in Settings > Brain. Keys are stored
+     in Windows Credential Manager.
+   - **Extras:** your city (for the weather), the morning briefing, Google
+     Calendar and Gmail, and the offline voice for "Hey HARIKA".
+   - **Things to try:** tap one and HARIKA does it.
+
+   Run it again any time from **Settings > General > Run setup again**.
 
 Once running, HARIKA lives in the system tray. Press **Ctrl + Shift + Space**
 anywhere to ask it something. Closing the window keeps it in the tray; use

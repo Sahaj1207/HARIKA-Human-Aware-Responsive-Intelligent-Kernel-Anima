@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { OnboardingScreen } from '@/features/onboarding/OnboardingScreen';
 import { UpdateBanner } from './UpdateBanner';
 import { MessageList } from '../apple/MessageList';
 import { CommandBar } from '../core/CommandBar';
@@ -24,6 +25,7 @@ export const MainLayout: React.FC = () => {
   const isBooted = useHARIKAStore((s) => s.isBooted);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [rerunSetup, setRerunSetup] = useState(false);
   const [isDebugOverlayVisible, setIsDebugOverlayVisible] = useState(false);
   const [settingsPage, setSettingsPage] = useState<SettingsPageId>('general');
 
@@ -43,7 +45,15 @@ export const MainLayout: React.FC = () => {
       setIsSettingsOpen(true);
     };
     window.addEventListener('harika:open-settings', open);
-    return () => window.removeEventListener('harika:open-settings', open);
+    const rerun = () => {
+      setIsSettingsOpen(false);
+      setRerunSetup(true);
+    };
+    window.addEventListener('harika:run-setup', rerun);
+    return () => {
+      window.removeEventListener('harika:open-settings', open);
+      window.removeEventListener('harika:run-setup', rerun);
+    };
   }, []);
 
   useEffect(() => {
@@ -67,6 +77,7 @@ export const MainLayout: React.FC = () => {
     <ErrorBoundary>
       <div className="relative w-screen h-screen bg-canvas text-label flex flex-col overflow-hidden">
         {!isBooted && <StartupSequence />}
+        {rerunSetup && <OnboardingScreen startAt="step-brain" onComplete={() => setRerunSetup(false)} />}
 
         <StatusBar onOpenSettings={() => setIsSettingsOpen(true)} />
         <UpdateBanner />

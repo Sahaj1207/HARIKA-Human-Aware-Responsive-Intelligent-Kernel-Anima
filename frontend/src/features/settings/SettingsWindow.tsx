@@ -87,6 +87,10 @@ const GeneralPage: React.FC = () => {
         />
       </GroupedSection>
 
+      <GroupedSection footer="Walks through connecting a brain, your city, the briefing, Google and the voice again.">
+        <Row title="Run setup again" chevron onClick={() => window.dispatchEvent(new CustomEvent('harika:run-setup'))} />
+      </GroupedSection>
+
       <UpdatesSection />
 
       <GroupedSection title="Desktop" footer="Start at login is in the HARIKA menu in your system tray.">
