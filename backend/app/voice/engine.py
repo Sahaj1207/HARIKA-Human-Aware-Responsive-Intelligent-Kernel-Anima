@@ -7,11 +7,14 @@ One microphone stream feeds a small state machine:
           with "Hey HARIKA" / "OK HARIKA"
       -> listening (if the wake phrase came alone, the next utterance is the request)
       -> thinking (the request goes through the normal router)
-      -> speaking (Piper reads the answer, sentence by sentence) -> idle
+      -> speaking (Piper reads the answer, sentence by sentence)
+      -> listening for a follow-up (a few seconds, no wake phrase needed) -> ... -> idle
 
 Everything runs locally on the CPU with sherpa-onnx. Audio is processed in
 memory and never written to disk; transcripts that don't start with the wake
-phrase are discarded. Listening is paused while HARIKA speaks.
+phrase are discarded. While HARIKA speaks, the microphone only listens for the
+user talking over her (her own voice coming back through the speakers is
+recognised as hers and ignored); that stops her and becomes the next request.
 """
 import asyncio
 import json
@@ -36,6 +39,8 @@ SAMPLE_RATE = 16000
 _BLOCK = 1600  # 0.1 s of audio per read
 _LISTEN_TIMEOUT = 6.0  # seconds to start speaking after "Hey HARIKA"
 _MAX_REQUEST = 15.0  # seconds
+_FOLLOW_UP = 8.0  # seconds to start a follow-up after HARIKA answers, without "Hey HARIKA"
+_MAX_TURNS = 12  # follow-ups in one conversation before going back to waiting for "Hey HARIKA"
 _GREETINGS = {"hey", "hi", "ok", "okay", "hello"}
 
 DEFAULT_SETTINGS = {
@@ -44,6 +49,8 @@ DEFAULT_SETTINGS = {
     "voice": DEFAULT_VOICE,
     "speed": 1.0,
     "user_name": "User",
+    "follow_up": True,           # keep listening briefly after answering, so the conversation can go on
+    "barge_in": True,            # speaking while HARIKA talks stops her and becomes the next request
     "engine": "piper",           # "piper" (offline) or "azure" (expressive, needs a key)
     "azure_region": "",
     "azure_voice": "en-US-AriaNeural",
@@ -86,6 +93,22 @@ def split_sentences(text: str) -> List[str]:
     text = re.sub(r"(?:^|\n)\s*Sources:[^\n]*\s*$", "", text or "")
     parts = re.split(r"(?<=[.!?])\s+", " ".join(text.split()))
     return [p for p in parts if p]
+
+
+def is_own_voice(heard: str, saying: str) -> bool:
+    """Whether a transcript heard while speaking is HARIKA's own voice from the speakers.
+
+    Recognition of the echo is imperfect, so it counts as hers when most of its words
+    are in what she is saying (or it is too short to tell).
+    """
+    def words(text: str) -> List[str]:
+        return re.findall(r"[a-z0-9]+", text.lower().replace("'", "").replace("’", ""))
+
+    heard_words = words(heard)
+    if len(heard_words) < 2:
+        return True
+    said = set(words(saying))
+    return sum(word in said for word in heard_words) / len(heard_words) >= 0.5
 
 
 class VoiceSettings:
@@ -144,6 +167,8 @@ class VoiceEngine:
         self._stop = threading.Event()
         self._speaking = threading.Event()
         self._interrupt = threading.Event()
+        self._saying = ""  # the reply being spoken, to tell her echo from the user
+        self._barged: Optional[str] = None  # what the user said over her, to handle next
         self._capture_requests: "queue.Queue[queue.Queue]" = queue.Queue()
         self._model_lock = threading.Lock()
         self._asr = None
@@ -251,6 +276,7 @@ class VoiceEngine:
                 clips.put(None)
 
         self._interrupt.clear()
+        self._saying = text
         self._speaking.set()
         previous = self.state
         self._set_state("speaking")
@@ -264,6 +290,7 @@ class VoiceEngine:
                 sd.wait()
         finally:
             self._speaking.clear()
+            self._saying = ""
             self._set_state(previous if previous not in ("speaking",) else "idle")
 
     def stop_speaking(self) -> None:
@@ -343,6 +370,7 @@ class VoiceEngine:
             with sd.InputStream(samplerate=SAMPLE_RATE, channels=1, dtype="float32", blocksize=_BLOCK) as mic:
                 read = lambda: mic.read(_BLOCK)[0][:, 0]  # noqa: E731
                 vad = self._new_vad()
+                barge = None
                 self._set_state("idle")
                 logger.info("[Voice] Listening for \"Hey HARIKA\".")
                 while not self._stop.is_set():
@@ -360,7 +388,16 @@ class VoiceEngine:
 
                     block = read()
                     if self._speaking.is_set():
-                        continue  # don't listen to ourselves
+                        barge = self._listen_while_speaking(block, barge)
+                        continue
+                    barge = None
+                    if self._barged is not None:
+                        # The user talked over a reply that wasn't part of a voice conversation.
+                        request, self._barged = self._barged, None
+                        self._handle_wake(request, read)
+                        vad = self._new_vad()
+                        self._set_state("idle")
+                        continue
                     vad.accept_waveform(block)
                     while not vad.empty():
                         segment = np.asarray(vad.front.samples, dtype=np.float32)
@@ -378,15 +415,31 @@ class VoiceEngine:
             self._set_state("off")
 
     def _handle_wake(self, request: str, read: Callable[[], np.ndarray]) -> None:
+        """One voice conversation: the request, then follow-ups without "Hey HARIKA" until a pause."""
         self._publish("voice", stage="wake")
         if not request:
             # "Hey HARIKA" on its own: chime, then listen for the request.
             self._chime()
-            samples = self._capture(read, _LISTEN_TIMEOUT)
-            request = self.transcribe(samples) if samples is not None else ""
+            request = self._hear(read, _LISTEN_TIMEOUT)
         if not request:
             self._publish("voice", stage="no_speech")
             return
+        for _ in range(_MAX_TURNS):
+            self._answer(request, read)
+            if self._barged is not None:
+                request, self._barged = self._barged, None  # they talked over the answer
+                continue
+            if not self.settings.load()["follow_up"]:
+                return
+            request = self._hear(read, _FOLLOW_UP)
+            if not request:
+                return  # a pause ends the conversation
+
+    def _hear(self, read: Callable[[], np.ndarray], timeout: float) -> str:
+        samples = self._capture(read, timeout)
+        return self.transcribe(samples).strip() if samples is not None else ""
+
+    def _answer(self, request: str, read: Callable[[], np.ndarray]) -> None:
         self._publish("voice", stage="heard", text=request)
         self._set_state("thinking")
         reply, tone = "", None
@@ -399,9 +452,48 @@ class VoiceEngine:
             except Exception as exc:
                 reply = "Sorry, something went wrong while I was working on that."
                 logger.error(f"[Voice] Request failed: {exc}")
-        self._publish("voice", stage="answered", text=request, reply=reply)
+        self._publish("voice", stage="answered", text=request, reply=reply, tone=tone)
         if reply and self.settings.load()["speak_replies"] != "never":
-            self.speak(reply, tone=tone)
+            self._say(reply, tone, read)
+
+    def _say(self, reply: str, tone: Optional[str], read: Callable[[], np.ndarray]) -> None:
+        """Speak on another thread while this one keeps listening, so the user can talk over her."""
+        done = threading.Event()
+
+        def talk() -> None:
+            try:
+                self.speak(reply, tone=tone)
+            finally:
+                done.set()
+
+        threading.Thread(target=talk, name="harika-say", daemon=True).start()
+        vad = None
+        while not done.is_set() and not self._stop.is_set():
+            block = read()
+            if self._speaking.is_set():
+                vad = self._listen_while_speaking(block, vad)
+        done.wait()
+
+    def _listen_while_speaking(self, block: np.ndarray, vad):
+        """Feed one block heard while HARIKA talks; stop her if it is the user, not her echo."""
+        if not self.settings.load()["barge_in"]:
+            return None
+        if vad is None:
+            vad = self._new_vad(min_silence=0.4)
+        vad.accept_waveform(block)
+        while not vad.empty():
+            segment = np.asarray(vad.front.samples, dtype=np.float32)
+            vad.pop()
+            heard = self.transcribe(segment).strip()
+            if not heard or is_own_voice(heard, self._saying):
+                continue
+            remainder = split_wake_phrase(heard)
+            logger.info("[Voice] Interrupted by the user.")
+            self.stop_speaking()
+            self._barged = heard if remainder is None else remainder
+            self._publish("voice", stage="interrupted")
+            return None
+        return vad
 
     def _chime(self) -> None:
         """A short two-note chime so the user knows HARIKA is listening."""

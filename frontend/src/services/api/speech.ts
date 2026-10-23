@@ -4,6 +4,10 @@ export type SpeakReplies = 'voice' | 'always' | 'never';
 
 export interface SpeechSettings {
   wake_word: boolean;
+  /** After answering, keep listening a few seconds for a follow-up without "Hey HARIKA". */
+  follow_up: boolean;
+  /** Talking while HARIKA speaks stops her and becomes the next request. */
+  barge_in: boolean;
   speak_replies: SpeakReplies;
   voice: string;
   speed: number;

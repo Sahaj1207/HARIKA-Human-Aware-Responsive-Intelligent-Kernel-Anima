@@ -22,6 +22,8 @@ PREVIEW_TEXT = "Hi, I'm HARIKA. This is how I'll sound when I answer you."
 
 class SpeechSettingsUpdate(BaseModel):
     wake_word: bool | None = None
+    follow_up: bool | None = None
+    barge_in: bool | None = None
     speak_replies: str | None = None
     voice: str | None = None
     speed: float | None = None

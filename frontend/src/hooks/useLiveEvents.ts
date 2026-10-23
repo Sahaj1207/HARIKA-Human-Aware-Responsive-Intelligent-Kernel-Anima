@@ -50,6 +50,7 @@ export function useLiveEvents({ announceReminders = true }: { announceReminders?
       if (event.stage === 'answered' && event.text) {
         addMessage({ role: 'user', content: event.text, metadata: { provider: 'voice' } });
         if (event.reply) addMessage({ role: 'assistant', content: event.reply, metadata: { provider: 'voice' } });
+        useHARIKAStore.getState().setMood(event.tone || 'warm');
       }
     });
 

@@ -251,13 +251,20 @@ speech detection, speech recognition and one speaking voice). Then:
 - Turn on **Listen for "Hey HARIKA"** and say "Hey HARIKA, open Spotify" (or
   "Hey HARIKA", wait for the chime, then speak). The orb appears, shows what
   it heard, answers and hides again.
+- **Keep listening for a follow-up** (on by default): after answering, HARIKA
+  listens for a few seconds, so you can carry on ("and tomorrow?", "yes, send
+  it") without saying "Hey HARIKA" again. A pause ends the conversation.
+- **Let me interrupt** (on by default): start talking while she speaks and she
+  stops and listens. Her own voice coming back through the speakers is
+  recognised and ignored.
 - Or tap the microphone in the orb or the main window (push to talk).
 - **Speak replies**: when you talk (default), always, or never. Eight voices
   (American and British), each downloaded when chosen.
 
 Everything runs offline on the CPU (sherpa-onnx: Silero VAD, Moonshine speech
 recognition, Piper voices). With listening on, speech near the microphone is
-transcribed in memory and discarded unless it starts with "Hey HARIKA";
+transcribed in memory and discarded unless it starts with "Hey HARIKA" (or
+is a follow-up in the few seconds after she answers);
 nothing is recorded. Windows must allow desktop apps to use the microphone
 (Settings > Privacy & security > Microphone).
 

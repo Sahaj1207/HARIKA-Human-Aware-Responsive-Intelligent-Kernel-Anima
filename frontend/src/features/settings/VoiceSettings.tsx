@@ -94,7 +94,8 @@ export const VoiceSettings: React.FC = () => {
         footer={
           <>
             Say “Hey HARIKA” followed by what you need, from anywhere. Listening happens entirely on this computer:
-            speech is recognised in memory and ignored unless it starts with “Hey HARIKA”, and nothing is recorded.
+            speech is recognised in memory and ignored unless it starts with “Hey HARIKA” (or, with follow-ups on,
+            comes in the few seconds after she answers), and nothing is recorded.
             You can also press {isMac ? '⌃⇧Space' : 'Ctrl + Shift + Space'} and tap the microphone.
           </>
         }
@@ -111,6 +112,28 @@ export const VoiceSettings: React.FC = () => {
             />
           }
         />
+        {settings.wake_word && (
+          <>
+            <Row
+              title="Keep listening for a follow-up"
+              subtitle="After answering, HARIKA listens for a few seconds so you can just keep talking."
+              accessory={
+                <Toggle
+                  label="Keep listening for a follow-up"
+                  checked={settings.follow_up}
+                  onChange={(on) => void change({ follow_up: on })}
+                />
+              }
+            />
+            <Row
+              title="Let me interrupt"
+              subtitle="Start talking while HARIKA speaks and she stops to listen."
+              accessory={
+                <Toggle label="Let me interrupt" checked={settings.barge_in} onChange={(on) => void change({ barge_in: on })} />
+              }
+            />
+          </>
+        )}
       </GroupedSection>
 
       <GroupedSection title="Speaking">

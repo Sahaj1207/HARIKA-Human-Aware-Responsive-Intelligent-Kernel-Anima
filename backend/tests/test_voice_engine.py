@@ -51,8 +51,9 @@ class EngineRequestTests(unittest.TestCase):
         self.publish.stop()
         self.dir.cleanup()
 
-    def run_wake(self, request, follow_up=None, speak_replies="voice"):
-        self.engine.settings.update(speak_replies=speak_replies)
+    def run_wake(self, request, follow_up=None, speak_replies="voice", heard=None, keep_listening=False):
+        """heard: what each microphone capture transcribes to, in order ("" = silence)."""
+        self.engine.settings.update(speak_replies=speak_replies, follow_up=keep_listening)
         loop = asyncio.new_event_loop()
         thread = threading.Thread(target=loop.run_forever, daemon=True)
         thread.start()
@@ -64,8 +65,13 @@ class EngineRequestTests(unittest.TestCase):
 
         self.engine.on_request = on_request
         self.engine._loop = loop
-        with patch.object(self.engine, "_capture", return_value=np.zeros(10, np.float32) if follow_up else None), \
-             patch.object(self.engine, "transcribe", return_value=follow_up or ""):
+        if heard is not None:
+            captures = patch.object(self.engine, "_capture", side_effect=[np.zeros(10, np.float32) if h else None for h in heard])
+            transcripts = patch.object(self.engine, "transcribe", side_effect=[h for h in heard if h])
+        else:
+            captures = patch.object(self.engine, "_capture", return_value=np.zeros(10, np.float32) if follow_up else None)
+            transcripts = patch.object(self.engine, "transcribe", return_value=follow_up or "")
+        with captures, transcripts:
             self.engine._handle_wake(request, read=lambda: np.zeros(1600, np.float32))
         loop.call_soon_threadsafe(loop.stop)
         thread.join(2)
@@ -86,9 +92,36 @@ class EngineRequestTests(unittest.TestCase):
         self.assertEqual(self.run_wake("", follow_up=None), [])
         self.assertIn("no_speech", [p.get("stage") for _, p in self.events])
 
+    def test_follow_ups_continue_until_a_pause(self):
+        handled = self.run_wake("what's the weather", heard=["and tomorrow?", "thanks", ""], keep_listening=True)
+        self.assertEqual(handled, ["what's the weather", "and tomorrow?", "thanks"])
+        self.assertEqual(len(self.spoken), 3)
+
+    def test_without_follow_ups_one_request_ends_it(self):
+        self.assertEqual(self.run_wake("what's the weather", heard=["and tomorrow?"]), ["what's the weather"])
+
+    def test_talking_over_her_becomes_the_next_request(self):
+        def speak(text, voice_id=None, tone=None):
+            self.spoken.append(text)
+            if len(self.spoken) == 1:
+                self.engine._barged = "actually open chrome"  # what _listen_while_speaking records
+        self.engine.speak = speak
+        handled = self.run_wake("tell me a long story", heard=[])
+        self.assertEqual(handled, ["tell me a long story", "actually open chrome"])
+
     def test_never_speak_setting_is_respected(self):
         self.run_wake("open notepad", speak_replies="never")
         self.assertEqual(self.spoken, [])
+
+
+class OwnVoiceTests(unittest.TestCase):
+    def test_echo_of_her_reply_is_ignored(self):
+        from app.voice.engine import is_own_voice
+        saying = "It's 30 degrees and mostly clear in Hyderabad today."
+        self.assertTrue(is_own_voice("mostly clear in hyderabad", saying))
+        self.assertTrue(is_own_voice("uh", saying))
+        self.assertFalse(is_own_voice("wait stop open chrome", saying))
+        self.assertFalse(is_own_voice("hey harika what time is it", saying))
 
 
 class VoiceSettingsTests(unittest.TestCase):
