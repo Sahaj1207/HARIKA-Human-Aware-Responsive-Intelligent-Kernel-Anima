@@ -7,10 +7,11 @@ import asyncio
 import html
 import ipaddress
 import re
+import time
 import urllib.parse
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 import httpx
 
@@ -58,8 +59,34 @@ def is_public_url(url: str) -> bool:
     return address.is_global
 
 
+_LITE_RESULT = re.compile(
+    r"<a[^>]+href=\"([^\"]+)\"[^>]*class='result-link'[^>]*>(.*?)</a>(.*?)(?=class='result-link'|$)", re.S
+)
+_LITE_SNIPPET = re.compile(r"class='result-snippet'[^>]*>(.*?)</td>", re.S)
+_CACHE_SECONDS = 600
+_cache: Dict[Tuple[str, int], Tuple[float, List[Dict[str, str]]]] = {}
+
+
 async def search(query: str, limit: int = 8) -> List[Dict[str, str]]:
-    """DuckDuckGo results as {url, title, snippet}; empty when offline."""
+    """Web results as {url, title, snippet}; empty when offline.
+
+    DuckDuckGo's HTML page first; when it returns nothing (it does so for a while
+    after many searches), its separate "lite" page. Results are kept for ten
+    minutes, so asking the same thing again doesn't search again.
+    """
+    key = (query.strip().lower(), limit)
+    cached = _cache.get(key)
+    if cached and time.time() - cached[0] < _CACHE_SECONDS:
+        return list(cached[1])
+    results = await _search_html(query, limit) or await _search_lite(query, limit)
+    if results:
+        if len(_cache) > 200:
+            _cache.clear()
+        _cache[key] = (time.time(), results)
+    return results
+
+
+async def _search_html(query: str, limit: int) -> List[Dict[str, str]]:
     try:
         async with _client(8.0) as client:
             page = await client.post("https://html.duckduckgo.com/html/", data={"q": query})
@@ -71,6 +98,24 @@ async def search(query: str, limit: int = 8) -> List[Dict[str, str]]:
         if not url.startswith(("http://", "https://")) or "duckduckgo.com/y.js" in url:
             continue  # ads
         snippet = _SNIPPET.search(rest)
+        results.append({"url": url, "title": plain(title), "snippet": plain(snippet.group(1)) if snippet else ""})
+        if len(results) >= limit:
+            break
+    return results
+
+
+async def _search_lite(query: str, limit: int) -> List[Dict[str, str]]:
+    try:
+        async with _client(8.0) as client:
+            page = await client.post("https://lite.duckduckgo.com/lite/", data={"q": query})
+    except Exception:
+        return []
+    results = []
+    for href, title, rest in _LITE_RESULT.findall(page.text):
+        url = _real_url(html.unescape(href))
+        if not url.startswith(("http://", "https://")) or "duckduckgo.com" in url:
+            continue  # ads
+        snippet = _LITE_SNIPPET.search(rest)
         results.append({"url": url, "title": plain(title), "snippet": plain(snippet.group(1)) if snippet else ""})
         if len(results) >= limit:
             break
