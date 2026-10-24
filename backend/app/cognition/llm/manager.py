@@ -104,9 +104,9 @@ def build_provider(service_id: str, model: str) -> BaseLLMProvider:
     return OpenAICompatibleProvider(model, key, service.base_url, service.name)
 
 
-# Cloud services tried as backups, fastest first. Gemini comes last: its free tier is small
-# (about 20 requests a day per model), so it's kept for looking at the screen.
-_BACKUP_ORDER = ("groq", "openrouter", "openai", "anthropic", "gemini")
+# Cloud services tried as backups, in this order. Gemini's text backups use a lite model whose free
+# allowance is separate from the screen-reading model's, so it can come early.
+_BACKUP_ORDER = ("groq", "gemini", "openrouter", "openai", "anthropic")
 _COOLDOWN_SECONDS = 60  # a service that just failed is skipped for a minute (longer if it says so)
 _failed_at: Dict[str, float] = {}
 _rest_until: Dict[str, float] = {}

@@ -58,8 +58,12 @@ SERVICES: List[LLMService] = [
         base_url="https://generativelanguage.googleapis.com/v1beta",
         key_url="https://aistudio.google.com/app/apikey",
         blurb="Gemini models. Google AI Studio offers a free tier.",
-        suggested={"understanding": "gemini-3.8-flash", "conversation": "gemini-3.8-flash", "vision": "gemini-3.8-flash"},
-        fallbacks={role: ["flash", "pro"] for role in ("understanding", "conversation", "vision")},
+        # Text uses a "lite" model: quick, and its free allowance is separate from (and larger than)
+        # the model that looks at the screen, so backups never use up vision's.
+        suggested={"understanding": "gemini-3.5-flash-lite", "conversation": "gemini-3.5-flash-lite",
+                   "vision": "gemini-3.8-flash"},
+        fallbacks={"understanding": ["flash-lite", "flash"], "conversation": ["flash-lite", "flash"],
+                   "vision": ["flash", "pro"]},
     ),
     LLMService(
         id="groq", name="Groq", kind="openai_compatible", base_url="https://api.groq.com/openai/v1",

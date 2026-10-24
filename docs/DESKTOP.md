@@ -123,8 +123,15 @@ off under **Settings > Privacy**.
 ### Brain, voice and personality
 
 - **Backups:** if the chosen service (e.g. Groq) is offline or busy, HARIKA
-  quietly uses your other connected services (e.g. Gemini), then the model on
-  this computer. **Settings > Brain > Use backups automatically**.
+  quietly uses your other connected services, in this order: Groq, Gemini,
+  OpenRouter, OpenAI, Anthropic, then the model on this computer. A short "busy,
+  try again in a few seconds" is waited out (up to 30 seconds) rather than handed
+  to a slower backup. Gemini answers text with its "lite" model, whose free
+  allowance is separate from the model that looks at your screen.
+  **Settings > Brain > Use backups automatically**.
+- **Free limits:** Groq's free tier allows roughly 4-5 requests a minute for
+  HARIKA. A free Gemini key (aistudio.google.com) as a backup covers bursts; Groq's
+  paid Developer tier raises the limit about 30x for very little money.
 - **Personality:** warm, natural and brief; she notices how you feel and
   responds to that first.
 - **Expressive voice:** connect Azure AI Speech in **Settings > Voice** (a free
