@@ -15,4 +15,7 @@ def describe_abilities() -> str:
 
 
 def format_capability_response(engine_output: Any = None, raw_message: str = "") -> str:
+    if isinstance(engine_output, dict) and engine_output.get("small_talk") and engine_output.get("response"):
+        from app.presence.communication.chat import plain_text
+        return plain_text(engine_output["response"])  # a few highlights, written for the moment (presence/greeting.py)
     return describe_abilities()

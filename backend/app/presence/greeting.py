@@ -22,6 +22,7 @@ logger = logging.getLogger("harika.presence.greeting")
 
 _TIMEOUT = 4.0
 _REMEMBER = 6  # recent greetings kept, so none is repeated soon
+_TURNS = 6  # conversation turns passed along
 _PROMPT = """You are HARIKA, a warm personal assistant who lives on {name_or_their} computer, answering a greeting or
 small talk. Reply like a friend who is also their assistant: one or two short, natural, spoken sentences, never
 the same shape twice. Start with one tone tag: [cheerful], [warm], [calm], [playful] or [empathetic].
@@ -31,8 +32,10 @@ nothing; never list them, never turn a hello into a briefing):
 {context}
 
 Rules: mention only facts given above, never invent plans, weather, news or events. If they ask how you are,
-answer briefly like a person and turn it back to them. If they ask what you can help with, name two or three of
-these, casually: {abilities}. Plain text, no emoji. Don't repeat or closely echo any of these recent replies:
+answer briefly like a person and turn it back to them. If they ask what you can do or help with, give a short,
+friendly overview: a handful of highlights in one or two sentences, then offer to say more about any of them; if
+they ask about one area (music, email, files...), answer about just that. Never recite the whole list. What you
+can do: {abilities}. Plain text, no emoji. Don't repeat or closely echo any of these recent replies:
 {recent}"""
 
 
@@ -149,19 +152,21 @@ class Greeter:
 
     # ------------------------------------------------------------- replying
 
-    async def reply(self, message: str, user_id: str = "default", now: Optional[datetime] = None, ask=None) -> str:
-        """The reply, starting with a tone tag."""
+    async def reply(self, message: str, user_id: str = "default", now: Optional[datetime] = None, ask=None,
+                    about_abilities: bool = False, history: Optional[List[dict]] = None) -> str:
+        """The reply, starting with a tone tag. `history` is the conversation so far, so "what else?" gets
+        something new."""
         now = now or datetime.now()
         text = ""
         try:
-            text = await asyncio.wait_for(self._generate(message, user_id, now, ask), timeout=_TIMEOUT)
+            text = await asyncio.wait_for(self._generate(message, user_id, now, ask, history), timeout=_TIMEOUT)
         except Exception as exc:
             logger.info(f"[Greeting] Using a quick greeting instead: {exc or type(exc).__name__}")
-        text = text or self.quick(message, user_id, now)
+        text = text or self.quick(message, user_id, now, about_abilities)
         self._remember(text)
         return text
 
-    async def _generate(self, message: str, user_id: str, now: datetime, ask=None) -> str:
+    async def _generate(self, message: str, user_id: str, now: datetime, ask=None, history=None) -> str:
         from app.presence.communication.capability import describe_abilities
 
         name = _name(user_id)
@@ -177,17 +182,21 @@ class Greeter:
         provider = RoleProvider("conversation")
         if provider.is_local():
             return ""  # a local model takes seconds to answer; a hello shouldn't
-        result = await provider.generate_response([{"role": "user", "content": message}], system)
+        turns = [t for t in (history or [])[-_TURNS:] if t.get("role") in ("user", "assistant") and t.get("content")]
+        if turns and turns[-1]["role"] == "user" and turns[-1]["content"].strip() == message.strip():
+            turns = turns[:-1]  # the app sends the new message as part of the history too
+        result = await provider.generate_response(
+            [{"role": t["role"], "content": t["content"]} for t in turns] + [{"role": "user", "content": message}], system)
         return "" if result.get("error") else str(result.get("response", "")).strip()
 
-    def quick(self, message: str, user_id: str, now: datetime) -> str:
+    def quick(self, message: str, user_id: str, now: datetime, about_abilities: bool = False) -> str:
         """A short greeting for the time of day, not one used recently."""
         name = _name(user_id)
         you = f", {name}" if name else ""
         lowered = message.lower()
         if "how are you" in lowered or "how's it going" in lowered or "how is it going" in lowered:
             options = [f"[cheerful] I'm good, thanks{you}! How about you?", f"[warm] Doing well{you}. How's your day going?"]
-        elif "help" in lowered:
+        elif about_abilities or "help" in lowered:
             options = ["[warm] Lots of things: your apps, music, reminders, calendar, email, messages, notes and the web. What do you need?"]
         else:
             part = _part_of_day(now)

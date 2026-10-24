@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from datetime import datetime, timedelta
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 from app.memory.journal import Journal
 from app.presence.greeting import Greeter
@@ -110,6 +110,59 @@ class GreetingTests(unittest.TestCase):
         with patch.object(reminders_tool.store, "pending", return_value=[{"text": "dentist", "due": due.isoformat()}]):
             lines = asyncio.run(greeter().context("Sahaj", MORNING))
         self.assertIn("Their next reminder today: dentist at 11:00 AM.", lines)
+
+
+class AbilitiesTests(unittest.TestCase):
+    def test_what_can_you_do_goes_to_the_conversational_reply(self):
+        from app.router.action_graph import ActionNode
+        from app.router.resolver import subsystem_resolver
+        from app.router.schemas import IntentType
+
+        node = ActionNode(intent=IntentType.CAPABILITY_QUERY, engine="CognitionManager", action="capability_inquiry",
+                          arguments={"message": "what can you do"})
+        reply = "[warm] Quite a bit: your apps, music, reminders and email. Want the details on any of those?"
+        with patch("app.presence.greeting.greeter.reply", AsyncMock(return_value=reply)) as answer:
+            result = asyncio.run(subsystem_resolver.execute_node(node, user_id="Sahaj"))
+        self.assertTrue(answer.call_args.kwargs["about_abilities"])
+        from app.presence.communication.capability import format_capability_response
+        self.assertEqual(format_capability_response(result, "what can you do"), reply)  # tone tag is split off later
+
+    def test_the_prompt_asks_for_highlights_not_the_whole_list(self):
+        seen = {}
+
+        async def ask(system, message):
+            seen["system"] = system
+            return "[warm] Apps, music, reminders, email. Which one?"
+
+        asyncio.run(greeter().reply("what can you do", "Sahaj", MORNING, ask=ask, about_abilities=True))
+        self.assertIn("Never recite the whole list", seen["system"])
+
+    def test_what_else_sees_the_conversation_so_far(self):
+        seen = {}
+
+        class Cloud:
+            def __init__(self, role):
+                pass
+
+            def is_local(self):
+                return False
+
+            async def generate_response(self, messages, system):
+                seen["messages"] = messages
+                return {"response": "[warm] I can also read your documents and tidy your Downloads."}
+
+        history = [{"role": "user", "content": "what can you do"},
+                   {"role": "assistant", "content": "Apps, music, reminders and email."},
+                   {"role": "user", "content": "what else"}]
+        with patch("app.cognition.llm.manager.RoleProvider", Cloud):
+            asyncio.run(greeter().reply("what else", "Sahaj", MORNING, about_abilities=True, history=history))
+        self.assertEqual([m["content"] for m in seen["messages"]],
+                         ["what can you do", "Apps, music, reminders and email.", "what else"])
+
+    def test_quick_answer_about_abilities_is_short(self):
+        quick = greeter().quick("what are you capable of", "Sahaj", MORNING, about_abilities=True)
+        self.assertLess(len(quick), 160)
+        self.assertIn("music", quick)
 
 
 class RoutingTests(unittest.TestCase):
