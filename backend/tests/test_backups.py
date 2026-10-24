@@ -147,6 +147,16 @@ class BackupChainTests(unittest.TestCase):
         self.models.start()
         self.assertEqual(used[0], "openai/gpt-oss-120b")
 
+    def test_settings_repair_a_saved_model_the_service_does_not_offer(self):
+        self.store.set_role("conversation", "groq", "qwen3:4b-instruct-2507-q4_K_M")
+        self.store.set_role("understanding", "ollama", "qwen3:4b-instruct-2507-q4_K_M")
+        self.models.stop()
+        with patch.object(manager, "llm_settings", self.store),                 patch.object(manager, "offered_models", AsyncMock(return_value=["openai/gpt-oss-120b"])):
+            asyncio.run(manager.repair_saved_models())
+        self.models.start()
+        self.assertEqual(self.store.load()["conversation"], {"service": "groq", "model": "openai/gpt-oss-120b"})
+        self.assertEqual(self.store.load()["understanding"]["model"], "qwen3:4b-instruct-2507-q4_K_M")  # on-device untouched
+
     def test_backups_can_be_turned_off(self):
         self.store.set_role("conversation", "groq", "llama-3.3-70b-versatile")
         self.store.set_backups(False)

@@ -392,10 +392,24 @@ class OpenRouterSignIn:
 openrouter_sign_in = OpenRouterSignIn()
 
 
+async def repair_saved_models() -> None:
+    """A saved cloud model its service doesn't offer (an older picker allowed that) is replaced for good,
+    so Settings shows the model that actually answers."""
+    for role, choice in llm_settings._raw().items():
+        service = get_service(choice.get("service", "")) if role in ROLES and isinstance(choice, dict) else None
+        if service is None or service.on_device:
+            continue
+        model = await usable_model(service.id, role, choice.get("model", ""))
+        if model and model != choice.get("model"):
+            logger.info(f"[LLM] {service.name} doesn't offer {choice.get('model')}; {role} now uses {model}.")
+            llm_settings.set_role(role, service.id, model)
+
+
 async def describe_with_availability() -> Dict[str, Any]:
     """describe(), plus whether on-device servers are actually running right now."""
     import asyncio
 
+    await repair_saved_models()
     info = describe()
 
     async def reachable(service_id: str) -> bool:
