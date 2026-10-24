@@ -13,7 +13,8 @@ from pydantic import BaseModel
 from app.cognition.llm import secrets
 from app.cognition.llm.catalog import ROLES, get_service
 from app.cognition.llm.manager import (
-    check_role, describe, describe_with_availability, list_models, llm_settings, openrouter_sign_in, pick_default, verify_key,
+    check_role, describe, describe_with_availability, list_models, llm_settings, offered_models, openrouter_sign_in,
+    pick_default, verify_key,
 )
 from app.core.live_events import live_events
 
@@ -56,6 +57,10 @@ async def choose_model(role: str, choice: RoleChoice):
     service = _service_or_404(choice.service)
     if service.needs_key and not secrets.has_key(service.id):
         raise HTTPException(status_code=409, detail=f"Connect {service.name} before choosing one of its models.")
+    if not service.on_device:
+        offered = await offered_models(service.id)
+        if offered and choice.model not in offered:
+            raise HTTPException(status_code=400, detail=f"{service.name} doesn't offer {choice.model}. Pick one of its models.")
     llm_settings.set_role(role, service.id, choice.model)
     live_events.publish("llm_settings_changed", role=role)
     return describe()

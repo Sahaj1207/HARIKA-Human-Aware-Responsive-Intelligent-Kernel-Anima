@@ -211,6 +211,9 @@ class RoleProvider(BaseLLMProvider):
         for index, choice in enumerate(usable):
             if index:  # a backup uses a model its service still offers
                 choice = {**choice, "model": await usable_model(choice["service"], self.role) or choice["model"]}
+            elif not getattr(get_service(choice["service"]), "on_device", True):
+                # A saved model the service no longer offers (or never did) would fail every request.
+                choice = {**choice, "model": await usable_model(choice["service"], self.role, choice["model"]) or choice["model"]}
             provider = build_provider(choice["service"], choice["model"])
             result = await self._ask(provider, messages, system_prompt, json_mode)
             waited = 0.0
@@ -309,18 +312,26 @@ def pick_default(service: LLMService, role: str, available: List[str]) -> str:
 _MODEL_LISTS: Dict[str, Tuple[float, List[str]]] = {}
 
 
-async def usable_model(service_id: str, role: str) -> str:
-    """A model of this service that exists today (lists are cached for six hours)."""
-    service = get_service(service_id)
-    if service is None:
-        return ""
+async def offered_models(service_id: str) -> List[str]:
+    """The models this service offers today, cached for six hours; [] when the list can't be read."""
     cached = _MODEL_LISTS.get(service_id)
     if cached is None or time.time() - cached[0] > 6 * 3600:
         try:
             _MODEL_LISTS[service_id] = (time.time(), await list_models(service_id))
         except Exception:
             _MODEL_LISTS[service_id] = (time.time(), [])  # unknown: trust the suggestion
-    return pick_default(service, role, _MODEL_LISTS[service_id][1])
+    return _MODEL_LISTS[service_id][1]
+
+
+async def usable_model(service_id: str, role: str, wanted: str = "") -> str:
+    """`wanted` if this service offers it (or its list can't be read), else a model it does offer."""
+    service = get_service(service_id)
+    if service is None:
+        return ""
+    available = await offered_models(service_id)
+    if wanted and (not available or wanted in available):
+        return wanted
+    return pick_default(service, role, available)
 
 
 async def check_role(role: str) -> Dict[str, Any]:

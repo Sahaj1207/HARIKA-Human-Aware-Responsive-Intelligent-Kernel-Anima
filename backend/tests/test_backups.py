@@ -38,7 +38,7 @@ class BackupChainTests(unittest.TestCase):
         self.connected = patch.object(manager, "is_connected", side_effect=lambda s: s.id in ("groq", "gemini", "ollama"))
         self.connected.start()
         # Backups check their service's live model list; never ask real services from a test.
-        self.models = patch.object(manager, "usable_model", AsyncMock(side_effect=lambda service, role: f"{service}-model"))
+        self.models = patch.object(manager, "usable_model", AsyncMock(side_effect=lambda service, role, wanted="": wanted or f"{service}-model"))
         self.models.start()
 
     def tearDown(self):
@@ -136,6 +136,16 @@ class BackupChainTests(unittest.TestCase):
         import time
         time.sleep(0.01)
         self.assertFalse(manager.resting("groq"))  # free again once the asked-for wait is over
+
+    def test_a_saved_model_the_service_does_not_offer_is_replaced(self):
+        self.store.set_role("conversation", "groq", "qwen3:4b-instruct-2507-q4_K_M")
+        self.models.stop()
+        with patch.object(manager, "offered_models", AsyncMock(return_value=["openai/gpt-oss-120b"])):
+            used = []
+            with patch.object(manager, "build_provider", side_effect=lambda service, model: used.append(model) or FakeProvider(service, ())):
+                asyncio.run(RoleProvider("conversation", self.store).generate_response([{"role": "user", "content": "hi"}], "sys"))
+        self.models.start()
+        self.assertEqual(used[0], "openai/gpt-oss-120b")
 
     def test_backups_can_be_turned_off(self):
         self.store.set_role("conversation", "groq", "llama-3.3-70b-versatile")

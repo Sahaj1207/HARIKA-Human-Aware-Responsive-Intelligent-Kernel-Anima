@@ -42,6 +42,8 @@ const RoleEditor: React.FC<{
     let cancelled = false;
     setModels(null);
     setError(null);
+    // Another service's model name means nothing here; wait for this service's own list.
+    if (service !== settings.roles[role].service) setModel('');
     llmSettingsService
       .models(service)
       .then((list) => {
@@ -90,7 +92,7 @@ const RoleEditor: React.FC<{
       {error && <p className="t-footnote text-danger">{error}</p>}
       <div className="flex justify-end gap-2">
         <Button kind="plain" onClick={onCancel}>Cancel</Button>
-        <Button onClick={save} disabled={!model}>Use this model</Button>
+        <Button onClick={save} disabled={!model || models === null}>Use this model</Button>
       </div>
     </div>
   );

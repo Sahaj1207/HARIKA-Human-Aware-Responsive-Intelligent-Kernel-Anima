@@ -10,7 +10,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 from urllib.parse import parse_qs, urlparse
 
 import httpx
@@ -194,10 +194,15 @@ class SettingsApiTests(unittest.TestCase):
         import app.api.v1.endpoints.llm_settings as endpoint
         self.endpoint_patch = patch.object(endpoint, "llm_settings", llm_manager.llm_settings)
         self.endpoint_patch.start()
+        # The models each service offers; never ask a real service from a test.
+        self.offered = {"openai": ["gpt-4o", "gpt-4o-mini"], "groq": ["openai/gpt-oss-120b", "openai/gpt-oss-20b"]}
+        self.offered_patch = patch.object(endpoint, "offered_models", AsyncMock(side_effect=lambda s: self.offered.get(s, [])))
+        self.offered_patch.start()
         self.local = TestClient(app, client=("127.0.0.1", 50000))
         self.remote = TestClient(app, client=("192.168.1.20", 50000))
 
     def tearDown(self):
+        self.offered_patch.stop()
         self.endpoint_patch.stop()
         self.store_patch.stop()
         keyring.set_keyring(self.previous_keyring)
@@ -257,6 +262,13 @@ class SettingsApiTests(unittest.TestCase):
         secrets.set_key("openai", "sk-ok")
         chosen = self.local.put("/api/v1/settings/llm/roles/conversation", json={"service": "openai", "model": "gpt-4o"})
         self.assertEqual(chosen.json()["roles"]["conversation"], {"service": "openai", "model": "gpt-4o", "on_device": False})
+
+    def test_a_model_the_service_does_not_offer_is_refused(self):
+        secrets.set_key("groq", "gsk-ok")
+        refused = self.local.put("/api/v1/settings/llm/roles/conversation", json={"service": "groq", "model": "qwen3:4b-instruct-2507-q4_K_M"})
+        self.assertEqual(refused.status_code, 400)
+        self.assertIn("doesn't offer", refused.json()["detail"])
+        self.assertNotEqual(llm_manager.llm_settings.load()["conversation"]["model"], "qwen3:4b-instruct-2507-q4_K_M")
 
     def test_disconnecting_returns_roles_to_on_device_model(self):
         secrets.set_key("openai", "sk-ok")
