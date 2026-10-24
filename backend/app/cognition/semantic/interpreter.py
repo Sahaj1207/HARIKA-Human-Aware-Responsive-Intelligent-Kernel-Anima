@@ -86,8 +86,11 @@ Examples:
 "any new messages on my phone?" -> {{"actions": [{{"operation": "notifications", "target": "phone"}}]}}
 "what did Mom text me?" -> {{"actions": [{{"operation": "notifications", "target": "Mom", "parameters": {{"phone": true}}}}]}}
 "did I miss any notifications?" -> {{"actions": [{{"operation": "notifications", "target": "all"}}]}}
+"anything new on Instagram?" -> {{"actions": [{{"operation": "notifications", "target": "Instagram"}}]}}
 "where is my tax pdf" -> {{"actions": [{{"operation": "find", "target": "tax pdf"}}]}}
 "remind me to drink water at 4:15 pm" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"at": "16:15"}}}}]}}
+"remind me to call Ravi in half an hour" -> {{"actions": [{{"operation": "remind", "target": "call Ravi", "parameters": {{"in_minutes": 30}}}}]}}
+"cancel my stretch reminder" -> {{"actions": [{{"operation": "cancel", "target": "stretch"}}]}}
 "start a 10 minute timer" -> {{"actions": [{{"operation": "remind", "target": "timer", "parameters": {{"in_minutes": 10}}}}]}}
 "do I have any timers running?" -> {{"actions": [{{"operation": "list", "target": "reminders"}}]}}
 "continue this chat" -> {{"actions": [{{"operation": "reply", "target": "this chat"}}]}}
@@ -103,6 +106,7 @@ Examples:
 "how was my day?" / "wrap up my day" -> {{"actions": [{{"operation": "wrap_up", "target": "today"}}]}}
 "what's on my calendar tomorrow?" -> {{"actions": [{{"operation": "agenda", "target": "tomorrow"}}]}}
 "add dentist on Friday at 5pm" -> {{"actions": [{{"operation": "schedule", "target": "Dentist", "parameters": {{"at": "<that Friday as YYYY-MM-DD>T17:00"}}}}]}}
+"cancel the team lunch on Friday" -> {{"actions": [{{"operation": "unschedule", "target": "team lunch"}}]}} (an event on the calendar, not a reminder)
 "move my dentist appointment to 6" -> {{"actions": [{{"operation": "reschedule", "target": "dentist", "parameters": {{"at": "18:00"}}}}]}}
 "any new emails?" -> {{"actions": [{{"operation": "check_email", "target": "inbox"}}]}}
 "did Priya email me about the trip?" -> {{"actions": [{{"operation": "check_email", "target": "Priya trip"}}]}}
@@ -121,6 +125,7 @@ Examples:
 "tell Priya I'll call her after class" -> {{"actions": [{{"operation": "message", "target": "Priya", "parameters": {{"text": "I'll call you after class"}}}}]}}
 "remind me to ask Priya about the tickets when I talk to her" -> {{"actions": [{{"operation": "remind", "target": "ask Priya about the tickets", "parameters": {{"person": "Priya"}}}}]}}
 "I'll call the bank on Monday" -> {{"actions": []}}
+"my project report is due on Thursday" -> {{"actions": []}}
 "remind me to drink water when I'm back" -> {{"actions": [{{"operation": "remind", "target": "drink water", "parameters": {{"when": "back"}}}}]}}
 "take a note: the wifi password is on the fridge" -> {{"actions": [{{"operation": "note", "target": "the wifi password is on the fridge"}}]}}
 "add milk and eggs to my shopping list" -> {{"actions": [{{"operation": "add_to_list", "target": "milk", "parameters": {{"list": "shopping", "items": ["milk", "eggs"]}}}}]}}
@@ -157,6 +162,12 @@ def select_abilities(operations: str, message: str) -> "Selection":
     return AbilitySelector(embedder).select(message, operations, prompt_examples(), _ALWAYS)
 
 
+def _short(text: str, limit: int = 34) -> str:
+    """The start of a description, cut at a word boundary."""
+    text = text.split(". ")[0].rstrip(".")
+    return text if len(text) <= limit else text[:limit].rsplit(" ", 1)[0] + "..."
+
+
 def compact_prompt(operations: str, context_block: str, message: str, selection: Optional["Selection"] = None) -> str:
     """The same instructions, cut down for one message: full details and examples for the abilities
     that fit it (chosen by meaning, see selection.py) and one line for every other ability."""
@@ -168,8 +179,10 @@ def compact_prompt(operations: str, context_block: str, message: str, selection:
         if names & selection.operations:
             lines.append(line)
         else:
+            # Abilities that don't fit this message only need to be known about: a short phrase each
+            # keeps the request small (free tiers count every token).
             summary = line.split(":", 1)[1].split(" Target:")[0].strip() if ":" in line else line
-            lines.append(f"{line.split(':', 1)[0]}: {summary[:110]}")
+            lines.append(f"{line.split(':', 1)[0]}: {_short(summary)}")
     template = head + "Examples:\n" + "\n".join(selection.examples) + "\n{context}"
     return template.format(operations="\n".join(lines), context=context_block)
 

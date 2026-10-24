@@ -113,6 +113,30 @@ class BackupChainTests(unittest.TestCase):
             result = asyncio.run(RoleProvider("conversation", self.store).generate_response([], "sys"))
         self.assertEqual((result["response"], attempts), ("answer from groq", ["groq", "groq"]))
 
+    def test_keeps_waiting_while_each_wait_is_short(self):
+        self.store.set_role("conversation", "groq", "openai/gpt-oss-120b")
+        attempts = []
+
+        class BusyTwice(FakeProvider):
+            async def generate_response(self, messages, system_prompt, json_mode=False):
+                attempts.append(self.name)
+                if self.name == "groq" and attempts.count("groq") <= 2:
+                    return {"response": "busy", "error": True, "retry_after": 0.01}
+                return {"response": f"answer from {self.name}"}
+
+        with patch.object(manager, "build_provider", side_effect=lambda service, model: BusyTwice(service, ())):
+            result = asyncio.run(RoleProvider("conversation", self.store).generate_response([], "sys"))
+        # Not handed to a slower backup, and not benched afterwards.
+        self.assertEqual((result["response"], attempts), ("answer from groq", ["groq", "groq", "groq"]))
+        self.assertFalse(manager.resting("groq"))
+
+    def test_a_short_busy_spell_is_not_a_failure(self):
+        for _ in range(3):
+            manager.note_failure("groq", retry_after=0.001)
+        import time
+        time.sleep(0.01)
+        self.assertFalse(manager.resting("groq"))  # free again once the asked-for wait is over
+
     def test_backups_can_be_turned_off(self):
         self.store.set_role("conversation", "groq", "llama-3.3-70b-versatile")
         self.store.set_backups(False)

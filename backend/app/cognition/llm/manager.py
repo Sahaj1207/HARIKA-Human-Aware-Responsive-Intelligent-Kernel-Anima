@@ -111,6 +111,7 @@ _COOLDOWN_SECONDS = 60  # a service that just failed is skipped for a minute (lo
 _failed_at: Dict[str, float] = {}
 _rest_until: Dict[str, float] = {}
 _SHORT_WAIT_SECONDS = 20  # a service asking to wait this long or less is waited for, not skipped
+_MOST_WAITING = 30.0      # in all, for one request: still far quicker than a local model
 
 
 _failures_in_a_row: Dict[str, int] = {}
@@ -126,10 +127,12 @@ def resting(service_id: str) -> bool:
 
 
 def note_failure(service_id: str, retry_after: Optional[float] = None) -> None:
-    _failed_at[service_id] = time.time()
-    _failures_in_a_row[service_id] = _failures_in_a_row.get(service_id, 0) + 1
     if retry_after:
         _rest_until[service_id] = time.time() + retry_after
+        if retry_after <= _SHORT_WAIT_SECONDS:
+            return  # "busy for a few seconds" (a per-minute limit) isn't a failure of the service
+    _failed_at[service_id] = time.time()
+    _failures_in_a_row[service_id] = _failures_in_a_row.get(service_id, 0) + 1
 
 
 def note_success(service_id: str) -> None:
@@ -190,12 +193,16 @@ class RoleProvider(BaseLLMProvider):
                 choice = {**choice, "model": await usable_model(choice["service"], self.role) or choice["model"]}
             provider = build_provider(choice["service"], choice["model"])
             result = await self._ask(provider, messages, system_prompt, json_mode)
+            waited = 0.0
             wait = result.get("retry_after") if result.get("error") else None
-            if wait and wait <= _SHORT_WAIT_SECONDS:
-                # "Try again in a few seconds" (a per-minute limit): waiting beats a much slower backup.
+            # "Try again in a few seconds" (a per-minute limit): waiting beats a much slower backup,
+            # so keep waiting as long as each wait is short, up to _MOST_WAITING in all.
+            while wait and wait <= _SHORT_WAIT_SECONDS and waited + wait <= _MOST_WAITING:
                 await asyncio.sleep(wait + 0.5)
+                waited += wait + 0.5
                 result = await self._ask(provider, messages, system_prompt, json_mode)
-            elif not result.get("error") and not str(result.get("response", "")).strip():
+                wait = result.get("retry_after") if result.get("error") else None
+            if not result.get("error") and not str(result.get("response", "")).strip():
                 result = await self._ask(provider, messages, system_prompt, json_mode)  # an empty reply: ask once more
             if not result.get("error") and not str(result.get("response", "")).strip():
                 result = {**result, "error": True, "response": f"{choice['service']} returned an empty reply."}
