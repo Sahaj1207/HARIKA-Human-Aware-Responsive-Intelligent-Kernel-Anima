@@ -11,6 +11,8 @@ from app.api.v1.router import api_router
 async def lifespan(app: FastAPI):
     """FastAPI application lifespan handler."""
     logger.info(f"Starting {settings.APP_NAME} service in {settings.APP_ENV} mode...")
+    from app.core.native import load_in_safe_order
+    load_in_safe_order()
     from app.core.live_events import live_events
     from app.tools.system.reminders import reminders_tool, run_reminder_scheduler
     live_events.bind_loop(asyncio.get_running_loop())

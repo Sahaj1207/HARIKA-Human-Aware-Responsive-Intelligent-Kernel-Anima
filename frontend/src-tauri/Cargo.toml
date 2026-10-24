@@ -1,6 +1,6 @@
 [package]
 name = "harika"
-version = "0.2.3"
+version = "0.2.4"
 description = "HARIKA desktop assistant"
 authors = ["Sahaj Alatage"]
 license = ""

@@ -60,3 +60,21 @@ class NotificationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NativeOrderTests(unittest.TestCase):
+    def test_reading_notifications_first_never_crashes_the_meaning_model(self):
+        """WinRT loaded before onnxruntime crashes Python; the notification reader prevents it."""
+        import platform
+        import subprocess
+        import sys
+        if platform.system() != "Windows":
+            self.skipTest("Windows only")
+        code = ("import asyncio\n"
+                "from app.tools.system.notifications_tool import read_notices\n"
+                "asyncio.run(read_notices())\n"
+                "import onnxruntime\n"
+                "print('ok')\n")
+        result = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, timeout=60)
+        self.assertEqual(result.returncode, 0, result.stderr[-500:])
+        self.assertIn("ok", result.stdout)

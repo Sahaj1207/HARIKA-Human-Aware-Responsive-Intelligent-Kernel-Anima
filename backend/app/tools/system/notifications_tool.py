@@ -60,6 +60,8 @@ async def read_notices() -> Tuple[Optional[List[Notice]], str]:
     """(notices, "") or (None, why not)."""
     if platform.system() != "Windows":
         return None, "Reading notifications works on Windows only"
+    from app.core.native import load_in_safe_order
+    load_in_safe_order()  # WinRT loaded before onnxruntime crashes the process
     try:
         from winrt.windows.ui.notifications import NotificationKinds
         from winrt.windows.ui.notifications.management import UserNotificationListener

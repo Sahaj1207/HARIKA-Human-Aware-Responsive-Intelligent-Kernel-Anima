@@ -29,13 +29,27 @@ const args = [
   // Offline voice: native speech libraries and the PortAudio audio driver.
   '--collect-all', 'sherpa_onnx',
   '--collect-all', 'sounddevice',
+  // Reading notifications (Windows' own API, through the WinRT bindings): named one by one, so the
+  // bundler only reads them; loading WinRT before onnxruntime crashes it (backend/app/core/native.py).
+  ...(process.platform === 'win32'
+    ? ['winrt.runtime', 'winrt.system', 'winrt.windows.foundation', 'winrt.windows.foundation.collections',
+       'winrt.windows.applicationmodel', 'winrt.windows.ui.notifications',
+       'winrt.windows.ui.notifications.management'].flatMap((name) => ['--hidden-import', name])
+    : []),
   // Matching requests to abilities by meaning (the small model itself downloads on first start).
-  '--collect-all', 'onnxruntime',
+  // Only the runtime: its quantization and model-conversion tools aren't used, and importing
+  // them crashes the bundler.
+  '--collect-binaries', 'onnxruntime',
+  '--collect-submodules', 'onnxruntime.capi',
+  '--exclude-module', 'onnxruntime.quantization',
+  '--exclude-module', 'onnxruntime.transformers',
+  '--exclude-module', 'onnxruntime.tools',
+  // An optional extra of the speech library that HARIKA doesn't use; it crashes the bundler
+  // when loaded next to onnxruntime.
+  '--exclude-module', 'sentencepiece',
   '--collect-all', 'tokenizers',
   // Reading PDFs (its decoders are imported on demand).
   '--collect-all', 'pypdf',
-  // Reading notifications (Windows' own API, through the WinRT bindings).
-  '--collect-all', 'winrt',
 ];
 
 // HARIKA's Google sign-in client (downloaded from Google Cloud Console, never committed).
