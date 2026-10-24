@@ -51,6 +51,12 @@ class PlayerTests(unittest.TestCase):
     def setUp(self):
         self.api = FakeSpotify()
         self.player = SpotifyPlayer(self.api)
+        # These test the Web API route, which is used when Spotify is connected.
+        self.connected = patch("app.integrations.spotify.spotify_account.status", return_value={"connected": True})
+        self.connected.start()
+
+    def tearDown(self):
+        self.connected.stop()
 
     def test_play_a_song_and_an_artist(self):
         self.assertEqual(run(self.player.play_search("believer")), "Playing Believer by Imagine Dragons on Spotify.")

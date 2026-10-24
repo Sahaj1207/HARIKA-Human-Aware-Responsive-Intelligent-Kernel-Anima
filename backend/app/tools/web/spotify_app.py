@@ -1,18 +1,19 @@
-"""Playing on Spotify without its developer API, the way a person would.
+"""Spotify without its developer API: HARIKA uses the Spotify app the way a person would.
 
-1. Find the exact Spotify page with a web search (every song, artist, album and
-   playlist has a public open.spotify.com link).
-2. Open it in the Spotify app through its own link scheme (spotify:track:...).
-3. Press Play on that page through Windows UI Automation, the accessibility
-   interface screen readers use: the song's own row ("Play Believer by Imagine
-   Dragons") or the page's main Play button.
-4. Confirm from the Spotify window's title, which becomes "Artist - Song" while
-   music plays. If it doesn't change, HARIKA says so instead of claiming success.
+- Play anything: bring Spotify forward, check its search box has the keyboard focus
+  (so keystrokes can't land anywhere else), type the request, press the best
+  matching result's Play button.
+- Liked songs: open the Liked Songs page (spotify:collection:tracks), press its Play.
+- What's playing: the Spotify window's title, "Artist - Song" while music plays.
+- Like this song: the player bar's "Add to Liked Songs" button.
 
-When the web search finds nothing, HARIKA uses Spotify's own search box instead:
-it brings Spotify forward, checks that the search box has the keyboard focus (so
-keystrokes can't land anywhere else), types the request, and presses the best
-matching result's Play button.
+Queueing a song and adding one to a playlist need Spotify connected: in the app they
+live in a menu that search results only show on mouse hover, and HARIKA never takes
+over the mouse.
+
+Buttons and menu items are pressed through Windows UI Automation, the accessibility
+interface screen readers use; the mouse is never moved. Every action is confirmed
+(the title changes, or the button's name changes) or reported honestly as not done.
 
 Used when Spotify isn't connected through its Web API (see spotify.py). Playback
 happens wherever the user's Spotify is playing (Spotify's own behaviour).
@@ -23,62 +24,33 @@ import logging
 import os
 import re
 import time
-from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple
 
 logger = logging.getLogger("harika.tools.spotify_app")
 
-_LINK = re.compile(r"https://open\.spotify\.com/(?:intl-[a-z]+/)?(track|artist|album|playlist)/([A-Za-z0-9]{22})")
 _IDLE_TITLES = ("spotify", "spotify premium", "spotify free")
+_SEARCH_BOX = "What do you want to play?"
 _OPEN_WAIT = 12.0     # the app may need to start
-_PAGE_WAIT = 6.0      # the page to show its buttons
+_PAGE_WAIT = 12.0     # a page to show the button wanted (Spotify is sometimes slow to change page)
 _PLAY_WAIT = 6.0      # the title to change once playing
 
 
-@dataclass
-class Found:
-    kind: str           # track, artist, album or playlist
-    uri: str            # spotify:track:<id>
-    name: str           # "Believer"
-    by: str             # "Imagine Dragons" (songs and albums)
+class SpotifyAppError(RuntimeError):
+    """Why it couldn't be done in the Spotify app (shown to the user)."""
 
 
 def _words(text: str) -> set:
-    return set(re.findall(r"[a-z0-9]+", (text or "").lower())) - {"spotify", "song", "by", "the", "a", "and", "lyrics"}
+    return set(re.findall(r"[a-z0-9]+", (text or "").lower())) - {"spotify", "song", "by", "the", "a", "and", "my"}
 
 
-def parse_title(title: str) -> Tuple[str, str]:
-    """'Believer - song and lyrics by Imagine Dragons | Spotify' -> ('Believer', 'Imagine Dragons')."""
-    title = re.sub(r"\s*\|\s*Spotify.*$", "", title or "").strip()
-    match = re.match(r"(.+?)\s+-\s+(?:song|album|single|ep|playlist)(?: and lyrics)? by (.+)$", title, re.I)
-    if match:
-        return match.group(1).strip(), match.group(2).strip()
-    return re.sub(r"\s+-\s+.*$", "", title).strip(), ""
+def is_playing(title: str) -> bool:
+    return " - " in title and title.strip().lower() not in _IDLE_TITLES
 
 
-def choose(results: List[dict], query: str, kind: str) -> Optional[Found]:
-    """The search result that is a Spotify page of the wanted kind and best matches the request."""
-    wanted = _words(query)
-    best, best_score = None, -1.0
-    for rank, result in enumerate(results):
-        match = _LINK.search(result.get("url", ""))
-        if not match:
-            continue
-        found_kind, ident = match.groups()
-        name, by = parse_title(result.get("title", ""))
-        overlap = len(wanted & _words(f"{name} {by}")) / max(len(wanted), 1)
-        score = overlap + (0.5 if found_kind == kind else 0.0) - rank * 0.02
-        if score > best_score:
-            best, best_score = Found(found_kind, f"spotify:{found_kind}:{ident}", name, by), score
-    return best if best is not None and best_score >= 0.5 else None
-
-
-async def find(query: str, kind: str = "track") -> Optional[Found]:
-    from app.tools.web.sources import search
-
-    words = f"{query} spotify" + (f" {kind}" if kind in ("artist", "album", "playlist") else "")
-    # No retry: when the search engine is busy, Spotify's own search box is quicker than waiting.
-    return choose(await search(words, 8), query, kind)
+def split_title(title: str) -> Tuple[str, str]:
+    """'Imagine Dragons - Believer' -> ('Believer', 'Imagine Dragons')."""
+    artist, _, song = title.partition(" - ")
+    return song.strip(), artist.strip()
 
 
 # ------------------------------------------------------------- the Spotify window
@@ -101,8 +73,9 @@ def spotify_window():
     return found[0] if found else None
 
 
-def is_playing(title: str) -> bool:
-    return " - " in title and title.strip().lower() not in _IDLE_TITLES
+def installed() -> bool:
+    from app.tools.system.installed_apps import installed_app_index
+    return installed_app_index.find("spotify") is not None
 
 
 class _Button:
@@ -110,9 +83,6 @@ class _Button:
 
     def __init__(self, control, name: str):
         self.control, self.Name = control, name
-
-    def GetInvokePattern(self):
-        return self.control.GetInvokePattern()
 
 
 def _buttons(hwnd: int) -> List[_Button]:
@@ -130,149 +100,191 @@ def _buttons(hwnd: int) -> List[_Button]:
     return out
 
 
-def _press_play(hwnd: int, found: Found) -> Tuple[bool, str]:
-    """Presses the right Play button on the open page. Returns (pressed, where it plays)."""
+def _press(control) -> bool:
+    """Press a button or menu item without moving the mouse."""
     import uiautomation as auto
-
-    with auto.UIAutomationInitializerInThread():
-        deadline = time.monotonic() + _PAGE_WAIT
-        target = None
-        while time.monotonic() < deadline and target is None:
-            buttons = _buttons(hwnd)
-            names = [b.Name for b in buttons]
-            if found.kind == "track":
-                # The song's own row: "Play Believer by Imagine Dragons".
-                want = f"play {found.name} by".lower()
-                target = next((b for b in buttons if b.Name.lower().startswith(want)), None)
-            if target is None and (found.kind != "track" or time.monotonic() > deadline - 2):
-                # The page's main Play button; the player bar's Play sits right after "Previous".
-                for i, name in enumerate(names):
-                    if name == "Play" and (i == 0 or names[i - 1] != "Previous"):
-                        target = buttons[i]
-                        break
-            if target is None:
-                time.sleep(0.5)
-        device = next((b.Name for b in _buttons(hwnd) if b.Name.startswith("Playing on ")), "")
-        if target is None:
-            return False, device
+    for pattern, action in ((auto.PatternId.InvokePattern, lambda p: p.Invoke()),
+                            (auto.PatternId.ExpandCollapsePattern, lambda p: p.Expand()),
+                            (auto.PatternId.LegacyIAccessiblePattern, lambda p: p.DoDefaultAction())):
         try:
-            target.GetInvokePattern().Invoke()
-        except Exception as exc:
-            logger.info(f"[SpotifyApp] Couldn't press Play: {exc}")
-            return False, device
-        return True, device
+            found = control.GetPattern(pattern)
+            if found:
+                action(found)
+                return True
+        except Exception:
+            continue
+    return False
 
 
-def _open_and_play(found: Found) -> Tuple[str, str]:
-    """Blocking: open the page, press play, wait for the title. Returns (now playing title or "", device)."""
-    before = (spotify_window() or (0, ""))[1]
-    os.startfile(found.uri)  # Spotify's own link scheme; opens the page in the app, nothing else
-    window, waited = spotify_window(), 0.0
-    while window is None and waited < _OPEN_WAIT:
-        time.sleep(1.0)
-        waited += 1.0
-        window = spotify_window()
+def _wait_for(hwnd: int, pick: Callable[[List[_Button]], Optional[_Button]], timeout: float = _PAGE_WAIT) -> Optional[_Button]:
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        found = pick(_buttons(hwnd))
+        if found is not None:
+            return found
+        time.sleep(0.5)
+    return None
+
+
+def _open_window() -> Tuple[int, str]:
+    window = spotify_window()
     if window is None:
-        return "", ""
-    time.sleep(1.5)  # let the page change before reading its buttons
-    pressed, device = _press_play(window[0], found)
-    if not pressed:
-        return "", device
+        os.startfile("spotify:")  # Spotify's own link: opens the app, nothing else
+        deadline = time.monotonic() + _OPEN_WAIT
+        while window is None and time.monotonic() < deadline:
+            time.sleep(1.0)
+            window = spotify_window()
+    if window is None:
+        raise SpotifyAppError("Spotify didn't open")
+    return window
+
+
+def _device(hwnd: int) -> str:
+    name = next((b.Name for b in _buttons(hwnd) if b.Name.startswith("Playing on ")), "")
+    return name.removeprefix("Playing on ").strip()
+
+
+def _confirm_playing(before: str, expected: str = "") -> str:
+    """The new "Artist - Song" title once playback starts, or ""."""
     deadline = time.monotonic() + _PLAY_WAIT
     while time.monotonic() < deadline:
         current = spotify_window()
-        # Playing, and not just what was already playing before (unless it's the very song asked for).
-        if current and is_playing(current[1]) and (current[1] != before or _words(found.name) <= _words(current[1])):
-            return current[1], device
+        if current and is_playing(current[1]) and (current[1] != before or (expected and _words(expected) <= _words(current[1]))):
+            return current[1]
         time.sleep(0.5)
-    return "", device
+    return ""
 
 
-_SEARCH_BOX = "What do you want to play?"
-
-
-def _search_in_app(query: str) -> Tuple[str, str, str]:
-    """Blocking: type the request into Spotify's search and play the best result.
-    Returns (now playing title or "", device, the result pressed)."""
+def _search(hwnd: int, query: str) -> None:
+    """Type into Spotify's search box, only once it holds the keyboard focus."""
     import uiautomation as auto
     from app.tools.system import screen_reader
     from app.tools.system.device import bring_forward
 
-    window = spotify_window()
-    if window is None:
-        os.startfile("spotify:")
-        for _ in range(int(_OPEN_WAIT)):
-            time.sleep(1.0)
-            window = spotify_window()
-            if window:
-                break
-    if window is None:
-        return "", "", ""
-    before = window[1]
-    info = screen_reader._window_info(window[0])
+    info = screen_reader._window_info(hwnd)
     if info is None or not bring_forward(info):
-        return "", "", ""
+        raise SpotifyAppError("I couldn't bring Spotify to the front")
+    box = next((c for c, _ in auto.WalkControl(auto.ControlFromHandle(hwnd), maxDepth=40)
+                if c.ControlTypeName == "ComboBoxControl" and c.Name == _SEARCH_BOX), None)
+    if box is None:
+        raise SpotifyAppError("I couldn't find Spotify's search box")
+    box.SetFocus()
+    time.sleep(0.4)
+    if auto.GetFocusedControl().Name != _SEARCH_BOX:
+        raise SpotifyAppError("Spotify's search box didn't take the focus, so I didn't type anything")
+    auto.SendKeys("{Ctrl}a", waitTime=0.1)
+    auto.SendKeys(query.replace("{", "").replace("}", ""), interval=0.02, waitTime=0.1)
+
+
+def _best_result(buttons: List[_Button], prefix: str, query: str) -> Optional[_Button]:
+    """The search result button ("Play X", "More options for X") sharing most words with the request."""
+    wanted = _words(query)
+    scored = [(len(wanted & _words(b.Name[len(prefix):])), -i, b) for i, b in enumerate(buttons)
+              if b.Name.startswith(prefix) and not b.Name.startswith("Playing on")]
+    scored = [s for s in scored if s[0] > 0]
+    return max(scored, key=lambda s: (s[0], s[1]))[2] if scored else None
+
+
+def _player_like_button(buttons: List[_Button]) -> Optional[_Button]:
+    """The player bar's like button: the one right before its Shuffle and Previous buttons."""
+    names = [b.Name for b in buttons]
+    for i in range(1, len(names) - 1):
+        if names[i + 1] == "Previous" and "shuffle" in names[i].lower():
+            return buttons[i - 1]
+    return None
+
+
+# ------------------------------------------------------------- actions (blocking)
+
+def _with_uia(work):
+    import uiautomation as auto
     with auto.UIAutomationInitializerInThread():
-        root = auto.ControlFromHandle(window[0])
-        box = next((c for c, _ in auto.WalkControl(root, maxDepth=40)
-                    if c.ControlTypeName == "ComboBoxControl" and c.Name == _SEARCH_BOX), None)
-        if box is None:
-            return "", "", ""
-        box.SetFocus()
-        time.sleep(0.4)
-        if auto.GetFocusedControl().Name != _SEARCH_BOX:
-            return "", "", ""  # never type unless Spotify's search box has the focus
-        auto.SendKeys("{Ctrl}a", waitTime=0.1)
-        auto.SendKeys(query.replace("{", "").replace("}", ""), interval=0.02, waitTime=0.1)
-        wanted, target, deadline = _words(query), None, time.monotonic() + _PAGE_WAIT
-        while target is None and time.monotonic() < deadline:
-            time.sleep(0.6)
-            results = [b for b in _buttons(window[0]) if b.Name.startswith("Play ") and not b.Name.startswith("Playing on")]
-            scored = [(len(wanted & _words(b.Name[5:])), -i, b) for i, b in enumerate(results)]
-            scored = [s for s in scored if s[0] > 0]
-            if scored:
-                target = max(scored, key=lambda s: (s[0], s[1]))[2]
-        device = next((b.Name for b in _buttons(window[0]) if b.Name.startswith("Playing on ")), "")
+        return work()
+
+
+def play_blocking(query: str) -> Tuple[str, str, str]:
+    """Search and play the best match. Returns (now playing title, device, the result pressed)."""
+    def work():
+        hwnd, before = _open_window()
+        _search(hwnd, query)
+        target = _wait_for(hwnd, lambda bs: _best_result(bs, "Play ", query), timeout=6.0)
         if target is None:
-            return "", device, ""
+            raise SpotifyAppError(f"I couldn't find {query} on Spotify")
         pressed = target.Name[5:]
-        try:
-            target.GetInvokePattern().Invoke()
-        except Exception:
-            return "", device, pressed
-    deadline = time.monotonic() + _PLAY_WAIT
-    while time.monotonic() < deadline:
-        current = spotify_window()
-        if current and is_playing(current[1]) and current[1] != before:
-            return current[1], device, pressed
-        time.sleep(0.5)
-    return "", device, pressed
+        if not _press(target.control):
+            raise SpotifyAppError(f"I found {pressed} in Spotify but couldn't start it. Press play there")
+        return _confirm_playing(before, pressed), _device(hwnd), pressed
+    return _with_uia(work)
 
 
-def installed() -> bool:
-    from app.tools.system.installed_apps import installed_app_index
-    return installed_app_index.find("spotify") is not None
+def play_liked_blocking() -> Tuple[str, str]:
+    def work():
+        hwnd, before = _open_window()
+        os.startfile("spotify:collection:tracks")  # Spotify's own link to Liked Songs
+        target = _wait_for(hwnd, lambda bs: next((b for b in bs if b.Name == "Play Liked Songs"), None))
+        if target is None or not _press(target.control):
+            raise SpotifyAppError("I opened your Liked Songs but couldn't start them. Press play there")
+        return _confirm_playing(before), _device(hwnd)
+    return _with_uia(work)
+
+
+def like_current_blocking() -> str:
+    def work():
+        window = spotify_window()
+        if window is None or not is_playing(window[1]):
+            raise SpotifyAppError("Nothing is playing on Spotify right now")
+        song, artist = split_title(window[1])
+        button = _wait_for(window[0], _player_like_button, timeout=4.0)
+        if button is None:
+            raise SpotifyAppError("I couldn't find Spotify's like button")
+        if button.Name != "Add to Liked Songs":
+            return f"{song} by {artist} is already in your liked songs."
+        if not _press(button.control):
+            raise SpotifyAppError("I couldn't press Spotify's like button")
+        changed = _wait_for(window[0], lambda bs: (b := _player_like_button(bs)) and b.Name != "Add to Liked Songs" and b, timeout=3.0)
+        if changed is None:
+            raise SpotifyAppError("Spotify didn't confirm the like; check the heart in the player")
+        return f"Saved {song} by {artist} to your liked songs."
+    return _with_uia(work)
+
+
+# ------------------------------------------------------------- what the tools call
+
+def now_playing() -> Optional[Tuple[str, str]]:
+    window = spotify_window()
+    return split_title(window[1]) if window and is_playing(window[1]) else None
+
+
+def _where(device: str) -> str:
+    return f", on your {device}" if device else ""
 
 
 async def play(query: str, kind: str = "track") -> Tuple[bool, str]:
     """(played, what to tell the user)."""
     if not installed():
         return False, ""
-    found = await find(query, kind)
-    if found is None:
-        # The web didn't find it: search inside Spotify itself.
-        title, device, pressed = await asyncio.to_thread(_search_in_app, query)
-        where = f", on your {device.removeprefix('Playing on ').strip()}" if device else ""
-        if title:
-            return True, f"Playing {title.split(' - ', 1)[-1]} by {title.split(' - ', 1)[0]} on Spotify{where}."
-        if pressed:
-            return False, f"I found {pressed} in Spotify but couldn't start it. Press play there"
-        return False, f"I couldn't find {query} on Spotify"
-    title, device = await asyncio.to_thread(_open_and_play, found)
-    label = f"{found.name} by {found.by}" if found.by and found.kind in ("track", "album") else found.name
+    try:
+        title, device, pressed = await asyncio.to_thread(play_blocking, query)
+    except SpotifyAppError as exc:
+        return False, str(exc)
     if not title:
-        return False, f"I opened {label} in Spotify but couldn't start it. Press play there"
-    where = f", on your {device.removeprefix('Playing on ').strip()}" if device else ""
-    if found.kind == "track" and not (_words(found.name) & _words(title)):
-        return True, f"Spotify is playing {title.split(' - ', 1)[-1]}{where}, not exactly {label}."
-    return True, f"Playing {label} on Spotify{where}."
+        return False, f"I pressed play on {pressed} but Spotify didn't start. Press play there"
+    song, artist = split_title(title)
+    return True, f"Playing {song} by {artist} on Spotify{_where(device)}."
+
+
+async def play_liked() -> Tuple[bool, str]:
+    try:
+        title, device = await asyncio.to_thread(play_liked_blocking)
+    except SpotifyAppError as exc:
+        return False, str(exc)
+    if not title:
+        return False, "I pressed play on your Liked Songs but Spotify didn't start. Press play there"
+    return True, f"Playing your liked songs on Spotify{_where(device)}."
+
+
+async def run(blocking, *args) -> Tuple[bool, str]:
+    try:
+        return True, await asyncio.to_thread(blocking, *args)
+    except SpotifyAppError as exc:
+        return False, str(exc)

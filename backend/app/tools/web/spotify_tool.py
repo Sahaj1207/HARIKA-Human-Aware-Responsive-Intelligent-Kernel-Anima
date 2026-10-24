@@ -196,6 +196,10 @@ class SpotifyTool(BaseTool):
         operation, target = args.get("operation"), str(args.get("target") or "").strip()
         if dry_run:
             return {"dry_run": True, "action": operation, "target": target}
+        if not spotify_account.status()["connected"]:
+            from app.tools.web import spotify_app
+            if spotify_app.installed():
+                return await self._in_app(operation, target)
         try:
             if operation == "now_playing":
                 track, playing = await self.player.now_playing()
@@ -213,6 +217,27 @@ class SpotifyTool(BaseTool):
         except (SpotifyNotConnected, SpotifyError) as exc:
             return {"success": False, "verified": False, "error": explain(exc)}
         return {"action": operation, "success": True, "verified": True, "summary": summary, "error": None}
+
+
+    async def _in_app(self, operation: str, target: str) -> Dict[str, Any]:
+        """Not connected: HARIKA uses the Spotify app itself, the way a person would."""
+        from app.tools.web import spotify_app
+
+        if operation == "now_playing":
+            current = spotify_app.now_playing()
+            ok, summary = True, (f"Playing {current[0]} by {current[1]}." if current else "Nothing is playing on Spotify right now.")
+        elif operation == "like_song":
+            ok, summary = await spotify_app.run(spotify_app.like_current_blocking)
+        elif operation in ("add_to_playlist_spotify", "queue_song"):
+            what = "add songs to your playlists" if operation == "add_to_playlist_spotify" else "queue songs"
+            ok, summary = False, f"To {what}, connect Spotify in Settings > Accounts. I can play it now instead"
+        elif not _words(target) or target.lower() == LIKED:
+            ok, summary = await spotify_app.play_liked()
+        else:
+            ok, summary = await spotify_app.play(target, "playlist")
+        if ok:
+            return {"action": operation, "success": True, "verified": True, "summary": summary, "error": None}
+        return {"success": False, "verified": False, "error": summary}
 
 
 spotify_tool = SpotifyTool()

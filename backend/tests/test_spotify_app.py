@@ -1,45 +1,76 @@
-"""Playing on Spotify through the app (no developer API): finding the page, confirming, reporting honestly."""
+"""Spotify through the app (no developer API): matching, the player bar, routing, and honest reports."""
 import asyncio
 import unittest
 from unittest.mock import patch
 
 from app.tools.web import spotify_app
-from app.tools.web.spotify_app import Found, choose, is_playing, parse_title
-
-RESULTS = [
-    {"url": "https://www.youtube.com/watch?v=abc", "title": "Believer (Official Video) - YouTube"},
-    {"url": "https://open.spotify.com/album/3d74p8E8jFhgKogypxpZAd", "title": "Believer - Single by Imagine Dragons | Spotify"},
-    {"url": "https://open.spotify.com/track/0pqnGHJpmpxLKifKRmU6WP", "title": "Believer - song and lyrics by Imagine Dragons | Spotify"},
-    {"url": "https://open.spotify.com/artist/53XhwfbYqKCa1cC15pYq2q", "title": "Imagine Dragons | Spotify"},
-]
+from app.tools.web.spotify_app import SpotifyAppError, _best_result, _Button, _player_like_button, is_playing, split_title
 
 
 def run(coro):
     return asyncio.run(coro)
 
 
-class FindingTests(unittest.TestCase):
+def buttons(*names):
+    return [_Button(None, name) for name in names]
+
+
+class ReadingTests(unittest.TestCase):
     def test_titles(self):
-        self.assertEqual(parse_title("Believer - song and lyrics by Imagine Dragons | Spotify"), ("Believer", "Imagine Dragons"))
-        self.assertEqual(parse_title("Evolve - Album by Imagine Dragons | Spotify"), ("Evolve", "Imagine Dragons"))
-        self.assertEqual(parse_title("lofi beats | Spotify Playlist"), ("lofi beats", ""))
-
-    def test_choose_the_right_kind_and_name(self):
-        song = choose(RESULTS, "believer imagine dragons", "track")
-        self.assertEqual((song.kind, song.uri), ("track", "spotify:track:0pqnGHJpmpxLKifKRmU6WP"))
-        self.assertEqual(choose(RESULTS, "imagine dragons", "artist").kind, "artist")
-        self.assertIsNone(choose(RESULTS, "kesariya", "track"))  # nothing about it: no guess
-        self.assertIsNone(choose([], "anything", "track"))
-
-    def test_playing_titles(self):
         self.assertTrue(is_playing("Imagine Dragons - Believer"))
         self.assertFalse(is_playing("Spotify Premium"))
-        self.assertFalse(is_playing("Spotify"))
+        self.assertEqual(split_title("Pritam - Kesariya (From \"Brahmastra\")"), ('Kesariya (From "Brahmastra")', "Pritam"))
+
+    def test_best_search_result(self):
+        found = buttons("Play Daily Mix 2", "Play Kesariya Rangu", 'Play Kesariya (From "Brahmastra")', "Playing on OnePlus Nord 5")
+        self.assertEqual(_best_result(found, "Play ", "kesariya brahmastra").Name, 'Play Kesariya (From "Brahmastra")')
+        self.assertEqual(_best_result(found, "Play ", "kesariya").Name, "Play Kesariya Rangu")  # first of equals
+        self.assertIsNone(_best_result(found, "Play ", "believer"))
+        menus = buttons("More options for Ruaan", "More options for Believer by Imagine Dragons")
+        self.assertEqual(_best_result(menus, "More options for ", "believer").Name, "More options for Believer by Imagine Dragons")
+
+    def test_player_bar_like_button(self):
+        bar = buttons("Now playing view", "Hide song", "Add to Liked Songs", "Shuffle", "Previous", "Play", "Next")
+        self.assertEqual(_player_like_button(bar).Name, "Add to Liked Songs")
+        liked = buttons("Add to playlist", "Enable Shuffle for Evolve", "Previous", "Pause")
+        self.assertEqual(_player_like_button(liked).Name, "Add to playlist")
+        self.assertIsNone(_player_like_button(buttons("Play", "Add to Liked Songs")))
 
 
 class PlayTests(unittest.TestCase):
     def setUp(self):
-        self.patches = [patch.object(spotify_app, "installed", return_value=True)]
+        self.installed = patch.object(spotify_app, "installed", return_value=True)
+        self.installed.start()
+
+    def tearDown(self):
+        self.installed.stop()
+
+    def test_play_confirmed_by_the_title(self):
+        with patch.object(spotify_app, "play_blocking", return_value=("Imagine Dragons - Believer", "OnePlus Nord 5", "Believer")):
+            self.assertEqual(run(spotify_app.play("believer")),
+                             (True, "Playing Believer by Imagine Dragons on Spotify, on your OnePlus Nord 5."))
+
+    def test_never_claims_what_did_not_start(self):
+        with patch.object(spotify_app, "play_blocking", return_value=("", "", "Believer")):
+            played, message = run(spotify_app.play("believer"))
+        self.assertFalse(played)
+        self.assertIn("didn't start", message)
+        with patch.object(spotify_app, "play_blocking", side_effect=SpotifyAppError("I couldn't find zzz on Spotify")):
+            self.assertEqual(run(spotify_app.play("zzz")), (False, "I couldn't find zzz on Spotify"))
+
+    def test_liked_songs(self):
+        with patch.object(spotify_app, "play_liked_blocking", return_value=("Pritam - Kesariya", "")):
+            self.assertEqual(run(spotify_app.play_liked()), (True, "Playing your liked songs on Spotify."))
+
+
+class RoutingTests(unittest.TestCase):
+    """Not connected through Spotify's API: every Spotify request goes through the app."""
+
+    def setUp(self):
+        self.patches = [
+            patch("app.integrations.spotify.spotify_account.status", return_value={"connected": False}),
+            patch.object(spotify_app, "installed", return_value=True),
+        ]
         for p in self.patches:
             p.start()
 
@@ -47,51 +78,42 @@ class PlayTests(unittest.TestCase):
         for p in self.patches:
             p.stop()
 
-    def found(self, value):
-        async def find(*args, **kwargs):
-            return value
-        return patch.object(spotify_app, "find", find)
+    def tool(self, **args):
+        from app.tools.web.spotify_tool import spotify_tool
+        return run(spotify_tool.execute(args))
 
-    def test_web_route_confirmed_by_the_title(self):
-        believer = Found("track", "spotify:track:x", "Believer", "Imagine Dragons")
-        with self.found(believer), patch.object(spotify_app, "_open_and_play",
-                                                return_value=("Imagine Dragons - Believer", "Playing on OnePlus Nord 5")):
-            played, message = run(spotify_app.play("believer"))
-        self.assertTrue(played)
-        self.assertEqual(message, "Playing Believer by Imagine Dragons on Spotify, on your OnePlus Nord 5.")
+    def test_each_request_uses_the_app(self):
+        with patch.object(spotify_app, "spotify_window", return_value=(1, "Imagine Dragons - Believer")):
+            self.assertEqual(self.tool(operation="now_playing")["summary"], "Playing Believer by Imagine Dragons.")
+        with patch.object(spotify_app, "like_current_blocking", return_value="Saved Believer by Imagine Dragons to your liked songs."):
+            self.assertTrue(self.tool(operation="like_song")["success"])
+        queued = self.tool(operation="queue_song", target="levitating")
+        self.assertFalse(queued["success"])
+        self.assertIn("To queue songs, connect Spotify in Settings > Accounts", queued["error"])
+        added = self.tool(operation="add_to_playlist_spotify", target="gym")
+        self.assertIn("To add songs to your playlists, connect Spotify", added["error"])
 
-    def test_never_claims_what_did_not_start(self):
-        believer = Found("track", "spotify:track:x", "Believer", "Imagine Dragons")
-        with self.found(believer), patch.object(spotify_app, "_open_and_play", return_value=("", "")):
-            played, message = run(spotify_app.play("believer"))
-        self.assertFalse(played)
-        self.assertIn("couldn't start it. Press play there", message)
+    def test_liked_songs_and_playlists(self):
+        async def liked():
+            return True, "Playing your liked songs on Spotify."
 
-    def test_a_different_song_is_reported_as_such(self):
-        believer = Found("track", "spotify:track:x", "Believer", "Imagine Dragons")
-        with self.found(believer), patch.object(spotify_app, "_open_and_play", return_value=("Imagine Dragons - Thunder", "")):
-            played, message = run(spotify_app.play("believer"))
-        self.assertTrue(played)
-        self.assertEqual(message, "Spotify is playing Thunder, not exactly Believer by Imagine Dragons.")
+        async def play(query, kind):
+            return True, f"Playing {query}."
+        with patch.object(spotify_app, "play_liked", liked), patch.object(spotify_app, "play", play):
+            self.assertEqual(self.tool(operation="play_library", target="liked songs")["summary"], "Playing your liked songs on Spotify.")
+            self.assertEqual(self.tool(operation="play_library", target="workout")["summary"], "Playing workout.")
 
-    def test_falls_back_to_spotifys_own_search(self):
-        with self.found(None), patch.object(spotify_app, "_search_in_app",
-                                            return_value=('Pritam - Kesariya (From "Brahmastra")', "", 'Kesariya (From "Brahmastra")')):
-            played, message = run(spotify_app.play("kesariya"))
-        self.assertTrue(played)
-        self.assertEqual(message, 'Playing Kesariya (From "Brahmastra") by Pritam on Spotify.')
-        with self.found(None), patch.object(spotify_app, "_search_in_app", return_value=("", "", "")):
-            self.assertEqual(run(spotify_app.play("zzz")), (False, "I couldn't find zzz on Spotify"))
+    def test_nothing_playing(self):
+        with patch.object(spotify_app, "spotify_window", return_value=(1, "Spotify Premium")):
+            self.assertEqual(self.tool(operation="now_playing")["summary"], "Nothing is playing on Spotify right now.")
 
-    def test_media_tool_uses_the_app_when_not_connected(self):
+    def test_play_on_spotify_uses_the_app(self):
         from app.tools.web.media_playback import media_playback_tool
 
         async def play(query, kind):
             return True, "Playing Believer by Imagine Dragons on Spotify."
-        with patch("app.integrations.spotify.spotify_account.status", return_value={"connected": False}), \
-                patch.object(spotify_app, "play", play):
+        with patch.object(spotify_app, "play", play):
             result = run(media_playback_tool.execute({"target": "believer", "platform": "spotify"}))
-        self.assertTrue(result["success"])
         self.assertEqual(result["summary"], "Playing Believer by Imagine Dragons on Spotify.")
 
 

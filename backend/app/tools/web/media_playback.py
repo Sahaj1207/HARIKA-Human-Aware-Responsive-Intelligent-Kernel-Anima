@@ -71,7 +71,7 @@ class MediaPlaybackTool(BaseTool):
                 return await self._play_spotify_connected(query, kind)
             from app.tools.web import spotify_app
             if spotify_app.installed():
-                # Not connected: HARIKA finds it and presses play in the Spotify app herself.
+                # Not connected: HARIKA searches and presses play in the Spotify app herself.
                 played, message = await spotify_app.play(query, kind)
                 return {"action": "play_media", "platform": "spotify", "query": query, "success": played,
                         "verified": played, "summary": message if played else None,
