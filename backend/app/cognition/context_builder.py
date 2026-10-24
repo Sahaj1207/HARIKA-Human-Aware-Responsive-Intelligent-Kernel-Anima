@@ -97,6 +97,7 @@ class ContextBuilder:
         # Last line on purpose: small models follow the final instruction most reliably.
         prompt_parts.append(
             "\nRespond naturally, concisely, and helpfully based on the above context, "
-            "in plain sentences with no emoji and no Markdown."
+            "in plain sentences with no emoji and no Markdown. Never promise something you aren't actually doing "
+            "(like keeping an eye on things or checking back later); a short reply to small talk stays short and friendly."
         )
         return "\n".join(prompt_parts)

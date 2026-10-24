@@ -120,9 +120,25 @@ class RoleAndKeyTests(unittest.TestCase):
         roles = self.store.load()
         self.assertEqual({r["service"] for r in roles.values()}, {"ollama"})
 
+    def test_connected_cloud_service_is_the_default(self):
+        secrets.set_key("gemini", "g-test")
+        secrets.set_key("groq", "gsk-test")
+        roles = self.store.load()
+        self.assertEqual({r["service"] for r in roles.values()}, {"groq"})
+        self.assertFalse(RoleProvider("conversation", store=self.store).is_local())
+
+    def test_a_saved_choice_beats_the_default(self):
+        secrets.set_key("groq", "gsk-test")
+        self.store.set_role("conversation", "ollama", "qwen2.5:3b")
+        self.assertEqual(self.store.load()["conversation"]["service"], "ollama")
+        self.assertEqual(self.store.load()["understanding"]["service"], "groq")
+        self.store.set_backups(False)
+        self.assertNotIn("understanding", self.store._raw())  # defaults aren't frozen into the file
+
     def test_role_provider_follows_the_current_choice(self):
         secrets.set_key("groq", "gsk-test")
         role = RoleProvider("conversation", store=self.store)
+        self.store.set_role("conversation", "ollama", "qwen2.5:3b")
         self.assertEqual(type(role.current()).__name__, "OllamaProvider")
         self.store.set_role("conversation", "groq", "llama-3.3-70b-versatile")
         current = role.current()
@@ -248,6 +264,13 @@ class SettingsApiTests(unittest.TestCase):
         after = self.local.delete("/api/v1/settings/llm/services/openai/key").json()
         self.assertEqual(after["roles"]["understanding"]["service"], "ollama")
         self.assertFalse(secrets.has_key("openai"))
+
+    def test_disconnecting_falls_back_to_another_connected_service(self):
+        secrets.set_key("openai", "sk-ok")
+        secrets.set_key("gemini", "g-ok")
+        self.local.put("/api/v1/settings/llm/roles/understanding", json={"service": "openai", "model": "gpt-4o-mini"})
+        after = self.local.delete("/api/v1/settings/llm/services/openai/key").json()
+        self.assertEqual(after["roles"]["understanding"]["service"], "gemini")
 
 
 if __name__ == "__main__":

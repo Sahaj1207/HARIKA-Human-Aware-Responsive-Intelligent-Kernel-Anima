@@ -38,8 +38,7 @@ class LLMSettings:
         self._lock = threading.Lock()
 
     def _defaults(self) -> Dict[str, Dict[str, str]]:
-        from app.core.config import settings
-        return {role: {"service": "ollama", "model": settings.OLLAMA_MODEL} for role in ROLES}
+        return {role: _unchosen_default(role) for role in ROLES}
 
     def load(self) -> Dict[str, Dict[str, str]]:
         with self._lock:
@@ -65,7 +64,7 @@ class LLMSettings:
         return self._raw().get("use_backups", True) is not False
 
     def set_backups(self, enabled: bool) -> None:
-        data = {**self._raw(), **self.load(), "use_backups": bool(enabled)}
+        data = {**self._raw(), "use_backups": bool(enabled)}
         with self._lock:
             self.path.parent.mkdir(parents=True, exist_ok=True)
             self.path.write_text(json.dumps(data, indent=2), encoding="utf-8")
@@ -75,11 +74,18 @@ class LLMSettings:
             raise ValueError(f"Unknown role '{role}'.")
         if get_service(service_id) is None:
             raise ValueError(f"Unknown service '{service_id}'.")
-        data = {**self._raw(), **self.load()}
+        data = self._raw()
         data[role] = {"service": service_id, "model": model}
         with self._lock:
             self.path.parent.mkdir(parents=True, exist_ok=True)
             self.path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+    def clear_role(self, role: str) -> None:
+        """Forgets the choice for a role, so it follows the default again."""
+        data = self._raw()
+        if data.pop(role, None) is not None:
+            with self._lock:
+                self.path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
 
 llm_settings = LLMSettings()
@@ -107,6 +113,20 @@ def build_provider(service_id: str, model: str) -> BaseLLMProvider:
 # Cloud services tried as backups, in this order. Gemini's text backups use a lite model whose free
 # allowance is separate from the screen-reading model's, so it can come early.
 _BACKUP_ORDER = ("groq", "gemini", "openrouter", "openai", "anthropic")
+
+
+def _unchosen_default(role: str) -> Dict[str, str]:
+    """For a role nobody has chosen a model for: the first connected cloud service (they answer in a
+    second or two), else the on-device model."""
+    for service_id in _BACKUP_ORDER:
+        service = get_service(service_id)
+        model = service.suggested.get(role, "") if service else ""
+        if model and is_connected(service):
+            return {"service": service_id, "model": model}
+    from app.core.config import settings
+    return {"service": "ollama", "model": settings.OLLAMA_MODEL}
+
+
 _COOLDOWN_SECONDS = 60  # a service that just failed is skipped for a minute (longer if it says so)
 _failed_at: Dict[str, float] = {}
 _rest_until: Dict[str, float] = {}

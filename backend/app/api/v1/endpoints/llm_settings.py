@@ -113,11 +113,10 @@ async def connect_with_key(service_id: str, body: ApiKey):
 async def disconnect(service_id: str):
     service = _service_or_404(service_id)
     secrets.delete_key(service.id)
-    # Roles that used this service go back to the on-device model.
+    # Roles that used this service go back to the default: another connected service, else on-device.
     for role, choice in llm_settings.load().items():
         if choice["service"] == service.id:
-            from app.core.config import settings
-            llm_settings.set_role(role, "ollama", settings.OLLAMA_MODEL)
+            llm_settings.clear_role(role)
     live_events.publish("llm_settings_changed", service=service.id)
     return describe()
 
