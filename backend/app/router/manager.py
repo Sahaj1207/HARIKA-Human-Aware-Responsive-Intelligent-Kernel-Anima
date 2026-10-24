@@ -28,6 +28,8 @@ CONFIRMATION_TTL_SECONDS = 120.0
 # A question that went unanswered is remembered this long, so a late "yes" is asked again
 # instead of being treated as small talk (or, worse, answered as if it had been done).
 LATE_ANSWER_SECONDS = 1800.0
+TURNS_KEPT = 12
+TURNS_FRESH_SECONDS = 1800.0  # older turns aren't "the conversation" any more
 
 
 @dataclass
@@ -76,6 +78,9 @@ class RouterManager:
         self.cognitive_core = cognitive_core_instance
         self._pending: Dict[tuple, _PendingPlan] = {}
         self._expired: Dict[tuple, _PendingPlan] = {}
+        # The last few turns per user (and what HARIKA said on her own), for requests that come
+        # without the conversation, like voice: "okay" after a spoken heads-up still has context.
+        self._turns: Dict[str, Any] = {}
 
     async def route_request(
         self,
@@ -90,6 +95,8 @@ class RouterManager:
 
         logger.info(f"\n=========================================================\nREQUEST\nUser Request: {message}\n=========================================================")
 
+        if not conversation_history:
+            conversation_history = self.recent_turns(user_id)
         pending = self._take_pending(user_id, session_id)
         if pending is not None:
             verdict = await self.cognitive_core.interpret_confirmation(message, pending.question)
@@ -212,6 +219,7 @@ class RouterManager:
             logger.info(f"Stage 6\nManager Invoked ({node.engine})")
             router_event_bus.emit(RouterEventType.ENGINE_STARTED, {"engine": node.engine})
             node_msg = node.arguments.get("message") or node.arguments.get("query") or node.arguments.get("goal") or message
+            node.conversation_history = list(getattr(ctx, "conversation_history", None) or [])
 
             try:
                 prs_res = await presence_manager.process_directive(
@@ -303,6 +311,8 @@ class RouterManager:
         )
         self.history.record_decision(decision)
         self._journal(message, final_text, graph, user_id)
+        self.note("user", message, user_id)
+        self.note("assistant", final_text, user_id)
 
         learned = [fact for r in node_results if isinstance(r, dict) for fact in r.get("learned") or []]
         return {
@@ -349,6 +359,21 @@ class RouterManager:
             return reply
         items = "; ".join(r["text"] for r in due)
         return f"{reply.rstrip()}\n\nBy the way, you asked me to remind you: {items}."
+
+    def note(self, role: str, text: str, user_id: Optional[str] = None) -> None:
+        """Remember a turn; heads-ups, briefings and wrap-ups are noted as HARIKA's (role 'assistant')."""
+        from collections import deque
+        if not text or not text.strip():
+            return
+        if user_id is None:
+            from app.memory.journal import journal
+            user_id = journal.owner()
+        turns = self._turns.setdefault(user_id, deque(maxlen=TURNS_KEPT))
+        turns.append({"role": role, "content": text.strip()[:1500], "time": time.time()})
+
+    def recent_turns(self, user_id: str) -> List[Dict[str, Any]]:
+        cutoff = time.time() - TURNS_FRESH_SECONDS
+        return [{"role": t["role"], "content": t["content"]} for t in self._turns.get(user_id, []) if t["time"] >= cutoff]
 
     def _journal(self, message: str, reply: str, graph, user_id: str) -> None:
         """Keep the exchange in the conversation journal (Settings > Memory can switch this off)."""

@@ -156,6 +156,8 @@ async def run_wrap_up_scheduler(interval_seconds: float = 30.0) -> None:
             daily_settings.update(last_wrap_up=date.today().isoformat())
             text = await build_wrap_up(_user_name(), now)
             live_events.publish("briefing", text=text, title="Your evening")
+            from app.router.manager import router_manager
+            router_manager.note("assistant", text)
             await asyncio.to_thread(show_os_notification, "HARIKA", text.split("\n\n")[1] if "\n\n" in text else text)
             await asyncio.to_thread(_speak, text)
             logger.info("[WrapUp] Delivered the evening wrap-up.")

@@ -16,6 +16,8 @@ class ActionNode(BaseModel):
     priority: EnginePriority = EnginePriority.CHAT
     # Set only by the router after the user approves; never derived from arguments.
     confirmed: bool = False
+    # The conversation so far, for steps that reply in conversation (kept out of logs).
+    conversation_history: List[Dict[str, Any]] = Field(default_factory=list, repr=False)
 
 
 class ActionGraph(BaseModel):

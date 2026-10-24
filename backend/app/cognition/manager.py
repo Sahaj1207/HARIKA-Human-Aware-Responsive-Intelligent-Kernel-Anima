@@ -11,6 +11,23 @@ from app.tools.result import ToolResult
 from app.planning.manager import planning_manager
 
 
+_TURNS = 10
+
+
+def recent_turns(conversation: Optional[List[Dict[str, Any]]], message: str) -> List[Dict[str, str]]:
+    """The last few turns as model messages: only the user's and HARIKA's own words (no app notices),
+    without the current message (the app's history may already end with it)."""
+    turns = []
+    for turn in conversation or []:
+        role = turn.get("role") or turn.get("sender")
+        content = str(turn.get("content") or "").strip()
+        if role in ("user", "assistant") and content:
+            turns.append({"role": role, "content": content[:1500]})
+    if turns and turns[-1]["role"] == "user" and turns[-1]["content"] == message.strip():
+        turns.pop()
+    return turns[-_TURNS:]
+
+
 class CognitionManager:
     """Central Manager orchestrating Memory Retrieval, Planning Engine, Tool Execution, LLM Inference, and Post-Reflection."""
 
@@ -80,7 +97,7 @@ class CognitionManager:
         )
 
         # 7. Assemble message history
-        history = list(conversation_history or [])
+        history = recent_turns(conversation_history, message)
         history.append({"role": "user", "sender": "user", "content": message})
 
         # 8. Generate Response via Provider

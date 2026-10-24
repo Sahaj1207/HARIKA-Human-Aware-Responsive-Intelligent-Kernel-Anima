@@ -191,6 +191,8 @@ async def run_briefing_scheduler(interval_seconds: float = 30.0) -> None:
             daily_settings.update(last_briefing=date.today().isoformat())
             briefing = await build_briefing(_user_name(), now)
             live_events.publish("briefing", text=briefing["text"])
+            from app.router.manager import router_manager
+            router_manager.note("assistant", briefing["text"])
             await asyncio.to_thread(show_os_notification, "HARIKA", briefing["text"].split("\n\n")[0])
             await asyncio.to_thread(_speak, briefing["text"])
             logger.info("[Briefing] Delivered the daily briefing.")

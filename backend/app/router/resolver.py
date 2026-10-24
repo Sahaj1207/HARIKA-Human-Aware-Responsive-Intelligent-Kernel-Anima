@@ -172,7 +172,8 @@ class SubsystemResolver:
             }
 
         from app.cognition.manager import cognition_manager
-        return await cognition_manager.process_chat(message=msg, user_name=user_id, user_id=user_id)
+        return await cognition_manager.process_chat(message=msg, user_name=user_id, user_id=user_id,
+                                                    conversation_history=node.conversation_history)
 
 
 

@@ -266,6 +266,8 @@ async def run_proactive_loop(interval_seconds: float = 30.0) -> None:
                     from app.router.manager import router_manager
                     router_manager.offer(item["offer"], user_id=journal.owner())
                 live_events.publish("heads_up", kind=item["kind"], text=item["text"], tone=item.get("tone", "warm"))
+                from app.router.manager import router_manager
+                router_manager.note("assistant", item["text"])  # so "okay" or "thanks" after it makes sense
                 await asyncio.to_thread(show_os_notification, "HARIKA", item["text"])
                 await asyncio.to_thread(_speak_if_listening, item["text"], item.get("tone", "warm"))
                 logger.info(f"[Proactive] {item['kind']}: {item['text']}")
