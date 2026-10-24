@@ -37,6 +37,7 @@ const RoleEditor: React.FC<{
   const [model, setModel] = useState(settings.roles[role].model);
   const [models, setModels] = useState<string[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,7 +57,7 @@ const RoleEditor: React.FC<{
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [service]);
+  }, [service, attempt]);
 
   const save = async () => {
     try {
@@ -91,6 +92,7 @@ const RoleEditor: React.FC<{
       </label>
       {error && <p className="t-footnote text-danger">{error}</p>}
       <div className="flex justify-end gap-2">
+        {error && models === null && <Button kind="plain" onClick={() => setAttempt((n) => n + 1)}>Try again</Button>}
         <Button kind="plain" onClick={onCancel}>Cancel</Button>
         <Button onClick={save} disabled={!model || models === null}>Use this model</Button>
       </div>

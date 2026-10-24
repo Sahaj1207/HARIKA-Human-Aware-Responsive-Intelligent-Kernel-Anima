@@ -41,8 +41,12 @@ export interface ModelList {
 
 /** Reads the backend's error detail so the UI can say what went wrong. */
 export function errorDetail(error: unknown, fallback: string): string {
-  const detail = (error as { response?: { data?: { detail?: unknown } } })?.response?.data?.detail;
-  return typeof detail === 'string' ? detail : fallback;
+  const failed = error as { request?: unknown; response?: { data?: { detail?: unknown } } };
+  const detail = failed?.response?.data?.detail;
+  if (typeof detail === 'string') return detail;
+  // Sent but never answered: HARIKA's engine is starting (after an update, say) or stopped.
+  if (failed?.request && !failed.response) return "HARIKA's engine didn't answer. It may still be starting; try again in a moment.";
+  return fallback;
 }
 
 export const llmSettingsService = {
