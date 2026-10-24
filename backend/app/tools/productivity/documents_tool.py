@@ -38,7 +38,11 @@ def _quote(document, question: str, budget: int) -> str:
     except Exception:
         embedder = None
     parts = choose_passages(document, question, budget=budget, embedder=embedder)
-    return "\n\n".join(f"[{label}] {text}" if label else text for label, text in parts)
+    text = "\n\n".join(f"[{label}] {text}" if label else text for label, text in parts)
+    if not any(label for label, _ in parts):
+        # Word and text files carry no page numbers; without this the model may invent one.
+        text = "(This file has no page or slide numbers; don't mention any.)\n\n" + text
+    return text
 
 
 class DocumentsTool(BaseTool):

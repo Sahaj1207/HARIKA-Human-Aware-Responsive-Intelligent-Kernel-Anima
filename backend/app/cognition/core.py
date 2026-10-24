@@ -240,7 +240,14 @@ class CognitiveCore:
         goal = self._infer_goal(context, graph, confidence, semantic_request)
         mode, clarification = self._decide(graph, goal, semantic_request)
         if mode is CognitiveMode.ASK and semantic_failure == "timeout":
-            clarification = "My language model is still loading, so I couldn't fully understand that. Give me a moment and try again."
+            from app.cognition.llm.manager import RoleProvider
+            clarification = (
+                "My language model is still loading, so I couldn't fully understand that. Give me a moment and try again."
+                if RoleProvider("understanding").is_local() else
+                # A cloud service is never "loading": it's busy (a free tier's per-minute limit).
+                "I'm getting a lot of requests through right now, so I couldn't think that through. "
+                "Give me a few seconds and ask again."
+            )
 
         if graph.nodes and goal.probable_goal in {"conversation_or_entertainment", "advice_or_exploration"}:
             primary = graph.nodes[0]

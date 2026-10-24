@@ -192,11 +192,16 @@ class Greeter:
         else:
             part = _part_of_day(now)
             options = {
-                "morning": [f"[cheerful] Good morning{you}! What's first today?", f"[warm] Morning{you}! How can I help?"],
-                "afternoon": [f"[warm] Good afternoon{you}! What can I do for you?", f"[cheerful] Hey{you}! What's up?"],
-                "evening": [f"[warm] Good evening{you}! How was your day?", f"[calm] Evening{you}. What can I do for you?"],
-                "night": [f"[calm] Hey{you}. Winding down for the night?", f"[warm] Hi{you}! What do you need?"],
-                "late at night": [f"[calm] Still up{you}? What can I do for you?", f"[warm] Hey{you}, it's late. Need anything?"],
+                "morning": [f"[cheerful] Good morning{you}! What's first today?", f"[warm] Morning{you}! How can I help?",
+                            f"[cheerful] Hi{you}! Ready for the day?", f"[warm] Hey{you}, good morning. What do you need?"],
+                "afternoon": [f"[warm] Good afternoon{you}! What can I do for you?", f"[cheerful] Hey{you}! What's up?",
+                              f"[warm] Hi{you}! How's the day going?", f"[cheerful] Hello{you}! What are we doing?"],
+                "evening": [f"[warm] Good evening{you}! How was your day?", f"[calm] Evening{you}. What can I do for you?",
+                            f"[warm] Hey{you}! Done for the day?", f"[cheerful] Hi{you}! What's on your mind?"],
+                "night": [f"[calm] Hey{you}. Winding down for the night?", f"[warm] Hi{you}! What do you need?",
+                          f"[calm] Hello{you}. Anything before you call it a night?"],
+                "late at night": [f"[calm] Still up{you}? What can I do for you?", f"[warm] Hey{you}, it's late. Need anything?",
+                                  f"[calm] Hi{you}. Can't sleep?"],
             }[part]
         recent = set(self.recent())
         fresh = [o for o in options if o not in recent] or options

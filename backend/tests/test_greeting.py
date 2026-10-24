@@ -12,6 +12,12 @@ from app.presence.greeting import Greeter
 MORNING = datetime(2026, 10, 24, 8, 30)
 
 
+def MORNING_QUICK(g: Greeter) -> set:
+    """Every quick greeting the morning can give."""
+    with patch("app.presence.greeting.random.choice", side_effect=lambda options: options):
+        return set(Greeter(g.state_path.parent / "fresh.json").quick("hi", "Sahaj", MORNING))
+
+
 def greeter() -> Greeter:
     return Greeter(Path(tempfile.mkdtemp(prefix="harika-greet-")) / "greetings.json")
 
@@ -73,7 +79,7 @@ class GreetingTests(unittest.TestCase):
             return "too late"
 
         g = greeter()
-        self.assertIn("morning", asyncio.run(g.reply("hi", "Sahaj", MORNING, broken)).lower())
+        self.assertIn(asyncio.run(g.reply("hi", "Sahaj", MORNING, broken)), MORNING_QUICK(g))
         with patch("app.presence.greeting._TIMEOUT", 0.05):
             self.assertNotEqual(asyncio.run(g.reply("hi", "Sahaj", MORNING, slow)), "too late")
 
@@ -83,7 +89,7 @@ class GreetingTests(unittest.TestCase):
         g._remember(first)
         self.assertNotEqual(g.quick("hi", "Sahaj", MORNING), first)
         late = g.quick("hello", "", MORNING.replace(hour=2)).lower()
-        self.assertTrue("still up" in late or "it's late" in late, late)
+        self.assertTrue(any(w in late for w in ("still up", "it's late", "can't sleep")), late)
         self.assertTrue(g.quick("how are you?", "", MORNING).endswith("?"))  # answers, then asks back
 
     def test_local_model_uses_the_quick_greeting(self):
@@ -96,7 +102,7 @@ class GreetingTests(unittest.TestCase):
 
         g = greeter()
         with patch("app.cognition.llm.manager.RoleProvider", Local):
-            self.assertIn("morning", asyncio.run(g.reply("hi", "Sahaj", MORNING)).lower())
+            self.assertIn(asyncio.run(g.reply("hi", "Sahaj", MORNING)), MORNING_QUICK(g))
 
     def test_what_is_coming_up_today(self):
         from app.tools.system.reminders import reminders_tool
