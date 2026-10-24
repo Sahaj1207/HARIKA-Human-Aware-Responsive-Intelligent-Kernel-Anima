@@ -51,6 +51,8 @@ DEFAULT_SETTINGS = {
     "user_name": "User",
     "follow_up": True,           # keep listening briefly after answering, so the conversation can go on
     "barge_in": True,            # speaking while HARIKA talks stops her and becomes the next request
+    "screen_glow": True,         # the screen's edges glow while HARIKA listens, thinks, speaks or works
+    "glow_heads_up": True,       # a single sweep of light around the screen for a heads-up
     "engine": "piper",           # "piper" (offline) or "azure" (expressive, needs a key)
     "azure_region": "",
     "azure_voice": "en-US-AriaNeural",
@@ -93,6 +95,16 @@ def split_sentences(text: str) -> List[str]:
     text = re.sub(r"(?:^|\n)\s*Sources:[^\n]*\s*$", "", text or "")
     parts = re.split(r"(?<=[.!?])\s+", " ".join(text.split()))
     return [p for p in parts if p]
+
+
+def loudness(samples: np.ndarray) -> float:
+    """0..1 from audio samples (a quiet room ~0, normal speech ~0.5-0.8), for the screen glow."""
+    if samples is None or not len(samples):
+        return 0.0
+    rms = float(np.sqrt(np.mean(np.square(samples.astype(np.float32)))))
+    if rms <= 1e-5:
+        return 0.0
+    return min(1.0, max(0.0, (20 * np.log10(rms) + 55) / 40))  # -55 dB -> 0, -15 dB -> 1
 
 
 def is_own_voice(heard: str, saying: str) -> bool:
@@ -287,6 +299,7 @@ class VoiceEngine:
                 if clip is None or self._interrupt.is_set():
                     break
                 sd.play(*clip)
+                self._publish_speaking_levels(*clip)
                 sd.wait()
         finally:
             self._speaking.clear()
@@ -312,6 +325,19 @@ class VoiceEngine:
             logger.warning(f"[Voice] Follow-up listening failed: {exc}")
             heard = ""
         self._publish("voice_follow_up", conversation=conversation, phase="heard", text=heard)
+
+    def _publish_speaking_levels(self, audio, rate: int, step: float = 0.06) -> None:
+        """While a clip plays, send how loud it is moment to moment (the screen glow pulses with it)."""
+        samples = np.asarray(audio, dtype=np.float32)
+        chunk = max(1, int(rate * step))
+        started = time.monotonic()
+        for index in range(0, len(samples), chunk):
+            if self._interrupt.is_set():
+                break
+            self._publish("voice_level", kind="speaking", level=round(loudness(samples[index:index + chunk]), 3))
+            delay = started + (index // chunk + 1) * step - time.monotonic()
+            if delay > 0:
+                time.sleep(delay)
 
     def stop_speaking(self) -> None:
         import sounddevice as sd
@@ -349,6 +375,7 @@ class VoiceEngine:
         while not self._stop.is_set():
             block = read_block()
             recorded.append(block)
+            self._publish("voice_level", kind="listening", level=round(loudness(block), 3))
             vad.accept_waveform(block)
             if vad.is_speech_detected():
                 heard_speech = True

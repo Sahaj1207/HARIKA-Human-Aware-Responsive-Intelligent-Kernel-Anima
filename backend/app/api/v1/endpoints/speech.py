@@ -24,6 +24,8 @@ class SpeechSettingsUpdate(BaseModel):
     wake_word: bool | None = None
     follow_up: bool | None = None
     barge_in: bool | None = None
+    screen_glow: bool | None = None
+    glow_heads_up: bool | None = None
     speak_replies: str | None = None
     voice: str | None = None
     speed: float | None = None

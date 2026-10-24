@@ -141,6 +141,28 @@ class EngineRequestTests(unittest.TestCase):
         self.assertEqual(self.spoken, [])
 
 
+class GlowLevelTests(unittest.TestCase):
+    def test_loudness_scale(self):
+        from app.voice.engine import loudness
+        self.assertEqual(loudness(np.zeros(1600, np.float32)), 0.0)
+        quiet, speech = loudness(np.full(1600, 0.002, np.float32)), loudness(np.full(1600, 0.05, np.float32))
+        self.assertLess(quiet, 0.2)
+        self.assertGreater(speech, 0.5)
+        self.assertEqual(loudness(np.full(1600, 0.9, np.float32)), 1.0)
+
+    def test_speaking_levels_follow_the_clip(self):
+        engine = VoiceEngine(VoiceSettings(Path(tempfile.mkdtemp(prefix="harika-voice-")) / "voice.json"))
+        sent = []
+        with patch.object(VoiceEngine, "_publish", side_effect=lambda event, **p: sent.append((event, p))), \
+                patch("app.voice.engine.time.sleep"):
+            clip = np.concatenate([np.zeros(2400, np.float32), np.full(2400, 0.1, np.float32)])
+            engine._publish_speaking_levels(clip, 24000, step=0.05)
+        levels = [p["level"] for e, p in sent if e == "voice_level" and p["kind"] == "speaking"]
+        self.assertEqual(len(levels), 4)  # 0.2 s of audio in 0.05 s steps
+        self.assertEqual(levels[:2], [0.0, 0.0])
+        self.assertGreater(levels[-1], 0.5)
+
+
 class OwnVoiceTests(unittest.TestCase):
     def test_echo_of_her_reply_is_ignored(self):
         from app.voice.engine import is_own_voice

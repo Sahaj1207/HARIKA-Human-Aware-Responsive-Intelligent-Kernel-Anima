@@ -4,7 +4,8 @@
   "description": "Core permissions for HARIKA windows; the orb may also hide itself.",
   "windows": [
     "main",
-    "orb"
+    "orb",
+    "glow"
   ],
   "permissions": [
     "core:default",

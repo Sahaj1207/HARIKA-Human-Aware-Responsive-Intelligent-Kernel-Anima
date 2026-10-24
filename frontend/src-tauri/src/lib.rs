@@ -1,6 +1,7 @@
 //! HARIKA desktop shell: tray icon, global hotkey, floating orb window and the
 //! lifecycle of the local Python backend.
 
+mod glow;
 mod updates;
 
 use std::fs::File;
@@ -250,12 +251,19 @@ pub fn run() {
                 .build(),
         )
         .manage(Backend(Mutex::new(None)))
-        .invoke_handler(tauri::generate_handler![summon_orb, updates::check_update, updates::install_update])
+        .invoke_handler(tauri::generate_handler![
+            summon_orb,
+            glow::show_glow,
+            glow::hide_glow,
+            updates::check_update,
+            updates::install_update
+        ])
         .setup(|app| {
             let handle = app.handle();
             let child = start_backend(handle);
             *app.state::<Backend>().0.lock().unwrap() = child;
             build_orb(handle)?;
+            glow::build(handle)?;
             build_tray(handle)?;
             if let Err(err) = handle.global_shortcut().register(summon_shortcut()) {
                 // Another app owns the hotkey; HARIKA stays usable from the tray.

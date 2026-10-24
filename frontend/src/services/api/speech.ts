@@ -8,6 +8,10 @@ export interface SpeechSettings {
   follow_up: boolean;
   /** Talking while HARIKA speaks stops her and becomes the next request. */
   barge_in: boolean;
+  /** The screen's edges glow while HARIKA listens, thinks, speaks or works. */
+  screen_glow: boolean;
+  /** A single sweep of light around the screen for a heads-up. */
+  glow_heads_up: boolean;
   speak_replies: SpeakReplies;
   voice: string;
   speed: number;

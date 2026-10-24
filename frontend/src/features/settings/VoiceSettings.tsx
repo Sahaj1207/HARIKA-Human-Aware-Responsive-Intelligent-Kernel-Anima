@@ -134,6 +134,29 @@ export const VoiceSettings: React.FC = () => {
         )}
       </GroupedSection>
 
+      <GroupedSection
+        title="Screen glow"
+        footer="The edges of your screen light up while HARIKA listens, thinks, speaks or works on your screen. Clicks always pass straight through."
+      >
+        <Row
+          title="Glow while HARIKA is active"
+          accessory={
+            <Toggle label="Glow while HARIKA is active" checked={settings.screen_glow} onChange={(on) => void change({ screen_glow: on })} />
+          }
+        />
+        <Row
+          title="Sweep of light for heads-ups"
+          subtitle="A meeting, birthday or reminder sends one sweep around the screen."
+          accessory={
+            <Toggle
+              label="Sweep of light for heads-ups"
+              checked={settings.glow_heads_up}
+              onChange={(on) => void change({ glow_heads_up: on })}
+            />
+          }
+        />
+      </GroupedSection>
+
       <GroupedSection title="Speaking">
         <Row
           title="Speak replies"

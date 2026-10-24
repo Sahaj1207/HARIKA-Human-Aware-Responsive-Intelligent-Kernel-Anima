@@ -345,6 +345,12 @@ speech detection, speech recognition and one speaking voice). Then:
   stops and listens. Her own voice coming back through the speakers is
   recognised and ignored.
 - Or tap the microphone in the orb or the main window (push to talk).
+- **Screen glow** (Settings > Voice): the edges of the whole screen light up while
+  HARIKA listens (breathing with your voice), thinks (a quick swirl), speaks
+  (pulsing with her voice) or works on the screen (a bright light sweeping around:
+  "hands off for a moment"). A heads-up sends one sweep of light. Colours follow
+  her mood. It's a transparent, click-through window on the monitor you're using:
+  it never takes focus or blocks a click, and is hidden whenever HARIKA is idle.
 - **Speak replies**: when you talk (default), always, or never. Eight voices
   (American and British), each downloaded when chosen.
 
