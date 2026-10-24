@@ -38,8 +38,11 @@ SERVICES: List[LLMService] = [
         id="openrouter", name="OpenRouter", kind="openai_compatible", base_url="https://openrouter.ai/api/v1",
         sign_in=True, key_url="https://openrouter.ai/settings/keys",
         blurb="Sign in once to use models from OpenAI, Anthropic, Google, Meta and more.",
-        suggested={"understanding": "openai/gpt-4o-mini", "conversation": "anthropic/claude-sonnet-4.5",
+        # Free models, so a backup never spends credit. Several free models are reserved for approved
+        # "agentic" apps; NVIDIA's Nemotron Lightning is open to all and reliable (about 10 s an answer).
+        suggested={"understanding": "nvidia/nemotron-3.5-lightning:free", "conversation": "nvidia/nemotron-3.5-lightning:free",
                    "vision": "google/gemini-2.5-flash"},
+        fallbacks={"understanding": ["nemotron", ":free"], "conversation": ["nemotron", ":free"]},
     ),
     LLMService(
         id="openai", name="OpenAI", kind="openai_compatible", base_url="https://api.openai.com/v1",
