@@ -105,6 +105,36 @@ app = FastAPI(
 # regardless of .env so the installed app can always reach its own backend.
 DESKTOP_APP_ORIGINS = ["http://tauri.localhost", "https://tauri.localhost", "tauri://localhost"]
 
+# Web pages open in the user's browser run on this computer too, so being "local" proves nothing.
+# Every request that changes something must come from one of HARIKA's own windows (browsers stamp
+# requests with the page's Origin; programs that aren't browsers send none), and every request must
+# be addressed to this computer by name (a site that re-points its own domain at 127.0.0.1, known
+# as DNS rebinding, would otherwise be treated as HARIKA's own page).
+_TRUSTED_ORIGINS = set(settings.CORS_ORIGINS or []) | set(DESKTOP_APP_ORIGINS)
+_LOCAL_NAMES = {"127.0.0.1", "localhost", "::1", "[::1]", "testserver"}
+_READ_ONLY = {"GET", "HEAD", "OPTIONS"}
+
+
+def _host_name(header: str) -> str:
+    """'127.0.0.1:47801' -> '127.0.0.1'; '[::1]:47801' -> '[::1]'."""
+    if header.startswith("["):
+        return header.split("]")[0] + "]"
+    return header.rsplit(":", 1)[0] if header.count(":") == 1 else header
+
+
+@app.middleware("http")
+async def only_harika(request, call_next):
+    from fastapi.responses import JSONResponse
+
+    host = _host_name(request.headers.get("host") or "")
+    if host and host not in _LOCAL_NAMES:
+        return JSONResponse({"detail": "HARIKA only answers requests addressed to this computer."}, status_code=403)
+    origin = request.headers.get("origin")
+    if request.method not in _READ_ONLY and origin is not None and origin not in _TRUSTED_ORIGINS:
+        return JSONResponse({"detail": "Only HARIKA's own windows can do that."}, status_code=403)
+    return await call_next(request)
+
+
 # CORS middleware configuration
 if settings.CORS_ORIGINS:
     app.add_middleware(
