@@ -50,6 +50,9 @@ const args = [
   '--collect-all', 'tokenizers',
   // Reading PDFs (its decoders are imported on demand).
   '--collect-all', 'pypdf',
+  // Website tasks: the page script both browsers run, and the extension people add to Chrome or Edge.
+  '--add-data', `${join(backend, 'app', 'tools', 'web', 'browser', 'page.js')}${delimiter}app/tools/web/browser`,
+  '--add-data', `${join(backend, '..', 'browser-extension')}${delimiter}browser-extension`,
 ];
 
 // HARIKA's Google sign-in client (downloaded from Google Cloud Console, never committed).

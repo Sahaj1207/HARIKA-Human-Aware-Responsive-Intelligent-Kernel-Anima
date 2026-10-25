@@ -33,6 +33,7 @@ import app.tools.system.notifications_tool
 import app.tools.web.spotify_tool
 import app.tools.web.music_taste
 import app.tools.web.video_summary
+import app.tools.web.web_task_tool
 import app.tools.utilities.wrap_up
 import app.tools.productivity.task_tool
 

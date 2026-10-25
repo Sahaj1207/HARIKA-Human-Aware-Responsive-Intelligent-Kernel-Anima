@@ -8,6 +8,7 @@ import { AccountsSettings } from './AccountsSettings';
 import { DailySection, HeadsUpSection, ScreenLookSection } from './DailySettings';
 import { UpdatesSection } from './UpdatesSection';
 import { MemorySettings } from './MemorySettings';
+import { BrowserSection } from './BrowserSettings';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
@@ -126,6 +127,7 @@ const PrivacyPage: React.FC = () => {
         />
       </GroupedSection>
       <ScreenLookSection />
+      <BrowserSection />
       <GroupedSection footer="Removes the messages shown in this window. HARIKA's memories are kept.">
         <Row
           title={cleared ? 'Conversation cleared' : confirming ? 'Tap again to clear' : 'Clear conversation'}

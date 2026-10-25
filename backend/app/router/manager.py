@@ -430,6 +430,8 @@ class RouterManager:
         if not isinstance(follow_up, dict) or not follow_up.get("capability"):
             return
         self._hold(follow_up, ctx, message, user_id, session_id, intent, confidence, policy)
+        if follow_up.get("ttl"):  # e.g. a paused website task waits while the user signs in
+            self._pending[(user_id, session_id)].ttl = float(follow_up["ttl"])
 
     def offer(self, follow_up: Dict[str, Any], user_id: str = "default", session_id: str = "default") -> None:
         """HARIKA offers to do something on her own initiative ("Want me to open the meeting?").

@@ -50,7 +50,7 @@ Rules:
 - "target" is what the user means in plain words, normalized: fix abbreviations and typos ("calci" -> "calculator").
 - "it", "that" or "the app" mean the most recent matching thing in the recent context below; output its name, never "it".
 - Times: use "in_seconds"/"in_minutes"/"in_hours" for relative times; for clock times use "at" as 24-hour "HH:MM" today, or "YYYY-MM-DDTHH:MM" for another day (use the current local time below).
-- Questions whose answer depends on recent or live information (news, scores, results, prices, releases, what someone did lately, anything that may have changed since your training) use "answer"; the weather and forecasts use "weather". "search", "google" or "look up" in a browser stays "search".
+- Questions whose answer depends on recent or live information (news, scores, results, prices, releases, what someone did lately, anything that may have changed since your training) use "answer"; the weather and forecasts use "weather". "search", "google" or "look up" in a browser stays "search". Doing something on a website for the user (ordering, adding to a cart, booking, filling in a form, finding something on a site and reporting back) uses "web".
 - The user telling you about their own plans or deadlines ("I'll call the bank on Monday", "I need to submit the form by Friday") is conversation: set reminders or calendar events only when they ask for one.
 - Questions about earlier conversations with HARIKA (what we talked about, what the user said, did or decided on a past day or about a topic) use "recall".
 - If the message is conversation, a timeless knowledge question, a request to remember something, a question about the user's own facts ("what's my favourite food?"), planning, or anything not covered by the operations above, reply {{"actions": []}}.
@@ -77,10 +77,15 @@ Examples:
 "add this to my road trip playlist" -> {{"actions": [{{"operation": "add_to_playlist_spotify", "target": "road trip"}}]}}
 "play Believer next" -> {{"actions": [{{"operation": "queue_song", "target": "Believer"}}]}}
 "queue up Levitating by Dua Lipa" -> {{"actions": [{{"operation": "queue_song", "target": "Levitating by Dua Lipa"}}]}}
+"add 1 kg basmati rice to my amazon cart" -> {{"actions": [{{"operation": "web", "target": "add 1 kg basmati rice to my Amazon cart"}}]}}
+"how much is the PS5 on flipkart right now?" -> {{"actions": [{{"operation": "web", "target": "check the price of the PS5 on Flipkart"}}]}}
+"reserve a table for 4 at 8pm on swiggy dineout" -> {{"actions": [{{"operation": "web", "target": "reserve a table for 4 at 8pm on Swiggy Dineout"}}]}}
+"find me flights from hyderabad to goa this saturday on google flights" -> {{"actions": [{{"operation": "web", "target": "find flights from Hyderabad to Goa this Saturday on Google Flights"}}]}}
 "open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome"}}, {{"operation": "search", "target": "F1 news"}}, {{"operation": "open", "target": "first result"}}]}}
 "open instagram in chrome" -> {{"actions": [{{"operation": "open", "target": "instagram.com", "parameters": {{"browser": "chrome"}}}}]}}
 "open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}
 "summarise my resume" -> {{"actions": [{{"operation": "ask_file", "target": "resume", "parameters": {{"question": "summarise it"}}}}]}}
+"can you summarize the youtube video I have open" -> {{"actions": [{{"operation": "video", "target": "this video", "parameters": {{"question": "summarise it"}}}}]}}
 "what's this video about?" -> {{"actions": [{{"operation": "video", "target": "this video", "parameters": {{"question": "summarise it"}}}}]}}
 "what does the video say about recursion?" -> {{"actions": [{{"operation": "video", "target": "this video", "parameters": {{"question": "what does it say about recursion?"}}}}]}}
 "sum up this one for me: youtu.be/dQw4w9WgXcQ" -> {{"actions": [{{"operation": "video", "target": "https://youtu.be/dQw4w9WgXcQ", "parameters": {{"question": "summarise it"}}}}]}}

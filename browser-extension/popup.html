@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HARIKA</title>
+  <style>
+    :root { color-scheme: light dark; --accent: #8b5cf6; --muted: #6b7280; --line: #d1d5db; }
+    @media (prefers-color-scheme: dark) { :root { --muted: #9ca3af; --line: #3f3f46; } }
+    body { font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; width: 280px; margin: 0; padding: 14px; }
+    h1 { font-size: 15px; margin: 0 0 4px; }
+    p { margin: 0 0 10px; color: var(--muted); }
+    .status { display: flex; align-items: center; gap: 6px; margin-bottom: 12px; font-weight: 600; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #9ca3af; }
+    .dot.on { background: #22c55e; }
+    label { display: block; font-weight: 600; margin-bottom: 4px; }
+    input { box-sizing: border-box; width: 100%; padding: 7px 8px; border: 1px solid var(--line); border-radius: 6px;
+            font: 13px ui-monospace, Consolas, monospace; letter-spacing: 0.04em; background: transparent; color: inherit; }
+    input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+    button { margin-top: 8px; width: 100%; padding: 7px; border: 0; border-radius: 6px; background: var(--accent);
+             color: white; font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>HARIKA</h1>
+  <div class="status"><span class="dot" id="dot"></span><span id="status">Checking…</span></div>
+  <p>HARIKA does website tasks in one tab she opens, grouped as “HARIKA”. She never looks at your other tabs and asks before anything final.</p>
+  <label for="code">Pairing code</label>
+  <input id="code" placeholder="XXXXX-XXXXX-XXXXX-XXXXX" autocomplete="off" spellcheck="false">
+  <button id="save" type="button">Connect</button>
+  <p style="margin-top:10px">Find the code in HARIKA: Settings › Privacy › Your browser.</p>
+  <script src="popup.js"></script>
+</body>
+</html>
