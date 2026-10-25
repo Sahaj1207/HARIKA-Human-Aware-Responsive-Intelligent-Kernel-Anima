@@ -1,6 +1,7 @@
 from tests.live_guard import live_only as load_tests  # opens real apps: runs only with HARIKA_LIVE_TESTS=1
 import asyncio
 import os
+import tempfile
 import unittest
 from typing import List, Dict, Any
 from app.router.manager import router_manager
@@ -303,7 +304,7 @@ class TestHARIKABehavioralSuite100(unittest.TestCase):
         passed_cnt = sum(1 for r in cls.results_log if r["passed"])
         pct = round((passed_cnt / total * 100), 2) if total > 0 else 0.0
 
-        report_path = "C:/Users/sahaj/.gemini/antigravity-ide/brain/9eec5350-5dd9-401d-9b08-ffcb6d19434b/behavior_coverage_report.md"
+        report_path = os.path.join(tempfile.gettempdir(), "behavior_coverage_report.md")
         with open(report_path, "w", encoding="utf-8") as f:
             f.write("# HARIKA Behavior Coverage Report (100 Conversations)\n\n")
             f.write(f"**Total Tested**: {total}  \n")
