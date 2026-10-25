@@ -81,6 +81,9 @@ Examples:
 "how much is the PS5 on flipkart right now?" -> {{"actions": [{{"operation": "web", "target": "check the price of the PS5 on Flipkart"}}]}}
 "reserve a table for 4 at 8pm on swiggy dineout" -> {{"actions": [{{"operation": "web", "target": "reserve a table for 4 at 8pm on Swiggy Dineout"}}]}}
 "find me flights from hyderabad to goa this saturday on google flights" -> {{"actions": [{{"operation": "web", "target": "find flights from Hyderabad to Goa this Saturday on Google Flights"}}]}}
+"join my call" -> {{"actions": [{{"operation": "join_meeting", "target": "current"}}]}}
+"open my meeting link" -> {{"actions": [{{"operation": "join_meeting", "target": "current"}}]}}
+"open the design review meeting from my calendar" -> {{"actions": [{{"operation": "join_meeting", "target": "design review"}}]}}
 "open chrome, look up F1 news and open the first result" -> {{"actions": [{{"operation": "open", "target": "chrome"}}, {{"operation": "search", "target": "F1 news"}}, {{"operation": "open", "target": "first result"}}]}}
 "open instagram in chrome" -> {{"actions": [{{"operation": "open", "target": "instagram.com", "parameters": {{"browser": "chrome"}}}}]}}
 "open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}
@@ -173,6 +176,27 @@ def select_abilities(operations: str, message: str) -> "Selection":
     return AbilitySelector(embedder).select(message, operations, prompt_examples(), _ALWAYS)
 
 
+def _replying_to(context: Optional[Any]) -> List[str]:
+    """HARIKA's latest messages within the turns the model is shown (at most two), which a short reply
+    may be answering."""
+    said = [str(turn.get("content", "")).strip()[:300]
+            for turn in list(getattr(context, "conversation_history", None) or [])[-4:]
+            if (turn.get("role") or turn.get("sender")) == "assistant" and str(turn.get("content", "")).strip()]
+    return said[-2:]
+
+
+def _top_operations(operations: str, text: str, abilities: int = 2) -> set:
+    """The operations of the abilities `text` is most about (two: one word, like an app's name, can
+    outweigh what the message is really about)."""
+    from app.cognition.semantic.selection import CONVERSATION, parse_groups
+    selection = select_abilities(operations, text)
+    if not selection.confident:
+        return set()
+    groups = {g.name: g for g in parse_groups(operations, prompt_examples())}
+    top = [groups[name] for name, _ in selection.scores if name in groups and name != CONVERSATION][:abilities]
+    return {op for group in top for op in group.operations}
+
+
 def _short(text: str, limit: int = 34) -> str:
     """The start of a description, cut at a word boundary."""
     text = text.split(". ")[0].rstrip(".")
@@ -217,7 +241,7 @@ class SemanticInterpreter:
         # the full, unchanging prompt so it can reuse what it has already read.
         is_local = getattr(self.provider, "is_local", None)
         compact = callable(is_local) and not is_local()
-        selection = await self._select(raw_text) if compact else None
+        selection = await self._select(raw_text, _replying_to(context)) if compact else None
         prompt = self._build_prompt(context, hints, message=raw_text if compact else "", selection=selection)
         limit = timeout or self.timeout_seconds
         kwargs = {}
@@ -299,23 +323,32 @@ class SemanticInterpreter:
             raise error["value"]
         return result["value"]
 
-    async def _select(self, message: str):
+    async def _select(self, message: str, replying_to: Optional[List[str]] = None):
         """The abilities to explain for this message. When the choice is unclear, the language
-        model picks from the one-line menu first (one short extra call, only in that case)."""
+        model picks from the one-line menu first (one short extra call, only in that case).
+
+        A short reply often only makes sense next to what HARIKA just said ("Want me to open the
+        meeting?" -> "tokenmaxxing on claude"), so the ability that message was about is shown too."""
+        from app.cognition.semantic.embedder import embedder
+        from app.cognition.semantic.selection import AbilitySelector
+
         operations = self.catalog.describe_operations() or ""
         try:
             selection = await asyncio.to_thread(select_abilities, operations, message)
+            context_ops = set()
+            for said in replying_to or []:
+                context_ops |= await asyncio.to_thread(_top_operations, operations, said)
         except Exception as exc:
             logger.warning(f"[SemanticInterpreter] Ability selection failed: {exc}")
             return None
-        if selection.confident:
-            return selection
-        picked = await self._pick_operations(message, operations)
-        if picked is None:
-            return selection  # the model couldn't say; the closest matches are still shown
-        from app.cognition.semantic.embedder import embedder
-        from app.cognition.semantic.selection import AbilitySelector
-        return AbilitySelector(embedder).with_operations(picked, message, operations, prompt_examples(), _ALWAYS)
+        if not selection.confident:
+            picked = await self._pick_operations(message, operations)
+            if picked is not None:
+                selection = AbilitySelector(embedder).with_operations(picked, message, operations, prompt_examples(), _ALWAYS)
+        if context_ops - selection.operations:
+            selection = AbilitySelector(embedder).with_operations(selection.operations | context_ops, message, operations,
+                                                                  prompt_examples(), _ALWAYS)
+        return selection
 
     async def _pick_operations(self, message: str, operations: str) -> Optional[set]:
         known = set(re.findall(r'"([a-z_]+)"', "\n".join(line.split(":", 1)[0] for line in operations.splitlines())))

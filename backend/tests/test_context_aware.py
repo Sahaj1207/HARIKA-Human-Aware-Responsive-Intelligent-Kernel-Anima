@@ -62,7 +62,7 @@ class HeadsUpContextTests(unittest.TestCase):
         self.assertEqual(item["text"], "Heads up: Design review starts in 8 minutes. Want me to open the meeting?")
         self.assertEqual(item["offer"]["capability"], "open_website")
         self.assertEqual(item["offer"]["target"], "https://meet.google.com/abc-defg-hij")
-        self.assertGreaterEqual(item["offer"]["ttl"], 8 * 60 + 600)
+        self.assertEqual(item["offer"]["ttl"], 38 * 60)  # open until the meeting ends
 
     def test_quiet_hours_keep_only_the_battery(self):
         self.settings.update(quiet_start="09:00", quiet_end="10:00")

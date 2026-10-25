@@ -173,10 +173,10 @@ class HeadsUps:
             item: Dict[str, Any] = {"kind": "meeting", "tone": "warm", "text": f"Heads up: {event.title} starts {when}{where}."}
             if event.meeting_url:
                 item["text"] = f"Heads up: {event.title} starts {when}. Want me to open the meeting?"
-                # Open until a little after the start; "yes" opens the link, nothing happens otherwise.
+                # Open while the meeting is on: "yes" opens the link, nothing happens otherwise.
                 item["offer"] = {"capability": "open_website", "operation": "open", "target": event.meeting_url,
                                  "question": f"Should I open the {event.title} meeting?",
-                                 "ttl": max(120.0, (event.start - now).total_seconds() + 600)}
+                                 "ttl": max(120.0, (event.end - now).total_seconds())}
             out.append(item)
         if out:
             self._remember(meetings_told=sorted(told)[-50:])

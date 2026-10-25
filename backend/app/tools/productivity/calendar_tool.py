@@ -22,6 +22,9 @@ from app.tools.system.reminders import parse_due
 
 _PROPOSAL_TTL = 600
 _SEARCH_DAYS = 60
+_CURRENT = "current"
+_GENERIC_MEETING = {"", _CURRENT, "next", "now", "meeting", "the meeting", "my meeting", "this meeting", "call", "my call"}
+_EARLY_MINUTES = 15  # a meeting starting this soon counts as "the one now"
 
 
 @dataclass
@@ -81,19 +84,21 @@ class CalendarTool(BaseTool):
         permissions=PermissionLevel.LOW,
         enabled=True,
         platforms=["windows", "linux", "darwin"],
-        capabilities=["calendar_agenda", "create_event", "move_event", "delete_event", "change_event"],
+        capabilities=["calendar_agenda", "create_event", "move_event", "delete_event", "change_event", "join_meeting"],
         operations={"agenda": "calendar_agenda", "schedule": "create_event",
-                    "reschedule": "move_event", "unschedule": "delete_event"},
-        free_text_operations=["agenda", "schedule", "reschedule", "unschedule"],
-        default_targets={"agenda": "today"},
+                    "reschedule": "move_event", "unschedule": "delete_event", "join_meeting": "join_meeting"},
+        free_text_operations=["agenda", "schedule", "reschedule", "unschedule", "join_meeting"],
+        default_targets={"agenda": "today", "join_meeting": _CURRENT},
         operation_permissions={"schedule": PermissionLevel.MEDIUM, "change_event": PermissionLevel.HIGH},
-        ability="check your calendar and add, move or cancel events",
+        ability="check your calendar, add, move or cancel events, and open your meeting's video call",
         target_description=(
             "for agenda: the day ('today', 'tomorrow', a weekday or 'YYYY-MM-DD'); "
             "for schedule: the event's title, with parameters.at (start, 'HH:MM' today or 'YYYY-MM-DDTHH:MM'; "
             "'YYYY-MM-DD' for an all-day event) and optional parameters.duration_minutes; "
             "for reschedule: words from the event's title, with parameters.at for the new start; "
-            "for unschedule: words from the event's title"
+            "for unschedule: words from the event's title; "
+            "for join_meeting (open a meeting's video call link): words from the event's title, or 'current' for the "
+            "meeting happening now or next"
         ),
     )
     timeout_seconds = 30.0
@@ -132,6 +137,8 @@ class CalendarTool(BaseTool):
             return f"move “{target}” on your calendar"
         if operation == "unschedule":
             return f"remove “{target}” from your calendar"
+        if operation == "join_meeting":
+            return "open your meeting"
         return super().describe_action(args)
 
     async def execute(self, args: Dict[str, Any], dry_run: bool = False) -> Dict[str, Any]:
@@ -145,6 +152,8 @@ class CalendarTool(BaseTool):
                 return await self._propose(args, operation)
             if operation == "change_event":
                 return await self._apply(dry_run)
+            if operation == "join_meeting":
+                return await self._join(args, dry_run)
         except (NotConnected, GoogleError) as problem:
             return self._fail(str(problem))
         return self._fail(f"I can't do '{operation}' with the calendar")
@@ -180,6 +189,36 @@ class CalendarTool(BaseTool):
             summary += f" Heads up: it overlaps with {_join([e.title for e in clashes[:3]])}."
         return {"action": "create_event", "event_id": created.id, "success": True, "verified": verified,
                 "summary": summary, "error": None if verified else "couldn't read the new event back"}
+
+    async def _join(self, args, dry_run: bool) -> Dict[str, Any]:
+        """Opens the video call of the meeting they mean: one named by its title, else the one happening now,
+        else the next one today. A meeting that has ended isn't opened."""
+        now = datetime.now()
+        events = [e for e in await self.calendar.events(now - timedelta(hours=12), now + timedelta(hours=12), limit=100)
+                  if not e.all_day]
+        target = str(args.get("target") or "").strip()
+        named = best_matches(events, target) if target.lower() not in _GENERIC_MEETING else []
+        if named:
+            candidates = named
+        else:
+            candidates = [e for e in events if e.end > now and e.meeting_url] or [e for e in events if e.end > now]
+            if not candidates:
+                return self._fail("You don't have a meeting now or later today")
+        live = [e for e in candidates if e.end > now]
+        if not live:
+            last = max(candidates, key=lambda e: e.end)
+            return self._fail(f"“{last.title}” ended at {clock(last.end)}")
+        event = min(live, key=lambda e: (e.start > now + timedelta(minutes=_EARLY_MINUTES), e.start))
+        if not event.meeting_url:
+            return self._fail(f"“{event.title}” doesn't have a video call link on your calendar")
+        if dry_run:
+            return {"dry_run": True, "action": "join_meeting", "url": event.meeting_url}
+        import webbrowser
+        opened = webbrowser.open(event.meeting_url)
+        timing = f"It started at {clock(event.start)}." if event.start <= now else f"It starts at {clock(event.start)}."
+        return {"action": "join_meeting", "url": event.meeting_url, "success": bool(opened), "verified": bool(opened),
+                "summary": f"Opening “{event.title}”. {timing}" if opened else None,
+                "error": None if opened else "the browser could not be opened"}
 
     async def _propose(self, args, operation: str) -> Dict[str, Any]:
         now = datetime.now()

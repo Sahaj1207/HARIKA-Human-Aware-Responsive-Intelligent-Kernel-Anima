@@ -125,6 +125,43 @@ class CalendarToolTests(unittest.TestCase):
         result = asyncio.run(CalendarTool(Offline()).execute({"operation": "agenda", "target": "today"}))
         self.assertIn("Settings > Accounts", result["error"])
 
+    def join(self, events, target="current"):
+        tool = CalendarTool(FakeCalendar(events))
+        with patch("webbrowser.open", return_value=True) as opened:
+            result = asyncio.run(tool.execute({"operation": "join_meeting", "target": target}))
+        return result, [c.args[0] for c in opened.call_args_list]
+
+    def test_join_opens_the_meeting_happening_now(self):
+        now = datetime.now()
+        talk = Event("t1", "Tokenmaxxing on Claude", now - timedelta(minutes=70), now + timedelta(minutes=20),
+                     meeting_url="https://meet.google.com/abc-defg-hij")
+        later = Event("l1", "Design review", now + timedelta(hours=2), now + timedelta(hours=3),
+                      meeting_url="https://zoom.us/j/1")
+        result, opened = self.join([later, talk], "meeting")
+        self.assertEqual(opened, ["https://meet.google.com/abc-defg-hij"])
+        self.assertIn("Opening “Tokenmaxxing on Claude”. It started at", result["summary"])
+
+    def test_join_by_name_and_when_it_has_ended(self):
+        now = datetime.now()
+        talk = Event("t1", "Tokenmaxxing on Claude", now - timedelta(hours=2), now - timedelta(minutes=30),
+                     meeting_url="https://meet.google.com/abc-defg-hij")
+        later = Event("l1", "Design review", now + timedelta(hours=2), now + timedelta(hours=3),
+                      meeting_url="https://zoom.us/j/1")
+        result, opened = self.join([talk, later], "tokenmaxxing on claude")
+        self.assertEqual(opened, [])
+        self.assertIn("ended at", result["error"])
+        result, opened = self.join([talk, later], "design review")
+        self.assertEqual(opened, ["https://zoom.us/j/1"])
+        self.assertIn("It starts at", result["summary"])
+
+    def test_join_without_a_link_or_meeting(self):
+        now = datetime.now()
+        lunch = Event("x1", "Lunch", now - timedelta(minutes=5), now + timedelta(minutes=40))
+        result, opened = self.join([lunch])
+        self.assertIn("doesn't have a video call link", result["error"])
+        result, _ = self.join([])
+        self.assertIn("don't have a meeting", result["error"])
+
     def test_helpers(self):
         self.assertEqual([e.title for e in best_matches([self.dentist, self.standup], "my standup meeting")], ["Team standup"])
         self.assertEqual(when(at(date(2026, 10, 23), 9, 30), today=date(2026, 10, 16)), "on Friday 23 October at 9:30 AM")

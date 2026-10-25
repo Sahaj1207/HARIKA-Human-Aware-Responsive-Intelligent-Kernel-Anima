@@ -8,11 +8,9 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
         tool_success = engine_output.get("success", False) if is_dict else False
         tool_verified = engine_output.get("verified", False) if is_dict else False
         p_name = engine_output.get("process_name") or "the application"
-        pid_val = engine_output.get("pid")
 
         if tool_success and tool_verified:
-            pid_str = f" (PID: {pid_val})" if pid_val else ""
-            return f"I retried the action and verified {p_name} is active in OS process table{pid_str}."
+            return f"I tried again, and {p_name} is open now."
         return "You're right. The launch wasn't successful. The application may not be installed or desktop execution may be unavailable."
 
     is_dict = isinstance(engine_output, dict)
@@ -100,8 +98,6 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
 
     if action == "open_app" or action == "open_application" or (raw_message and "open " in raw_message.lower()):
         app_n = tool_data.get("app_name") or engine_output.get("process_name") or (raw_message.replace("Open ", "").replace("open ", "").strip() if raw_message else "application")
-        pid_n = engine_output.get("pid")
-        pid_str = f" (PID: {pid_n})" if pid_n else ""
         app_lower = str(app_n).lower()
         app_title = (
             "Calculator" if "calculator" in app_lower or "calc" in app_lower else
@@ -112,7 +108,7 @@ def format_tool_response(intent: str, engine_output: Any, raw_message: str = "")
             "VS Code" if "code" in app_lower else
             app_n
         )
-        return f"I've opened {app_title}{pid_str}."
+        return f"I've opened {app_title}."
 
     if action == "clipboard":
         clip_text = tool_data.get("content", "")
