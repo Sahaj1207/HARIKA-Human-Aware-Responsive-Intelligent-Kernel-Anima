@@ -1,6 +1,8 @@
-# HARIKA — Futuristic AI Operating System
+# HARIKA
 
-HARIKA is a futuristic AI Operating System featuring a cinematic 3D AI Core and modular app ecosystem.
+**Human-Aware Responsive Intelligent Kernel Anima**
+
+*Anima*, Latin for "soul": the living core of your desktop. HARIKA is an open-source AI operating system that remembers you, understands context, plans tasks, and acts on your behalf, with a cinematic 3D AI Core and a modular app ecosystem.
 
 ## Architecture Overview
 
