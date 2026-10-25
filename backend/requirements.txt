@@ -15,6 +15,7 @@ tokenizers>=0.20
 pypdf>=5
 winrt-runtime>=3; sys_platform == 'win32'
 winrt-Windows.UI.Notifications>=3; sys_platform == 'win32'
+winrt-Windows.Media.Control>=3; sys_platform == 'win32'
 winrt-Windows.UI.Notifications.Management>=3; sys_platform == 'win32'
 winrt-Windows.ApplicationModel>=3; sys_platform == 'win32'
 winrt-Windows.Foundation>=3; sys_platform == 'win32'

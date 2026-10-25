@@ -58,6 +58,8 @@ export interface MemoryOverview {
   facts: MemoryItemApi[];
   days: MemoryItemApi[];
   habits: Habit[];
+  /** What HARIKA has learned from the music and videos played on this computer. */
+  listening: { learn: boolean; plays: number; hours: number; top_artists: string[] };
 }
 
 export const memoryService = {
@@ -92,7 +94,7 @@ export const memoryService = {
     return (await apiClient.get<MemoryOverview>('/memory/overview')).data;
   },
 
-  async update(changes: Partial<MemorySettings>): Promise<MemoryOverview> {
+  async update(changes: Partial<MemorySettings> & { learn_listening?: boolean }): Promise<MemoryOverview> {
     return (await apiClient.put<MemoryOverview>('/memory/settings', changes)).data;
   },
 
@@ -103,6 +105,10 @@ export const memoryService = {
 
   async dismissHabit(id: string): Promise<MemoryOverview> {
     return (await apiClient.delete<MemoryOverview>(`/memory/habits/${encodeURIComponent(id)}`)).data;
+  },
+
+  async forgetListening(): Promise<MemoryOverview> {
+    return (await apiClient.post<MemoryOverview>('/memory/forget-listening')).data;
   },
 
   async forgetEverything(): Promise<MemoryOverview> {

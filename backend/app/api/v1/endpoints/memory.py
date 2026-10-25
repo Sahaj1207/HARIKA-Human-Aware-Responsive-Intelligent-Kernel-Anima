@@ -76,6 +76,7 @@ async def clear_memories():
 class MemorySettingsPayload(BaseModel):
     remember_conversations: Optional[bool] = None
     notice_habits: Optional[bool] = None
+    learn_listening: Optional[bool] = None
 
 
 def _overview() -> dict:
@@ -93,7 +94,15 @@ def _overview() -> dict:
         "days": sorted((m.model_dump() for m in items if m.category == MemoryCategory.EPISODES),
                        key=lambda m: m["id"], reverse=True),
         "habits": habits.visible(),
+        "listening": _listening(),
     }
+
+
+def _listening() -> dict:
+    from app.memory.listening import listening_log
+    profile = listening_log.profile()
+    return {"learn": listening_log.learning(), "plays": profile["plays"], "hours": profile["hours"],
+            "top_artists": profile["top_artists"][:5]}
 
 
 @router.get("/overview")
@@ -105,7 +114,20 @@ async def memory_overview():
 @router.put("/settings")
 async def update_memory_settings(payload: MemorySettingsPayload):
     from app.memory.journal import journal
-    journal.update_settings(**payload.model_dump())
+    from app.memory.listening import listening_log
+    changes = payload.model_dump()
+    learn = changes.pop("learn_listening")
+    if learn is not None:
+        listening_log.set_learning(learn)
+    journal.update_settings(**changes)
+    return _overview()
+
+
+@router.post("/forget-listening")
+async def forget_listening():
+    """Forgets what HARIKA learned about the music and videos played on this computer."""
+    from app.memory.listening import listening_log
+    listening_log.forget()
     return _overview()
 
 
@@ -137,4 +159,6 @@ async def forget_everything():
     journal.wipe()
     digester.state_path.unlink(missing_ok=True)
     habits.forget()
+    from app.memory.listening import listening_log
+    listening_log.forget()
     return _overview()

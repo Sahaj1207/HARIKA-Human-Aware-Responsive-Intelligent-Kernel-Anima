@@ -37,6 +37,8 @@ async def lifespan(app: FastAPI):
     except Exception as exc:
         logger.warning(f"Old memories left as they were: {exc}")
     digests = asyncio.create_task(run_digest_loop())
+    from app.memory.listening import run_listening_loop
+    listening = asyncio.create_task(run_listening_loop())  # learns what you play, if that's on
     from app.tools.system.screen_reader import foreground_tracker
     foreground_tracker.start()  # remembers the app you were in before talking to HARIKA
     from app.voice.engine import voice_engine
@@ -50,6 +52,7 @@ async def lifespan(app: FastAPI):
     routines.cancel()
     proactive.cancel()
     digests.cancel()
+    listening.cancel()
     foreground_tracker.stop()
     await asyncio.to_thread(voice_engine.stop)
     logger.info(f"Shutting down {settings.APP_NAME} service gracefully...")

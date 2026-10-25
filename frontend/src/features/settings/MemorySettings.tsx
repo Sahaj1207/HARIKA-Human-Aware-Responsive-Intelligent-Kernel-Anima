@@ -118,6 +118,29 @@ export const MemorySettings: React.FC = () => {
         />
       </GroupedSection>
 
+      <GroupedSection footer="Only titles, artists and the app are kept, on this computer. HARIKA uses them when you ask for music you'll like.">
+        <Row
+          title="Learn what I listen to"
+          subtitle={
+            memory.listening.plays
+              ? `${memory.listening.top_artists.length ? `Mostly ${memory.listening.top_artists.slice(0, 3).join(', ')}. ` : ''}${memory.listening.hours} hours heard.`
+              : 'Nothing heard yet. Play something in Spotify or YouTube.'
+          }
+          accessory={
+            <div className="flex items-center gap-2">
+              {memory.listening.plays > 0 && (
+                <ForgetButton label="Forget what I listened to" onClick={() => void run(memoryService.forgetListening)} />
+              )}
+              <Toggle
+                label="Learn what I listen to"
+                checked={memory.listening.learn}
+                onChange={(on) => void run(() => memoryService.update({ learn_listening: on }))}
+              />
+            </div>
+          }
+        />
+      </GroupedSection>
+
       <GroupedSection
         title="What HARIKA knows about you"
         footer={memory.facts.length ? 'HARIKA uses these in its replies. Remove anything that is wrong.' : undefined}
@@ -162,7 +185,7 @@ export const MemorySettings: React.FC = () => {
         </GroupedSection>
       )}
 
-      <GroupedSection footer="Erases the conversation journal, day summaries, everything HARIKA learned about you and its habits. People, notes, routines and reminders are kept.">
+      <GroupedSection footer="Erases the conversation journal, day summaries, everything HARIKA learned about you, its habits and your listening history. People, notes, routines and reminders are kept.">
         <Row
           title={confirming ? 'Click again to forget everything' : 'Forget everything'}
           destructive

@@ -65,7 +65,10 @@ Examples:
 "make it louder" -> {{"actions": [{{"operation": "increase", "target": "volume"}}]}}
 "skip this track" -> {{"actions": [{{"operation": "next", "target": "music"}}]}}
 "put the computer to sleep" -> {{"actions": [{{"operation": "sleep"}}]}}
-"play something relaxing on spotify" -> {{"actions": [{{"operation": "play", "target": "relaxing music", "parameters": {{"platform": "spotify"}}}}]}}
+"play something relaxing on spotify" -> {{"actions": [{{"operation": "play_for_me", "target": "relaxing", "parameters": {{"platform": "spotify"}}}}]}}
+"play something I'd like" -> {{"actions": [{{"operation": "play_for_me", "target": "anything"}}]}}
+"put on some music for coding" -> {{"actions": [{{"operation": "play_for_me", "target": "coding"}}]}}
+"what kind of music am I into?" -> {{"actions": [{{"operation": "music_taste", "target": "me"}}]}}
 "play some Arijit Singh on spotify" -> {{"actions": [{{"operation": "play", "target": "Arijit Singh", "parameters": {{"platform": "spotify", "kind": "artist"}}}}]}}
 "play my liked songs" -> {{"actions": [{{"operation": "play_library", "target": "liked songs"}}]}}
 "put on my workout playlist" -> {{"actions": [{{"operation": "play_library", "target": "workout"}}]}}

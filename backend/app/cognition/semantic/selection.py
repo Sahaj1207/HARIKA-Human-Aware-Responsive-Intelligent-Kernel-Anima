@@ -180,7 +180,11 @@ class AbilitySelector:
         return group_scores, example_scores, per_part
 
     def _word_scores(self, parts: List[str], groups: List[Group]):
-        documents = [set(_words(g.description + " " + " ".join(g.phrases))) for g in groups]
+        def vocabulary(g: Group) -> str:
+            # The ability's own action names ("pause", "next") are words for it too.
+            return " ".join([g.description, *g.phrases, *(op.replace("_", " ") for op in g.operations)])
+
+        documents = [set(_words(vocabulary(g))) for g in groups]
         documents += [set(_words(p)) for g in groups for p in g.phrases]
         frequency: Dict[str, int] = {}
         for doc in documents:
@@ -199,7 +203,7 @@ class AbilitySelector:
         example_scores: Dict[str, float] = {}
         per_part: Dict[str, Dict[str, float]] = {}
         for g in groups:
-            doc = set(_words(g.description + " " + " ".join(g.phrases)))
+            doc = set(_words(vocabulary(g)))
             per_part[g.name] = {p: score(set(_words(p)), doc) for p in parts}
             group_scores[g.name] = max(per_part[g.name].values())
             for line, phrase in zip(g.examples, g.phrases):

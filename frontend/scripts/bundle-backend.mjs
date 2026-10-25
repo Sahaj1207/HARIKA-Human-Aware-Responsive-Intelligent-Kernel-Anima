@@ -34,7 +34,7 @@ const args = [
   ...(process.platform === 'win32'
     ? ['winrt.runtime', 'winrt.system', 'winrt.windows.foundation', 'winrt.windows.foundation.collections',
        'winrt.windows.applicationmodel', 'winrt.windows.ui.notifications',
-       'winrt.windows.ui.notifications.management'].flatMap((name) => ['--hidden-import', name])
+       'winrt.windows.ui.notifications.management', 'winrt.windows.media.control'].flatMap((name) => ['--hidden-import', name])
     : []),
   // Matching requests to abilities by meaning (the small model itself downloads on first start).
   // Only the runtime: its quantization and model-conversion tools aren't used, and importing
