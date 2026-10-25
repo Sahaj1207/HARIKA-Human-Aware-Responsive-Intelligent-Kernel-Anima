@@ -162,6 +162,36 @@ class CalendarToolTests(unittest.TestCase):
         result, _ = self.join([])
         self.assertIn("don't have a meeting", result["error"])
 
+    def test_todays_events_are_cached_without_waiting(self):
+        from app.integrations.google.calendar import GoogleCalendar
+
+        class Account:
+            def status(self):
+                return {"calendar": True}
+
+        calendar = GoogleCalendar(Account())
+        talk = Event("t1", "Tokenmaxxing on Claude", at(date.today(), 15), at(date.today(), 16))
+        calendar.day = AsyncMock(return_value=[talk])
+
+        async def scenario():
+            first = calendar.cached_today()  # nothing yet: the read starts in the background
+            await asyncio.sleep(0)
+            await asyncio.sleep(0)
+            return first, calendar.cached_today()
+
+        first, later = asyncio.run(scenario())
+        self.assertEqual((first, later), ([], [talk]))
+        self.assertEqual(calendar.day.await_count, 1)  # fresh: not read again
+        calendar._changed()
+        self.assertEqual(calendar._today[0], 0.0)  # a change makes the next look read again
+
+    def test_todays_events_reach_the_interpreter(self):
+        from types import SimpleNamespace
+        from app.cognition.semantic.interpreter import default_semantic_interpreter
+        prompt = default_semantic_interpreter()._build_prompt(
+            SimpleNamespace(conversation_history=[]), {"events": ["Tokenmaxxing on Claude, 3 PM to 4 PM"]})
+        self.assertIn("Today's events on the user's calendar: Tokenmaxxing on Claude, 3 PM to 4 PM.", prompt)
+
     def test_helpers(self):
         self.assertEqual([e.title for e in best_matches([self.dentist, self.standup], "my standup meeting")], ["Team standup"])
         self.assertEqual(when(at(date(2026, 10, 23), 9, 30), today=date(2026, 10, 16)), "on Friday 23 October at 9:30 AM")

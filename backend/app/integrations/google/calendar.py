@@ -1,11 +1,17 @@
 """Google Calendar (the user's primary calendar) as plain events in local time."""
+import asyncio
+import logging
 import re
+import time
 import urllib.parse
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional
 
 from app.integrations.google.account import GoogleAccount, google_account
+
+logger = logging.getLogger("harika.google.calendar")
+_TODAY_REFRESH_SECONDS = 600
 
 _EVENTS = "https://www.googleapis.com/calendar/v3/calendars/primary/events"
 
@@ -69,6 +75,35 @@ def to_event(item: Dict[str, Any]) -> Event:
 class GoogleCalendar:
     def __init__(self, account: GoogleAccount = google_account):
         self.account = account
+        self._today: tuple = (0.0, None, [])  # (when read, which day, events)
+        self._refreshing = False
+
+    def cached_today(self) -> List[Event]:
+        """Today's events from the last look, without waiting on the network: a stale or missing copy is
+        refreshed in the background (at most every ten minutes, or after a change)."""
+        read_at, day, events = self._today
+        if (time.time() - read_at > _TODAY_REFRESH_SECONDS or day != date.today()) and not self._refreshing:
+            try:
+                connected = self.account.status()["calendar"]
+                loop = asyncio.get_running_loop() if connected else None
+            except Exception:  # no event loop here, or the account is unreadable
+                loop = None
+            if loop is not None:
+                self._refreshing = True
+                loop.create_task(self._refresh_today())
+        return events if day == date.today() else []
+
+    async def _refresh_today(self) -> None:
+        try:
+            self._today = (time.time(), date.today(), await self.day(date.today()))
+        except Exception as exc:
+            logger.info(f"[Calendar] Today's events unavailable: {exc}")
+            self._today = (time.time(), self._today[1], self._today[2])
+        finally:
+            self._refreshing = False
+
+    def _changed(self) -> None:
+        self._today = (0.0, self._today[1], self._today[2])  # read again on next use
 
     async def events(self, start: datetime, end: datetime, query: str = "", limit: int = 50) -> List[Event]:
         self.account.require("calendar")
@@ -96,7 +131,9 @@ class GoogleCalendar:
             body.update(start={"date": start.date().isoformat()}, end={"date": end.date().isoformat()})
         else:
             body.update(start={"dateTime": _local(start)}, end={"dateTime": _local(end)})
-        return to_event(await self.account.request("POST", _EVENTS, json=body))
+        created = to_event(await self.account.request("POST", _EVENTS, json=body))
+        self._changed()
+        return created
 
     async def move(self, event: Event, start: datetime) -> Event:
         self.account.require("calendar")
@@ -106,11 +143,13 @@ class GoogleCalendar:
         else:
             body = {"start": {"dateTime": _local(start)}, "end": {"dateTime": _local(end)}}
         item = await self.account.request("PATCH", f"{_EVENTS}/{urllib.parse.quote(event.id)}?sendUpdates=none", json=body)
+        self._changed()
         return to_event(item)
 
     async def delete(self, event: Event) -> None:
         self.account.require("calendar")
         await self.account.request("DELETE", f"{_EVENTS}/{urllib.parse.quote(event.id)}?sendUpdates=none")
+        self._changed()
 
 
 google_calendar = GoogleCalendar()

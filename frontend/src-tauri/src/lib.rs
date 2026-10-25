@@ -8,8 +8,9 @@ use std::fs::File;
 use std::net::TcpStream;
 use std::path::PathBuf;
 use std::process::{Child, Command, Stdio};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Mutex;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use tauri::menu::{CheckMenuItem, Menu, MenuItem, PredefinedMenuItem};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
@@ -26,6 +27,16 @@ const ORB_HEIGHT: f64 = 244.0;
 
 /// The backend process this app started (None when one was already running).
 struct Backend(Mutex<Option<Child>>);
+
+/// Set while HARIKA quits or installs an update, so the watchdog doesn't bring the engine back.
+static STOPPING: AtomicBool = AtomicBool::new(false);
+const WATCH_EVERY: Duration = Duration::from_secs(5);
+/// Silence this long (after the engine has answered once) counts as the engine having died.
+const MISSES_BEFORE_RESTART: u32 = 3;
+/// A freshly started engine gets this long to load before silence counts.
+const STARTUP_GRACE: Duration = Duration::from_secs(120);
+const MAX_RESTARTS: usize = 3;
+const RESTART_WINDOW: Duration = Duration::from_secs(600);
 
 fn summon_shortcut() -> Shortcut {
     Shortcut::new(Some(Modifiers::CONTROL | Modifiers::SHIFT), Code::Space)
@@ -109,7 +120,61 @@ fn start_backend(app: &AppHandle) -> Option<Child> {
     }
 }
 
+/// Keeps the engine running: if the one HARIKA started exits, or the engine stops answering,
+/// it is started again (at most MAX_RESTARTS times in RESTART_WINDOW, so a broken engine
+/// doesn't restart forever). The window shows "offline" meanwhile and reconnects by itself.
+fn watch_backend(app: AppHandle) {
+    std::thread::spawn(move || {
+        let mut started_at = Instant::now();
+        let mut answered = false;
+        let mut misses = 0;
+        let mut restarts: Vec<Instant> = Vec::new();
+        loop {
+            std::thread::sleep(WATCH_EVERY);
+            if STOPPING.load(Ordering::SeqCst) {
+                return;
+            }
+            let exited = match app.state::<Backend>().0.lock().unwrap().as_mut() {
+                Some(child) => matches!(child.try_wait(), Ok(Some(_))),
+                None => false,
+            };
+            if !exited && backend_running() {
+                answered = true;
+                misses = 0;
+                continue;
+            }
+            misses += 1;
+            let silent_too_long = misses >= MISSES_BEFORE_RESTART && (answered || started_at.elapsed() > STARTUP_GRACE);
+            if !exited && !silent_too_long {
+                continue;
+            }
+            restarts.retain(|at| at.elapsed() < RESTART_WINDOW);
+            if restarts.len() >= MAX_RESTARTS {
+                log::error!("The HARIKA engine keeps stopping; not restarting it again for now.");
+                continue;
+            }
+            log::warn!("The HARIKA engine stopped answering; starting it again.");
+            stop_backend_child(&app);
+            if STOPPING.load(Ordering::SeqCst) {
+                return;
+            }
+            let child = start_backend(&app);
+            *app.state::<Backend>().0.lock().unwrap() = child;
+            restarts.push(Instant::now());
+            started_at = Instant::now();
+            answered = false;
+            misses = 0;
+        }
+    });
+}
+
+/// Stops HARIKA's engine for good (quitting, or installing an update).
 pub(crate) fn stop_backend(app: &AppHandle) {
+    STOPPING.store(true, Ordering::SeqCst);
+    stop_backend_child(app);
+}
+
+fn stop_backend_child(app: &AppHandle) {
     if let Some(mut child) = app.state::<Backend>().0.lock().unwrap().take() {
         // A Windows virtualenv python.exe is a launcher that starts the real
         // interpreter as a child, so the whole process tree must be ended.
@@ -262,6 +327,7 @@ pub fn run() {
             let handle = app.handle();
             let child = start_backend(handle);
             *app.state::<Backend>().0.lock().unwrap() = child;
+            watch_backend(handle.clone());
             build_orb(handle)?;
             glow::build(handle)?;
             build_tray(handle)?;

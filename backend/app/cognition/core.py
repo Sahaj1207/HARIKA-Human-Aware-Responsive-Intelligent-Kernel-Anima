@@ -16,6 +16,18 @@ _DEFAULT_SEMANTIC = object()
 _CONFIDENT = 0.8
 
 
+def _todays_events() -> List[str]:
+    """Today's calendar events ("Tokenmaxxing on Claude, 3 PM to 4 PM"), so a message naming one is read
+    as being about it. From the calendar's last look; never waits on the network."""
+    try:
+        from app.integrations.google.calendar import google_calendar
+        from app.tools.productivity.calendar_tool import clock
+        return [e.title if e.all_day else f"{e.title}, {clock(e.start)} to {clock(e.end)}"
+                for e in google_calendar.cached_today()[:8]]
+    except Exception:
+        return []
+
+
 class CognitiveCore:
     """Central reasoning boundary between request context, routing, and execution.
 
@@ -107,7 +119,7 @@ class CognitiveCore:
         from app.tools.productivity.people_tool import people_store
         from app.tools.productivity.routine_tool import routine_store
         return {"recent_actions": list(self._session_actions.get((user_id, session_id), [])), "spoken": spoken,
-                "routines": routine_store.names(), "people": people_store.labels()}
+                "routines": routine_store.names(), "people": people_store.labels(), "events": _todays_events()}
 
     def _routine_trigger(self, message: str) -> Optional[Any]:
         """The user said a saved routine's own name: run it without asking the model what it means."""

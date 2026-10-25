@@ -395,6 +395,10 @@ class SemanticInterpreter:
         people = list((hints or {}).get("people") or [])
         if people:
             lines.append("People the user has told HARIKA about: " + "; ".join(people) + ". Use these names as targets.")
+        events = list((hints or {}).get("events") or [])
+        if events:
+            lines.append("Today's events on the user's calendar: " + "; ".join(events) +
+                         ". A message naming one of these is about that event (join_meeting opens its video call).")
         routines = list((hints or {}).get("routines") or [])
         if routines:
             lines.append(
