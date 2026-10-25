@@ -10,6 +10,7 @@ content, quoted as data. The task pauses and asks before anything that commits
 (buying, sending, posting, booking, submitting...), and hands over to the user for
 sign-ins, CAPTCHAs, passwords, codes and card numbers.
 """
+import asyncio
 import json
 import logging
 import re
@@ -126,7 +127,15 @@ class WebAgent:
             if task.steps_taken >= MAX_STEPS or time.time() - task.started > TIME_BUDGET_SECONDS:
                 return Outcome("limit", task.so_far() + "This is taking longer than it should, so I've stopped here. "
                                                         "The window shows where I got to.", task.last_url)
-            page = await self.driver.snapshot()
+            try:
+                page = await self.driver.snapshot()
+            except PageError as exc:  # mid-navigation, or a page the browser won't let HARIKA read
+                task.problems += 1
+                task.history.append(f"(couldn't read the page: {exc})")
+                if task.problems >= _MAX_PROBLEMS:
+                    return Outcome("failed", task.so_far() + f"I couldn't read the page ({exc}).", task.last_url)
+                await asyncio.sleep(1.5)
+                continue
             task.last_url = page.get("url", "")
             seen = _signature(page)
             if task.acted_on and seen == task.acted_on and task.history and not task.history[-1].startswith("("):
@@ -225,7 +234,6 @@ class WebAgent:
             elif action == "back":
                 await self.driver.back()
             elif action == "wait":
-                import asyncio
                 await asyncio.sleep(2)
         except PageError as exc:
             task.problems += 1

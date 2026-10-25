@@ -226,6 +226,20 @@ class AgentTests(unittest.TestCase):
         outcome, _ = self.run_agent(FakeBrowser([page(ADD)]), scripted(*[{"action": "click", "id": 42}] * 3))
         self.assertEqual(outcome.kind, "failed")
 
+    def test_an_unreadable_page_is_retried_not_fatal(self):
+        class Blank(FakeBrowser):
+            reads = 0
+
+            async def snapshot(self):
+                Blank.reads += 1
+                if Blank.reads == 1:
+                    raise PageError("Cannot access contents of this page")
+                return self.pages[0]
+
+        outcome, task = self.run_agent(Blank([page(ADD)]), scripted({"action": "done", "say": "ok"}))
+        self.assertEqual(outcome.kind, "done")
+        self.assertIn("couldn't read the page", task.history[0])
+
     def test_page_errors_are_noted_not_fatal(self):
         class Flaky(FakeBrowser):
             async def click(self, element_id):
@@ -298,6 +312,12 @@ class ToolTests(unittest.TestCase):
         self.run_tool(browser, ask, operation="guide_web", instruction="just add it to the cart")
         self.assertEqual(seen["notes"], ["just add it to the cart"])
         self.assertEqual(browser.done, [])
+
+    def test_long_tracking_links_are_shortened(self):
+        from app.tools.web.web_task_tool import short_link
+        long = "https://www.flipkart.com/logitech-b175/p/itme77?pid=ACC&lid=LST" + "&x=1" * 30
+        self.assertEqual(short_link(long), "https://www.flipkart.com/logitech-b175/p/itme77")
+        self.assertEqual(short_link("https://www.amazon.in/s?k=rice"), "https://www.amazon.in/s?k=rice")
 
     def test_nothing_to_continue(self):
         result = self.run_tool(FakeBrowser([page()]), scripted(), operation="continue_web")

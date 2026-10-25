@@ -20,6 +20,15 @@ PAUSE_TTL_SECONDS = 15 * 60  # a paused task waits this long for the user
 _THIS_TASK = "this task"
 
 
+def short_link(url: str) -> str:
+    """The page's address without tracking parameters when they make it unreadably long."""
+    if len(url) <= 100 or "?" not in url:
+        return url
+    from urllib.parse import urlsplit, urlunsplit
+    parts = urlsplit(url)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+
+
 class WebTaskTool(BaseTool):
     manifest = ToolManifest(
         name="web_task",
@@ -115,7 +124,7 @@ class WebTaskTool(BaseTool):
             self.agent = None
             live_events.publish("activity", text="", stoppable=False)
 
-        where = f"\n\n{outcome.url}" if outcome.url and outcome.kind in ("done", "limit", "failed") else ""
+        where = f"\n\n{short_link(outcome.url)}" if outcome.url and outcome.kind in ("done", "limit", "failed") else ""
         result: Dict[str, Any] = {"action": "web_task", "success": outcome.kind not in ("failed",),
                                   "verified": outcome.kind == "done", "summary": outcome.text + where,
                                   "error": None if outcome.kind != "failed" else outcome.text, "url": outcome.url,

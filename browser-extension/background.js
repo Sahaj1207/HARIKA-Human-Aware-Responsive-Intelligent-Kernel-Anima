@@ -163,6 +163,12 @@ const COMMANDS = {
     const allowed = ['snapshot', 'click', 'type', 'pressEnter', 'choose', 'scroll'];
     if (!allowed.includes(name)) throw new Error('Unknown page action');
     const tabId = await harikaTab();
+    const { url, title } = await chrome.tabs.get(tabId);
+    if (!/^https?:/.test(url || '')) {
+      // A blank or browser page: nothing to read or act on (extensions can't script these).
+      if (name === 'snapshot') return { url: url || 'about:blank', title: title || '', elements: [], text: '', scroll: {} };
+      throw new Error('HARIKA can only work on web pages');
+    }
     const result = await onPage(tabId, name, params || []);
     if (wait) await settle(tabId);
     return result;
