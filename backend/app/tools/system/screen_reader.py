@@ -327,6 +327,58 @@ def find_app_window(process_hint: str) -> Optional[WindowInfo]:
     return None
 
 
+BROWSER_PROCESSES = ("chrome.exe", "msedge.exe", "brave.exe", "firefox.exe", "opera.exe", "vivaldi.exe")
+
+
+def browser_windows() -> List[WindowInfo]:
+    """Visible browser windows, front-most first (each shows its active tab's title)."""
+    if not IS_WINDOWS:
+        return []
+    import uiautomation as auto
+
+    found = []
+    with auto.UIAutomationInitializerInThread():
+        for window in auto.GetRootControl().GetChildren():
+            try:
+                info = _window_info(window.NativeWindowHandle)
+                if info and info.process in BROWSER_PROCESSES and info.title and not window.IsOffscreen:
+                    found.append(info)
+            except Exception:
+                continue
+    return found
+
+
+def browser_url(info: WindowInfo, max_seconds: float = 2.0) -> str:
+    """The address of a browser window's active tab, read from its address bar: the top-most text
+    field showing something that looks like a web address (works whatever the browser's language)."""
+    import uiautomation as auto
+
+    with auto.UIAutomationInitializerInThread():
+        root = auto.ControlFromHandle(info.hwnd)
+        if root is None:
+            return ""
+        top = root.BoundingRectangle.top
+        deadline = time.monotonic() + max_seconds
+        best, best_top = "", None
+        for control, _depth in auto.WalkControl(root, maxDepth=20):
+            if time.monotonic() > deadline:
+                break
+            try:
+                if control.ControlTypeName != "EditControl":
+                    continue
+                rect = control.BoundingRectangle
+                if rect.top - top > 200:  # address bars sit at the top of the window
+                    continue
+                value = (control.GetValuePattern().Value or "").strip()
+            except Exception:
+                continue
+            if "." in value and " " not in value and (best_top is None or rect.top < best_top):
+                best, best_top = value, rect.top
+        if best and "://" not in best:
+            best = "https://" + best
+        return best
+
+
 def _box_text(box) -> str:
     for read in (lambda: box.GetValuePattern().Value, lambda: box.GetTextPattern().DocumentRange.GetText(-1)):
         try:

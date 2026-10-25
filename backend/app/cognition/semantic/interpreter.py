@@ -81,6 +81,9 @@ Examples:
 "open instagram in chrome" -> {{"actions": [{{"operation": "open", "target": "instagram.com", "parameters": {{"browser": "chrome"}}}}]}}
 "open my resume" -> {{"actions": [{{"operation": "open", "target": "resume"}}]}}
 "summarise my resume" -> {{"actions": [{{"operation": "ask_file", "target": "resume", "parameters": {{"question": "summarise it"}}}}]}}
+"what's this video about?" -> {{"actions": [{{"operation": "video", "target": "this video", "parameters": {{"question": "summarise it"}}}}]}}
+"what does the video say about recursion?" -> {{"actions": [{{"operation": "video", "target": "this video", "parameters": {{"question": "what does it say about recursion?"}}}}]}}
+"sum up this one for me: youtu.be/dQw4w9WgXcQ" -> {{"actions": [{{"operation": "video", "target": "https://youtu.be/dQw4w9WgXcQ", "parameters": {{"question": "summarise it"}}}}]}}
 "what does the lease say about the deposit?" -> {{"actions": [{{"operation": "ask_file", "target": "lease", "parameters": {{"question": "what does it say about the deposit?"}}}}]}}
 "what's in the file I just downloaded?" -> {{"actions": [{{"operation": "ask_file", "target": "latest download", "parameters": {{"question": "what's in it?"}}}}]}}
 "compare my old resume with the new one" -> {{"actions": [{{"operation": "compare_files", "target": "old resume", "parameters": {{"other": "new resume", "question": "what changed?"}}}}]}}
