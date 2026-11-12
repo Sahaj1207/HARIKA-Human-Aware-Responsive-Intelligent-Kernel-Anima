@@ -1,0 +1,23 @@
+[
+  {"say": "play something I'd like", "action": "play_for_me"},
+  {"say": "put on some music while I code", "action": "play_for_me", "word": "cod"},
+  {"say": "I need some motivation, play something upbeat", "action": "play_for_me"},
+  {"say": "what kind of music do I usually listen to?", "action": "music_taste"},
+  {"say": "play Kesariya by Arijit Singh", "action": "play", "word": "kesariya", "note": "a named song is not 'something I'd like'"},
+  {"say": "summarise this video", "action": "video"},
+  {"say": "what's this youtube video about?", "action": "video"},
+  {"say": "what does the video say about interest rates?", "action": "video"},
+  {"say": "summarise https://youtu.be/dQw4w9WgXcQ", "action": "video", "word": "youtu"},
+  {"say": "summarise my resume", "action": "ask_file", "word": "resume", "note": "a document, not a video"},
+  {"say": "add a phone charger to my amazon cart", "action": "web", "word": "charger"},
+  {"say": "order a 1kg pack of basmati rice on bigbasket", "action": "web", "word": "rice"},
+  {"say": "how much does the iPhone 16 cost on flipkart right now?", "action": "web", "word": "iphone"},
+  {"say": "book a table for two at 8 on zomato", "action": "web", "word": "table"},
+  {"say": "search for cheap flights to Delhi", "action": "search", "word": "delhi", "note": "showing results is a search, not a website task"},
+  {"say": "google the IPL score", "action": "search", "word": "ipl"},
+  {"say": "join my call", "action": "join_meeting"},
+  {"say": "open the standup meeting from my calendar", "action": "join_meeting", "word": "standup"},
+  {"say": "start my next meeting", "action": "join_meeting"},
+  {"say": "do I have any meetings this afternoon?", "action": ["agenda", "brief"]},
+  {"say": "tell me when Claude finishes", "action": "watch", "word": "claude"}
+]

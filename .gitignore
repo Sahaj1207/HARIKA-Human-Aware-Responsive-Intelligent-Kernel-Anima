@@ -50,3 +50,6 @@ secrets/
 
 # Built releases (installers and update files)
 release/
+
+# Behaviour test runs (evals/run.py), kept locally to compare runs
+backend/evals/results/

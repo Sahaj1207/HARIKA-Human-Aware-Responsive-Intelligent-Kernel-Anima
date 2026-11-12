@@ -2,9 +2,11 @@
 //
 // Usage (from frontend/):  node scripts/release.mjs 0.2.0 "What's new, in a sentence or two"
 //
-// 1. Sets the version in tauri.conf.json, package.json and Cargo.toml.
-// 2. Builds the installer, signing the update with secrets/updater.key.
-// 3. Writes release/<version>/ (repo root): the installer, its .sig and latest.json,
+// 1. Checks HARIKA's behaviour with the real model (backend/evals/run.py --quick); a failed
+//    safety case stops here, before anything changes.
+// 2. Sets the version in tauri.conf.json, package.json and Cargo.toml.
+// 3. Builds the installer, signing the update with secrets/updater.key.
+// 4. Writes release/<version>/ (repo root): the installer, its .sig and latest.json,
 //    which is what HARIKA checks for updates.
 // Publishing those three files is a separate, deliberate step (see docs/DESKTOP.md).
 import { spawnSync } from 'node:child_process';
@@ -29,7 +31,23 @@ if (!existsSync(keyFile) || !existsSync(passwordFile)) {
   process.exit(1);
 }
 
-// 1. One version everywhere.
+// 1. Behaviour check with the real language model: a spread of every group plus all safety cases
+//    (backend/evals/run.py). A failed safety case stops the release. HARIKA_SKIP_EVALS=1 skips it,
+//    for when the model service is down.
+if (process.env.HARIKA_SKIP_EVALS !== '1') {
+  const backend = join(root, 'backend');
+  const python = process.platform === 'win32'
+    ? join(backend, '.venv', 'Scripts', 'python.exe')
+    : join(backend, '.venv', 'bin', 'python');
+  console.log('Checking HARIKA\'s behaviour (evals/run.py --quick)…');
+  const evals = spawnSync(python, ['evals/run.py', '--quick'], { cwd: backend, stdio: 'inherit' });
+  if (evals.status !== 0) {
+    console.error('A safety case failed (or the check could not run). Fix it before releasing, or set HARIKA_SKIP_EVALS=1.');
+    process.exit(evals.status ?? 1);
+  }
+}
+
+// 2. One version everywhere.
 const confPath = join(frontend, 'src-tauri', 'tauri.conf.json');
 const conf = JSON.parse(readFileSync(confPath, 'utf8'));
 conf.version = version;
@@ -41,7 +59,7 @@ writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
 const cargoPath = join(frontend, 'src-tauri', 'Cargo.toml');
 writeFileSync(cargoPath, readFileSync(cargoPath, 'utf8').replace(/^version = "[^"]+"/m, `version = "${version}"`));
 
-// 2. Build and sign.
+// 3. Build and sign.
 const env = {
   ...process.env,
   TAURI_SIGNING_PRIVATE_KEY: readFileSync(keyFile, 'utf8'),
@@ -52,7 +70,7 @@ const build = process.platform === 'win32'
   : spawnSync('npm', ['run', 'desktop:build'], { cwd: frontend, env, stdio: 'inherit' });
 if (build.status !== 0) process.exit(build.status ?? 1);
 
-// 3. The update package and the file HARIKA reads.
+// 4. The update package and the file HARIKA reads.
 const bundle = join(frontend, 'src-tauri', 'target', 'release', 'bundle', 'nsis');
 const installer = `HARIKA_${version}_x64-setup.exe`;
 if (!existsSync(join(bundle, `${installer}.sig`))) {

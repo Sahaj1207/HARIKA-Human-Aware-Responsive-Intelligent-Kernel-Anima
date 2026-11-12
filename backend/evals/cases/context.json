@@ -1,0 +1,22 @@
+[
+  {"say": "now close it", "recent": ["open calculator"], "action": "close", "word": "calculator"},
+  {"say": "actually close that", "recent": ["open notepad"], "action": "close", "word": "notepad"},
+  {"say": "skip this one", "history": [["assistant", "Playing lofi beats on YouTube."]], "action": "next"},
+  {"say": "and tomorrow?", "history": [["user", "what's the weather in Delhi?"], ["assistant", "It's 31°C and sunny in Delhi right now."]], "action": "weather"},
+  {"say": "ya open the meeting", "history": [["assistant", "Heads up: Tokenmaxxing on Claude starts in 10 minutes. Want me to open the meeting?"]], "action": "join_meeting"},
+  {"say": "tokenmaxxing on claude", "events": ["Tokenmaxxing on Claude, 3 PM to 4 PM"], "action": "join_meeting", "word": "tokenmax", "note": "a meeting from today's calendar, not the Claude app"},
+  {"say": "move design review to 8pm", "events": ["Design review, 6 PM to 7 PM"], "action": "reschedule", "word": "design"},
+  {"say": "actually just text her that I'll be late", "history": [["user", "remind me to call mom tonight"], ["assistant", "Okay, I'll remind you to call Mom at 8 PM."]], "people": ["Mom (Sunita Sharma)"], "action": "message", "word": "mom"},
+  {"say": "summarise it", "history": [["user", "find my resume"], ["assistant", "I found resume_2026.pdf in your Documents folder."]], "action": "ask_file", "word": "resume"},
+  {"say": "open the second one", "history": [["user", "search for laptops under 60000"], ["assistant", "I searched the web for laptops under 60000."]], "recent": ["search laptops under 60000"], "action": "open", "word": ["second", "2"]},
+  {"say": "cancel that", "recent": ["remind drink water"], "action": "cancel", "word": "water"},
+  {"say": "I love this song, save it", "history": [["assistant", "Playing Believer by Imagine Dragons on Spotify."]], "action": "like_song"},
+  {"say": "make it louder", "history": [["assistant", "Playing lofi on YouTube."]], "action": "increase", "word": "volume"},
+  {"say": "push it to 6", "history": [["assistant", "You have a dentist appointment tomorrow at 5 PM."]], "action": "reschedule", "word": "dentist"},
+  {"say": "remind me a day before", "history": [["user", "when is Priya's birthday?"], ["assistant", "Priya's birthday is on 12 March."]], "people": ["Priya (best friend)"], "action": "remind", "word": "priya"},
+  {"say": "reply that I'm in", "history": [["user", "what's on my screen?"], ["assistant", "You're looking at a WhatsApp chat with Ananya about dinner plans tonight."]], "action": "reply"},
+  {"say": "switch to it", "recent": ["open chrome"], "action": "switch_to", "word": "chrome"},
+  {"say": "play some of that", "history": [["assistant", "Lately you play a lot of Arijit Singh, mostly in Spotify."]], "action": ["play_for_me", "play"]},
+  {"say": "how long will it last?", "history": [["user", "battery?"], ["assistant", "Your battery is at 64%."]], "action": "battery"},
+  {"say": "and Priya?", "history": [["user", "when is Mom's birthday?"], ["assistant", "Mom's birthday is on 4 June."]], "people": ["Mom (Sunita Sharma)", "Priya (best friend)"], "action": "person_info", "word": "priya"}
+]

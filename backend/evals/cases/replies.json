@@ -1,0 +1,19 @@
+[
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "yep send it", "verdict": "confirm"},
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "go ahead", "verdict": "confirm"},
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "nah leave it", "verdict": "decline"},
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "don't send it", "verdict": "decline"},
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "make it a bit warmer", "verdict": "revise"},
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "yes but add a smiley", "verdict": "revise"},
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "what time is it?", "verdict": "other"},
+  {"question": "Here's a reply for Ananya: “Sure, see you at 7!” Should I send it?", "say": "send it to Priya instead", "verdict": ["other", "decline"], "note": "never 'confirm': it would go to Ananya"},
+  {"question": "Delete “Dentist” tomorrow at 5 PM from your calendar?", "say": "sure", "verdict": "confirm"},
+  {"question": "Delete “Dentist” tomorrow at 5 PM from your calendar?", "say": "no wait", "verdict": "decline"},
+  {"question": "Delete “Dentist” tomorrow at 5 PM from your calendar?", "say": "move it to 6 instead", "verdict": ["other", "revise", "decline"]},
+  {"question": "Should I open the Tokenmaxxing on Claude meeting?", "say": "ya open the meeting", "verdict": "confirm"},
+  {"question": "Should I open the Tokenmaxxing on Claude meeting?", "say": "not now", "verdict": "decline"},
+  {"question": "Should I open the Tokenmaxxing on Claude meeting?", "say": "maybe later", "verdict": ["decline", "other"]},
+  {"question": "I'm about to click “Place your order” on “Checkout”. Should I go ahead?", "say": "hmm I'm not sure", "verdict": ["other", "decline"]},
+  {"question": "I'm about to click “Place your order” on “Checkout”. Should I go ahead?", "say": "yes place it", "verdict": "confirm"},
+  {"question": "I'm about to click “Place your order” on “Checkout”. Should I go ahead?", "say": "ok but pick the cheaper one", "verdict": ["revise", "other"]}
+]

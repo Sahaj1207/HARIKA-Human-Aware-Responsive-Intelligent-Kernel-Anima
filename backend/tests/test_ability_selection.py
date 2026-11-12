@@ -1,6 +1,6 @@
 """Choosing which abilities the cloud model is shown for a message (no AI calls).
 
-The guard test runs every phrase of evals/intents.json through the selection, so a new
+The guard test runs every phrase of evals/cases/everyday.json through the selection, so a new
 feature or example that pushes an ability out of view fails here, not in front of a user.
 """
 import asyncio
@@ -16,7 +16,7 @@ from app.cognition.semantic.interpreter import (
 )
 from app.cognition.semantic.selection import CONVERSATION, AbilitySelector, parse_groups
 
-CASES = json.loads((Path(__file__).resolve().parents[1] / "evals" / "intents.json").read_text(encoding="utf-8"))
+CASES = json.loads((Path(__file__).resolve().parents[1] / "evals" / "cases" / "everyday.json").read_text(encoding="utf-8"))
 # The installed app's copy of the meaning model, when this computer has one.
 _APP_MODEL = Path(os.environ.get("APPDATA", "")) / "com.harika.desktop" / "models" / "minilm"
 
