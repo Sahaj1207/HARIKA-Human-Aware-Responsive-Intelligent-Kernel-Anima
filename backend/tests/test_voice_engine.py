@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 import numpy as np
 
-from app.voice.engine import VoiceEngine, VoiceSettings, split_sentences, split_wake_phrase
+from app.voice.engine import RecentAudio, VoiceEngine, VoiceSettings, split_sentences, split_wake_phrase
 
 
 class WakePhraseTests(unittest.TestCase):
@@ -27,6 +27,31 @@ class WakePhraseTests(unittest.TestCase):
 
     def test_split_name_is_recognised(self):
         self.assertEqual(split_wake_phrase("Hey Hari ka, mute"), "mute")
+
+    def test_the_name_as_the_recogniser_writes_it(self):
+        # Spellings the offline recogniser really produced for "Harika" in a spoken test.
+        for text in ("Hey, harga, what's the weather today?", "Hey, Hurga, what's the weather today?",
+                     "Ok, harker, play some music.", "Harriker set a timer for five minutes.",
+                     "Ok, harugher, play some music.", "Hay harka", "A harga", "He harker."):
+            self.assertIsNotNone(split_wake_phrase(text), text)
+        self.assertEqual(split_wake_phrase("Hey, harga, what's the weather today?"), "what's the weather today?")
+
+    def test_words_that_only_sound_close_are_ignored(self):
+        for text in ("Hark, the herald angels sing", "Hi Hark", "Hey, her car is here", "Harry can come tomorrow.",
+                     "The hurricane is coming", "Hey Hector", "Hey, hair cut tomorrow", "A-series call mom",
+                     "Today America, what's up?", "I told Erica about the meeting."):
+            self.assertIsNone(split_wake_phrase(text), text)
+
+    def test_a_heard_utterance_gets_back_its_first_sound(self):
+        recent = RecentAudio()
+        stream = np.arange(16000 * 2, dtype=np.float32)
+        for i in range(0, len(stream), 1600):
+            recent.add(stream[i:i + 1600])
+        segment = stream[16000:20000]  # the detector noticed speech at 1.0 s
+        with_lead = recent.with_lead_in(segment, 16000)
+        self.assertEqual(len(with_lead), len(segment) + int(RecentAudio.PREROLL * 16000))
+        self.assertEqual(with_lead[0], 16000 - int(RecentAudio.PREROLL * 16000))
+        self.assertEqual(len(recent.with_lead_in(stream[:800], 0)), 800)  # nothing before the start
 
     def test_ordinary_speech_is_ignored(self):
         for text in ("I had a great day today.", "Hey Erica, how are you?", "America is big", "", "hey"):

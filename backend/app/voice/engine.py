@@ -63,21 +63,39 @@ _TONE_PACE = {"excited": 1.06, "playful": 1.04, "cheerful": 1.03, "empathetic": 
               "calm": 0.95, "apologetic": 0.95, "serious": 0.97}
 
 
+def sounds_like_harika(word: str) -> bool:
+    """Whether a recognised word is the name said aloud: its consonants make H-R-K, whatever the
+    vowels, with K/G/C/Q as one sound and a trailing "-er" as an English ending ("Harga", "Hurga",
+    "Harco", "Harker"), and it has at least two syllables like the name ("hark" has one).
+    "America", "Erica", "Harry" and "hurricane" don't."""
+    if len(re.findall(r"[aeiouy]+", word.lower())) < 2:
+        return False
+    # One sound per letter: "harriker" -> "hariker", and "gh" is a G ("harugher" -> "haruger").
+    letters = re.sub(r"(.)\1+", r"\1", word.lower().replace("gh", "g"))
+    letters = re.sub(r"er$", "", letters)              # "harker" -> "hark"
+    consonants = re.sub(r"[aeiouy]", "", letters)
+    return re.sub(r"[gcq]", "k", consonants) == "hrk"
+
+
 def split_wake_phrase(text: str) -> Optional[str]:
     """If text starts with "(hey|ok...) HARIKA", return what follows (maybe ""); else None.
 
-    Tolerates the small spelling variations speech recognition produces for the
-    name ("Harika", "Hareeka", "Hari ka").
+    Tolerates how speech recognition writes the name: by spelling ("Harika", "Hareeka",
+    "Hari ka") or by sound ("Harga", "Harker"), and a greeting heard as a filler ("A harga").
     """
     words = re.findall(r"[\w']+", text.lower())
     if not words:
         return None
-    start = 1 if words[0] in _GREETINGS else 0
+    # A greeting first ("hey", "okay"), or a short word the recogniser made of one ("hay", "a").
+    start = 1 if (words[0] in _GREETINGS or len(words[0]) <= 3) and len(words) > 1 else 0
     # "harika", or a name split in two ("hari ka"): take whichever reads closest.
     best_span, best_score = 0, 0.0
     for span in (1, 2):
         candidate = "".join(words[start:start + span])
-        score = SequenceMatcher(None, candidate, "harika").ratio() if candidate else 0.0
+        # Too short to be the name ("hark" looks 80% like "harika" on paper).
+        score = SequenceMatcher(None, candidate, "harika").ratio() if len(candidate) >= 5 else 0.0
+        if candidate and sounds_like_harika(candidate):
+            score = max(score, 0.9)
         if score >= best_score:
             best_span, best_score = span, score
     # 0.75 accepts recogniser spellings ("Harka", "Hareeka") while ordinary words
@@ -88,6 +106,35 @@ def split_wake_phrase(text: str) -> Optional[str]:
     consumed = start + best_span
     remainder = re.split(r"[\w']+", text, maxsplit=consumed)
     return remainder[-1].lstrip(" ,.!?-").strip() if len(remainder) > consumed else ""
+
+
+class RecentAudio:
+    """The microphone's last half-minute (as long as the speech detector looks back), so a detected
+    utterance can be given back the moment before the detector noticed it: without it the first
+    sound is clipped and "Harika" is heard as "Aurica"."""
+
+    PREROLL = 0.3  # seconds kept before each detected utterance
+
+    def __init__(self, keep_seconds: float = 32.0):
+        self.keep = int(keep_seconds * SAMPLE_RATE)
+        self.blocks: List[np.ndarray] = []
+        self.first = 0  # stream position of the oldest kept sample
+        self.total = 0  # stream position after the newest sample
+
+    def add(self, block: np.ndarray) -> None:
+        self.blocks.append(block)
+        self.total += len(block)
+        while self.blocks and self.total - self.first - len(self.blocks[0]) >= self.keep:
+            self.first += len(self.blocks.pop(0))
+
+    def with_lead_in(self, segment: np.ndarray, start: int) -> np.ndarray:
+        """The segment detected at `start` (a stream position), with the moment before it."""
+        begin = max(self.first, start - int(self.PREROLL * SAMPLE_RATE))
+        if begin >= start or not self.blocks:
+            return segment
+        kept = np.concatenate(self.blocks)
+        lead = kept[begin - self.first:start - self.first]
+        return np.concatenate([lead, segment]) if len(lead) else segment
 
 
 def split_sentences(text: str) -> List[str]:
@@ -416,7 +463,7 @@ class VoiceEngine:
             self._load_asr()
             with sd.InputStream(samplerate=SAMPLE_RATE, channels=1, dtype="float32", blocksize=_BLOCK) as mic:
                 read = lambda: mic.read(_BLOCK)[0][:, 0]  # noqa: E731
-                vad = self._new_vad()
+                vad, recent = self._new_vad(), RecentAudio()
                 barge = None
                 self._set_state("idle")
                 logger.info("[Voice] Listening for \"Hey HARIKA\".")
@@ -429,7 +476,7 @@ class VoiceEngine:
                     if reply is not None:
                         samples = self._capture(read, wait)
                         reply.put(self.transcribe(samples) if samples is not None else "")
-                        vad = self._new_vad()
+                        vad, recent = self._new_vad(), RecentAudio()
                         self._set_state("idle")
                         continue
 
@@ -442,18 +489,19 @@ class VoiceEngine:
                         # The user talked over a reply that wasn't part of a voice conversation.
                         request, self._barged = self._barged, None
                         self._handle_wake(request, read)
-                        vad = self._new_vad()
+                        vad, recent = self._new_vad(), RecentAudio()
                         self._set_state("idle")
                         continue
                     vad.accept_waveform(block)
+                    recent.add(block)
                     while not vad.empty():
-                        segment = np.asarray(vad.front.samples, dtype=np.float32)
+                        segment = recent.with_lead_in(np.asarray(vad.front.samples, dtype=np.float32), vad.front.start)
                         vad.pop()
                         request = split_wake_phrase(self.transcribe(segment))
                         if request is None:
                             continue  # not addressed to HARIKA; the transcript is discarded
                         self._handle_wake(request, read)
-                        vad = self._new_vad()
+                        vad, recent = self._new_vad(), RecentAudio()
                         self._set_state("idle")
                         break
         except Exception as exc:
