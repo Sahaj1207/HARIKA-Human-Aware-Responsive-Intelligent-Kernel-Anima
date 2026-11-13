@@ -1,0 +1,11 @@
+{
+  "version": "0.2.10",
+  "notes": "HARIKA's new look: a living 3D Starlit Lotus (or Constellation) that breathes, opens toward you, turns while she thinks and changes colour with her mood. Choose it in Settings > General > HARIKA's look. New Settings > Activity: everything HARIKA did, and whether it needed your yes. Ask her \"how did you know that?\", \"did that go online?\" or \"what did you do today?\". She asks instead of guessing when a request is unclear, understands follow-ups better, and gets payments ready but always leaves the final pay step and your PIN to you.",
+  "pub_date": "2026-11-13T05:06:30.968Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRYzcrQWhoUVhwa3BsUTZXV2drZXprVk84aE16OXlGVFNWZHVoMmE2T29YQ3lIRkpPTjVyT3gyNlFSclhtcEYvUzE3SDFISHFtUmZmbW1xR3JzdnQ3OEdLa0VQSU5YeEE0PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk0NTQ2MzkwCWZpbGU6SEFSSUtBXzAuMi4xMF94NjQtc2V0dXAuZXhlCXZlcnNpb246MC4yLjEwCkJwMVArNUR2NnhSMURiMU9tcWFTUnJyT1BTVEIxbFFxU09xeExtKzN4MTBxVk15cFQvRE85dk5MaUNveHNTU3lFRHFDQWRWTTFJcUE2K1FMdmZkWkJRPT0K",
+      "url": "https://github.com/Sahaj1207/HARIKA-Human-Aware-Responsive-Intelligent-Kernel-Anima/releases/download/v0.2.10/HARIKA_0.2.10_x64-setup.exe"
+    }
+  }
+}
