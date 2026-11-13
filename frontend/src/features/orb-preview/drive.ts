@@ -5,8 +5,18 @@ import * as THREE from 'three';
 /** The states the orb shows (HARIKA's CoreState, simplified). */
 export type OrbState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'error';
 
+type Palette = { heart: string; main: string; accent: string };
+
+/** HARIKA's signature colours (one is chosen as her look); moods shift them gently. */
+export const SIGNATURES: Record<string, Palette> = {
+  aurora: { heart: '#ffd88a', main: '#2fd3c4', accent: '#8f6bff' },
+  royal: { heart: '#ffc96b', main: '#5b3cff', accent: '#ff4fb4' },
+  moonlight: { heart: '#ffffff', main: '#8fb8ff', accent: '#c9a8ff' },
+  saffron: { heart: '#ffd27a', main: '#ff8a3d', accent: '#c13cff' },
+};
+
 /** Mood palettes: heart (the warm centre), main (body) and accent (edges and highlights). */
-export const PALETTES: Record<string, { heart: string; main: string; accent: string }> = {
+export const PALETTES: Record<string, Palette> = {
   warm: { heart: '#ffd27a', main: '#c86bff', accent: '#5aa8ff' },
   cheerful: { heart: '#fff0a0', main: '#ff8a5c', accent: '#ff5fa2' },
   calm: { heart: '#c9fff1', main: '#3fc5c9', accent: '#4f7dff' },
@@ -43,7 +53,7 @@ export interface Drive {
 const GREY = new THREE.Color('#8a8f99');
 
 /** Smoothly moves every orb parameter toward the current state and mood, once per frame. */
-export function useDrive(state: OrbState, mood: string): React.MutableRefObject<Drive> {
+export function useDrive(state: OrbState, mood: string, signature = ''): React.MutableRefObject<Drive> {
   const drive = useRef<Drive>({
     t: 0, clock: 0, speed: 0.25, open: 0.35, glow: 0.75, swirl: 0.2, life: 1, voice: 0, breath: 0, shimmer: 0,
     look: new THREE.Vector2(), heart: new THREE.Color(PALETTES.warm.heart), main: new THREE.Color(PALETTES.warm.main),
@@ -51,9 +61,16 @@ export function useDrive(state: OrbState, mood: string): React.MutableRefObject<
   });
   const nextShimmer = useRef(6);
   const colors = useMemo(() => {
-    const palette = PALETTES[mood] ?? PALETTES.warm;
-    return { heart: new THREE.Color(palette.heart), main: new THREE.Color(palette.main), accent: new THREE.Color(palette.accent) };
-  }, [mood]);
+    const moodPalette = PALETTES[mood] ?? PALETTES.warm;
+    const base = SIGNATURES[signature];
+    if (!base) {
+      return { heart: new THREE.Color(moodPalette.heart), main: new THREE.Color(moodPalette.main), accent: new THREE.Color(moodPalette.accent) };
+    }
+    // Her signature colours, nudged toward the mood (warm is her everyday mood: no nudge).
+    const nudge = mood === 'warm' ? 0 : 0.35;
+    const mix = (key: keyof Palette) => new THREE.Color(base[key]).lerp(new THREE.Color(moodPalette[key]), nudge);
+    return { heart: mix('heart'), main: mix('main'), accent: mix('accent') };
+  }, [mood, signature]);
 
   useFrame((frame, delta) => {
     const d = drive.current;

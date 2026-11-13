@@ -80,8 +80,10 @@ function stars(count: number): { positions: Float32Array; seeds: Float32Array; k
 }
 
 /** The Living Constellation: points of light forming a sphere that swirls, ripples, breathes and parts for you. */
-export const ConstellationOrb: React.FC<{ state: OrbState; mood: string; detail?: 'full' | 'small' }> = ({ state, mood, detail = 'full' }) => {
-  const drive = useDrive(state, mood);
+export const ConstellationOrb: React.FC<{ state: OrbState; mood: string; signature?: string; detail?: 'full' | 'small' }> = ({
+  state, mood, signature = '', detail = 'full',
+}) => {
+  const drive = useDrive(state, mood, signature);
   const group = useRef<THREE.Group>(null);
   const halo = useRef<THREE.Sprite>(null);
   const geometry = useMemo(() => {

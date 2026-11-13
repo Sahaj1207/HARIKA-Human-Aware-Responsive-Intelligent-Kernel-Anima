@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { ConstellationOrb } from './ConstellationOrb';
-import { FlameOrb } from './FlameOrb';
 import { LotusOrb } from './LotusOrb';
-import { PALETTES, type OrbState } from './drive';
+import { StarLotusOrb } from './StarLotusOrb';
+import { PALETTES, SIGNATURES, type OrbState } from './drive';
 
-type Design = 'lotus' | 'flame' | 'constellation';
+type Design = 'lotus' | 'starlotus' | 'constellation';
+
+const SIGNATURE_NAMES: Record<string, string> = {
+  '': 'Original', aurora: 'Aurora', royal: 'Royal', moonlight: 'Moonlight', saffron: 'Saffron Dusk',
+};
 
 const DESIGNS: { id: Design; name: string; idea: string }[] = [
-  { id: 'lotus', name: 'Lotus of Light', idea: 'Glass petals around a warm heart. They breathe, open toward you, turn while she thinks.' },
-  { id: 'flame', name: 'The Flame Within', idea: 'A living flame in a clear glass sphere. It leans toward you and burns with her voice.' },
+  { id: 'lotus', name: 'Lotus of Light', idea: 'Glass petals glowing from a warm heart. They breathe, open toward you, turn while she thinks.' },
+  { id: 'starlotus', name: 'Starlit Lotus', idea: 'A lotus drawn in points of light: the constellation and the flower in one.' },
   { id: 'constellation', name: 'Living Constellation', idea: 'Points of light forming a sphere: swirling, rippling, parting for you.' },
 ];
 
@@ -26,8 +30,8 @@ const SCENE: { state: OrbState; seconds: number }[] = [
   { state: 'speaking', seconds: 5 }, { state: 'idle', seconds: 3 },
 ];
 
-const Orb: React.FC<{ design: Design; state: OrbState; mood: string; size: number; small?: boolean }> = ({
-  design, state, mood, size, small,
+const Orb: React.FC<{ design: Design; state: OrbState; mood: string; signature: string; size: number; small?: boolean }> = ({
+  design, state, mood, signature, size, small,
 }) => {
   const detail = small ? 'small' : 'full';
   return (
@@ -41,9 +45,9 @@ const Orb: React.FC<{ design: Design; state: OrbState; mood: string; size: numbe
         <ambientLight intensity={0.55} />
         <pointLight position={[2, 3, 4]} intensity={30} />
         <pointLight position={[-3, -1, 2]} intensity={12} color="#9fb6ff" />
-        {design === 'lotus' && <LotusOrb state={state} mood={mood} detail={detail} />}
-        {design === 'flame' && <FlameOrb state={state} mood={mood} detail={detail} />}
-        {design === 'constellation' && <ConstellationOrb state={state} mood={mood} detail={detail} />}
+        {design === 'lotus' && <LotusOrb state={state} mood={mood} signature={signature} detail={detail} />}
+        {design === 'starlotus' && <StarLotusOrb state={state} mood={mood} signature={signature} detail={detail} />}
+        {design === 'constellation' && <ConstellationOrb state={state} mood={mood} signature={signature} detail={detail} />}
       </Canvas>
     </div>
   );
@@ -64,6 +68,7 @@ const Choice: React.FC<{ active: boolean; onClick: () => void; children: React.R
 export const OrbPreview: React.FC = () => {
   const [state, setState] = useState<OrbState>('idle');
   const [mood, setMood] = useState('warm');
+  const [signature, setSignature] = useState('aurora');
   const [dark, setDark] = useState(true);
   const [playing, setPlaying] = useState(false);
 
@@ -87,7 +92,7 @@ export const OrbPreview: React.FC = () => {
     <div className={dark ? 'dark' : ''} style={{ minHeight: '100vh', background: dark ? '#05060a' : '#f2f2f7', color: dark ? '#f5f5f7' : '#1c1c1e' }}>
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
         <header className="space-y-1">
-          <h1 className="t-title1">HARIKA's orb: three designs</h1>
+          <h1 className="t-title1">HARIKA's orb: three designs, round two</h1>
           <p className="t-callout opacity-70">All three are real 3D, moving live. Move your mouse near them: they turn toward you.</p>
         </header>
 
@@ -99,6 +104,13 @@ export const OrbPreview: React.FC = () => {
           <Choice active={playing} onClick={() => setPlaying(!playing)}>{playing ? 'Stop the scene' : 'Play a scene'}</Choice>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          <span className="t-callout opacity-70 mr-1">Colours</span>
+          {['', ...Object.keys(SIGNATURES)].map((key) => (
+            <Choice key={key || 'original'} active={signature === key} onClick={() => setSignature(key)}>{SIGNATURE_NAMES[key]}</Choice>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="t-callout opacity-70 mr-1">Mood</span>
           {Object.keys(PALETTES).map((m) => (
             <Choice key={m} active={mood === m} onClick={() => setMood(m)}>{m[0].toUpperCase() + m.slice(1)}</Choice>
           ))}
@@ -109,7 +121,7 @@ export const OrbPreview: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {DESIGNS.map((d) => (
             <figure key={d.id} className="flex flex-col items-center text-center gap-3">
-              <Orb design={d.id} state={state} mood={mood} size={300} />
+              <Orb design={d.id} state={state} mood={mood} signature={signature} size={300} />
               <figcaption className="space-y-1 max-w-[280px]">
                 <div className="t-headline">{d.name}</div>
                 <div className="t-footnote opacity-70">{d.idea}</div>
@@ -123,9 +135,9 @@ export const OrbPreview: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {DESIGNS.map((d) => (
               <div key={d.id} className="flex items-end justify-center gap-6">
-                <Orb design={d.id} state={state} mood={mood} size={112} />
-                <Orb design={d.id} state={state} mood={mood} size={34} small />
-                <Orb design={d.id} state={state} mood={mood} size={22} small />
+                <Orb design={d.id} state={state} mood={mood} signature={signature} size={112} />
+                <Orb design={d.id} state={state} mood={mood} signature={signature} size={34} small />
+                <Orb design={d.id} state={state} mood={mood} signature={signature} size={22} small />
               </div>
             ))}
           </div>
