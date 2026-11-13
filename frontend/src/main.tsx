@@ -15,6 +15,10 @@ if (isOrbWindow || isGlowWindow) {
   document.documentElement.style.background = 'transparent';
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>{isGlowWindow ? <GlowApp /> : isOrbWindow ? <OrbApp /> : <App />}</StrictMode>
-);
+const root = createRoot(document.getElementById('root')!);
+if (import.meta.env.DEV && windowKind === 'orb-preview') {
+  // Development only: the orb designs side by side (never part of an installed build).
+  void import('./features/orb-preview/OrbPreview').then(({ OrbPreview }) => root.render(<StrictMode><OrbPreview /></StrictMode>));
+} else {
+  root.render(<StrictMode>{isGlowWindow ? <GlowApp /> : isOrbWindow ? <OrbApp /> : <App />}</StrictMode>);
+}
