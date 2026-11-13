@@ -6,6 +6,9 @@
   that changes something) waits for the user's yes. A step counts as committing when the
   model says so, when it submits a form that posts data, or when its button reads like
   one of those (a backstop for when the model doesn't say so).
+- A button that moves money (pay, transfer, donate, invest) is never pressed by HARIKA: she gets
+  everything ready and hands that step to the user, who checks the amount, enters their PIN and
+  pays. (Placing an order in a shop is a committing step: it waits for a yes.)
 - Sign-in pages and CAPTCHAs are handed to the user.
 - Only http(s) addresses are opened.
 """
@@ -21,6 +24,8 @@ _COMMITTING = re.compile(
     r"\b(buy|pay|purchase|place (your )?order|order now|checkout|check out|proceed to (pay|checkout)|confirm|submit|send|"
     r"post|publish|tweet|reply|delete|remove account|unsubscribe|subscribe|book( now)?|reserve|transfer|donate|sign up|"
     r"register|create account|accept)\b", re.I)
+# Buttons that move money: the user presses these themselves.
+_MONEY = re.compile(r"\b(pay|payment|transfer|send money|donate|invest)\b", re.I)
 
 
 @dataclass
@@ -66,6 +71,9 @@ def check(step: Dict[str, Any], page: Dict[str, Any]) -> Verdict:
             return Verdict(False, problem="say which option to choose")
         return Verdict(True, needs_yes=bool(step.get("commits")))
     # click
+    if _MONEY.search(element.get("label") or ""):
+        return Verdict(False, hand_over=f"The next step pays: “{element.get('label')}”. Please check the amount, "
+                                        "enter your PIN and press it yourself in the window")
     committing = bool(step.get("commits")) or (element.get("submits") and element.get("form") == "post") \
         or bool(_COMMITTING.search(element.get("label") or ""))
     return Verdict(True, needs_yes=committing)

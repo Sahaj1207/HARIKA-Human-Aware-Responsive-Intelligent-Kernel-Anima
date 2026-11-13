@@ -38,6 +38,14 @@ class PolicyTests(unittest.TestCase):
         self.assertTrue(policy.check({"action": "type", "id": 1, "text": "hi", "enter": True},
                                      page({"role": "text", "label": "Comment", "form": "post"})).needs_yes)
 
+    def test_money_moving_buttons_are_handed_to_the_user(self):
+        for label in ("Pay ₹1,840 now", "Transfer", "Proceed to payment", "Donate ₹500"):
+            verdict = policy.check({"action": "click", "id": 1}, page({"role": "button", "label": label}))
+            self.assertFalse(verdict.allowed, label)
+            self.assertIn("enter your PIN", verdict.hand_over)
+        # Placing an order in a shop asks first instead.
+        self.assertTrue(policy.check({"action": "click", "id": 1}, page(ORDER)).needs_yes)
+
     def test_ordinary_steps_just_run(self):
         for step, on in (({"action": "click", "id": 1}, page(ADD)), ({"action": "click", "id": 1}, page(FILTERS)),
                          ({"action": "type", "id": 1, "text": "basmati rice", "enter": True}, page(SEARCH)),
@@ -172,6 +180,15 @@ class AgentTests(unittest.TestCase):
         self.assertNotIn("click Add to cart", browser.done)
         self.assertIn("the page changed", task.history[-1])
 
+    def test_a_payment_is_prepared_then_handed_over(self):
+        pay = {"role": "button", "label": "Pay ₹1,840 now"}
+        browser = FakeBrowser([page({"role": "text", "label": "Amount", "value": ""}, pay, title="Your bill")])
+        outcome, _ = self.run_agent(browser, scripted({"action": "type", "id": 1, "text": "1840"},
+                                                      {"action": "click", "id": 2}))
+        self.assertEqual(browser.done, ["type 1840"])  # ready, but the pay button is the user's
+        self.assertEqual(outcome.kind, "hand_over")
+        self.assertIn("enter your PIN", outcome.text)
+
     def test_sign_in_pages_are_handed_over(self):
         outcome, _ = self.run_agent(FakeBrowser([page(PASSWORD, password_field=True)]), scripted())
         self.assertEqual(outcome.kind, "hand_over")
@@ -194,13 +211,13 @@ class AgentTests(unittest.TestCase):
         self.assertEqual((outcome.kind, task.approval), ("done", ""))
 
     def test_a_yes_to_a_plan_does_not_cover_a_different_button(self):
-        pay = {"role": "button", "label": "Pay now"}
-        browser = FakeBrowser([page(pay)])
+        book = {"role": "button", "label": "Book now"}
+        browser = FakeBrowser([page(book)])
         _, task = self.run_agent(browser, scripted(
             {"action": "ask_user", "say": "Shall I place the order?", "asking_for": "permission"}))
         outcome, _ = self.run_agent(browser, scripted({"action": "click", "id": 1, "commits": True}), task=task,
                                     approved=True)
-        self.assertEqual(outcome.kind, "needs_yes")  # asked again, about "Pay now"
+        self.assertEqual(outcome.kind, "needs_yes")  # asked again, about "Book now"
         self.assertEqual(browser.done, [])
 
     def test_a_yes_to_the_models_own_question_is_passed_on(self):
