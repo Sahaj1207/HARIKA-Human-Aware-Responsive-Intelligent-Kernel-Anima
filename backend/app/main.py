@@ -34,6 +34,8 @@ async def lifespan(app: FastAPI):
         memory_event_bus.subscribe(change, lambda name, payload: live_events.publish("memory", change=name))
     try:
         tidy_old_memories()
+        from app.memory.activity import activity_log
+        activity_log.prune()  # Settings > Activity keeps 30 days
     except Exception as exc:
         logger.warning(f"Old memories left as they were: {exc}")
     digests = asyncio.create_task(run_digest_loop())

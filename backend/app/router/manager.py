@@ -109,6 +109,8 @@ class RouterManager:
                     pending.confidence, pending.policy, decision_id, t_start,
                 )
             if verdict == "decline":
+                from app.memory.activity import DECLINED
+                self._record_unanswered(pending, DECLINED)
                 return {
                     "decision_id": decision_id,
                     "response": "Okay, I won't do that.",
@@ -210,12 +212,14 @@ class RouterManager:
         # actions never run on top of an unmet precondition.
         halted_reason: Optional[str] = None
         total = len(graph.nodes)
+        labels: Dict[str, str] = {}  # each step in plain words, taken before it runs (for Settings > Activity)
         for index, node in enumerate(graph.nodes, 1):
+            labels[node.id] = self._step_label(node)
             if halted_reason is not None:
                 node.status = "skipped"
-                live_events.publish("step", index=index, total=total, status="skipped", label=self._step_label(node))
+                live_events.publish("step", index=index, total=total, status="skipped", label=labels[node.id])
                 continue
-            live_events.publish("step", index=index, total=total, status="started", label=self._step_label(node))
+            live_events.publish("step", index=index, total=total, status="started", label=labels[node.id])
             logger.info(f"Stage 6\nManager Invoked ({node.engine})")
             router_event_bus.emit(RouterEventType.ENGINE_STARTED, {"engine": node.engine})
             node_msg = node.arguments.get("message") or node.arguments.get("query") or node.arguments.get("goal") or message
@@ -311,6 +315,7 @@ class RouterManager:
         )
         self.history.record_decision(decision)
         self._journal(message, final_text, graph, user_id)
+        self._record_activity(graph, user_id, labels)
         self.note("user", message, user_id)
         self.note("assistant", final_text, user_id)
 
@@ -389,10 +394,55 @@ class RouterManager:
         except OSError as exc:
             logger.warning(f"Journal not written: {exc}")
 
+    def _record_activity(self, graph, user_id: str, labels: Optional[Dict[str, str]] = None) -> None:
+        """Settings > Activity: one line per action this request took or proposed. Never raises."""
+        from app.memory import activity
+
+        try:
+            for node in graph.nodes:
+                if node.engine != "ToolManager":
+                    continue
+                res = node.result if isinstance(node.result, dict) else {}
+                out = res["result"] if isinstance(res.get("result"), dict) else res
+                why = activity.ROUTINE if user_id == "routines" else activity.SAID_YES if node.confirmed else activity.ASKED
+                approval = activity.APPROVED if node.confirmed else activity.NOT_NEEDED
+                detail = ""
+                if node.status == "skipped":
+                    result, detail = activity.NOT_DONE, "an earlier step didn't work"
+                elif node.status == "failed":
+                    result, detail = activity.FAILED, str(out.get("error") or res.get("error") or "")
+                elif out.get("handed_over"):
+                    approval, result = activity.HANDED_OVER, activity.HANDED_OVER
+                    detail = str((out.get("confirmation") or {}).get("question") or out.get("summary") or "")
+                elif isinstance(out.get("confirmation"), dict):
+                    approval, result = activity.WAITING, activity.ASKED_YOU
+                    detail = str(out["confirmation"].get("question") or "")
+                elif out.get("verified") is False:
+                    result = activity.UNCONFIRMED
+                else:
+                    result = activity.DONE
+                activity.activity_log.add((labels or {}).get(node.id) or self._step_label(node), why, approval, result,
+                                          detail)
+        except Exception as exc:
+            logger.info(f"Activity not recorded: {exc}")
+
+    def _record_unanswered(self, pending: "_PendingPlan", approval: str) -> None:
+        """A question the user said no to, or let expire: nothing was done."""
+        from app.memory import activity
+
+        try:
+            for node in pending.graph.nodes:
+                activity.activity_log.add(self._step_label(node), activity.ASKED, approval, activity.NOT_DONE,
+                                          pending.question)
+        except Exception as exc:
+            logger.info(f"Activity not recorded: {exc}")
+
     def _take_pending(self, user_id: str, session_id: str) -> Optional["_PendingPlan"]:
         pending = self._pending.pop((user_id, session_id), None)
         if pending is not None and time.time() - pending.created_at > pending.ttl:
             self._expired[(user_id, session_id)] = pending
+            from app.memory.activity import EXPIRED
+            self._record_unanswered(pending, EXPIRED)
             return None
         return pending
 

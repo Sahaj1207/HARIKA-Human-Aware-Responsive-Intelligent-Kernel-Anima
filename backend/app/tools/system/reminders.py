@@ -311,6 +311,8 @@ async def run_reminder_scheduler(tool: "RemindersTool", interval_seconds: float 
             tool.store.mark_fired(item["id"])
             text = "Your timer is done." if item["text"].lower() == "timer" else f"Reminder: {item['text']}"
             live_events.publish("reminder", id=item["id"], text=text, due=item["due"])
+            from app.memory.activity import REMINDER, activity_log
+            activity_log.add(f"Reminded you: {item['text']}", why=REMINDER)
             await asyncio.to_thread(show_os_notification, "HARIKA", text)
             logger.info(f"[Reminders] Fired {item['id']}.")
         await asyncio.sleep(interval_seconds)

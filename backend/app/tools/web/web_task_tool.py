@@ -129,6 +129,8 @@ class WebTaskTool(BaseTool):
                                   "verified": outcome.kind == "done", "summary": outcome.text + where,
                                   "error": None if outcome.kind != "failed" else outcome.text, "url": outcome.url,
                                   "browser": driver.name}
+        if outcome.kind == "hand_over":
+            result["handed_over"] = True  # a sign-in, a CAPTCHA or a payment: the user's step
         if outcome.kind in ("needs_yes", "hand_over", "ask_user"):
             self.paused_at = time.time()
             # The user's answer: "yes" / "done" runs continue_web (approved); anything else ("pick the

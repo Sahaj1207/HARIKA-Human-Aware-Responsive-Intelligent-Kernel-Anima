@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AtSign, Brain, Hand, Mic, Settings as Gear, Sparkles, SquareTerminal, X } from 'lucide-react';
+import { AtSign, Brain, Hand, History, Mic, Settings as Gear, Sparkles, SquareTerminal, X } from 'lucide-react';
 import { GroupedSection, IconTile, Row, Segmented } from '@/components/apple/controls';
 import { HarikaOrb } from '@/components/apple/HarikaOrb';
 import { BrainSettings } from './BrainSettings';
@@ -9,11 +9,12 @@ import { DailySection, HeadsUpSection, ScreenLookSection } from './DailySettings
 import { UpdatesSection } from './UpdatesSection';
 import { MemorySettings } from './MemorySettings';
 import { BrowserSection } from './BrowserSettings';
+import { ActivitySettings } from './ActivitySettings';
 import { themeEngine, ThemeMode } from '@/core/crystal/theme/themeEngine';
 import { userStorage } from '@/features/onboarding/storage';
 import { useHARIKAStore } from '@/store/useHARIKAStore';
 
-type PageId = 'general' | 'brain' | 'voice' | 'accounts' | 'memory' | 'privacy' | 'developer';
+type PageId = 'general' | 'brain' | 'voice' | 'accounts' | 'memory' | 'activity' | 'privacy' | 'developer';
 
 const PAGES: { id: PageId; label: string; color: string; icon: React.ReactNode }[] = [
   { id: 'general', label: 'General', color: 'var(--gray)', icon: <Gear className="w-4 h-4" strokeWidth={2.25} /> },
@@ -21,6 +22,7 @@ const PAGES: { id: PageId; label: string; color: string; icon: React.ReactNode }
   { id: 'voice', label: 'Voice', color: 'var(--pink)', icon: <Mic className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'accounts', label: 'Accounts', color: 'var(--orange)', icon: <AtSign className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'memory', label: 'Memory', color: 'var(--teal)', icon: <Brain className="w-4 h-4" strokeWidth={2.25} /> },
+  { id: 'activity', label: 'Activity', color: 'var(--green)', icon: <History className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'privacy', label: 'Privacy', color: 'var(--blue)', icon: <Hand className="w-4 h-4" strokeWidth={2.25} /> },
   { id: 'developer', label: 'Developer', color: 'var(--indigo)', icon: <SquareTerminal className="w-4 h-4" strokeWidth={2.25} /> },
 ];
@@ -120,6 +122,10 @@ const PrivacyPage: React.FC = () => {
         <Row
           title="Notifications"
           subtitle="Read from Windows only when you ask, like “any messages on my phone?”. Nothing is saved or sent anywhere."
+        />
+        <Row
+          title="Activity history"
+          subtitle="A list of what HARIKA did for you and whether it needed your yes, kept on this computer. See it in Activity."
         />
         <Row
           title="Reading your screen"
@@ -223,6 +229,7 @@ export const SettingsWindow: React.FC<{ isOpen: boolean; onClose: () => void; in
           {page === 'voice' && <VoiceSettings />}
           {page === 'accounts' && <AccountsSettings />}
           {page === 'memory' && <MemorySettings />}
+          {page === 'activity' && <ActivitySettings />}
           {page === 'privacy' && <PrivacyPage />}
           {page === 'developer' && (
             <DeveloperPage
