@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { ConstellationOrb } from './ConstellationOrb';
+import { ConstellationOrb } from '@/components/orb/ConstellationOrb';
+import { PALETTES, SIGNATURES, type OrbState } from '@/components/orb/drive';
+import { StarLotusOrb } from '@/components/orb/StarLotusOrb';
 import { LotusOrb } from './LotusOrb';
-import { StarLotusOrb } from './StarLotusOrb';
-import { PALETTES, SIGNATURES, type OrbState } from './drive';
 
 type Design = 'lotus' | 'starlotus' | 'constellation';
 

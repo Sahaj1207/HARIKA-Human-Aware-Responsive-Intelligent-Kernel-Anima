@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { glow, living, useDrive, type OrbState } from './drive';
+import { glow, living, useDrive, type OrbState, type Ring } from '@/components/orb/drive';
 
 /** One petal: a slim pointed leaf, cupped across and curving outward to its tip (real 3D geometry).
  * Each vertex carries how far along the petal it is (0 at the heart, 1 at the tip) for its colour. */
@@ -28,15 +28,6 @@ function petalGeometry(length: number, width: number): THREE.BufferGeometry {
   geometry.setAttribute('along', new THREE.BufferAttribute(along, 1));
   geometry.computeVertexNormals();
   return geometry;
-}
-
-export interface Ring {
-  count: number;
-  length: number;
-  width: number;
-  lift: number; // tilt away from upright
-  spin: number; // turning direction while thinking
-  offset: number;
 }
 
 export const RINGS: Ring[] = [

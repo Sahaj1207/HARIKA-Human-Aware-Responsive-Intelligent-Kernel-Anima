@@ -1,8 +1,7 @@
 import React, { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { glow, living, useDrive, type OrbState } from './drive';
-import type { Ring } from './LotusOrb';
+import { glow, living, useDrive, type OrbState, type Ring } from './drive';
 
 /** Wider, pointed lotus petals in three rings: in points of light a lotus needs bolder petal shapes. */
 const STAR_RINGS: Ring[] = [

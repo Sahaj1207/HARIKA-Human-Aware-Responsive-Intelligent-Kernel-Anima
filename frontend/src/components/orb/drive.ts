@@ -2,6 +2,16 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
+/** One ring of lotus petals. */
+export interface Ring {
+  count: number;
+  length: number;
+  width: number;
+  lift: number; // tilt away from upright
+  spin: number; // turning direction while thinking
+  offset: number;
+}
+
 /** The states the orb shows (HARIKA's CoreState, simplified). */
 export type OrbState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'error';
 

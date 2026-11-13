@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AtSign, Brain, Hand, History, Mic, Settings as Gear, Sparkles, SquareTerminal, X } from 'lucide-react';
-import { GroupedSection, IconTile, Row, Segmented } from '@/components/apple/controls';
+import { GroupedSection, IconTile, Row, Segmented, Toggle } from '@/components/apple/controls';
+import { saveLook, useOrbLook, type OrbLook, type OrbStyle } from '@/components/orb/appearance';
 import { HarikaOrb } from '@/components/apple/HarikaOrb';
 import { BrainSettings } from './BrainSettings';
 import { VoiceSettings } from './VoiceSettings';
@@ -74,6 +75,8 @@ const GeneralPage: React.FC = () => {
 
       <HeadsUpSection />
 
+      <OrbLookSection />
+
       <GroupedSection title="Appearance" footer="Automatic follows your computer's light and dark mode.">
         <Row
           title="Appearance"
@@ -102,6 +105,54 @@ const GeneralPage: React.FC = () => {
         <Row title="Ask HARIKA from anywhere" value={SHORTCUT} />
       </GroupedSection>
     </div>
+  );
+};
+
+/** Settings > General: HARIKA's look (her orb's design, colours and whether they follow her mood). */
+const OrbLookSection: React.FC = () => {
+  const look = useOrbLook();
+  return (
+    <GroupedSection title="HARIKA's look" footer="Her colours shift gently with the mood of what she says, unless you turn that off.">
+      <div className="flex justify-center py-4">
+        <HarikaOrb size={120} />
+      </div>
+      <Row
+        title="Design"
+        accessory={
+          <Segmented<OrbStyle>
+            label="Design"
+            value={look.style}
+            onChange={(style) => saveLook({ style })}
+            options={[
+              { value: 'starlotus', label: 'Starlit Lotus' },
+              { value: 'constellation', label: 'Constellation' },
+            ]}
+          />
+        }
+      />
+      <Row
+        title="Colours"
+        accessory={
+          <Segmented<OrbLook['colours']>
+            label="Colours"
+            value={look.colours}
+            onChange={(colours) => saveLook({ colours })}
+            options={[
+              { value: 'saffron', label: 'Saffron Dusk' },
+              { value: 'aurora', label: 'Aurora' },
+              { value: 'royal', label: 'Royal' },
+              { value: 'moonlight', label: 'Moonlight' },
+            ]}
+          />
+        }
+      />
+      <Row
+        title="Change colour with her mood"
+        accessory={
+          <Toggle label="Change colour with her mood" checked={look.followMood} onChange={(followMood) => saveLook({ followMood })} />
+        }
+      />
+    </GroupedSection>
   );
 };
 
