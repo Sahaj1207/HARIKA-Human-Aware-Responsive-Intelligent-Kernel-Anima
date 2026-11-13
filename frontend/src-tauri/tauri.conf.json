@@ -59,8 +59,8 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDkyRTkwNTg1MjFFMEVGMUMKUldRYzcrQWhoUVhwa3RIdk9wYVh1L1JSUjZibGhvaDRicCtSVVNYUUFpeC9Vc2JVbmpNenh6SEcK",
       "endpoints": [
-        "https://raw.githubusercontent.com/Sahaj1207/app-releases/main/latest.json",
-        "https://github.com/Sahaj1207/app-releases/releases/latest/download/latest.json"
+        "https://raw.githubusercontent.com/Sahaj1207/HARIKA-Human-Aware-Responsive-Intelligent-Kernel-Anima/main/updates/latest.json",
+        "https://github.com/Sahaj1207/HARIKA-Human-Aware-Responsive-Intelligent-Kernel-Anima/releases/latest/download/latest.json"
       ],
       "windows": {
         "installMode": "passive"

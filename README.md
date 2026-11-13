@@ -4,6 +4,12 @@
 
 *Anima*, Latin for "soul": the living core of your desktop. HARIKA is an open-source AI operating system that remembers you, understands context, plans tasks, and acts on your behalf, with a cinematic 3D AI Core and a modular app ecosystem.
 
+## Download
+
+**[Get the latest HARIKA for Windows](https://github.com/Sahaj1207/HARIKA-Human-Aware-Responsive-Intelligent-Kernel-Anima/releases/latest)**: download the `HARIKA_<version>_x64-setup.exe` installer from the newest release and run it. HARIKA updates herself after that: when a new version is out, she offers it.
+
+Every release, with what changed, is on the [Releases page](https://github.com/Sahaj1207/HARIKA-Human-Aware-Responsive-Intelligent-Kernel-Anima/releases). (Versions up to 0.2.9 were published from [app-releases](https://github.com/Sahaj1207/app-releases).)
+
 ## Architecture Overview
 
 ```

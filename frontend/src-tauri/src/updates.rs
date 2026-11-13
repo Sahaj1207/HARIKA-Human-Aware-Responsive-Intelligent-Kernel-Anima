@@ -22,11 +22,19 @@ struct Progress {
     total: Option<u64>,
 }
 
+/// Where releases were published until 0.2.10; they now live in HARIKA's own repository.
+const OLD_RELEASES: &str = "/Sahaj1207/app-releases/";
+
 fn custom_endpoint(app: &AppHandle) -> Option<Url> {
     let path = app.path().app_data_dir().ok()?.join("settings").join("updates.json");
     let text = std::fs::read_to_string(path).ok()?;
     let value: serde_json::Value = serde_json::from_str(&text).ok()?;
-    Url::parse(value.get("url")?.as_str()?).ok()
+    let url = Url::parse(value.get("url")?.as_str()?).ok()?;
+    // A saved copy of the old address isn't a real choice: use the built-in one.
+    if url.path().starts_with(OLD_RELEASES) {
+        return None;
+    }
+    Some(url)
 }
 
 fn updater(app: &AppHandle) -> Result<Updater, String> {

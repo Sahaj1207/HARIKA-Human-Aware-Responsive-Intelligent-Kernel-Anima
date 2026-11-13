@@ -452,13 +452,20 @@ updates) and writes `release/0.2.1/`: the installer, its `.sig`, and
 node scripts/publish.mjs 0.2.1
 ```
 
-This creates release `v0.2.1` on the update host (`github.com/Sahaj1207/app-releases`,
-a public repository that holds only release files, never code) and commits
-`latest.json` to its main branch. HARIKA first reads
-`https://raw.githubusercontent.com/Sahaj1207/app-releases/main/latest.json`
+This creates release `v0.2.1` on HARIKA's own repository (its Releases page, with
+the installer, `.sig`, `latest.json` and the notes) and commits
+`updates/latest.json` to this repository's main branch. HARIKA first reads
+`https://raw.githubusercontent.com/Sahaj1207/HARIKA-Human-Aware-Responsive-Intelligent-Kernel-Anima/main/updates/latest.json`
 (under a second), falling back to the release's own `latest.json` (release
 download links can take 20+ seconds to redirect).
+
+Until 0.2.10, releases were published from `github.com/Sahaj1207/app-releases`,
+which installed copies up to 0.2.9 still check; `publish.mjs` keeps its
+`latest.json` current too (set `HARIKA_OLD_UPDATE_REPO=` to stop, once nobody runs
+0.2.9 or earlier). That repository also serves the homepage and privacy page that
+Google's sign-in consent screen links to, so it stays.
 The address can be changed per computer in
 `%APPDATA%\com.harika.desktop\settings\updates.json` as `{"url": "https://..."}`;
-release builds only accept https addresses.
+release builds only accept https addresses. A saved copy of the old
+`app-releases` address is ignored, so those computers follow the built-in one.
 - **Ollama** is a separate install; HARIKA guides the user to it on first run.
