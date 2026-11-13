@@ -20,6 +20,7 @@ logger = logging.getLogger("harika.tools.reminders")
 
 _DATA_FILE = data_path("reminders", "reminders.json")
 _NO_WINDOW = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+_DATE_ONLY_HOUR = 9  # "remind me on 11 March" means that morning
 
 
 class ReminderStore:
@@ -143,7 +144,16 @@ def parse_due(parameters: Dict[str, Any], now: Optional[datetime] = None) -> Opt
         return None
     try:
         due = datetime.fromisoformat(at.replace("z", ""))
-        return due if due.tzinfo is None else due.astimezone().replace(tzinfo=None)
+        due = due if due.tzinfo is None else due.astimezone().replace(tzinfo=None)
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", at):
+            due = due.replace(hour=_DATE_ONLY_HOUR)  # a day without a time: the morning of that day
+        if due < now - timedelta(days=1):
+            # A reminder can't be in the past: a date that has gone by this year (a birthday, an
+            # anniversary) means the next time it comes round.
+            due = due.replace(year=now.year)
+            if due < now:
+                due = due.replace(year=now.year + 1)
+        return due
     except ValueError:
         pass
     match = re.fullmatch(r"(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?", at)

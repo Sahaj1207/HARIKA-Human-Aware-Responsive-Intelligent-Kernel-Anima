@@ -7,7 +7,7 @@
   {"say": "tokenmaxxing on claude", "events": ["Tokenmaxxing on Claude, 3 PM to 4 PM"], "action": "join_meeting", "word": "tokenmax", "note": "a meeting from today's calendar, not the Claude app"},
   {"say": "move design review to 8pm", "events": ["Design review, 6 PM to 7 PM"], "action": "reschedule", "word": "design"},
   {"say": "actually just text her that I'll be late", "history": [["user", "remind me to call mom tonight"], ["assistant", "Okay, I'll remind you to call Mom at 8 PM."]], "people": ["Mom (Sunita Sharma)"], "action": "message", "word": "mom"},
-  {"say": "summarise it", "history": [["user", "find my resume"], ["assistant", "I found resume_2026.pdf in your Documents folder."]], "action": "ask_file", "word": "resume"},
+  {"say": "summarise it", "history": [["user", "find my resume"], ["assistant", "I found resume_2026.pdf in your Documents folder."]], "action": "ask_file", "word": ["resume", "this file"], "note": "'this file' is the document ability's name for the one just found"},
   {"say": "open the second one", "history": [["user", "search for laptops under 60000"], ["assistant", "I searched the web for laptops under 60000."]], "recent": ["search laptops under 60000"], "action": "open", "word": ["second", "2"]},
   {"say": "cancel that", "recent": ["remind drink water"], "action": "cancel", "word": "water"},
   {"say": "I love this song, save it", "history": [["assistant", "Playing Believer by Imagine Dragons on Spotify."]], "action": "like_song"},

@@ -23,6 +23,15 @@ class ParseDueTests(unittest.TestCase):
         self.assertEqual(parse_due({"at": "18:30"}, NOW), NOW.replace(hour=18, minute=30))
         self.assertEqual(parse_due({"at": "9 am"}, NOW), (NOW + timedelta(days=1)).replace(hour=9))
 
+    def test_a_day_without_a_time_means_its_morning(self):
+        self.assertEqual(parse_due({"at": "2026-10-20"}, NOW), datetime(2026, 10, 20, 9, 0))
+
+    def test_a_date_that_has_gone_by_means_the_next_one(self):
+        # "Remind me a day before Priya's birthday (12 March)", asked in October.
+        self.assertEqual(parse_due({"at": "2026-03-11"}, NOW), datetime(2027, 3, 11, 9, 0))
+        self.assertEqual(parse_due({"at": "2025-12-24T18:00"}, NOW), datetime(2026, 12, 24, 18, 0))
+        self.assertEqual(parse_due({"at": "2026-10-16T13:30"}, NOW), datetime(2026, 10, 16, 13, 30))  # an hour ago: kept
+
     def test_iso_and_invalid(self):
         self.assertEqual(parse_due({"at": "2026-10-17T08:15"}, NOW), datetime(2026, 10, 17, 8, 15))
         self.assertIsNone(parse_due({"at": "whenever"}, NOW))

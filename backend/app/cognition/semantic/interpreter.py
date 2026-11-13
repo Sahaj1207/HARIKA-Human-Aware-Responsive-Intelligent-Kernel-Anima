@@ -48,7 +48,10 @@ Leave out "parameters" when there are none.
 Rules:
 - List actions in the order the user wants them done. Most messages have one action.
 - "target" is what the user means in plain words, normalized: fix abbreviations and typos ("calci" -> "calculator").
-- "it", "that" or "the app" mean the most recent matching thing in the recent context below; output its name, never "it".
+- "it", "that" or "the app" mean the most recent matching thing in the recent context below (often what HARIKA just mentioned); output its name, never "it". If nothing there matches, don't guess one: reply {{"actions": []}} so HARIKA can ask what they mean.
+- A request missing what it needs ("remind me" with nothing to remind about, "send it" with nothing waiting) is also {{"actions": []}}: HARIKA asks rather than guessing.
+- A reminder relative to something just mentioned ("remind me a day before" after a birthday or event) is about that thing, with "at" worked out from its date or time.
+- Moving money (sending or transferring it, paying people or bills, investing, trading) is never an action: reply {{"actions": []}}.
 - Times: use "in_seconds"/"in_minutes"/"in_hours" for relative times; for clock times use "at" as 24-hour "HH:MM" today, or "YYYY-MM-DDTHH:MM" for another day (use the current local time below).
 - Questions whose answer depends on recent or live information (news, scores, results, prices, releases, what someone did lately, anything that may have changed since your training) use "answer"; the weather and forecasts use "weather". "search", "google" or "look up" in a browser stays "search". Doing something on a website for the user (ordering, adding to a cart, booking, filling in a form, finding something on a site and reporting back) uses "web".
 - The user telling you about their own plans or deadlines ("I'll call the bank on Monday", "I need to submit the form by Friday") is conversation: set reminders or calendar events only when they ask for one.
@@ -279,7 +282,7 @@ class SemanticInterpreter:
             '{"decision": "confirm" | "decline" | "revise" | "other", "certain": true | false}\n\n'
             "- confirm: plain, unconditional approval to do exactly what was asked. "
             "Examples: yes; send it; go ahead; sure; do it; yes please; ok send.\n"
-            "- decline: refusal. Examples: no; don't; cancel; stop; never mind; don't send it.\n"
+            "- decline: refusal. Examples: no; no wait; hold on; not yet; don't; cancel; stop; never mind; don't send it.\n"
             "- revise: asks to change what HARIKA proposed (its wording, length, tone or details) instead of approving it. "
             "Examples: make it shorter; more casual; add a smiley; yes but make it friendlier; mention the deadline; "
             "say it more politely.\n"
@@ -398,7 +401,8 @@ class SemanticInterpreter:
         events = list((hints or {}).get("events") or [])
         if events:
             lines.append("Today's events on the user's calendar: " + "; ".join(events) +
-                         ". A message naming one of these is about that event (join_meeting opens its video call).")
+                         ". A message naming one of these refers to that event; if it asks nothing else, it means opening that "
+                         "event's video call (join_meeting).")
         routines = list((hints or {}).get("routines") or [])
         if routines:
             lines.append(

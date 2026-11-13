@@ -210,8 +210,11 @@ async def main(args) -> int:
     model = use_model(args.model)
     backups = watch_backups()
     interpreter = default_semantic_interpreter()
+    from app.cognition.semantic.embedder import embedder
+    # As in the app: abilities are matched by meaning once the small model is on this computer.
+    matched = "meaning" if embedder.download() else "words only (the meaning model couldn't be fetched)"
     mode = "quick" if args.quick else (args.group or "full")
-    print(f"Model: {model}   {len(cases)} cases ({mode})\n")
+    print(f"Model: {model}   abilities matched by {matched}   {len(cases)} cases ({mode})\n")
     await interpreter.interpret("hello", timeout=300)  # warm up, so the first case isn't a cold start
 
     results, times = [], []
