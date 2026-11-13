@@ -68,7 +68,7 @@ const Choice: React.FC<{ active: boolean; onClick: () => void; children: React.R
 export const OrbPreview: React.FC = () => {
   const [state, setState] = useState<OrbState>('idle');
   const [mood, setMood] = useState('warm');
-  const [signature, setSignature] = useState('aurora');
+  const [signature, setSignature] = useState('saffron');
   const [dark, setDark] = useState(true);
   const [playing, setPlaying] = useState(false);
 
