@@ -113,6 +113,8 @@ class WrapUpTool(BaseTool):
         capabilities=["wrap_up_day"],
         operations={"wrap_up": "wrap_up_day"},
         default_targets={"wrap_up": "today"},
+        uses="today's conversations, calendar, reminders and lists",
+        sends_to="Google, if your calendar is connected",
         ability="wrap up your day: what you did, what's left and tomorrow",
         target_description="'today'",
     )

@@ -122,6 +122,7 @@ class NotesTool(BaseTool):
         free_text_operations=["note", "add_to_list", "show_list", "check_off", "clear_list"],
         default_targets={"show_list": "to-do"},
         operation_permissions={"remove_list": PermissionLevel.HIGH},
+        uses="your notes and lists",
         ability="take notes and keep your to-do, shopping and other lists",
         target_description=(
             "for note: the note's text; for add_to_list and check_off: the item, with parameters.list naming the "

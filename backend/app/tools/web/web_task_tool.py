@@ -47,6 +47,8 @@ class WebTaskTool(BaseTool):
         operations={"web": "web_task"},
         free_text_operations=["web"],
         operation_permissions={"continue_web": PermissionLevel.HIGH},
+        uses="the websites you asked about",
+        sends_to="those websites",
         ability="do things on websites for you while you watch: find, compare, fill in, add to cart (asking before anything final)",
         target_description=("the whole task in the user's words, self-contained, naming the site when they did "
                             "(e.g. 'add 1 kg basmati rice to my Amazon cart', 'find flights from Hyderabad to Goa on Saturday "

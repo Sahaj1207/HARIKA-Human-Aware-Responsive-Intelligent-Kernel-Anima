@@ -92,6 +92,8 @@ class RouterManager:
     ) -> Dict[str, Any]:
         t_start = time.time()
         decision_id = f"dec-{uuid.uuid4().hex[:8]}"
+        from app.core import provenance
+        provenance.start()  # "how did you know that?" is answered from these notes
 
         logger.info(f"\n=========================================================\nREQUEST\nUser Request: {message}\n=========================================================")
 
@@ -316,6 +318,7 @@ class RouterManager:
         self.history.record_decision(decision)
         self._journal(message, final_text, graph, user_id)
         self._record_activity(graph, user_id, labels)
+        self._note_provenance(graph, message, final_text)
         self.note("user", message, user_id)
         self.note("assistant", final_text, user_id)
 
@@ -404,6 +407,8 @@ class RouterManager:
                     continue
                 res = node.result if isinstance(node.result, dict) else {}
                 out = res["result"] if isinstance(res.get("result"), dict) else res
+                if out.get("not_activity"):
+                    continue
                 why = activity.ROUTINE if user_id == "routines" else activity.SAID_YES if node.confirmed else activity.ASKED
                 approval = activity.APPROVED if node.confirmed else activity.NOT_NEEDED
                 detail = ""
@@ -425,6 +430,25 @@ class RouterManager:
                                           detail)
         except Exception as exc:
             logger.info(f"Activity not recorded: {exc}")
+
+    @staticmethod
+    def _note_provenance(graph, message: str, reply: str) -> None:
+        """What this reply drew on (the abilities that ran), kept for "how did you know that?". Never raises."""
+        from app.core import provenance
+        from app.tools.manager import tool_manager
+
+        try:
+            for node in graph.nodes:
+                if node.engine != "ToolManager" or node.status != "completed":
+                    continue
+                plan = tool_manager.plan_node(node)
+                tool = tool_manager.registry.get_tool(plan.actions[0].tool_name) if plan.actions else None
+                if tool is not None:
+                    manifest = tool.manifest
+                    provenance.note_ability(manifest.display_name, manifest.uses, manifest.sends_to)
+            provenance.finish(message, reply)
+        except Exception as exc:
+            logger.info(f"Reply notes not kept: {exc}")
 
     def _record_unanswered(self, pending: "_PendingPlan", approval: str) -> None:
         """A question the user said no to, or let expire: nothing was done."""

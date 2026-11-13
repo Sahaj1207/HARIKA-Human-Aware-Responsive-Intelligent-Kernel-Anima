@@ -90,6 +90,8 @@ class CalendarTool(BaseTool):
         free_text_operations=["agenda", "schedule", "reschedule", "unschedule", "join_meeting"],
         default_targets={"agenda": "today", "join_meeting": _CURRENT},
         operation_permissions={"schedule": PermissionLevel.MEDIUM, "change_event": PermissionLevel.HIGH},
+        uses="your calendar",
+        sends_to="Google",
         ability="check your calendar, add, move or cancel events, and open your meeting's video call",
         target_description=(
             "for agenda: the day ('today', 'tomorrow', a weekday or 'YYYY-MM-DD'); "

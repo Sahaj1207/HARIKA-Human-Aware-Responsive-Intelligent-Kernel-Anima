@@ -59,6 +59,7 @@ class DocumentsTool(BaseTool):
         capabilities=["ask_document", "compare_documents"],
         operations={"ask_file": "ask_document", "compare_files": "compare_documents"},
         free_text_operations=["ask_file", "compare_files"],
+        uses="your documents",
         ability="read your documents: summarise them, answer questions about them, compare two",
         target_description=(
             "the document: words from its file name ('resume', 'lease agreement'), 'latest download' for the file "

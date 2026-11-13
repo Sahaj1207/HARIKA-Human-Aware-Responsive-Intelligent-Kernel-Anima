@@ -20,6 +20,8 @@ class TaskTool(BaseTool):
         capabilities=["run_task"],
         operations={"task": "run_task"},
         free_text_operations=["task"],
+        uses="the web, and your calendar, email or notes when the task needs them",
+        sends_to="DuckDuckGo and the pages it reads",
         ability="work through bigger tasks: research and compare, plan trips, find time in your calendar",
         target_description="the whole goal in the user's words, self-contained (e.g. 'compare 3 laptops under 60000 rupees for coding')",
     )

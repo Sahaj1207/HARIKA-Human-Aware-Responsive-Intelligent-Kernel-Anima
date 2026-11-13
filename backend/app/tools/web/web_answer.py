@@ -53,6 +53,7 @@ class WebAnswerTool(BaseTool):
         capabilities=["web_answer"],
         operations={"answer": "web_answer"},
         free_text_operations=["answer"],
+        sends_to="DuckDuckGo, Google News and the pages they found",
         ability="answer questions about the news and current events from the live web",
         target_description="the question, rewritten to be self-contained (e.g. 'latest Formula 1 race result')",
     )

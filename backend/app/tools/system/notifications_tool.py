@@ -105,6 +105,7 @@ class NotificationsTool(BaseTool):
         operations={"notifications": "read_notifications"},
         free_text_operations=["notifications"],
         default_targets={"notifications": "all"},
+        uses="your notifications",
         ability="read your notifications, and your phone's messages when it's linked with Phone Link",
         target_description=(
             "'phone' for the phone's notifications (messages, calls, apps on the phone), 'all' for everything, or "

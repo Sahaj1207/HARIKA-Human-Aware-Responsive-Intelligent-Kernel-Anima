@@ -52,6 +52,8 @@ class ToolManifest(BaseModel):
     target_description: str = Field(default="", description="Natural-language description of acceptable targets, shown to the semantic interpreter")
     ability: str = Field(default="", description="Short user-facing phrase for what this tool lets HARIKA do, e.g. 'open and close your apps'")
     default_targets: Dict[str, str] = Field(default_factory=dict, description="Operation -> target used when the request names none (e.g. 'mute' -> 'volume')")
+    uses: str = Field(default="", description="What of the user's this reads, in plain words ('your calendar'); '' when nothing personal")
+    sends_to: str = Field(default="", description="Who outside this computer it sends data to ('Google', 'the web'); '' when nobody")
     operation_permissions: Dict[str, PermissionLevel] = Field(default_factory=dict, description="Per-operation risk overriding the tool level when higher (e.g. 'shutdown' -> HIGH)")
 
 

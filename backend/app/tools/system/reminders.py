@@ -202,6 +202,7 @@ class RemindersTool(BaseTool):
         platforms=["windows", "linux", "darwin"],
         capabilities=["create_reminder", "list_reminders", "cancel_reminder"],
         operations={"remind": "create_reminder", "list": "list_reminders", "cancel": "cancel_reminder"},
+        uses="your reminders",
         ability="set reminders and timers",
         free_text_operations=["remind", "cancel"],
         target_aliases={"reminders": ["reminders", "my reminders", "timers", "alarms"]},

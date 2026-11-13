@@ -19,5 +19,13 @@
   {"say": "open the standup meeting from my calendar", "action": "join_meeting", "word": "standup"},
   {"say": "start my next meeting", "action": "join_meeting"},
   {"say": "do I have any meetings this afternoon?", "action": ["agenda", "brief"]},
-  {"say": "tell me when Claude finishes", "action": "watch", "word": "claude"}
+  {"say": "tell me when Claude finishes", "action": "watch", "word": "claude"},
+  {"say": "how did you know that?", "history": [["user", "what's on today?"], ["assistant", "You have the design review at 6 PM."]], "action": "how_i_knew"},
+  {"say": "did that go online?", "history": [["user", "what's the weather?"], ["assistant", "It's 24° and clear in Hyderabad."]], "action": "how_i_knew"},
+  {"say": "where did you get that from?", "history": [["user", "what's my favourite food?"], ["assistant", "You love dosa."]], "action": "how_i_knew"},
+  {"say": "what did you do today?", "action": "what_i_did", "word": "today"},
+  {"say": "what did you do for me yesterday?", "action": "what_i_did", "word": "yesterday"},
+  {"say": "did you send the reply to Ananya?", "action": "what_i_did", "note": "a question about what HARIKA did, not a new message"},
+  {"say": "did you remind me about the dentist?", "action": "what_i_did"},
+  {"say": "what did we talk about today?", "action": "recall", "note": "our conversations, not HARIKA's actions"}
 ]

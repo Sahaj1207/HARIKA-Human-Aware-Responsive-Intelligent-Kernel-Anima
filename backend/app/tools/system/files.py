@@ -56,6 +56,7 @@ class FilesTool(BaseTool):
         platforms=["windows", "darwin"],
         capabilities=["find_file", "open_file"],
         operations={"find": "find_file", "open": "open_file"},
+        uses="your files",
         ability="find and open your files",
         free_text_operations=["find", "open"],
         target_aliases={

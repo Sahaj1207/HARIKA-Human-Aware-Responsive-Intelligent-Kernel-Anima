@@ -56,6 +56,7 @@ class WatchTool(BaseTool):
         operations={"watch": "watch_app", "stop_watching": "stop_watch"},
         free_text_operations=["watch", "stop_watching"],
         default_targets={"watch": "this", "stop_watching": "all"},
+        uses="the app you asked me to watch",
         ability="watch an app and tell you when it's done",
         target_description=(
             "for watch: the open app to watch ('claude', 'chrome'; 'this' for the app the user was just using), with "

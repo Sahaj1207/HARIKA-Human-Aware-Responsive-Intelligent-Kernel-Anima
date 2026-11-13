@@ -85,6 +85,8 @@ class ContextBuilder:
                     memory_sections.append("\n".join(section_lines))
 
             if memory_sections:
+                from app.core import provenance
+                provenance.note_memories()  # "how did you know that?": from what they told me
                 prompt_parts.append("\n## HARIKA Persistent Knowledge Memory Context:")
                 prompt_parts.extend(memory_sections)
 

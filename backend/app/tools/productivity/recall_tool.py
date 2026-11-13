@@ -73,6 +73,7 @@ class RecallTool(BaseTool):
         operations={"recall": "recall"},
         free_text_operations=["recall"],
         default_targets={"recall": "everything"},
+        uses="our past conversations",
         ability="remember what we talked about on earlier days and what you decided",
         target_description=(
             "the topic asked about in plain words ('the trip', 'laptops'), or 'everything' for a whole day; "

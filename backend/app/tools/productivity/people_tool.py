@@ -231,6 +231,7 @@ class PeopleTool(BaseTool):
         default_targets={"list_people": "people"},
         # Sending a message and forgetting someone only happen after the user's yes.
         operation_permissions={"send_message": PermissionLevel.HIGH, "remove_person": PermissionLevel.HIGH},
+        uses="the people you've told me about",
         ability="remember the people in your life and message them on WhatsApp",
         target_description=(
             "the person as the user calls them ('Mom', 'Priya'); only real people (family, friends, colleagues), never the "

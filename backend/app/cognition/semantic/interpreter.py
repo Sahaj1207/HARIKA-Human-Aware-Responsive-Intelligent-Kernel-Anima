@@ -158,6 +158,10 @@ Examples:
 "can you see the screen and notify me when Claude finishes the work?" -> {{"actions": [{{"operation": "watch", "target": "claude"}}]}} ("can you see" only leads into the request)
 "tell me when chrome says download complete" -> {{"actions": [{{"operation": "watch", "target": "chrome", "parameters": {{"text": "download complete"}}}}]}}
 "stop watching" -> {{"actions": [{{"operation": "stop_watching", "target": "all"}}]}}
+"where did you get that from?" -> {{"actions": [{{"operation": "how_i_knew", "target": "last reply"}}]}}
+"did any of that go to the internet?" -> {{"actions": [{{"operation": "how_i_knew", "target": "last reply"}}]}}
+"what have you done for me today?" -> {{"actions": [{{"operation": "what_i_did", "target": "today"}}]}}
+"did you actually send the email to Ravi?" -> {{"actions": [{{"operation": "what_i_did", "target": "today", "parameters": {{"about": "email to Ravi"}}}}]}}
 "what did we talk about yesterday?" -> {{"actions": [{{"operation": "recall", "target": "everything", "parameters": {{"day": "yesterday"}}}}]}}
 "what did I decide about the trip?" -> {{"actions": [{{"operation": "recall", "target": "the trip"}}]}}
 "what was that laptop we looked at last week?" -> {{"actions": [{{"operation": "recall", "target": "laptop"}}]}}

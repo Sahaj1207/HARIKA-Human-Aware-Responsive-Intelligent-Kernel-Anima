@@ -136,6 +136,8 @@ class BriefingTool(BaseTool):
         operations={"brief": "daily_briefing"},
         default_targets={"brief": "today"},
         target_aliases={"today": ["today", "my day", "the day", "morning", "briefing", "daily briefing"]},
+        uses="your calendar, reminders and new email",
+        sends_to="Google (if your calendar and email are connected), the weather service and Google News",
         ability="give you a daily briefing",
         target_description="'today'",
     )

@@ -166,6 +166,8 @@ class SpotifyTool(BaseTool):
                     "add_to_playlist_spotify": "spotify_add_to_playlist", "queue_song": "spotify_queue"},
         free_text_operations=["play_library", "add_to_playlist_spotify", "queue_song"],
         default_targets={"now_playing": "spotify", "like_song": "current song", "play_library": LIKED},
+        uses="your Spotify",
+        sends_to="Spotify",
         ability="play your Spotify liked songs and playlists, say what's playing, like songs, add them to playlists and queue them",
         target_description=(
             "for play_library: 'liked songs' or the name of one of the user's playlists; for add_to_playlist_spotify: "

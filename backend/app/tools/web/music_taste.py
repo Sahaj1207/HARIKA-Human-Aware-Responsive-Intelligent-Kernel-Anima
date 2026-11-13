@@ -43,6 +43,8 @@ class MusicTasteTool(BaseTool):
         operations={"play_for_me": "recommend_media", "music_taste": "describe_taste"},
         free_text_operations=["play_for_me", "music_taste"],
         default_targets={"play_for_me": ANYTHING, "music_taste": "me"},
+        uses="what you listen to on this PC",
+        sends_to="YouTube or Spotify",
         ability="pick music you'll like for the moment (I learn what you listen to)",
         target_description=(
             "for play_for_me: the mood or moment in plain words ('coding', 'late night', 'workout', 'relaxing'), "

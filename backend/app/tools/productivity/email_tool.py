@@ -72,6 +72,8 @@ class EmailTool(BaseTool):
         free_text_operations=["check_email", "read_email", "email", "reply_email"],
         default_targets={"check_email": "inbox", "read_email": "it", "reply_email": "it"},
         operation_permissions={"send_email": PermissionLevel.HIGH},
+        uses="your email",
+        sends_to="Google",
         ability="check, read and write your email (sent only when you say so)",
         target_description=(
             "for check_email: 'inbox', or words to look for (a sender or topic); "

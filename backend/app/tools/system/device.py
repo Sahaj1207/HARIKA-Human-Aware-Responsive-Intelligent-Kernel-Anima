@@ -147,6 +147,7 @@ class DeviceTool(BaseTool):
             "light mode": ["light mode", "light theme"],
         },
         default_targets={"battery": "battery", "show_desktop": "desktop"},
+        uses="your PC's battery and settings",
         ability="check the battery, turn Wi-Fi, Bluetooth and dark mode on or off, and switch between apps",
         target_description=(
             "for turn_on/turn_off: 'wifi', 'bluetooth', 'dark mode' or 'light mode'; "

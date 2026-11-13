@@ -211,6 +211,8 @@ class VideoSummaryTool(BaseTool):
         operations={"video": "summarise_video"},
         free_text_operations=["video"],
         default_targets={"video": THIS_VIDEO},
+        uses="the video you're watching",
+        sends_to="YouTube",
         ability="summarise the YouTube video you're watching, or answer questions about it",
         target_description=("a YouTube link, or 'this video' for the one the user is watching; parameters.question is "
                             "what they want to know ('summarise it' when they want the gist)"),

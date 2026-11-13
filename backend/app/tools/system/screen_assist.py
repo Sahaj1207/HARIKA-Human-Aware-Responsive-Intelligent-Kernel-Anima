@@ -48,6 +48,7 @@ class ScreenAssistTool(BaseTool):
         free_text_operations=["read", "reply"],
         default_targets={"read": "screen", "reply": "this chat"},
         operation_permissions={"send": PermissionLevel.HIGH},
+        uses="the app on your screen",
         ability="read what's on your screen and help you reply in chats",
         target_description=(
             "for read: what to look at ('screen', 'this page'), with parameters.look true when the question is about "

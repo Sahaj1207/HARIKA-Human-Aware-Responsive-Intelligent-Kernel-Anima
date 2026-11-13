@@ -104,6 +104,7 @@ class WeatherTool(BaseTool):
         operations={"weather": "weather"},
         free_text_operations=["weather"],
         default_targets={"weather": "here"},
+        sends_to="the weather service (Open-Meteo)",
         ability="tell you the weather and forecast",
         target_description=(
             "the place (city), or 'here' for the user's own location; "

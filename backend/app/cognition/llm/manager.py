@@ -234,6 +234,8 @@ class RoleProvider(BaseLLMProvider):
                     result["fallback_from"] = usable[0]["service"]
                     logger.info(f"[LLM] {self.role}: used {choice['service']} because {usable[0]['service']} failed.")
                 note_success(choice["service"])
+                from app.core import provenance
+                provenance.note_ai(self.role, choice["service"], usable[0]["service"] if index else "")
                 return result
             note_failure(choice["service"], result.get("retry_after"))
             logger.warning(f"[LLM] {self.role}: {choice['service']} failed: {result.get('response', '')[:160]}")

@@ -139,6 +139,7 @@ class TidyTool(BaseTool):
         operations={"tidy": "suggest_cleanup"},
         default_targets={"tidy": "downloads"},
         operation_permissions={"recycle_clutter": PermissionLevel.HIGH},
+        uses="your Downloads or Desktop",
         ability="tidy up your Downloads or Desktop (old installers, duplicates and more), with your yes",
         target_description=(
             "'downloads' or 'desktop'; parameters.kinds optionally limits it to some of: installers, duplicates, "
